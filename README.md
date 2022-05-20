@@ -1,5 +1,7 @@
 # Search Jumper - 搜索醬
 
+## [Config Page](https://hoothin.github.io/SearchJumper/)
+
 Build with React.js
 
 UI: [Material-UI](https://mui.com/)
