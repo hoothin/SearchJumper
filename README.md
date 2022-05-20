@@ -1,6 +1,6 @@
 # Search Jumper - 搜索醬
 
-## [Install](https://greasyfork.org/scripts/445274-searchjumper)
+## [Greasyfork Install](https://greasyfork.org/scripts/445274-searchjumper)
 
 ## [Config Page](https://hoothin.github.io/SearchJumper/)
 
