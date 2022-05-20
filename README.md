@@ -1,8 +1,7 @@
-# Search Jumper - 搜索醬 A user script to assist in switching search engines
+# Search Jumper - 搜索醬 
+*A user script to assist in switching search engines*
 
-## [Greasyfork Install](https://greasyfork.org/scripts/445274-searchjumper)
-
-## [Config Page](https://hoothin.github.io/SearchJumper/)
+## [Greasyfork Install](https://greasyfork.org/scripts/445274-searchjumper) - [Config Page](https://hoothin.github.io/SearchJumper/)
 
 Build with React.js
 
