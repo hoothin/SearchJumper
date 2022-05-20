@@ -10,7 +10,7 @@ UI: [Material-UI](https://mui.com/)
 
 Icons: [FontAwesome](https://fontawesome.com/)
 
-<img src='demo1.gif' height='260px'><img src='demo3.gif' height='260px'><img src='demo2.gif' height='260px'>
+<img src='demo1.gif' height='210px'><img src='demo3.gif' height='210px'><img src='demo2.gif' height='210px'>
 
 [Sites settings example 站點設置示例](https://github.com/hoothin/SearchJumper/issues/1)
 
