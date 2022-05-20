@@ -1,5 +1,11 @@
 # Search Jumper - 搜索醬
 
+Build with React.js
+
+UI: [Material-UI](https://mui.com/)
+
+Icons: [FontAwesome](https://fontawesome.com/)
+
 平时工作中搜索引擎跳转功能用得很频繁，但尝试了相关的扩展，发现大多夹有私货。
 
 而这只是一个简单功能，所以不如自己写一个啦。
