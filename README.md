@@ -1,4 +1,4 @@
-# Search Jumper - 搜索醬
+# Search Jumper - 搜索醬 A user script to assist in switching search engines
 
 ## [Greasyfork Install](https://greasyfork.org/scripts/445274-searchjumper)
 
