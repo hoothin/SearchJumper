@@ -12,6 +12,8 @@ Icons: [FontAwesome](https://fontawesome.com/)
 
 <img src='demo1.gif' height='260px'><img src='demo3.gif' height='260px'><img src='demo2.gif' height='260px'>
 
+[Sites settings example 站點設置示例](https://github.com/hoothin/SearchJumper/issues/1)
+
 平時工作中搜尋引擎跳轉功能用得很頻繁，但嘗試了相關的擴展，發現大多夾有私貨。
 
 而這只是一個簡單功能，所以不如自己寫一個啦。
