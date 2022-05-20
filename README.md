@@ -1,5 +1,7 @@
 # Search Jumper - 搜索醬
 
+## [Install](https://greasyfork.org/scripts/445274-searchjumper)
+
 ## [Config Page](https://hoothin.github.io/SearchJumper/)
 
 Build with React.js
@@ -8,9 +10,7 @@ UI: [Material-UI](https://mui.com/)
 
 Icons: [FontAwesome](https://fontawesome.com/)
 
-![demo1](demo1.gif)
-![demo3](demo3.gif)
-![demo2](demo2.gif)
+<img src='demo1.gif' height='260px'><img src='demo3.gif' height='260px'><img src='demo2.gif' height='260px'>
 
 平时工作中搜索引擎跳转功能用得很频繁，但尝试了相关的扩展，发现大多夹有私货。
 
