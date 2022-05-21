@@ -278,7 +278,7 @@ class SitesList extends React.Component {
 
                 <Box sx={{flexGrow: 1, display: 'flex', flexWrap: 'wrap'}}>
                     {this.state.data.sites.map((site) => (
-                        <IconButton onDrop={e => {this.changeSitePos(site, this.dragSite)}} onDragStart={e => {this.dragSite = site}} onDragOver={e => {e.preventDefault()}} color="primary" key={site.name} title={site.name}  onClick={() => { this.openSiteEdit(site) }}>
+                        <IconButton draggable='true' onDrop={e => {this.changeSitePos(site, this.dragSite)}} onDragStart={e => {this.dragSite = site}} onDragOver={e => {e.preventDefault()}} color="primary" key={site.name} title={site.name}  onClick={() => { this.openSiteEdit(site) }}>
                             <Avatar sx={{m:1}} alt={site.name} src={site.icon||site.url.replace(new RegExp('(https?://[^/]*/).*$'), "$1favicon.ico")} />
                         </IconButton>
                     ))}
