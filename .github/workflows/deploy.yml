@@ -25,7 +25,7 @@ jobs:
     - run: CI=false && npm run build
     - name: Deploy 🚀 # 部署
       id: 'deploy'
-      uses: JamesIves/github-pages-deploy-action@releases/v3 # 部署到github的静态页，会将打包后的文件推送至下面填写的分支，可以直接新开一个分支用来放打包后的文件
+      uses: JamesIves/github-pages-deploy-action@v4.3.3 # 部署到github的静态页，会将打包后的文件推送至下面填写的分支，可以直接新开一个分支用来放打包后的文件
       with:
         BRANCH: gh-pages # 编译文件分支
         FOLDER: build # 编译文件的文件夹
