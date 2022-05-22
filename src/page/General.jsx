@@ -8,6 +8,8 @@ import FormControlLabel from '@mui/material/FormControlLabel';
 import Select, { SelectChangeEvent } from '@mui/material/Select';
 import Switch from '@mui/material/Switch';
 import Typography from '@mui/material/Typography';
+import TextField from '@mui/material/TextField';
+import InputAdornment from '@mui/material/InputAdornment';
 
 function saveConfigToScript (notification) {
     var saveMessage = new Event('saveConfig');
@@ -122,6 +124,23 @@ export default function General() {
                             label={window.i18n('autoCloseTips')}
                         />
                     </FormControl>
+                    <TextField
+                        label={window.i18n('autoDelay')}
+                        inputProps={{ inputMode: 'numeric', type:'number', pattern: '[0-9]*' }}
+                        InputProps={{
+                            endAdornment: <InputAdornment position="end">ms</InputAdornment>
+                        }}
+                        value={state.autoDelay}
+                        onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
+                            var newPref = {
+                                ...state,
+                                autoDelay: event.target.value
+                            };
+                            setState(newPref);
+                            window.searchData.prefConfig = newPref;
+                            saveConfigToScript();
+                        }}
+                    />
                 </Box>
             </Paper>
             <Paper elevation={5} sx={{ padding: '20px', marginTop: '20px' }}>

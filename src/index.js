@@ -50,6 +50,7 @@ switch (lang) {
             copy: '复制',
             save: '保存',
             autoClose: '自动合上类别',
+            autoDelay: '延时',
             autoCloseTips: '启用之后一旦鼠标离开搜索条，已打开的类别抽屉将会自动合上',
             aboutContent: '平时工作中搜索引擎跳转功能用得很频繁，但尝试了相关的扩展，发现大多夹有私货。\n\n而这只是一个简单功能，所以不如自己写一个啦。\n\n结果写配置页面耗费的精力数倍于脚本本身……🤦‍\n\n这个搜索引擎跳转支持自己拖拽定义位置，同时也支持站内搜索，多语言编码设置（例如shift-jis），划词搜索，以及配置导入导出。'
         }
@@ -97,6 +98,7 @@ switch (lang) {
             copy: '複製',
             save: '保存',
             autoClose: '自動合上類別',
+            autoDelay: '延時',
             autoCloseTips: '啟用之後一旦滑鼠離開搜索條，已打開的類別抽屜將會自動合上',
             aboutContent: '平時工作中搜尋引擎跳轉功能用得很頻繁，但嘗試了相關的擴展，發現大多夾有私貨。\n\n而這只是一個簡單功能，所以不如自己寫一個啦。\n\n結果寫配置頁面耗費的精力數倍於腳本本身……🤦‍\n\n這個搜尋引擎跳轉支持自己拖拽定義位置，同時也支持站內搜索，多語言編碼設置（例如shift-jis），劃詞搜索，以及配置導入導出。'
         }
@@ -143,6 +145,7 @@ switch (lang) {
             copy: 'Copy',
             save: 'Save',
             autoClose: 'Auto close type',
+            autoDelay: 'Delay',
             autoCloseTips: 'When enabled, opened category drawer will be closed automatically once the mouse leaves the search bar',
             aboutContent: "I use the search engine jump function very frequently in my work, but I found that most of them contain trojans after tried many related extensions. \n\nThis is just a simple function, so why not write one by myself? \n\nThe result is that writing the configuration page takes several times more energy than the script itself... 🤦‍\n\nThis search engine jump supports dragging and dropping with defined location, and also supports in-site search, word-marking search, and configuration import and export."
         }
