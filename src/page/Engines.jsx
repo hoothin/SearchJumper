@@ -83,6 +83,9 @@ function TypeEdit(props) {
                     fullWidth
                     variant="standard"
                     value={typeData.match}
+                    onChange={e => {
+                        setTypeData({ ...typeData, match:e.target.value });
+                    }}
                 />
                 <FormControl sx={{ m: 1, minWidth: 80 }}>
                     <FormControlLabel
@@ -412,6 +415,7 @@ function typeObject(obj) {
     return {
         type: obj.type || '',
         icon: obj.icon || '',
+        match: obj.match || '',
         selectTxt: obj.selectTxt || false,
         selectImg: obj.selectImg || false,
         openInNewTab: obj.openInNewTab || false
