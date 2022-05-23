@@ -13,6 +13,17 @@ Icons: [FontAwesome](https://fontawesome.com/)
 
 [Sites settings example 站點設置示例](https://github.com/hoothin/SearchJumper/issues/1)
 
+## Config params 搜索參數
+* %s search keyword | 搜索關鍵詞
+* %e charset | 編碼
+* %c client pc,mobile | 客戶端 pc,mobile
+* %u current website url | 當前網站url
+* %h current website host | 當前網站host
+* %t image src | 圖片src
+* %b image src without http | 圖片src去頭
+* :p{params} post body, like:p{x=1&y=2} | post參數體，例如:p{x=1&y=2}
+
+
 平時工作中搜尋引擎跳轉功能用得很頻繁，但嘗試了相關的擴展，發現大多夾有私貨。
 
 而這只是一個簡單功能，所以不如自己寫一個啦。
