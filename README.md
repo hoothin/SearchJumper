@@ -13,7 +13,7 @@ Icons: [FontAwesome](https://fontawesome.com/)
 
 [Sites settings example 站點設置示例](https://github.com/hoothin/SearchJumper/issues/1)
 
-## Config params 搜索參數
+## Config params
 * %s search keyword | 搜索關鍵詞
 * %e charset | 編碼
 * %c client pc,mobile | 客戶端 pc,mobile
