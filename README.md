@@ -1,7 +1,7 @@
 # Search Jumper - 搜索醬 
 *A user script to assist in switching search engines*
 
-## [Greasyfork Install](https://greasyfork.org/scripts/445274-searchjumper) - [Config Page](https://hoothin.github.io/SearchJumper/)
+## [Install](https://greasyfork.org/scripts/445274-searchjumper)
 
 Build with React.js
 
@@ -12,6 +12,18 @@ Icons: [FontAwesome](https://fontawesome.com/)
 <img src='demo1.gif' height='210px'><img src='demo3.gif' height='210px'><img src='demo2.gif' height='210px'>
 
 [Sites settings example 站點設置示例](https://github.com/hoothin/SearchJumper/issues/1)
+
+## Config params
+* %s search keyword | 搜索關鍵詞
+* %e charset | 編碼
+* %c client pc,mobile | 客戶端 pc,mobile
+* %u current website url | 當前網站 url
+* %h current website host | 當前網站 host
+* %t image src | 圖片 src
+* %b image src without http | 圖片src去頭
+* :p{params} post body, like:p{x=1&y=2} | post 參數體，例如 :p{x=1&y=2}
+
+---
 
 平時工作中搜尋引擎跳轉功能用得很頻繁，但嘗試了相關的擴展，發現大多夾有私貨。
 
