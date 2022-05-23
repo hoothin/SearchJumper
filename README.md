@@ -17,11 +17,11 @@ Icons: [FontAwesome](https://fontawesome.com/)
 * %s search keyword | 搜索關鍵詞
 * %e charset | 編碼
 * %c client pc,mobile | 客戶端 pc,mobile
-* %u current website url | 當前網站url
-* %h current website host | 當前網站host
-* %t image src | 圖片src
+* %u current website url | 當前網站 url
+* %h current website host | 當前網站 host
+* %t image src | 圖片 src
 * %b image src without http | 圖片src去頭
-* :p{params} post body, like:p{x=1&y=2} | post參數體，例如:p{x=1&y=2}
+* :p{params} post body, like:p{x=1&y=2} | post 參數體，例如 :p{x=1&y=2}
 
 ---
 
