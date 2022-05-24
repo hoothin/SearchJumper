@@ -245,9 +245,6 @@ class SitesList extends React.Component {
     }
 
     changeSitePos(targetSite, dragSite) {
-        console.log(dragSite);
-        console.log(targetSite);
-
         let newSites = this.state.data.sites.filter(site => {
             return (site.url !== dragSite.url);
         })
@@ -463,6 +460,12 @@ export default function Engines() {
 
     const [alertBody, setAlert] = React.useState({openAlert: false, alertContent: '', alertType: 'error'});
 
+    const [refresh, setRefresh] = React.useState(false);
+     
+    React.useEffect(() => {
+        refresh && setTimeout(() => setRefresh(false))
+    }, [refresh]);
+
     const handleChange = (event: React.SyntheticEvent, newValue: number) => {
         setValue(newValue);
     };
@@ -567,6 +570,22 @@ export default function Engines() {
         });
     };
 
+    const changeTypePos = (targetType, dragType) => {
+        let newTypes = window.searchData.sitesConfig.filter(typeData => {
+            return (typeData.type !== dragType.type);
+        })
+        for (let i in newTypes) {
+            if (newTypes[i].type === targetType.type) {
+                newTypes.splice(i, 0, dragType);
+                break;
+            }
+        }
+        window.searchData.sitesConfig = newTypes;
+        saveConfigToScript();
+        setRefresh(true);
+    };
+    var dragType;
+
     return (
         <Box>
             <Paper elevation={5} sx={{textAlign:'center', borderRadius:'10px'}}>
@@ -575,7 +594,11 @@ export default function Engines() {
             <Box sx={{ borderBottom: 1, borderColor: 'divider', flexGrow: 1, display: 'flex'}}>
                 <Tabs value={value} onChange={handleChange} aria-label="types" variant="scrollable" scrollButtons="auto">
                     {window.searchData.sitesConfig.map((data, index) =>
-                        <Tab 
+                        <Tab  
+                            draggable='true'
+                            onDrop={e => {changeTypePos(data, dragType)}} 
+                            onDragStart={e => {dragType = data}} 
+                            onDragOver={e => {e.preventDefault()}} 
                             icon={
                                 /^http/.test(data.icon)?(
                                     <Avatar sx={{m:1}} alt={data.type} src={data.icon} />
