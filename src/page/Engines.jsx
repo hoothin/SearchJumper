@@ -146,6 +146,7 @@ class SitesList extends React.Component {
 
         this.editSite = null;
         this.openTypeEdit = props.openTypeEdit;
+        this.handleAlertOpen = props.handleAlertOpen;
 
         this.openSiteEdit = this.openSiteEdit.bind(this);
         this.closeSiteEdit = this.closeSiteEdit.bind(this);
@@ -186,10 +187,9 @@ class SitesList extends React.Component {
     }
 
     closeSiteEdit(update) {
-        this.setState(prevState => ({
-            openSiteEdit: false
-        }));
         if (update) {
+            if (!this.state.currentSite.name) return this.handleAlertOpen(window.i18n('needName'));
+            if (!this.state.currentSite.url) return this.handleAlertOpen(window.i18n('needUrl'));
             if (this.editSite) {
                 let newSites = this.state.data.sites.map(site => {
                     if (site.url === this.editSite.url) {
@@ -222,6 +222,9 @@ class SitesList extends React.Component {
             }
             saveConfigToScript();
         }
+        this.setState(prevState => ({
+            openSiteEdit: false
+        }));
     }
 
     handleDeleteSite() {
@@ -617,7 +620,7 @@ export default function Engines() {
             </Box>
             {window.searchData.sitesConfig.map((data, index) =>
                 <TabPanel value={value} index={index} key={data.type}>
-                    <SitesList data={data} openTypeEdit={openTypeEdit}/>
+                    <SitesList data={data} openTypeEdit={openTypeEdit} handleAlertOpen={handleAlertOpen}/>
                 </TabPanel>
             )}
             <TypeEdit 
