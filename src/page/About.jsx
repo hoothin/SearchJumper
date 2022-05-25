@@ -19,8 +19,8 @@ export default function About() {
             <Paper elevation={5} sx={{ padding: '20px' }}>
             <Typography gutterBottom  component="div" style={{textAlign: 'center'}}>
                 <EmailIcon/> <Link href='mailto:rixixi@gmail.com' style={{verticalAlign: 'top'}} target="_blank">rixixi@gmail.com</Link><br/>
-                <InstallDesktopIcon/> <Link href='https://greasyfork.org/scripts/445274-searchjumper' style={{verticalAlign: 'top'}} target="_blank">https://greasyfork.org/scripts/445274</Link><br/>
-                <GitHubIcon/> <Link href='https://github.com/hoothin/' style={{verticalAlign: 'top'}} target="_blank">https://github.com/hoothin/</Link><br/>
+                <InstallDesktopIcon/> <Link href='https://greasyfork.org/scripts/445274-searchjumper' style={{verticalAlign: 'top'}} target="_blank">Greasyfork</Link><br/>
+                <GitHubIcon/> <Link href='https://github.com/hoothin/SearchJumper' style={{verticalAlign: 'top'}} target="_blank">Github.com/hoothin</Link><br/>
                 <VolunteerActivismIcon/> <Link href='https://buymeacoffee.com/hoothin' style={{verticalAlign: 'top'}} target="_blank">[Buy Me A Coffee]</Link>  <Link href='https://paypal.me/hoothin' style={{verticalAlign: 'top'}} target="_blank">[Paypal.Me]</Link><br/>
                 Build with React.js<br/>
                 UI: <Link href='https://mui.com' style={{verticalAlign: 'top'}} target="_blank">Material-UI</Link><br/>
