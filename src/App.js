@@ -20,6 +20,7 @@ import General from './page/General.jsx';
 import Engines from './page/Engines.jsx';
 import About from './page/About.jsx';
 import Export from './page/Export.jsx';
+import Link from '@mui/material/Link';
 
 interface TabPanelProps {
   children?: React.ReactNode;
@@ -76,7 +77,9 @@ export default function App() {
       >
         <ListItem>
           <ListItemAvatar>
-            <Avatar alt="SearchJumper" component={Paper} elevation={5} src={logo}/>
+            <Link href='https://github.com/hoothin/SearchJumper' target="_blank">
+              <Avatar alt="SearchJumper" component={Paper} elevation={5} src={logo}/>
+            </Link>
           </ListItemAvatar>
           <ListItemText primary={window.i18n('name')} secondary="Ver 0.9" />
         </ListItem>
