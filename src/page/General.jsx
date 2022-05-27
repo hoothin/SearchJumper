@@ -128,21 +128,6 @@ export default function General() {
             </Paper>
             <Paper elevation={5} sx={{ padding: '20px', marginTop: '20px' }}>
                 <Typography gutterBottom component="div">
-                    <h4>{window.i18n('selectToShow')}</h4>
-                </Typography>
-                <Box>
-                    <FormControl sx={{ m: 1, minWidth: 80 }}>
-                        <FormControlLabel
-                            control={
-                                <Switch checked={state.selectToShow} onChange={handleCheckChange} name="selectToShow" />
-                            }
-                            label={window.i18n('selectToShowTips')}
-                        />
-                    </FormControl>
-                </Box>
-            </Paper>
-            <Paper elevation={5} sx={{ padding: '20px', marginTop: '20px' }}>
-                <Typography gutterBottom component="div">
                     <h4>{window.i18n('autoClose')}</h4>
                 </Typography>
                 <Box>
@@ -219,6 +204,19 @@ export default function General() {
                                 <Switch checked={state.metaKey} onChange={handleCheckChange} name="metaKey" />
                             }
                             label={window.i18n('metaKey')}
+                        />
+                    </FormControl>
+                </Box>
+                <Typography gutterBottom component="div">
+                    <h4>{window.i18n('selectToShow')}</h4>
+                </Typography>
+                <Box>
+                    <FormControl sx={{ m: 1, minWidth: 80 }}>
+                        <FormControlLabel
+                            control={
+                                <Switch checked={state.selectToShow} onChange={handleCheckChange} name="selectToShow" />
+                            }
+                            label={window.i18n('selectToShowTips')}
                         />
                     </FormControl>
                 </Box>
