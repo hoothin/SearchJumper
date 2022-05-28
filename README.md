@@ -11,7 +11,22 @@ Icons: [FontAwesome](https://fontawesome.com/)
 
 <img src='demo1.gif' height='210px'><img src='demo3.gif' height='210px'><img src='demo2.gif' height='210px'>
 
-[Sites settings example 站點設置示例](https://github.com/hoothin/SearchJumper/issues/1)
+[More site rules 更多站點配置](https://github.com/hoothin/SearchJumper/issues?q=label%3A%22Site+Rules%22)
+
+## Features：
++ 全面的自定義功能，詳見最下方
++ 支持全字符編碼
++ 支持 Post
++ 無第三方依賴庫
++ 自展開當前類別並提前
++ 不篡改原始頁面
++ 可以搜索圖片
++ 可以劃詞搜索
++ 支持站內搜索
++ 工具欄隨拖隨放，可隨意選擇位置放置
++ 可隨意使用快捷鍵開啟，右鍵點擊 logo 關閉
++ 支持配置導出與快捷分享
++ 支持中鍵後台打開連結
 
 ## Config params
 * %s search keyword | 搜索關鍵詞
