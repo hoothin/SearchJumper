@@ -11,7 +11,7 @@ Icons: [FontAwesome](https://fontawesome.com/)
 
 <img src='demo1.gif' height='210px'><img src='demo3.gif' height='210px'><img src='demo2.gif' height='210px'>
 
-[Sites settings example 站點設置示例](https://github.com/hoothin/SearchJumper/issues/1)
+[More site rules 更多站點配置](https://github.com/hoothin/SearchJumper/issues?q=label%3A%22Site+Rules%22)
 
 ## Features：
 + 全面的自定義功能，詳見最下方
