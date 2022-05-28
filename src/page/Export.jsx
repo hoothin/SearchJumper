@@ -19,8 +19,12 @@ export default function Export() {
 
     var sitesDataInput;
     function saveConfig() {
-        window.searchData.sitesConfig = JSON.parse(sitesDataInput.value);
-        saveConfigToScript(true);
+        try {
+            window.searchData.sitesConfig = JSON.parse(sitesDataInput.value);
+            saveConfigToScript(true);
+        } catch (e) {
+            alert(e);
+        }
     }
 
     function copyConfig() {
@@ -44,7 +48,7 @@ export default function Export() {
             />
             <SpeedDial
                 ariaLabel="SpeedDial"
-                sx={{ position: 'fixed', bottom: 16, right: 16 }}
+                sx={{ position: 'fixed', bottom: '20%', right: 16 }}
                 icon={<SpeedDialIcon />}
             >
                 <SpeedDialAction
