@@ -13,7 +13,7 @@ Icons: [FontAwesome](https://fontawesome.com/)
 
 [Sites settings example 站點設置示例](https://github.com/hoothin/SearchJumper/issues/1)
 
-## 特性：
+## Features：
 + 全面的自定義功能，詳見最下方
 + 支持全字符編碼
 + 支持 Post
