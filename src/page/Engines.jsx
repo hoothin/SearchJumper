@@ -494,6 +494,9 @@ export default function Engines() {
         if (typeData.icon) {
             minType.icon = typeData.icon;
         }
+        if (typeData.match) {
+            minType.match = typeData.match;
+        }
         if (typeData.selectTxt) {
             minType.selectTxt = typeData.selectTxt;
         }
