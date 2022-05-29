@@ -29,15 +29,15 @@ Icons: [FontAwesome](https://fontawesome.com/)
 + Support middle button to open links in the background 支持中鍵後台打開連結
 
 ## Config params
-* %s search keyword | 搜索關鍵詞
-* %e charset | 編碼
-* %c client pc,mobile | 客戶端 pc,mobile
-* %u current website url | 當前網站 url
-* %h current website host | 當前網站 host
-* %t image src | 圖片 src
-* %b image src without http | 圖片src去頭
-* :p{params} post body, like :p{x=1&y=%s} | post 參數體，例如 :p{x=1&y=%s}
-* #p{params} post in page, like #p{#input=1&div.param=2} | 頁内 post，可在頁面之内填寫參數提交查詢，例如 #p{#input=1&div.param=2}
+* %s search keyword 🗒️ 搜索關鍵詞
+* %e charset 🗒️ 編碼
+* %c client pc,mobile 🗒️ 客戶端 pc,mobile
+* %u current website url 🗒️ 當前網站 url
+* %h current website host 🗒️ 當前網站 host
+* %t image src 🗒️ 圖片 src
+* %b image src without http 🗒️ 圖片src去頭
+* :p{params} post body, like :p{x=1&y=%s} 🗒️ post 參數體，例如 :p{x=1&y=%s}
+* #p{params} post in page, like #p{#input=1&div.param=2} 🗒️ 頁内 post，可在頁面之内填寫參數提交查詢，例如 #p{#input=1&div.param=2}
 
 ---
 
