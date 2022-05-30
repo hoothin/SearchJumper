@@ -174,6 +174,21 @@ class SitesList extends React.Component {
         if (siteData.charset) {
             obj.charset = siteData.charset;
         }
+        if (siteData.shortcut) {
+            obj.shortcut = siteData.shortcut;
+        }
+        if (siteData.ctrl) {
+            obj.ctrl = siteData.ctrl;
+        }
+        if (siteData.alt) {
+            obj.alt = siteData.alt;
+        }
+        if (siteData.shift) {
+            obj.shift = siteData.shift;
+        }
+        if (siteData.meta) {
+            obj.meta = siteData.meta;
+        }
         return obj;
     }
 
@@ -301,6 +316,7 @@ class SitesList extends React.Component {
                             fullWidth
                             variant="standard"
                             value={this.state.currentSite.name}
+                            sx={{marginTop: '25px'}}
                             onChange={e => {
                                 this.setState(prevState => ({
                                     currentSite: {...this.state.currentSite, name: e.target.value}
@@ -316,6 +332,7 @@ class SitesList extends React.Component {
                             fullWidth
                             variant="standard"
                             value={this.state.currentSite.url}
+                            sx={{marginTop: '25px'}}
                             onChange={e => {
                                 this.setState(prevState => ({
                                     currentSite: {...this.state.currentSite, url: e.target.value}
@@ -330,6 +347,7 @@ class SitesList extends React.Component {
                             fullWidth
                             variant="standard"
                             value={this.state.currentSite.icon}
+                            sx={{marginTop: '25px'}}
                             onChange={e => {
                                 this.setState(prevState => ({
                                     currentSite: {...this.state.currentSite, icon: e.target.value}
@@ -347,6 +365,7 @@ class SitesList extends React.Component {
                             fullWidth
                             variant="standard"
                             value={this.state.currentSite.keywords}
+                            sx={{marginTop: '25px'}}
                             onChange={e => {
                                 this.setState(prevState => ({
                                     currentSite: {...this.state.currentSite, keywords: e.target.value}
@@ -361,12 +380,97 @@ class SitesList extends React.Component {
                             fullWidth
                             variant="standard"
                             value={this.state.currentSite.match}
+                            sx={{marginTop: '25px'}}
                             onChange={e => {
                                 this.setState(prevState => ({
                                     currentSite: {...this.state.currentSite, match: e.target.value}
                                 }));
                             }}
                         />
+                        <Box sx={{flexGrow: 1, display: 'flex', flexWrap: 'nowrap', marginTop: '25px'}}>
+                            <TextField
+                                margin="dense"
+                                id="match"
+                                label={window.i18n('siteShotcut')}
+                                type="text"
+                                variant="outlined"
+                                value={this.state.currentSite.shortcut}
+                                inputProps={{ maxLength: 1 }}
+                                onChange={e => {
+                                    this.setState(prevState => ({
+                                        currentSite: {...this.state.currentSite, shortcut: e.target.value}
+                                    }));
+                                }}
+                            />
+                            <FormControl sx={{ m: 1, minWidth: 80 }}>
+                                <FormControlLabel
+                                    control={
+                                        <Switch 
+                                            checked={this.state.currentSite.ctrl} 
+                                            name="ctrl"
+                                            onClick={e => {
+                                                this.setState(prevState => ({
+                                                    currentSite: {...prevState.currentSite, ctrl: e.target.checked}
+                                                }));
+                                            }}
+                                        />
+                                    }
+                                    label='Ctrl'
+                                    labelPlacement="bottom"
+                                />
+                            </FormControl>
+                            <FormControl sx={{ m: 1, minWidth: 80 }}>
+                                <FormControlLabel
+                                    control={
+                                        <Switch 
+                                            checked={this.state.currentSite.alt} 
+                                            name="alt"
+                                            onClick={e => {
+                                                this.setState(prevState => ({
+                                                    currentSite: {...prevState.currentSite, alt: e.target.checked}
+                                                }));
+                                            }}
+                                        />
+                                    }
+                                    label='Alt'
+                                    labelPlacement="bottom"
+                                />
+                            </FormControl>
+                            <FormControl sx={{ m: 1, minWidth: 80 }}>
+                                <FormControlLabel
+                                    control={
+                                        <Switch 
+                                            checked={this.state.currentSite.shift} 
+                                            name="shift"
+                                            onClick={e => {
+                                                this.setState(prevState => ({
+                                                    currentSite: {...prevState.currentSite, shift: e.target.checked}
+                                                }));
+                                            }}
+                                        />
+                                    }
+                                    label='Shift'
+                                    labelPlacement="bottom"
+                                />
+                            </FormControl>
+                            <FormControl sx={{ m: 1, minWidth: 80 }}>
+                                <FormControlLabel
+                                    control={
+                                        <Switch 
+                                            checked={this.state.currentSite.meta} 
+                                            name="meta"
+                                            onClick={e => {
+                                                this.setState(prevState => ({
+                                                    currentSite: {...prevState.currentSite, meta: e.target.checked}
+                                                }));
+                                            }}
+                                        />
+                                    }
+                                    label='Meta'
+                                    labelPlacement="bottom"
+                                />
+                            </FormControl>
+                        </Box>
                         <Autocomplete
                             disablePortal
                             margin="dense"
@@ -375,6 +479,7 @@ class SitesList extends React.Component {
                             variant="standard"
                             options={allCharset}
                             value={this.state.currentSite.charset}
+                            sx={{marginTop: '30px'}}
                             onChange={e => {
                                 this.setState(prevState => ({
                                     currentSite: {...this.state.currentSite, charset: e.target.textContent}
@@ -398,7 +503,7 @@ class SitesList extends React.Component {
 }
 
 const allCharset = [
-  "gbk","gb18030","big5","big5-hkscs","utf-16le","shift-jis","euc-jp","iso-2022-jp","euc-kr","iso-2022-kr","macintosh","koi8-r","koi8-u",
+  "","gbk","gb18030","big5","big5-hkscs","utf-8","utf-16le","shift-jis","euc-jp","iso-2022-jp","euc-kr","iso-2022-kr","macintosh","koi8-r","koi8-u",
     "windows-1250","windows-1251","windows-1252","windows-1253","windows-1254","windows-1255","windows-1256","windows-1257","windows-1258",
     "iso-8859-1","iso-8859-2","iso-8859-3","iso-8859-4","iso-8859-5","iso-8859-6","iso-8859-7","iso-8859-8","iso-8859-8-i","iso-8859-9","iso-8859-10","iso-8859-11","iso-8859-13","iso-8859-14","iso-8859-15","iso-8859-16"
 ];
@@ -430,7 +535,12 @@ function siteObject(obj) {
         icon: obj.icon || '',
         keywords: obj.keywords || '',
         match: obj.match || '',
-        charset: obj.charset || ''
+        charset: obj.charset || '',
+        shortcut: obj.shortcut || '',
+        ctrl: obj.ctrl || false,
+        alt: obj.alt || false,
+        shift: obj.shift || false,
+        meta: obj.meta || false
     };
 }
 
