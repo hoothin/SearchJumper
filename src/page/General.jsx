@@ -160,6 +160,21 @@ export default function General() {
             </Paper>
             <Paper elevation={5} sx={{ padding: '20px', marginTop: '20px' }}>
                 <Typography gutterBottom component="div">
+                    <h4>{window.i18n('enableShortcut')}</h4>
+                </Typography>
+                <Box>
+                    <FormControl sx={{ m: 1, minWidth: 80 }}>
+                        <FormControlLabel
+                            control={
+                                <Switch checked={state.shortcut} onChange={handleCheckChange} name="shortcut" />
+                            }
+                            label={window.i18n('enableShortcutTips')}
+                        />
+                    </FormControl>
+                </Box>
+            </Paper>
+            <Paper elevation={5} sx={{ padding: '20px', marginTop: '20px' }}>
+                <Typography gutterBottom component="div">
                     <h4>{window.i18n('enableInPage')}</h4>
                 </Typography>
                 <FormControl sx={{ m: 1, minWidth: 80 }}>
