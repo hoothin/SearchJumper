@@ -354,9 +354,6 @@ class SitesList extends React.Component {
                                 }));
                             }}
                         />
-                        <DialogContentText>
-                            {window.i18n('iconTips')}
-                        </DialogContentText>
                         <TextField
                             margin="dense"
                             id="keywords"
