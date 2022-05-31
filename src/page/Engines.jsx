@@ -476,7 +476,7 @@ class SitesList extends React.Component {
                             variant="standard"
                             options={allCharset}
                             value={this.state.currentSite.charset}
-                            sx={{marginTop: '30px'}}
+                            sx={{marginTop: '35px'}}
                             onChange={e => {
                                 this.setState(prevState => ({
                                     currentSite: {...this.state.currentSite, charset: e.target.textContent}
