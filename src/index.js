@@ -61,6 +61,7 @@ switch (lang) {
             enableShortcut: '启用站点快捷键',
             enableShortcutTips: '启用后，将使得所有为站点分配的快捷键生效',
             siteShotcut: '搜索快捷键',
+            initShow: '默认不贴边隐藏',
             aboutContent: '平时工作中搜索引擎跳转功能用得很频繁，但尝试了相关的扩展，发现大多夹有私货。\n\n而这只是一个简单功能，所以不如自己写一个啦。\n\n结果写配置页面耗费的精力数倍于脚本本身……🤦‍\n\n这个搜索引擎跳转支持自己拖拽定义位置，同时也支持站内搜索，多语言编码设置（例如shift-jis），划词搜索，以及配置导入导出。'
         }
         break;
@@ -118,6 +119,7 @@ switch (lang) {
             enableShortcut: '啟用站點快捷鍵',
             enableShortcutTips: '啟用後，將使得所有為站點分配的快捷鍵生效',
             siteShotcut: '搜索快捷鍵',
+            initShow: '默認不貼邊隱藏',
             aboutContent: '平時工作中搜尋引擎跳轉功能用得很頻繁，但嘗試了相關的擴展，發現大多夾有私貨。\n\n而這只是一個簡單功能，所以不如自己寫一個啦。\n\n結果寫配置頁面耗費的精力數倍於腳本本身……🤦‍\n\n這個搜尋引擎跳轉支持自己拖拽定義位置，同時也支持站內搜索，多語言編碼設置（例如shift-jis），劃詞搜索，以及配置導入導出。'
         }
         break;
@@ -174,6 +176,7 @@ switch (lang) {
             enableShortcut: 'Enable site shortcuts',
             enableShortcutTips: 'After enabling, all shortcut keys assigned to single site will take effect',
             siteShotcut: 'Search shortcut key',
+            initShow: 'Pull out to show when page initializes',
             aboutContent: "I use the search engine jump function very frequently in my work, but I found that most of them contain trojans after tried many related extensions. \n\nThis is just a simple function, so why not write one by myself? \n\nThe result is that writing the configuration page takes several times more energy than the script itself... 🤦‍\n\nThis search engine jump supports dragging and dropping with defined location, and also supports in-site search, word-marking search, and configuration import and export."
         }
         break;
