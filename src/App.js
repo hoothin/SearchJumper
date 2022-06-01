@@ -58,13 +58,27 @@ function a11yProps(index: number) {
 
 export default function App() {
   const [value, setValue] = React.useState(0);
+  const [inited, setInited] = React.useState(false);
 
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
     setValue(newValue);
   };
+  React.useEffect(() => {
+    if (window.searchData) {
+      setInited(true);
+    } else {
+      let checkInv = setInterval(() => {
+        if (window.searchData) {
+          clearInterval(checkInv);
+          setInited(true);
+        }
+      }, 1000);
+    }
+  }, [])
 
   return (
     <Box
+      inited={inited}
       sx={{ flexGrow: 1, bgcolor: 'background.paper', display: 'flex', height: '100vh' }}
     >
       <List
