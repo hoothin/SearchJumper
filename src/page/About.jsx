@@ -21,10 +21,10 @@ export default function About() {
                 <GitHubIcon/> <Link href='https://github.com/hoothin/SearchJumper' style={{verticalAlign: 'top'}} target="_blank">Github.com/hoothin</Link><br/>
                 <EmailIcon/> <Link href='mailto:rixixi@gmail.com' style={{verticalAlign: 'top'}} target="_blank">rixixi@gmail.com</Link><br/>
                 <InstallDesktopIcon/> <Link href='https://greasyfork.org/scripts/445274-searchjumper' style={{verticalAlign: 'top'}} target="_blank">Greasyfork</Link><br/>
-                <VolunteerActivismIcon/> <Link href='https://buymeacoffee.com/hoothin' style={{verticalAlign: 'top'}} target="_blank">[Buy Me A Coffee]</Link>  <Link href='https://paypal.me/hoothin' style={{verticalAlign: 'top'}} target="_blank">[Paypal.Me]</Link><br/>
                 Build with React.js<br/>
                 UI: <Link href='https://mui.com' style={{verticalAlign: 'top'}} target="_blank">Material-UI</Link><br/>
                 Icons: <Link href='https://fontawesome.com/' style={{verticalAlign: 'top'}} target="_blank">FontAwesome</Link><br/>
+                <VolunteerActivismIcon/> <Link href='https://buymeacoffee.com/hoothin' style={{verticalAlign: 'top'}} target="_blank">[Buy Me A Coffee]</Link>  <Link href='https://paypal.me/hoothin' style={{verticalAlign: 'top'}} target="_blank">[Paypal.Me]</Link><br/>
                 <Box sx={{borderTop: 1, borderColor: 'divider'}}>
                 <Card sx={{maxWidth: 410, margin: '10px auto', textAlign: 'left'}}>
                     <CardContent>
