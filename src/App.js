@@ -79,14 +79,17 @@ export default function App() {
   return (
     <Box
       inited={inited}
-      sx={{ flexGrow: 1, bgcolor: 'background.paper', display: 'flex', height: '100vh' }}
+      sx={{ flexGrow: 1, bgcolor: 'background.paper', display: 'flex', height: '100vh', marginLeft: '200px' }}
     >
       <List
         component={Paper}
         elevation={5}
         sx={{
-          width: '100%',
+          width: '200px',
+          height: '100%',
+          left: 0,
           maxWidth: 200,
+          position: 'fixed'
         }}
       >
         <ListItem>
