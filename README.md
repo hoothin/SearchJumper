@@ -9,7 +9,7 @@ UI: [Material-UI](https://mui.com/)
 
 Icons: [FontAwesome](https://fontawesome.com/)
 
-### [More site rules 更多站點配置](https://github.com/hoothin/SearchJumper/issues?q=label%3A%22Site+Rules%22)
+### [More site rules 更多站點配置](https://github.com/hoothin/SearchJumper/issues?q=label%3A%22Sites+Rule%22)
 
 <img src='demo1.gif' height='210px'><img src='demo3.gif' height='210px'><img src='demo2.gif' height='210px'>
 
