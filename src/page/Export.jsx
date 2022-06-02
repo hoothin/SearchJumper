@@ -232,6 +232,11 @@ const presetCssList = [
      .search-jumper-type.search-jumper-hide {
          background: unset;
      }
+     span.search-jumper-word>img {
+         width: 20px;
+         height: 20px;
+         margin: auto;
+     }
      .search-jumper-searchBar .search-jumper-btn:hover {
          -webkit-transform:scale(1.2);
          -moz-transform:scale(1.2);
@@ -450,6 +455,11 @@ const presetCssList = [
      }
      .search-jumper-type.search-jumper-hide {
          background: unset;
+     }
+     span.search-jumper-word>img {
+         width: 20px;
+         height: 20px;
+         margin: auto;
      }
      .search-jumper-searchBar .search-jumper-btn:hover {
          -webkit-transform:scale(1.2);
