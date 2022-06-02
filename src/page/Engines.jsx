@@ -87,6 +87,9 @@ function TypeEdit(props) {
                         setTypeData({ ...typeData, match:e.target.value });
                     }}
                 />
+                <DialogContentText>
+                    {window.i18n('typeMatchTips')}
+                </DialogContentText>
                 <FormControl sx={{ m: 1, minWidth: 80 }}>
                     <FormControlLabel
                         control={
