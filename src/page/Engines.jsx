@@ -835,7 +835,7 @@ export default function Engines() {
                             onDragStart={e => {dragType = data}} 
                             onDragOver={e => {e.preventDefault()}} 
                             icon={
-                                /^http/.test(data.icon)?(
+                                /^(http|data:)/.test(data.icon)?(
                                     <Avatar sx={{m:1}} alt={data.type} src={data.icon} />
                                 ):(
                                     <i style={{lineHeight: '65px', width: '50px', fontSize: '30px'}} className={`fa fa-${data.icon}`}/>
