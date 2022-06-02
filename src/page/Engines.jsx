@@ -826,7 +826,7 @@ export default function Engines() {
             <Paper elevation={5} sx={{textAlign:'center', borderRadius:'10px'}}>
                 <h2 style={{padding:'5px'}}>{window.i18n('searchEngines')}</h2>
             </Paper>
-            <Box sx={{ borderBottom: 1, borderColor: 'divider', flexGrow: 1, display: 'flex', bgcolor: '#d5d5d5'}}>
+            <Box sx={{ borderBottom: 1, borderColor: 'divider', flexGrow: 1, display: 'flex' }}>
                 <Tabs value={value} onChange={handleChange} aria-label="types" variant="scrollable" scrollButtons="auto">
                     {window.searchData.sitesConfig.map((data, index) =>
                         <Tab  
@@ -836,9 +836,9 @@ export default function Engines() {
                             onDragOver={e => {e.preventDefault()}} 
                             icon={
                                 /^(http|data:)/.test(data.icon)?(
-                                    <Avatar sx={{m:1}} alt={data.type} src={data.icon} />
+                                    <img alt={data.type} src={data.icon} style={{m:1, background: 'darkgray', borderRadius: '15px'}} />
                                 ):(
-                                    <i style={{lineHeight: '65px', width: '50px', fontSize: '30px', color: 'white'}} className={`fa fa-${data.icon}`}/>
+                                    <i style={{background: 'darkgray', lineHeight: '65px', width: '50px', fontSize: '30px', color: 'white', borderRadius: '15px'}} className={`fa fa-${data.icon}`}/>
                                 )} 
                             label={data.type} 
                             key={index} 
