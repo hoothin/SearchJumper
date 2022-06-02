@@ -168,11 +168,27 @@ const presetCssList = [
          cursor: grab;
      }
      .search-jumper-type.search-jumper-needInPage,
-     .search-jumper-type.search-jumper-targetImg {
+     .search-jumper-type.search-jumper-targetImg,
+     .search-jumper-type.search-jumper-targetAudio,
+     .search-jumper-type.search-jumper-targetVideo,
+     .search-jumper-type.search-jumper-targetLink,
+     .search-jumper-type.search-jumper-targetPage,
+     .search-jumper-isTargetImg>.search-jumper-type,
+     .search-jumper-isTargetAudio>.search-jumper-type,
+     .search-jumper-isTargetVideo>.search-jumper-type,
+     .search-jumper-isTargetLink>.search-jumper-type,
+     .search-jumper-isTargetPage>.search-jumper-type {
          display: none;
      }
+     .search-jumper-searchBar>.search-jumper-type.search-jumper-targetAll {
+         display: inline-flex;
+     }
      .search-jumper-isInPage>.search-jumper-type.search-jumper-needInPage,
-     .search-jumper-isTargetImg>.search-jumper-type.search-jumper-targetImg {
+     .search-jumper-isTargetImg>.search-jumper-type.search-jumper-targetImg,
+     .search-jumper-isTargetAudio>.search-jumper-type.search-jumper-targetAudio,
+     .search-jumper-isTargetVideo>.search-jumper-type.search-jumper-targetVideo,
+     .search-jumper-isTargetLink>.search-jumper-type.search-jumper-targetLink,
+     .search-jumper-isTargetPage>.search-jumper-type.search-jumper-targetPage {
          display: inline-flex;
      }
      .search-jumper-type {
@@ -371,11 +387,27 @@ const presetCssList = [
          cursor: grab;
      }
      .search-jumper-type.search-jumper-needInPage,
-     .search-jumper-type.search-jumper-targetImg {
+     .search-jumper-type.search-jumper-targetImg,
+     .search-jumper-type.search-jumper-targetAudio,
+     .search-jumper-type.search-jumper-targetVideo,
+     .search-jumper-type.search-jumper-targetLink,
+     .search-jumper-type.search-jumper-targetPage,
+     .search-jumper-isTargetImg>.search-jumper-type,
+     .search-jumper-isTargetAudio>.search-jumper-type,
+     .search-jumper-isTargetVideo>.search-jumper-type,
+     .search-jumper-isTargetLink>.search-jumper-type,
+     .search-jumper-isTargetPage>.search-jumper-type {
          display: none;
      }
+     .search-jumper-searchBar>.search-jumper-type.search-jumper-targetAll {
+         display: inline-flex;
+     }
      .search-jumper-isInPage>.search-jumper-type.search-jumper-needInPage,
-     .search-jumper-isTargetImg>.search-jumper-type.search-jumper-targetImg {
+     .search-jumper-isTargetImg>.search-jumper-type.search-jumper-targetImg,
+     .search-jumper-isTargetAudio>.search-jumper-type.search-jumper-targetAudio,
+     .search-jumper-isTargetVideo>.search-jumper-type.search-jumper-targetVideo,
+     .search-jumper-isTargetLink>.search-jumper-type.search-jumper-targetLink,
+     .search-jumper-isTargetPage>.search-jumper-type.search-jumper-targetPage {
          display: inline-flex;
      }
      .search-jumper-type {
