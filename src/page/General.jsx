@@ -167,18 +167,33 @@ export default function General() {
                 </Box>
             </Paper>
             <Paper elevation={5} sx={{ padding: '20px', marginTop: '20px' }}>
-                <Typography gutterBottom component="div">
-                    <h4>{window.i18n('enableShortcut')}</h4>
-                </Typography>
-                <Box>
-                    <FormControl sx={{ m: 1, minWidth: 80 }}>
-                        <FormControlLabel
-                            control={
-                                <Switch checked={state.shortcut} onChange={handleCheckChange} name="shortcut" />
-                            }
-                            label={window.i18n('enableShortcutTips')}
-                        />
-                    </FormControl>
+                <Box sx={{ flexGrow: 1, display: 'flex'}}>
+                    <Box>
+                        <Typography gutterBottom component="div">
+                            <h4>{window.i18n('enableShortcut')}</h4>
+                        </Typography>
+                        <FormControl sx={{ m: 1, minWidth: 80 }}>
+                            <FormControlLabel
+                                control={
+                                    <Switch checked={state.shortcut} onChange={handleCheckChange} name="shortcut" />
+                                }
+                                label={window.i18n('enableShortcutTips')}
+                            />
+                        </FormControl>
+                    </Box>
+                    <Box>
+                        <Typography gutterBottom component="div">
+                            <h4>{window.i18n('enableInInput')}</h4>
+                        </Typography>
+                        <FormControl sx={{ m: 1, minWidth: 80 }}>
+                            <FormControlLabel
+                                control={
+                                    <Switch checked={state.enableInInput} onChange={handleCheckChange} name="enableInInput" />
+                                }
+                                label={window.i18n('enableInInputTips')}
+                            />
+                        </FormControl>
+                    </Box>
                 </Box>
             </Paper>
             <Paper elevation={5} sx={{ padding: '20px', marginTop: '20px' }}>

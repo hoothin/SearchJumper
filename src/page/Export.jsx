@@ -431,6 +431,7 @@ const presetCssList = [
 export default function Export() {
     const [presetCss, setPresetCss] = React.useState('');
     const [cssText, setCssText] = React.useState(window.searchData.prefConfig.cssText);
+    const [fontAwesomeCss, setFontAwesomeCss] = React.useState(window.searchData.prefConfig.fontAwesomeCss);
     const sitesData = JSON.stringify(window.searchData.sitesConfig, null, 4);
 
     var sitesDataInput;
@@ -438,6 +439,7 @@ export default function Export() {
         try {
             window.searchData.sitesConfig = JSON.parse(sitesDataInput.value);
             window.searchData.prefConfig.cssText = cssText;
+            window.searchData.prefConfig.fontAwesomeCss = fontAwesomeCss;
             saveConfigToScript(true);
         } catch (e) {
             alert(e);
@@ -493,11 +495,23 @@ export default function Export() {
                 label={window.i18n('customCss')}
                 multiline
                 fullWidth
-                sx={{mb : 5}}
+                sx={{mb : 1}}
                 rows={25}
                 value={cssText}
                 onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
                     setCssText(event.target.value);
+                }}
+            />
+            <TextField
+                id="fontAwesomeCss"
+                label={window.i18n('fontAwesomeCss')}
+                fullWidth
+                sx={{mb : 5}}
+                rows={25}
+                value={fontAwesomeCss}
+                placeholder="https://cdn.bootcdn.net/ajax/libs/font-awesome/6.1.1/css/all.min.css"
+                onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
+                    setFontAwesomeCss(event.target.value);
                 }}
             />
             <SpeedDial

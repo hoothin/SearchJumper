@@ -99,6 +99,7 @@ function TypeEdit(props) {
                             />
                         }
                         label={window.i18n('typeEnableSelTxt')}
+                        labelPlacement="top"
                     />
                 </FormControl>
                 <FormControl sx={{ m: 1, minWidth: 80 }}>
@@ -113,6 +114,67 @@ function TypeEdit(props) {
                             />
                         }
                         label={window.i18n('typeEnableSelImg')}
+                        labelPlacement="top"
+                    />
+                </FormControl>
+                <FormControl sx={{ m: 1, minWidth: 80 }}>
+                    <FormControlLabel
+                        control={
+                            <Switch 
+                                checked={typeData.selectVideo} 
+                                name="enableSelVideo"
+                                onClick={e => {
+                                    setTypeData({ ...typeData, selectVideo:e.target.checked });
+                                }}
+                            />
+                        }
+                        label={window.i18n('typeEnableSelVideo')}
+                        labelPlacement="top"
+                    />
+                </FormControl>
+                <FormControl sx={{ m: 1, minWidth: 80 }}>
+                    <FormControlLabel
+                        control={
+                            <Switch 
+                                checked={typeData.selectAudio} 
+                                name="enableSelAudio"
+                                onClick={e => {
+                                    setTypeData({ ...typeData, selectAudio:e.target.checked });
+                                }}
+                            />
+                        }
+                        label={window.i18n('typeEnableSelAudio')}
+                        labelPlacement="top"
+                    />
+                </FormControl>
+                <FormControl sx={{ m: 1, minWidth: 80 }}>
+                    <FormControlLabel
+                        control={
+                            <Switch 
+                                checked={typeData.selectLink} 
+                                name="enableSelLink"
+                                onClick={e => {
+                                    setTypeData({ ...typeData, selectLink:e.target.checked });
+                                }}
+                            />
+                        }
+                        label={window.i18n('typeEnableSelLink')}
+                        labelPlacement="top"
+                    />
+                </FormControl>
+                <FormControl sx={{ m: 1, minWidth: 80 }}>
+                    <FormControlLabel
+                        control={
+                            <Switch 
+                                checked={typeData.selectPage} 
+                                name="enableSelPage"
+                                onClick={e => {
+                                    setTypeData({ ...typeData, selectPage:e.target.checked });
+                                }}
+                            />
+                        }
+                        label={window.i18n('typeEnableSelPage')}
+                        labelPlacement="top"
                     />
                 </FormControl>
                 <FormControl sx={{ m: 1, minWidth: 80 }}>
@@ -188,6 +250,9 @@ class SitesList extends React.Component {
         }
         if (siteData.meta) {
             obj.meta = siteData.meta;
+        }
+        if (siteData.nobatch) {
+            obj.nobatch = siteData.nobatch;
         }
         return obj;
     }
@@ -316,7 +381,7 @@ class SitesList extends React.Component {
                             fullWidth
                             variant="standard"
                             value={this.state.currentSite.name}
-                            sx={{marginTop: '25px'}}
+                            sx={{marginTop: '20px'}}
                             onChange={e => {
                                 this.setState(prevState => ({
                                     currentSite: {...this.state.currentSite, name: e.target.value}
@@ -332,12 +397,13 @@ class SitesList extends React.Component {
                             fullWidth
                             variant="standard"
                             value={this.state.currentSite.url}
-                            sx={{marginTop: '25px'}}
+                            sx={{marginTop: '20px'}}
                             onChange={e => {
                                 this.setState(prevState => ({
                                     currentSite: {...this.state.currentSite, url: e.target.value}
                                 }));
                             }}
+                            placeholder="https://www.google.com/search?q=%s"
                         />
                         <TextField
                             margin="dense"
@@ -347,7 +413,7 @@ class SitesList extends React.Component {
                             fullWidth
                             variant="standard"
                             value={this.state.currentSite.icon}
-                            sx={{marginTop: '25px'}}
+                            sx={{marginTop: '20px'}}
                             onChange={e => {
                                 this.setState(prevState => ({
                                     currentSite: {...this.state.currentSite, icon: e.target.value}
@@ -362,7 +428,7 @@ class SitesList extends React.Component {
                             fullWidth
                             variant="standard"
                             value={this.state.currentSite.keywords}
-                            sx={{marginTop: '25px'}}
+                            sx={{marginTop: '20px'}}
                             onChange={e => {
                                 this.setState(prevState => ({
                                     currentSite: {...this.state.currentSite, keywords: e.target.value}
@@ -377,14 +443,14 @@ class SitesList extends React.Component {
                             fullWidth
                             variant="standard"
                             value={this.state.currentSite.match}
-                            sx={{marginTop: '25px'}}
+                            sx={{marginTop: '20px'}}
                             onChange={e => {
                                 this.setState(prevState => ({
                                     currentSite: {...this.state.currentSite, match: e.target.value}
                                 }));
                             }}
                         />
-                        <Box sx={{flexGrow: 1, display: 'flex', flexWrap: 'nowrap', marginTop: '25px'}}>
+                        <Box sx={{flexGrow: 1, display: 'flex', flexWrap: 'nowrap', marginTop: '20px'}}>
                             <TextField
                                 margin="dense"
                                 id="match"
@@ -468,6 +534,22 @@ class SitesList extends React.Component {
                                 />
                             </FormControl>
                         </Box>
+                        <FormControl sx={{ m: 1, minWidth: 80 }}>
+                            <FormControlLabel
+                                control={
+                                    <Switch 
+                                        checked={this.state.currentSite.nobatch} 
+                                        name="nobatch"
+                                        onClick={e => {
+                                            this.setState(prevState => ({
+                                                currentSite: {...prevState.currentSite, nobatch: e.target.checked}
+                                            }));
+                                        }}
+                                    />
+                                }
+                                label={window.i18n('nobatch')}
+                            />
+                        </FormControl>
                         <Autocomplete
                             disablePortal
                             margin="dense"
@@ -520,6 +602,10 @@ function typeObject(obj) {
         match: obj.match || '',
         selectTxt: obj.selectTxt || false,
         selectImg: obj.selectImg || false,
+        selectAudio: obj.selectAudio || false,
+        selectVideo: obj.selectVideo || false,
+        selectLink: obj.selectLink || false,
+        selectPage: obj.selectPage || false,
         openInNewTab: obj.openInNewTab || false
     };
 }
@@ -537,7 +623,8 @@ function siteObject(obj) {
         ctrl: obj.ctrl || false,
         alt: obj.alt || false,
         shift: obj.shift || false,
-        meta: obj.meta || false
+        meta: obj.meta || false,
+        nobatch: obj.nobatch || false
     };
 }
 
@@ -609,6 +696,18 @@ export default function Engines() {
         }
         if (typeData.selectImg) {
             minType.selectImg = typeData.selectImg;
+        }
+        if (typeData.selectAudio) {
+            minType.selectAudio = typeData.selectAudio;
+        }
+        if (typeData.selectVideo) {
+            minType.selectVideo = typeData.selectVideo;
+        }
+        if (typeData.selectLink) {
+            minType.selectLink = typeData.selectLink;
+        }
+        if (typeData.selectPage) {
+            minType.selectPage = typeData.selectPage;
         }
         if (typeData.openInNewTab) {
             minType.openInNewTab = typeData.openInNewTab;
