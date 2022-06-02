@@ -254,6 +254,9 @@ class SitesList extends React.Component {
         if (siteData.nobatch) {
             obj.nobatch = siteData.nobatch;
         }
+        if (siteData.hideNotMatch) {
+            obj.hideNotMatch = siteData.hideNotMatch;
+        }
         return obj;
     }
 
@@ -450,6 +453,22 @@ class SitesList extends React.Component {
                                 }));
                             }}
                         />
+                        <FormControl sx={{ m: 1, minWidth: 80 }}>
+                            <FormControlLabel
+                                control={
+                                    <Switch 
+                                        checked={this.state.currentSite.hideNotMatch} 
+                                        name="hideNotMatch"
+                                        onClick={e => {
+                                            this.setState(prevState => ({
+                                                currentSite: {...prevState.currentSite, hideNotMatch: e.target.checked}
+                                            }));
+                                        }}
+                                    />
+                                }
+                                label={window.i18n('hideNotMatch')}
+                            />
+                        </FormControl>
                         <Box sx={{flexGrow: 1, display: 'flex', flexWrap: 'nowrap', marginTop: '20px'}}>
                             <TextField
                                 margin="dense"
@@ -558,7 +577,7 @@ class SitesList extends React.Component {
                             variant="standard"
                             options={allCharset}
                             value={this.state.currentSite.charset}
-                            sx={{marginTop: '35px'}}
+                            sx={{marginTop: '20px'}}
                             onChange={e => {
                                 this.setState(prevState => ({
                                     currentSite: {...this.state.currentSite, charset: e.target.textContent}
@@ -624,7 +643,8 @@ function siteObject(obj) {
         alt: obj.alt || false,
         shift: obj.shift || false,
         meta: obj.meta || false,
-        nobatch: obj.nobatch || false
+        nobatch: obj.nobatch || false,
+        hideNotMatch: obj.hideNotMatch || false
     };
 }
 
