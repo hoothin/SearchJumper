@@ -11,6 +11,8 @@ switch (lang) {
     case 'zh-SG':
         config = {
             name: '搜索酱',
+            import: '导入配置',
+            export: '导出配置',
             general: '常规设置',
             searchEngines: '搜索引擎',
             exportConfig: '导出设置',
@@ -84,6 +86,8 @@ switch (lang) {
     case 'zh-HK':
         config = {
             name: '搜索醬',
+            import: '導入配置',
+            export: '導出配置',
             general: '常規設置',
             searchEngines: '搜尋引擎',
             exportConfig: '導出設置',
@@ -156,6 +160,8 @@ switch (lang) {
     default:
         config = {
             name: 'Search Jumper',
+            import: 'Import config',
+            export: 'Export JSON',
             general: 'General',
             searchEngines: 'Search Engines',
             exportConfig: 'Export Config',
