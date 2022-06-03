@@ -387,7 +387,6 @@ class SitesList extends React.Component {
                             fullWidth
                             variant="standard"
                             value={this.state.currentSite.name}
-                            sx={{marginTop: '20px'}}
                             onChange={e => {
                                 this.setState(prevState => ({
                                     currentSite: {...this.state.currentSite, name: e.target.value}
@@ -403,7 +402,6 @@ class SitesList extends React.Component {
                             fullWidth
                             variant="standard"
                             value={this.state.currentSite.url}
-                            sx={{marginTop: '20px'}}
                             onChange={e => {
                                 this.setState(prevState => ({
                                     currentSite: {...this.state.currentSite, url: e.target.value}
@@ -411,6 +409,9 @@ class SitesList extends React.Component {
                             }}
                             placeholder="https://www.google.com/search?q=%s"
                         />
+                        <DialogContentText>
+                            {window.i18n('siteUrlTips')}
+                        </DialogContentText>
                         <TextField
                             margin="dense"
                             id="icon"
@@ -419,7 +420,6 @@ class SitesList extends React.Component {
                             fullWidth
                             variant="standard"
                             value={this.state.currentSite.icon}
-                            sx={{marginTop: '20px'}}
                             onChange={e => {
                                 this.setState(prevState => ({
                                     currentSite: {...this.state.currentSite, icon: e.target.value}
@@ -434,7 +434,6 @@ class SitesList extends React.Component {
                             fullWidth
                             variant="standard"
                             value={this.state.currentSite.keywords}
-                            sx={{marginTop: '20px'}}
                             onChange={e => {
                                 this.setState(prevState => ({
                                     currentSite: {...this.state.currentSite, keywords: e.target.value}
@@ -449,7 +448,6 @@ class SitesList extends React.Component {
                             fullWidth
                             variant="standard"
                             value={this.state.currentSite.match}
-                            sx={{marginTop: '20px'}}
                             onChange={e => {
                                 this.setState(prevState => ({
                                     currentSite: {...this.state.currentSite, match: e.target.value}
@@ -472,7 +470,7 @@ class SitesList extends React.Component {
                                 label={window.i18n('hideNotMatch')}
                             />
                         </FormControl>
-                        <Box sx={{flexGrow: 1, display: 'flex', flexWrap: 'nowrap', marginTop: '20px'}}>
+                        <Box sx={{flexGrow: 1, display: 'flex', flexWrap: 'nowrap'}}>
                             <TextField
                                 margin="dense"
                                 id="match"
@@ -580,7 +578,6 @@ class SitesList extends React.Component {
                             variant="standard"
                             options={allCharset}
                             value={this.state.currentSite.charset}
-                            sx={{marginTop: '20px'}}
                             onChange={e => {
                                 this.setState(prevState => ({
                                     currentSite: {...this.state.currentSite, charset: e.target.textContent}
