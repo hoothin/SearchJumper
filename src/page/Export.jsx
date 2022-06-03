@@ -12,6 +12,8 @@ import MenuItem from '@mui/material/MenuItem';
 import FormHelperText from '@mui/material/FormHelperText';
 import FormControl from '@mui/material/FormControl';
 import Select, { SelectChangeEvent } from '@mui/material/Select';
+import FileUploadIcon from '@mui/icons-material/FileUpload';
+import FileDownloadIcon from '@mui/icons-material/FileDownload';
 
 function saveConfigToScript (notification) {
     var saveMessage = new Event('saveConfig');
@@ -470,6 +472,26 @@ const presetCssList = [
      }`
 ];
 
+function UploadSpeedDialAction(props) {
+    return (
+        <React.Fragment>
+            <input
+                accept=".txt, .json"
+                style={{ display: "none" }}
+                id="icon-button-file"
+                type="file"
+                onChange={props.onChange}
+            />
+            <label htmlFor="icon-button-file">
+                <SpeedDialAction
+                    component="span"
+                    {...props}
+                ></SpeedDialAction>
+            </label>
+        </React.Fragment>
+    );
+}
+
 export default function Export() {
     const [presetCss, setPresetCss] = React.useState('');
     const [cssText, setCssText] = React.useState(window.searchData.prefConfig.cssText);
@@ -477,6 +499,9 @@ export default function Export() {
     const sitesData = JSON.stringify(window.searchData.sitesConfig, null, 4);
 
     var sitesDataInput;
+    var downloadEle = document.createElement('a');
+    downloadEle.download = "searchJumper.json";
+    downloadEle.target = "_blank";
     function saveConfig() {
         try {
             window.searchData.sitesConfig = JSON.parse(sitesDataInput.value);
@@ -493,6 +518,21 @@ export default function Export() {
         document.dispatchEvent(copyMessage);
     }
 
+    function importConfig(event) {
+        let reader = new FileReader();
+        reader.readAsText(event.target.files[0]);
+        reader.onload = function() {
+            sitesDataInput.value = this.result;
+            saveConfig();
+        };
+    }
+
+    function exportConfig() {
+        let blobStr = [sitesDataInput.value];
+        let myBlob = new Blob(blobStr, { type: "application/json" });
+        downloadEle.href = window.URL.createObjectURL(myBlob);
+        downloadEle.click();
+    }
 
     const handleChange = (event: SelectChangeEvent) => {
         setPresetCss(event.target.value);
@@ -562,16 +602,28 @@ export default function Export() {
                 icon={<SpeedDialIcon />}
             >
                 <SpeedDialAction
+                    key='Save'
+                    icon=<SaveIcon />
+                    tooltipTitle={window.i18n('save')}
+                    onClick = {saveConfig}
+                />
+                <SpeedDialAction
                     key='Copy'
                     icon=<FileCopyIcon />
                     tooltipTitle={window.i18n('copy')}
                     onClick = {copyConfig}
                 />
+                <UploadSpeedDialAction
+                    key='Import'
+                    icon=<FileUploadIcon />
+                    tooltipTitle={window.i18n('import')}
+                    onChange = {importConfig}
+                />
                 <SpeedDialAction
-                    key='Save'
-                    icon=<SaveIcon />
-                    tooltipTitle={window.i18n('save')}
-                    onClick = {saveConfig}
+                    key='Export'
+                    icon=<FileDownloadIcon />
+                    tooltipTitle={window.i18n('export')}
+                    onClick = {exportConfig}
                 />
             </SpeedDial>
         </Box>
