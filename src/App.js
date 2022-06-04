@@ -66,16 +66,14 @@ export default function App() {
   React.useEffect(() => {
     if (window.isListen) return;
     window.isListen = true;
-    document.addEventListener('loadConfig', e => {
-        if(!window.searchData) {
-          let searchDataInput = document.querySelector('#searchDataInput');
-          if (searchDataInput) window.searchData = JSON.parse(searchDataInput.value);
-          else window.searchData = e.searchData || e.detail;
-        }
+    window.addEventListener('message',function(e){
+      if (e.data.command == 'loadConfig') {
+        window.searchData = e.data.searchData;
         var receivedMessage = new Event('received');
         document.dispatchEvent(receivedMessage);
         setInited(true);
-    });
+      }
+    }, true);
   }, [])
 
   return (
