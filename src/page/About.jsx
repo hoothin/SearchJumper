@@ -26,7 +26,7 @@ export default function About() {
                 Icons: <Link href='https://fontawesome.com/' style={{verticalAlign: 'top'}} target="_blank">FontAwesome</Link><br/>
                 <VolunteerActivismIcon/> <Link href='https://buymeacoffee.com/hoothin' style={{verticalAlign: 'top'}} target="_blank">[Buy Me A Coffee]</Link>  <Link href='https://paypal.me/hoothin' style={{verticalAlign: 'top'}} target="_blank">[Paypal.Me]</Link><br/>
                 <Box sx={{borderTop: 1, borderColor: 'divider'}}>
-                <Card sx={{maxWidth: 410, margin: '10px auto', textAlign: 'left'}}>
+                <Card sx={{maxWidth: 510, margin: '10px auto', textAlign: 'left'}}>
                     <CardContent>
                         <pre style={{whiteSpace: 'pre-wrap'}}>
                             {window.i18n('aboutContent')}
