@@ -579,6 +579,7 @@ class SitesList extends React.Component {
                         <Autocomplete
                             disablePortal
                             margin="dense"
+                            sx={{ mt: 5 }}
                             id="charset"
                             fullWidth
                             variant="standard"
