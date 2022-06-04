@@ -13,6 +13,7 @@ import InputAdornment from '@mui/material/InputAdornment';
 
 function saveConfigToScript (notification) {
     var saveMessage = new Event('saveConfig');
+    saveMessage.searchData = window.searchData;
     if (notification) saveMessage.notification = true;
     document.dispatchEvent(saveMessage);
 }

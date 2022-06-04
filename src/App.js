@@ -64,15 +64,16 @@ export default function App() {
     setValue(newValue);
   };
   React.useEffect(() => {
+    if (window.isListen) return;
+    window.isListen = true;
+    document.addEventListener('loadConfig', e => {
+        window.searchData = e.searchData;
+        var receivedMessage = new Event('received');
+        document.dispatchEvent(receivedMessage);
+        setInited(true);
+    });
     if (window.searchData) {
       setInited(true);
-    } else {
-      let checkInv = setInterval(() => {
-        if (window.searchData) {
-          clearInterval(checkInv);
-          setInited(true);
-        }
-      }, 1000);
     }
   }, [])
 

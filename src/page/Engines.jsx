@@ -24,6 +24,7 @@ import Autocomplete from '@mui/material/Autocomplete';
 
 function saveConfigToScript (notification) {
     var saveMessage = new Event('saveConfig');
+    saveMessage.searchData = window.searchData;
     if (notification) saveMessage.notification = true;
     document.dispatchEvent(saveMessage);
 }
