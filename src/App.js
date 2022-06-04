@@ -67,7 +67,7 @@ export default function App() {
     if (window.isListen) return;
     window.isListen = true;
     window.addEventListener('message',function(e){
-      if (e.data.command == 'loadConfig') {
+      if (e.data.command === 'loadConfig') {
         window.searchData = e.data.searchData;
         var receivedMessage = new Event('received');
         document.dispatchEvent(receivedMessage);
