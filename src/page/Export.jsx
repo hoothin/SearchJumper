@@ -16,9 +16,12 @@ import FileUploadIcon from '@mui/icons-material/FileUpload';
 import FileDownloadIcon from '@mui/icons-material/FileDownload';
 
 function saveConfigToScript (notification) {
-    var saveMessage = new Event('saveConfig');
-    saveMessage.searchData = window.searchData;
-    if (notification) saveMessage.notification = true;
+    var saveMessage = new CustomEvent('saveConfig', {
+        detail: {
+            searchData: window.searchData, 
+            notification: !!notification
+        }
+    });
     document.dispatchEvent(saveMessage);
 }
 
@@ -220,7 +223,6 @@ export default function Export() {
 
     function copyConfig() {
         var copyMessage = new Event('copyConfig');
-        copyMessage.searchData = window.searchData;
         document.dispatchEvent(copyMessage);
     }
 

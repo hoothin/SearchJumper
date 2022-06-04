@@ -67,14 +67,15 @@ export default function App() {
     if (window.isListen) return;
     window.isListen = true;
     document.addEventListener('loadConfig', e => {
-        window.searchData = e.searchData;
+        if(!window.searchData) {
+          let searchDataInput = document.querySelector('#searchDataInput');
+          if (searchDataInput) window.searchData = JSON.parse(searchDataInput.value);
+          else window.searchData = e.searchData || e.detail;
+        }
         var receivedMessage = new Event('received');
         document.dispatchEvent(receivedMessage);
         setInited(true);
     });
-    if (window.searchData) {
-      setInited(true);
-    }
   }, [])
 
   return (

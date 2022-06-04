@@ -12,9 +12,12 @@ import TextField from '@mui/material/TextField';
 import InputAdornment from '@mui/material/InputAdornment';
 
 function saveConfigToScript (notification) {
-    var saveMessage = new Event('saveConfig');
-    saveMessage.searchData = window.searchData;
-    if (notification) saveMessage.notification = true;
+    var saveMessage = new CustomEvent('saveConfig', {
+        detail: {
+            searchData: window.searchData, 
+            notification: !!notification
+        }
+    });
     document.dispatchEvent(saveMessage);
 }
 
