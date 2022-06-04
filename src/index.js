@@ -44,7 +44,7 @@ switch (lang) {
             portrait: '纵向',
             horizontal: '横向',
             openInNewTab: '默认在新标签页打开链接',
-            openInNewTabTips: '启用后链接将默认在新标签页打开，否则链接将在当前页面打开',
+            openInNewTabTips: '启用后链接将全部在新标签页打开，否则需在类别中单独设置',
             enableInPage: '启用划词搜索',
             enableInPageTips: '启用后选择文字并长按鼠标可调出工具栏',
             bindFunctionKey: '为划选绑定功能键',
@@ -79,6 +79,9 @@ switch (lang) {
             hideNotMatch: '如果网址不匹配则隐藏该项',
             typeMatchTips: '仅在匹配站点显示该类别',
             siteUrlTips: '%s 查询词; %t 指向链接; %n 指向文字; %u 页面地址; %h 页面域名',
+            customSize: '缩放工具栏',
+            typeOpenTime: '类别展开时间',
+            longPressTime: '右键长按时间',
             aboutContent: '平时工作中搜索引擎跳转功能用得很频繁，但尝试了相关的扩展，发现大多夹有私货。\n\n而这只是一个简单功能，所以不如自己写一个啦。\n\n结果写配置页面耗费的精力数倍于脚本本身……🤦‍\n\n这个搜索引擎跳转支持自己拖拽定义位置，同时也支持站内搜索，多语言编码设置（例如shift-jis），划词搜索，以及配置导入导出。'
         }
         break;
@@ -119,7 +122,7 @@ switch (lang) {
             portrait: '縱向',
             horizontal: '橫向',
             openInNewTab: '默認在新標籤頁打開連結',
-            openInNewTabTips: '啟用後連結將默認在新標籤頁打開，否則連結將在當前頁面打開',
+            openInNewTabTips: '啟用後連結將全部在新標籤頁打開，否則需在類別中單獨設置',
             enableInPage: '啟用劃詞搜索',
             enableInPageTips: '啟用後選擇文字並長按滑鼠可調出工具欄',
             bindFunctionKey: '為划選綁定功能鍵',
@@ -154,6 +157,9 @@ switch (lang) {
             hideNotMatch: '如果網址不匹配則隱藏該項',
             typeMatchTips: '僅在匹配站點顯示該類別',
             siteUrlTips: '%s 查詢詞; %t 指向連結; %n 指向文字; %u 頁面地址; %h 頁面域名',
+            customSize: '縮放工具欄',
+            typeOpenTime: '類別展開時間',
+            longPressTime: '右鍵長按時間',
             aboutContent: '平時工作中搜尋引擎跳轉功能用得很頻繁，但嘗試了相關的擴展，發現大多夾有私貨。\n\n而這只是一個簡單功能，所以不如自己寫一個啦。\n\n結果寫配置頁面耗費的精力數倍於腳本本身……🤦‍\n\n這個搜尋引擎跳轉支持自己拖拽定義位置，同時也支持站內搜索，多語言編碼設置（例如shift-jis），劃詞搜索，以及配置導入導出。'
         }
         break;
@@ -226,8 +232,11 @@ switch (lang) {
             fontAwesomeCss: 'FontAwesome CDN URL',
             nobatch: 'Do not participate in batch open when right-clicking category icon',
             hideNotMatch: 'Hide icon if don\'t macth',
-            typeMatchTips: 'Show this type only when url matches',
+            typeMatchTips: 'Show this category only when url matches',
             siteUrlTips: '%s keywords; %t target URL; %n target content; %u site URL; %h hostname',
+            customSize: 'Zoom toolbar',
+            typeOpenTime: 'Category expansion time',
+            longPressTime: 'Long press time',
             aboutContent: "I use the search engine jump function very frequently in my work, but I found that most of them contain trojans after tried many related extensions. \n\nThis is just a simple function, so why not write one by myself? \n\nThe result is that writing the configuration page takes several times more energy than the script itself... 🤦‍\n\nThis search engine jump supports dragging and dropping with defined location, and also supports in-site search, word-marking search, and configuration import and export."
         }
         break;

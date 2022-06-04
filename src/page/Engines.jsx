@@ -91,96 +91,98 @@ function TypeEdit(props) {
                 <DialogContentText>
                     {window.i18n('typeMatchTips')}
                 </DialogContentText>
-                <FormControl sx={{ m: 1, minWidth: 80 }}>
-                    <FormControlLabel
-                        control={
-                            <Switch 
-                                checked={typeData.selectTxt} 
-                                name="enableSelTxt"
-                                onClick={e => {
-                                    setTypeData({ ...typeData, selectTxt:e.target.checked });
-                                }}
-                            />
-                        }
-                        label={window.i18n('typeEnableSelTxt')}
-                        labelPlacement="top"
-                    />
-                </FormControl>
-                <FormControl sx={{ m: 1, minWidth: 80 }}>
-                    <FormControlLabel
-                        control={
-                            <Switch 
-                                checked={typeData.selectImg} 
-                                name="enableSelImg"
-                                onClick={e => {
-                                    setTypeData({ ...typeData, selectImg:e.target.checked });
-                                }}
-                            />
-                        }
-                        label={window.i18n('typeEnableSelImg')}
-                        labelPlacement="top"
-                    />
-                </FormControl>
-                <FormControl sx={{ m: 1, minWidth: 80 }}>
-                    <FormControlLabel
-                        control={
-                            <Switch 
-                                checked={typeData.selectVideo} 
-                                name="enableSelVideo"
-                                onClick={e => {
-                                    setTypeData({ ...typeData, selectVideo:e.target.checked });
-                                }}
-                            />
-                        }
-                        label={window.i18n('typeEnableSelVideo')}
-                        labelPlacement="top"
-                    />
-                </FormControl>
-                <FormControl sx={{ m: 1, minWidth: 80 }}>
-                    <FormControlLabel
-                        control={
-                            <Switch 
-                                checked={typeData.selectAudio} 
-                                name="enableSelAudio"
-                                onClick={e => {
-                                    setTypeData({ ...typeData, selectAudio:e.target.checked });
-                                }}
-                            />
-                        }
-                        label={window.i18n('typeEnableSelAudio')}
-                        labelPlacement="top"
-                    />
-                </FormControl>
-                <FormControl sx={{ m: 1, minWidth: 80 }}>
-                    <FormControlLabel
-                        control={
-                            <Switch 
-                                checked={typeData.selectLink} 
-                                name="enableSelLink"
-                                onClick={e => {
-                                    setTypeData({ ...typeData, selectLink:e.target.checked });
-                                }}
-                            />
-                        }
-                        label={window.i18n('typeEnableSelLink')}
-                        labelPlacement="top"
-                    />
-                </FormControl>
-                <FormControl sx={{ m: 1, minWidth: 80 }}>
-                    <FormControlLabel
-                        control={
-                            <Switch 
-                                checked={typeData.selectPage} 
-                                name="enableSelPage"
-                                onClick={e => {
-                                    setTypeData({ ...typeData, selectPage:e.target.checked });
-                                }}
-                            />
-                        }
-                        label={window.i18n('typeEnableSelPage')}
-                        labelPlacement="top"
-                    />
-                </FormControl>
+                <Box style={{textAlign: "center", border: "1px solid rgba(0, 0, 0, 0.42)", borderRadius: "10px"}}>
+                    <FormControl sx={{ m: 1, minWidth: 80 }}>
+                        <FormControlLabel
+                            control={
+                                <Switch 
+                                    checked={typeData.selectTxt} 
+                                    name="enableSelTxt"
+                                    onClick={e => {
+                                        setTypeData({ ...typeData, selectTxt:e.target.checked });
+                                    }}
+                                />
+                            }
+                            label={window.i18n('typeEnableSelTxt')}
+                            labelPlacement="top"
+                        />
+                    </FormControl>
+                    <FormControl sx={{ m: 1, minWidth: 80 }}>
+                        <FormControlLabel
+                            control={
+                                <Switch 
+                                    checked={typeData.selectImg} 
+                                    name="enableSelImg"
+                                    onClick={e => {
+                                        setTypeData({ ...typeData, selectImg:e.target.checked });
+                                    }}
+                                />
+                            }
+                            label={window.i18n('typeEnableSelImg')}
+                            labelPlacement="top"
+                        />
+                    </FormControl>
+                    <FormControl sx={{ m: 1, minWidth: 80 }}>
+                        <FormControlLabel
+                            control={
+                                <Switch 
+                                    checked={typeData.selectVideo} 
+                                    name="enableSelVideo"
+                                    onClick={e => {
+                                        setTypeData({ ...typeData, selectVideo:e.target.checked });
+                                    }}
+                                />
+                            }
+                            label={window.i18n('typeEnableSelVideo')}
+                            labelPlacement="top"
+                        />
+                    </FormControl>
+                    <FormControl sx={{ m: 1, minWidth: 80 }}>
+                        <FormControlLabel
+                            control={
+                                <Switch 
+                                    checked={typeData.selectAudio} 
+                                    name="enableSelAudio"
+                                    onClick={e => {
+                                        setTypeData({ ...typeData, selectAudio:e.target.checked });
+                                    }}
+                                />
+                            }
+                            label={window.i18n('typeEnableSelAudio')}
+                            labelPlacement="top"
+                        />
+                    </FormControl>
+                    <FormControl sx={{ m: 1, minWidth: 80 }}>
+                        <FormControlLabel
+                            control={
+                                <Switch 
+                                    checked={typeData.selectLink} 
+                                    name="enableSelLink"
+                                    onClick={e => {
+                                        setTypeData({ ...typeData, selectLink:e.target.checked });
+                                    }}
+                                />
+                            }
+                            label={window.i18n('typeEnableSelLink')}
+                            labelPlacement="top"
+                        />
+                    </FormControl>
+                    <FormControl sx={{ m: 1, minWidth: 80 }}>
+                        <FormControlLabel
+                            control={
+                                <Switch 
+                                    checked={typeData.selectPage} 
+                                    name="enableSelPage"
+                                    onClick={e => {
+                                        setTypeData({ ...typeData, selectPage:e.target.checked });
+                                    }}
+                                />
+                            }
+                            label={window.i18n('typeEnableSelPage')}
+                            labelPlacement="top"
+                        />
+                    </FormControl>
+                </Box>
                 <FormControl sx={{ m: 1, minWidth: 80 }}>
                     <FormControlLabel
                         control={

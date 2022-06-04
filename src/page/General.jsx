@@ -19,6 +19,15 @@ function saveConfigToScript (notification) {
 }
 
 export default function General() {
+    if (!window.searchData.prefConfig.customSize) {
+        window.searchData.prefConfig.customSize = 100;
+    }
+    if (!window.searchData.prefConfig.longPressTime) {
+        window.searchData.prefConfig.longPressTime = 500;
+    }
+    if (!window.searchData.prefConfig.typeOpenTime) {
+        window.searchData.prefConfig.typeOpenTime = 250;
+    }
     const [state, setState] = React.useState(
         window.searchData.prefConfig
     );
@@ -61,7 +70,7 @@ export default function General() {
                     <h4>{window.i18n('toolbarPosition')}</h4>
                 </Typography>
                 <Box
-                  sx={{ flexGrow: 1, bgcolor: 'background.paper', display: 'flex'}}
+                  sx={{ flexGrow: 1, bgcolor: 'background.paper', display: 'flex', maxWidth: '100%', flexWrap: 'wrap' }}
                 >
                     <FormControl sx={{ m: 1, minWidth: 80 }}>
                         <InputLabel id="demo-simple-select-autowidth-label">{window.i18n('horizontal')}</InputLabel>
@@ -101,6 +110,68 @@ export default function General() {
                                 <Switch checked={state.initShow} onChange={handleCheckChange} name="initShow" />
                             }
                             label={window.i18n('initShow')}
+                            labelPlacement="top"
+                        />
+                    </FormControl>
+                    <TextField
+                        sx={{ m: 1, minWidth: 100 }}
+                        label={window.i18n('customSize')}
+                        inputProps={{ inputMode: 'numeric', type:'number', pattern: '[0-9]*' }}
+                        InputProps={{
+                            endAdornment: <InputAdornment position="end">%</InputAdornment>
+                        }}
+                        value={state.customSize}
+                        onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
+                            let newValue = event.target.value;
+                            if (newValue > 1000) {
+                                newValue = 1000;
+                            } else if (newValue < 1) {
+                                newValue = 1;
+                            }
+                            var newPref = {
+                                ...state,
+                                customSize: newValue
+                            };
+                            setState(newPref);
+                            window.searchData.prefConfig = newPref;
+                            saveConfigToScript();
+                        }}
+                    />
+                    <TextField
+                        sx={{ m: 1, minWidth: 100 }}
+                        label={window.i18n('typeOpenTime')}
+                        inputProps={{ inputMode: 'numeric', type:'number', pattern: '[0-9]*' }}
+                        InputProps={{
+                            endAdornment: <InputAdornment position="end">ms</InputAdornment>
+                        }}
+                        value={state.typeOpenTime}
+                        onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
+                            let newValue = event.target.value;
+                            if (newValue < 0) {
+                                newValue = 0;
+                            }
+                            var newPref = {
+                                ...state,
+                                typeOpenTime: newValue
+                            };
+                            setState(newPref);
+                            window.searchData.prefConfig = newPref;
+                            saveConfigToScript();
+                        }}
+                    />
+                </Box>
+            </Paper>
+            <Paper elevation={5} sx={{ padding: '20px', marginTop: '20px' }}>
+                <Typography gutterBottom component="div">
+                    <h4>{window.i18n('overOpen')}</h4>
+                </Typography>
+                <Box>
+                    <FormControl sx={{ m: 1, minWidth: 80 }}>
+                        <FormControlLabel
+                            control={
+                                <Switch checked={state.overOpen} onChange={handleCheckChange} name="overOpen" />
+                            }
+                            label={window.i18n('overOpenTips')}
                         />
                     </FormControl>
                 </Box>
@@ -116,21 +187,6 @@ export default function General() {
                                 <Switch checked={state.openInNewTab} onChange={handleCheckChange} name="openInNewTab" />
                             }
                             label={window.i18n('openInNewTabTips')}
-                        />
-                    </FormControl>
-                </Box>
-            </Paper>
-            <Paper elevation={5} sx={{ padding: '20px', marginTop: '20px' }}>
-                <Typography gutterBottom component="div">
-                    <h4>{window.i18n('overOpen')}</h4>
-                </Typography>
-                <Box>
-                    <FormControl sx={{ m: 1, minWidth: 80 }}>
-                        <FormControlLabel
-                            control={
-                                <Switch checked={state.overOpen} onChange={handleCheckChange} name="overOpen" />
-                            }
-                            label={window.i18n('overOpenTips')}
                         />
                     </FormControl>
                 </Box>
@@ -201,14 +257,38 @@ export default function General() {
                 <Typography gutterBottom component="div">
                     <h4>{window.i18n('enableInPage')}</h4>
                 </Typography>
-                <FormControl sx={{ m: 1, minWidth: 80 }}>
-                    <FormControlLabel
-                        control={
-                            <Switch checked={state.enableInPage} onChange={handleCheckChange} name="enableInPage" />
-                        }
-                        label={window.i18n('enableInPageTips')}
+                <Box>
+                    <FormControl sx={{ m: 1, minWidth: 80 }}>
+                        <FormControlLabel
+                            control={
+                                <Switch checked={state.enableInPage} onChange={handleCheckChange} name="enableInPage" />
+                            }
+                            label={window.i18n('enableInPageTips')}
+                        />
+                    </FormControl>
+                    <TextField
+                        sx={{ minWidth: 100 }}
+                        label={window.i18n('longPressTime')}
+                        inputProps={{ inputMode: 'numeric', type:'number', pattern: '[0-9]*' }}
+                        InputProps={{
+                            endAdornment: <InputAdornment position="end">ms</InputAdornment>
+                        }}
+                        value={state.longPressTime}
+                        onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
+                            let newValue = event.target.value;
+                            if (newValue < 0) {
+                                newValue = 0;
+                            }
+                            var newPref = {
+                                ...state,
+                                longPressTime: newValue
+                            };
+                            setState(newPref);
+                            window.searchData.prefConfig = newPref;
+                            saveConfigToScript();
+                        }}
                     />
-                </FormControl>
+                </Box>
                 <Typography gutterBottom component="div">
                     <h4>{window.i18n('bindFunctionKey')}</h4>
                 </Typography>
