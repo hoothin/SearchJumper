@@ -39,7 +39,9 @@ Icons: [FontAwesome](https://fontawesome.com/)
 * %h current website host 🗒️ 當前網站 host
 * %t target src %T with encodeURI 🗒️ 指向對象的 src
 * %b target src without http %B with encodeURI 🗒️ 指向對象 src 去頭
+* %i base64 of target image 🗒️ 指向圖片的 base64
 * :p{params} post body, like :p{x=1&y=%s} 🗒️ post 參數體，例如 :p{x=1&y=%s}
+* :P{params} post without navigation 🗒️ post 但不跳轉
 * #p{params} post in page, like #p{#input=1&div.param=2} 🗒️ 頁内 post，可在頁面之内填寫參數提交查詢，例如 #p{#input=1&div.param=2}
 
 ---
