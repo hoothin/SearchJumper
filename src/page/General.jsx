@@ -31,6 +31,9 @@ export default function General() {
     if (!window.searchData.prefConfig.typeOpenTime) {
         window.searchData.prefConfig.typeOpenTime = 250;
     }
+    if (!window.searchData.prefConfig.leftMouse) {
+        window.searchData.prefConfig.leftMouse = false;
+    }
     const [state, setState] = React.useState(
         window.searchData.prefConfig
     );
@@ -292,6 +295,17 @@ export default function General() {
                         }}
                     />
                 </Box>
+                <Typography gutterBottom component="div">
+                    <h4>{window.i18n('enableLeftMouse')}</h4>
+                </Typography>
+                <FormControl sx={{ m: 1, minWidth: 80 }}>
+                    <FormControlLabel
+                        control={
+                            <Switch checked={state.leftMouse} onChange={handleCheckChange} name="leftMouse" />
+                        }
+                        label={window.i18n('enableLeftMouseTips')}
+                    />
+                </FormControl>
                 <Typography gutterBottom component="div">
                     <h4>{window.i18n('bindFunctionKey')}</h4>
                 </Typography>

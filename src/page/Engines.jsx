@@ -200,6 +200,80 @@ function TypeEdit(props) {
                         label={window.i18n('typeOpenInNewTab')}
                     />
                 </FormControl>
+                <Box sx={{flexGrow: 1, display: 'flex', flexWrap: 'nowrap'}}>
+                    <TextField
+                        margin="dense"
+                        id="match"
+                        label={window.i18n('typeShotcut')}
+                        type="text"
+                        variant="outlined"
+                        value={typeData.shortcut}
+                        inputProps={{ maxLength: 1 }}
+                        onChange={e => {
+                            setTypeData({...typeData, shortcut: e.target.value});
+                        }}
+                    />
+                    <FormControl sx={{ m: 1, minWidth: 80 }}>
+                        <FormControlLabel
+                            control={
+                                <Switch 
+                                    checked={typeData.ctrl} 
+                                    name="ctrl"
+                                    onClick={e => {
+                                        setTypeData({...typeData, ctrl: e.target.checked});
+                                    }}
+                                />
+                            }
+                            label='Ctrl'
+                            labelPlacement="bottom"
+                        />
+                    </FormControl>
+                    <FormControl sx={{ m: 1, minWidth: 80 }}>
+                        <FormControlLabel
+                            control={
+                                <Switch 
+                                    checked={typeData.alt} 
+                                    name="alt"
+                                    onClick={e => {
+                                        setTypeData({...typeData, alt: e.target.checked});
+                                    }}
+                                />
+                            }
+                            label='Alt'
+                            labelPlacement="bottom"
+                        />
+                    </FormControl>
+                    <FormControl sx={{ m: 1, minWidth: 80 }}>
+                        <FormControlLabel
+                            control={
+                                <Switch 
+                                    checked={typeData.shift} 
+                                    name="shift"
+                                    onClick={e => {
+                                        setTypeData({...typeData, shift: e.target.checked});
+                                    }}
+                                />
+                            }
+                            label='Shift'
+                            labelPlacement="bottom"
+                        />
+                    </FormControl>
+                    <FormControl sx={{ m: 1, minWidth: 80 }}>
+                        <FormControlLabel
+                            control={
+                                <Switch 
+                                    checked={typeData.meta} 
+                                    name="meta"
+                                    onClick={e => {
+                                        setTypeData({...typeData, meta: e.target.checked});
+                                    }}
+                                />
+                            }
+                            label='Meta'
+                            labelPlacement="bottom"
+                        />
+                    </FormControl>
+                </Box>
             </DialogContent>
             <DialogActions>
                 <Button variant="outlined" color="error" startIcon={<DeleteIcon />} onClick={props.handleDeleteType}>{window.i18n('delete')}</Button>
@@ -632,7 +706,12 @@ function typeObject(obj) {
         selectVideo: obj.selectVideo || false,
         selectLink: obj.selectLink || false,
         selectPage: obj.selectPage || false,
-        openInNewTab: obj.openInNewTab || false
+        openInNewTab: obj.openInNewTab || false,
+        shortcut: obj.shortcut || '',
+        ctrl: obj.ctrl || false,
+        alt: obj.alt || false,
+        shift: obj.shift || false,
+        meta: obj.meta || false,
     };
 }
 
@@ -738,6 +817,21 @@ export default function Engines() {
         }
         if (typeData.openInNewTab) {
             minType.openInNewTab = typeData.openInNewTab;
+        }
+        if (typeData.shortcut) {
+            minType.shortcut = typeData.shortcut;
+        }
+        if (typeData.ctrl) {
+            minType.ctrl = typeData.ctrl;
+        }
+        if (typeData.alt) {
+            minType.alt = typeData.alt;
+        }
+        if (typeData.shift) {
+            minType.shift = typeData.shift;
+        }
+        if (typeData.meta) {
+            minType.meta = typeData.meta;
         }
         minType.sites = typeData.sites;
         return minType;
