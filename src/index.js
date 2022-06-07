@@ -85,6 +85,8 @@ switch (lang) {
             typeShotcut: '批量打开快捷键',
             enableLeftMouse: '启用鼠标左键长按',
             enableLeftMouseTips: '启用后，鼠标左键长按也能触发。否则仅对鼠标右键生效',
+            cacheSwitch: '缓存图标',
+            cacheSwitchTips: '在浏览网页时在后台缓存图标为base64图片，注意开启后会弹出跨域请求',
             aboutContent: '%s➡️ 搜索关键词，或是划选的文字\n%e➡️ 当前页面的编码\n%c➡️ 客户端类型 pc, mobile\n%u➡️ 当前网址 %U 当前网址的URI编码结果\n%h➡️ 当前网站域名，适用于站内搜索等场景，比如写成 %s site:%h\n%t➡️ 指向对象的网址，比如图片、音频、视频、链接的对应网址\n%T➡️ 指向对象的URI编码结果\n%b➡️ 指向对象的网址去除 http 头 \n%B➡️ 去头网址的 URI 编码结果\n%n➡️ 指向对象的文字内容，比如链接标题、图片标签或者网页标题\n:p{params}➡️ post 消息体，例如 :p{x=1&y=2&q=%s}\n#p{params}➡️ 页面之内的 post，适用于鸠摩搜书这类无法直接 post 跳转的网站。例如 #p{#input=%s&div.param=2}\n%i➡️ 当前指向图片的 base64 编码\n\n平时工作中搜索引擎跳转功能用得很频繁，但尝试了相关的扩展，发现大多夹有私货。\n\n而这只是一个简单功能，所以不如自己写一个啦。\n\n结果写配置页面耗费的精力数倍于脚本本身……🤦‍\n\n这个搜索引擎跳转支持自己拖拽定义位置，同时也支持站内搜索，多语言编码设置（例如shift-jis），划词搜索，以及配置导入导出。'
         }
         break;
@@ -166,6 +168,8 @@ switch (lang) {
             typeShotcut: '批量打開快捷鍵',
             enableLeftMouse: '啟用滑鼠左鍵長按',
             enableLeftMouseTips: '啟用後，滑鼠左鍵長按也能觸發。否則僅對滑鼠右鍵生效',
+            cacheSwitch: '緩存圖標',
+            cacheSwitchTips: '在瀏覽網頁時在後台緩存圖標為base64圖片，注意開啟後會彈出跨域請求',
             aboutContent: '平時工作中搜尋引擎跳轉功能用得很頻繁，但嘗試了相關的擴展，發現大多夾有私貨。\n\n而這只是一個簡單功能，所以不如自己寫一個啦。\n\n結果寫配置頁面耗費的精力數倍於腳本本身……🤦‍\n\n這個搜尋引擎跳轉支持自己拖拽定義位置，同時也支持站內搜索，多語言編碼設置（例如shift-jis），劃詞搜索，以及配置導入導出。'
         }
         break;
@@ -246,6 +250,8 @@ switch (lang) {
             typeShotcut: 'Shortcut for batch open',
             enableLeftMouse: 'Also effect with left mouse',
             enableLeftMouseTips: 'Also effect after long press the left mouse button, otherwise only effect with right mouse button',
+            cacheSwitch: 'Cache icons',
+            cacheSwitchTips: 'The icons will cached with base64 images in the background when browsing, but some cross-domain requests will pop up',
             aboutContent: "I use the search engine jump function very frequently in my work, but I found that most of them contain trojans after tried many related extensions. \n\nThis is just a simple function, so why not write one by myself? \n\nThe result is that writing the configuration page takes several times more energy than the script itself... 🤦‍\n\nThis search engine jump supports dragging and dropping with defined location, and also supports in-site search, word-marking search, and configuration import and export."
         }
         break;
