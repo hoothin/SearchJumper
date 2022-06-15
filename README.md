@@ -1,4 +1,4 @@
-# Search Jumper - 搜索醬  [Seek more site rules 更多站點配置](https://github.com/hoothin/SearchJumper/issues?q=label%3A%22Sites+Rule%22)
+# Search Jumper - 搜索醬  [Seek more sites 更多站點配置](https://github.com/hoothin/SearchJumper/issues?q=label%3A%22Sites+Rule%22)
 > *A user script to assist in switching search engines*
 
 ![react-version](https://img.shields.io/badge/React.js-lastest-green.svg)
