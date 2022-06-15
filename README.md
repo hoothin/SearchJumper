@@ -1,8 +1,8 @@
 # Search Jumper - 搜索醬 
 *A user script to assist in switching search engines*
 
-![react-version](https://img.shields.io/badge/react-lastest-green.svg)
-![materialUI-version](https://img.shields.io/badge/material-lastest-blue.svg)
+![react-version](https://img.shields.io/badge/react.js-lastest-green.svg)
+![materialUI-version](https://img.shields.io/badge/materialUI-lastest-blue.svg)
 ![license](https://img.shields.io/badge/license-GPL3.0-red.svg)
 ![support](https://img.shields.io/badge/support-Chrome|Firefox|Edge-989898.svg)
 
