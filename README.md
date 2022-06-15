@@ -1,10 +1,11 @@
 # Search Jumper - 搜索醬 
 *A user script to assist in switching search engines*
 
-![react-version](https://img.shields.io/badge/react.js-lastest-green.svg)
-![materialUI-version](https://img.shields.io/badge/materialUI-lastest-blue.svg)
-![license](https://img.shields.io/badge/license-GPL3.0-red.svg)
-![support](https://img.shields.io/badge/support-Chrome|Firefox|Edge-989898.svg)
+![react-version](https://img.shields.io/badge/React.js-lastest-green.svg)
+![materialUI-version](https://img.shields.io/badge/MaterialUI-lastest-blue.svg)
+![license](https://img.shields.io/badge/License-GPL3.0-red.svg)
+![FontAwesome](https://img.shields.io/badge/FontAwesome-6.0-yellow.svg)
+![support](https://img.shields.io/badge/Support-Chrome|Firefox|Edge-989898.svg)
 
 
 ## [Install](https://greasyfork.org/scripts/445274-searchjumper)
