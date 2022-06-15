@@ -40,8 +40,8 @@
 | `%s` | search keyword |🗒️ 搜索關鍵詞 |
 | `%e` | charset | 🗒️ 編碼 |
 | `%c` | client pc,mobile | 🗒️ 客戶端 pc,mobile |
-| `%u` | current website url ||
-| `%U` | with encodeURI | 🗒️ 當前網站 url |
+| `%u` | current website url | 🗒️ 當前網站 url |
+| `%U` | url with encodeURI | 🗒️ 當前網站 url 的 URI 編碼 |
 | `%h` | current website host | 🗒️ 當前網站 host |
 | `%t` | target src | 🗒️ 指向對象的 src |
 | `%T` | %t with encodeURI | 🗒️ 指向對象的 src 的 URI 編碼 |
