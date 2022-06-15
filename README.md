@@ -1,6 +1,12 @@
 # Search Jumper - 搜索醬 
 *A user script to assist in switching search engines*
 
+![react-version](https://img.shields.io/badge/react-lastest-green.svg)
+![materialUI-version](https://img.shields.io/badge/material-lastest-blue.svg)
+![license](https://img.shields.io/badge/license-GPL3.0-red.svg)
+![support](https://img.shields.io/badge/support-Chrome|Firefox|Edge-989898.svg)
+
+
 ## [Install](https://greasyfork.org/scripts/445274-searchjumper)
 
 Build with React.js
@@ -32,19 +38,19 @@ Icons: [FontAwesome](https://fontawesome.com/)
 + Support custom styles 支持自定義樣式
 
 ## Config params
-* %s search keyword 🗒️ 搜索關鍵詞
-* %e charset 🗒️ 編碼
-* %c client pc,mobile 🗒️ 客戶端 pc,mobile
-* %u current website url %U with encodeURI 🗒️ 當前網站 url
-* %h current website host 🗒️ 當前網站 host
-* %t target src %T with encodeURI 🗒️ 指向對象的 src
-* %b target src without http %B with encodeURI 🗒️ 指向對象 src 去頭
-* %i base64 of target image 🗒️ 指向圖片的 base64
-* %p{params} post body, like %p{x=1&y=%s} 🗒️ post 參數體，例如 %p{x=1&y=%s}
-* %P{params} post without navigation 🗒️ post 但不跳轉
-* %input{tips} input something 🗒️ 輸入占位，例如%input{請輸入您的三圍}
-* #p{params} post in page, like #p{#input=1&div.param=2} 🗒️ 頁内 post，可在頁面之内使用【css選擇器】填寫參數提交查詢，適用於不開放GET/POST接口（Ajax-render）的網站，例如 #p{#input=1&div.param=2}
-* \["siteName1","siteName2"\] batch open by site name you've created 🗒️ 通過你已經創建的站點名批量打開，例如 \["雅虎搜索","谷歌搜索"\]
+* `%s` search keyword 🗒️ 搜索關鍵詞
+* `%e` charset 🗒️ 編碼
+* `%c` client pc,mobile 🗒️ 客戶端 pc,mobile
+* `%u` current website url `%U` with encodeURI 🗒️ 當前網站 url
+* `%h` current website host 🗒️ 當前網站 host
+* `%t` target src `%T` with encodeURI 🗒️ 指向對象的 src
+* `%b` target src without http `%B` with encodeURI 🗒️ 指向對象 src 去頭
+* `%i` base64 of target image 🗒️ 指向圖片的 base64
+* `%p{params}` post body, like %p{x=1&y=%s} 🗒️ post 參數體，例如 %p{x=1&y=%s}
+* `%P{params}` post without navigation 🗒️ post 但不跳轉
+* `%input{tips}` input something 🗒️ 輸入占位，例如%input{請輸入您的三圍}
+* `#p{params}` post in page, like #p{#input=1&div.param=2} 🗒️ 頁内 post，可在頁面之内使用【css選擇器】填寫參數提交查詢，適用於不開放GET/POST接口（Ajax-render）的網站，例如 #p{#input=1&div.param=2}
+* `["siteName1","siteName2"]` batch open by site name you've created 🗒️ 通過你已經創建的站點名批量打開，例如 \["雅虎搜索","谷歌搜索"\]
 
 ---
 
