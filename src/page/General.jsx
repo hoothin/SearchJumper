@@ -70,7 +70,7 @@ export default function General() {
         saveConfigToScript();
     };
     return (
-        <Box>
+        <Box sx={{paddingBottom: '20px'}}>
             <Paper elevation={5} sx={{textAlign:'center', borderRadius:'10px'}}>
                 <h2 style={{padding:'5px'}}>{window.i18n('general')}</h2>
             </Paper>
@@ -313,66 +313,68 @@ export default function General() {
                         }}
                     />
                 </Box>
-                <Typography gutterBottom component="div">
-                    <h4>{window.i18n('enableLeftMouse')}</h4>
-                </Typography>
-                <FormControl sx={{ m: 1, minWidth: 80 }}>
-                    <FormControlLabel
-                        control={
-                            <Switch checked={state.leftMouse} onChange={handleCheckChange} name="leftMouse" />
-                        }
-                        label={window.i18n('enableLeftMouseTips')}
-                    />
-                </FormControl>
-                <Typography gutterBottom component="div">
-                    <h4>{window.i18n('bindFunctionKey')}</h4>
-                </Typography>
-                <Box>
+                <Box sx={state.enableInPage?{}:{ display: 'none' }}>
+                    <Typography gutterBottom component="div">
+                        <h4>{window.i18n('enableLeftMouse')}</h4>
+                    </Typography>
                     <FormControl sx={{ m: 1, minWidth: 80 }}>
                         <FormControlLabel
                             control={
-                                <Switch checked={state.ctrlKey} onChange={handleCheckChange} name="ctrlKey" />
+                                <Switch checked={state.leftMouse} onChange={handleCheckChange} name="leftMouse" />
                             }
-                            label={window.i18n('ctrlKey')}
+                            label={window.i18n('enableLeftMouseTips')}
                         />
                     </FormControl>
-                    <FormControl sx={{ m: 1, minWidth: 80 }}>
-                        <FormControlLabel
-                            control={
-                                <Switch checked={state.altKey} onChange={handleCheckChange} name="altKey" />
-                            }
-                            label={window.i18n('altKey')}
-                        />
-                    </FormControl>
-                    <FormControl sx={{ m: 1, minWidth: 80 }}>
-                        <FormControlLabel
-                            control={
-                                <Switch checked={state.shiftKey} onChange={handleCheckChange} name="shiftKey" />
-                            }
-                            label={window.i18n('shiftKey')}
-                        />
-                    </FormControl>
-                    <FormControl sx={{ m: 1, minWidth: 80 }}>
-                        <FormControlLabel
-                            control={
-                                <Switch checked={state.metaKey} onChange={handleCheckChange} name="metaKey" />
-                            }
-                            label={window.i18n('metaKey')}
-                        />
-                    </FormControl>
-                </Box>
-                <Typography gutterBottom component="div">
-                    <h4>{window.i18n('selectToShow')}</h4>
-                </Typography>
-                <Box>
-                    <FormControl sx={{ m: 1, minWidth: 80 }}>
-                        <FormControlLabel
-                            control={
-                                <Switch checked={state.selectToShow} onChange={handleCheckChange} name="selectToShow" />
-                            }
-                            label={window.i18n('selectToShowTips')}
-                        />
-                    </FormControl>
+                    <Typography gutterBottom component="div">
+                        <h4>{window.i18n('bindFunctionKey')}</h4>
+                    </Typography>
+                    <Box>
+                        <FormControl sx={{ m: 1, minWidth: 80 }}>
+                            <FormControlLabel
+                                control={
+                                    <Switch checked={state.ctrlKey} onChange={handleCheckChange} name="ctrlKey" />
+                                }
+                                label={window.i18n('ctrlKey')}
+                            />
+                        </FormControl>
+                        <FormControl sx={{ m: 1, minWidth: 80 }}>
+                            <FormControlLabel
+                                control={
+                                    <Switch checked={state.altKey} onChange={handleCheckChange} name="altKey" />
+                                }
+                                label={window.i18n('altKey')}
+                            />
+                        </FormControl>
+                        <FormControl sx={{ m: 1, minWidth: 80 }}>
+                            <FormControlLabel
+                                control={
+                                    <Switch checked={state.shiftKey} onChange={handleCheckChange} name="shiftKey" />
+                                }
+                                label={window.i18n('shiftKey')}
+                            />
+                        </FormControl>
+                        <FormControl sx={{ m: 1, minWidth: 80 }}>
+                            <FormControlLabel
+                                control={
+                                    <Switch checked={state.metaKey} onChange={handleCheckChange} name="metaKey" />
+                                }
+                                label={window.i18n('metaKey')}
+                            />
+                        </FormControl>
+                    </Box>
+                    <Typography gutterBottom component="div">
+                        <h4>{window.i18n('selectToShow')}</h4>
+                    </Typography>
+                    <Box>
+                        <FormControl sx={{ m: 1, minWidth: 80 }}>
+                            <FormControlLabel
+                                control={
+                                    <Switch checked={state.selectToShow} onChange={handleCheckChange} name="selectToShow" />
+                                }
+                                label={window.i18n('selectToShowTips')}
+                            />
+                        </FormControl>
+                    </Box>
                 </Box>
             </Paper>
         </Box>

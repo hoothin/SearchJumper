@@ -356,6 +356,23 @@ class SitesList extends React.Component {
         if (update) {
             if (!this.state.currentSite.name) return this.handleAlertOpen(window.i18n('needName'));
             if (!this.state.currentSite.url) return this.handleAlertOpen(window.i18n('needUrl'));
+            if (this.state.currentSite.shortcut) {
+                let find = false;
+                for (let i = 0; i < window.searchData.sitesConfig.length; i++) {
+                    let sites = window.searchData.sitesConfig[i].sites;
+                    for (let j = 0; j < sites.length; j++) {
+                        let site = sites[j];
+                        if (site.url != this.state.currentSite.url && site.shortcut === this.state.currentSite.shortcut) {
+                            find = site;
+                            break;
+                        }
+                    }
+                    if (find) break;
+                }
+                if (find) {
+                    return this.handleAlertOpen(window.i18n('sameShortcut', find.name));
+                }
+            }
             if (this.editSite) {
                 let newSites = this.state.data.sites.map(site => {
                     if (site.url === this.editSite.url) {
