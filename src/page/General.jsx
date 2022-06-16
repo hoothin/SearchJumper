@@ -37,6 +37,9 @@ export default function General() {
     if (!window.searchData.prefConfig.cacheSwitch) {
         window.searchData.prefConfig.cacheSwitch = false;
     }
+    if (!window.searchData.prefConfig.noIcons) {
+        window.searchData.prefConfig.noIcons = false;
+    }
     const [state, setState] = React.useState(
         window.searchData.prefConfig
     );
@@ -211,6 +214,21 @@ export default function General() {
                                 <Switch checked={state.cacheSwitch} onChange={handleCheckChange} name="cacheSwitch" />
                             }
                             label={window.i18n('cacheSwitchTips')}
+                        />
+                    </FormControl>
+                </Box>
+            </Paper>
+            <Paper elevation={5} sx={{ padding: '20px', marginTop: '20px' }}>
+                <Typography gutterBottom component="div">
+                    <h4>{window.i18n('noIcons')}</h4>
+                </Typography>
+                <Box>
+                    <FormControl sx={{ m: 1, minWidth: 80 }}>
+                        <FormControlLabel
+                            control={
+                                <Switch checked={state.noIcons} onChange={handleCheckChange} name="noIcons" />
+                            }
+                            label={window.i18n('noIconsTips')}
                         />
                     </FormControl>
                 </Box>
