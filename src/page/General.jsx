@@ -397,6 +397,22 @@ export default function General() {
                                 label={window.i18n('metaKey')}
                             />
                         </FormControl>
+                        <TextField
+                            label={window.i18n('siteShotcut')}
+                            type="text"
+                            value={state.shortcutKey}
+                            inputProps={{ maxLength: 1 }}
+                            onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
+                                let newValue = event.target.value;
+                                var newPref = {
+                                    ...state,
+                                    shortcutKey: newValue
+                                };
+                                setState(newPref);
+                                window.searchData.prefConfig = newPref;
+                                saveConfigToScript();
+                            }}
+                        />
                     </Box>
                     <Typography gutterBottom component="div">
                         <h4>{window.i18n('selectToShow')}</h4>
