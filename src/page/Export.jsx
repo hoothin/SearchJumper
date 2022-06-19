@@ -27,156 +27,63 @@ function saveConfigToScript (notification) {
 
 const presetCssList = [
 `     .search-jumper-searchBarCon {
-         position: fixed;
-         top: 0;
-         left: 0;
-         width: 100%;
-         z-index: 2147483646;
-         pointer-events: none;
-         text-align: center;
-         overflow: scroll;
-         display: block;
-         -ms-overflow-style: none;
-         scrollbar-width: none;
      }
      .search-jumper-searchBar {
-         overflow-wrap: break-word;
          background: #505050;
          border-radius: 20px!important;
          border: 1px solid #b3b3b3;
-         display: inline-flex;
-         pointer-events: all;
-         margin-top: -25px;
          opacity: 0.3;
-         vertical-align: top;
-         user-select: none;
-         box-sizing:content-box;
-         text-align: center;
-         position: relative;
      }
      .search-jumper-btn {
-         position: relative;
-         display: grid;
-         padding: 1px;
-         margin: 3px;
-         cursor: pointer;
-         width: 32px;
-         height: 32px;
-         overflow: hidden;
-         text-overflow: ellipsis;
-         white-space: nowrap;
-         text-decoration:none;
-         min-width: 32px;
-         min-height: 32px;
      }
      .search-jumper-btn>i {
-         line-height: 32px;
      }
      .search-jumper-logoBtnSvg {
-         width: 32px;
-         height: 32px;
-         overflow: hidden;
-         vertical-align: top;
-         cursor: grab;
      }
      .search-jumper-type {
-         display: inline-flex;
          background: #c5c5c5;
          border-radius: 20px!important;
-         overflow: hidden;
      }
      .search-jumper-word {
          background: black;
          color: white!important;
      }
      .search-jumper-tips {
-         pointer-events: none;
-         position: fixed;
          font-size: xx-large;
          background: #f5f5f5e0;
          border-radius: 10px!important;
-         padding: 5px;
          box-shadow: 0px 0px 10px 0px #000;
-         font-weight: bold;
-         transition: all 0.2s ease;
          color: black;
-         white-space: nowrap;
      }
      .search-jumper-searchBar .search-jumper-btn:hover {
          color: white;
-         text-decoration:none;
      }`,
 `     .search-jumper-searchBarCon {
-         position: fixed;
-         top: 0;
-         left: 0;
-         width: 100%;
-         z-index: 2147483646;
-         pointer-events: none;
-         text-align: center;
-         overflow: scroll;
-         display: block;
-         -ms-overflow-style: none;
-         scrollbar-width: none;
      }
      .search-jumper-searchBar {
-         overflow-wrap: break-word;
          background: #AFAFAF;
          border-radius: 20px!important;
          border: 1px solid #c9c9c9;
-         display: inline-flex;
-         pointer-events: all;
-         margin-top: -25px;
          opacity: 0.3;
-         vertical-align: top;
-         user-select: none;
-         box-sizing:content-box;
-         text-align: center;
-         position: relative;
      }
      .search-jumper-btn {
-         position: relative;
-         display: grid;
-         padding: 1px;
-         margin: 3px;
-         cursor: pointer;
-         width: 32px;
-         height: 32px;
-         overflow: hidden;
-         text-overflow: ellipsis;
-         white-space: nowrap;
-         text-decoration:none;
-         min-width: 32px;
-         min-height: 32px;
      }
      .search-jumper-type {
-         display: inline-flex;
          background: #efefef;
-         overflow: hidden;
      }
      .search-jumper-word {
          background: white;
          color: black!important;
      }
      .search-jumper-tips {
-         pointer-events: none;
-         position: fixed;
-         font-size: xx-large;
          background: #0A0A0Ae0;
          border-radius: 10px!important;
-         padding: 5px;
          box-shadow: 0px 0px 10px 0px #FFFFFF;
          font-weight: bold;
-         transition: all 0.2s ease;
          color: white;
-         white-space: nowrap;
      }
      .search-jumper-searchBar .search-jumper-btn:hover {
-         -webkit-transform:scale(1.2);
-         -moz-transform:scale(1.2);
-         transform:scale(1.2);
          color: black;
-         text-decoration:none;
      }`
 ];
 

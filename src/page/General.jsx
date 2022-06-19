@@ -40,6 +40,9 @@ export default function General() {
     if (!window.searchData.prefConfig.noIcons) {
         window.searchData.prefConfig.noIcons = false;
     }
+    if (!window.searchData.prefConfig.showSiteLists) {
+        window.searchData.prefConfig.showSiteLists = false;
+    }
     const [state, setState] = React.useState(
         window.searchData.prefConfig
     );
@@ -214,6 +217,21 @@ export default function General() {
                                 <Switch checked={state.cacheSwitch} onChange={handleCheckChange} name="cacheSwitch" />
                             }
                             label={window.i18n('cacheSwitchTips')}
+                        />
+                    </FormControl>
+                </Box>
+            </Paper>
+            <Paper elevation={5} sx={{ padding: '20px', marginTop: '20px' }}>
+                <Typography gutterBottom component="div">
+                    <h4>{window.i18n('showSiteLists')}</h4>
+                </Typography>
+                <Box>
+                    <FormControl sx={{ m: 1, minWidth: 80 }}>
+                        <FormControlLabel
+                            control={
+                                <Switch checked={state.showSiteLists} onChange={handleCheckChange} name="showSiteLists" />
+                            }
+                            label={window.i18n('showSiteListsTips')}
                         />
                     </FormControl>
                 </Box>
