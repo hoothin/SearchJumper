@@ -359,10 +359,11 @@ class SitesList extends React.Component {
             if (this.state.currentSite.shortcut) {
                 let find = false;
                 for (let i = 0; i < window.searchData.sitesConfig.length; i++) {
-                    let sites = window.searchData.sitesConfig[i].sites;
+                    let typeData = window.searchData.sitesConfig[i];
+                    let sites = typeData.sites;
                     for (let j = 0; j < sites.length; j++) {
                         let site = sites[j];
-                        if (site.url !== this.state.currentSite.url && site.shortcut === this.state.currentSite.shortcut) {
+                        if (site.url !== this.state.currentSite.url && (site.name !== this.state.currentSite.name || typeData.type !== this.state.data.type) && site.shortcut === this.state.currentSite.shortcut) {
                             find = site;
                             break;
                         }
