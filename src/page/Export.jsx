@@ -193,7 +193,7 @@ export default function Export() {
                 multiline
                 fullWidth
                 sx={{mb : 1}}
-                rows={25}
+                rows={10}
                 value={cssText}
                 onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
                     setCssText(event.target.value);
@@ -204,7 +204,6 @@ export default function Export() {
                 label={window.i18n('fontAwesomeCss')}
                 fullWidth
                 sx={{mb : 5}}
-                rows={10}
                 value={fontAwesomeCss}
                 placeholder="https://cdn.bootcdn.net/ajax/libs/font-awesome/6.1.1/css/all.min.css"
                 onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
