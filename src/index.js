@@ -185,7 +185,7 @@ switch (lang) {
         break;
     default:
         config = {
-            name: 'Search Jumper',
+            name: 'SearchJumper',
             import: 'Import config',
             export: 'Export JSON',
             general: 'General',
