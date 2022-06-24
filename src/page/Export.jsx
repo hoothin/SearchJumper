@@ -109,7 +109,7 @@ function UploadSpeedDialAction(props) {
 
 export default function Export() {
     const [presetCss, setPresetCss] = React.useState('');
-    const [cssText, setCssText] = React.useState(window.searchData.prefConfig.cssText);
+    const [cssText, setCssText] = React.useState(window.searchData.prefConfig.cssText||'');
     const [fontAwesomeCss, setFontAwesomeCss] = React.useState(window.searchData.prefConfig.fontAwesomeCss);
     const sitesData = JSON.stringify(window.searchData.sitesConfig, null, 4);
 
