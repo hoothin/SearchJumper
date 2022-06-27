@@ -40,6 +40,9 @@ export default function General() {
     if (!window.searchData.prefConfig.noIcons) {
         window.searchData.prefConfig.noIcons = false;
     }
+    if (!window.searchData.prefConfig.noAni) {
+        window.searchData.prefConfig.noAni = false;
+    }
     if (!window.searchData.prefConfig.showSiteLists) {
         window.searchData.prefConfig.showSiteLists = false;
     }
@@ -247,6 +250,21 @@ export default function General() {
                                 <Switch checked={state.noIcons} onChange={handleCheckChange} name="noIcons" />
                             }
                             label={window.i18n('noIconsTips')}
+                        />
+                    </FormControl>
+                </Box>
+            </Paper>
+            <Paper elevation={5} sx={{ padding: '20px', marginTop: '20px' }}>
+                <Typography gutterBottom component="div">
+                    <h4>{window.i18n('noAni')}</h4>
+                </Typography>
+                <Box>
+                    <FormControl sx={{ m: 1, minWidth: 80 }}>
+                        <FormControlLabel
+                            control={
+                                <Switch checked={state.noAni} onChange={handleCheckChange} name="noAni" />
+                            }
+                            label={window.i18n('noAniTips')}
                         />
                     </FormControl>
                 </Box>
