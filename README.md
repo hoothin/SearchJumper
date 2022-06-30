@@ -18,28 +18,50 @@
 <img src='demo1.gif' height='210px'><img src='demo3.gif' height='210px'><img src='demo2.gif' height='210px'>
 
 ## Features：
-+ Search for pictures, links, videos, audios, pages, etc. (**long press the right mouse** on the corresponding object) 可以搜索圖片、連結、視頻、音頻、頁面等（在相應對象上**長按右鍵**）
-+ Support word search on any page (need to **long press the right mouse**, you can also change to swipe to call out immediately in the settings) 支持任意頁面劃詞搜索（需要**長按右鍵**，亦可在設置中改為劃選立即調出）
-+ Support search by site 支持站內搜索
-+ Shortcut keys (single key or key combination) to start search (such as alt+g Google search, which can be customized at will) 可隨意使用快捷鍵（單個按鍵或者組合按鍵）開啟搜索（比如 alt+g 谷歌搜索，可隨意自定義）
-+ Right-click the category icon to open the sites in batches 滑鼠右鍵單擊類別圖標批量打開同一類別
-+ Hold **`shift`** + left click on category icon to open batches in new window 按住 **`shift`** 左鍵單擊類別圖標在新窗口批量打開
-+ Hold **`alt`** + left click on category icon to open batches embedding 按住 **`alt`** 左鍵單擊類別圖標批量嵌入打開
-+ Hold **`alt + shift`** + left-click a category icon to batch open multiple separate windows 按住 **`alt + shift`** 左鍵單擊類別圖標以多個單獨窗口批量打開
-+ **`alt`** + left click on site to preview in small window 按住 **`alt`** 左鍵單擊站點以小窗口預覽結果
-+ Can set the category to be displayed only on the specified site through the regular 可以通過正則設置類別僅在指定站點顯示
-+ Right click on cute face to hide the toolbar 右鍵點擊 小萌臉 徹底隱藏工具欄
-+ Left click on cute face to open the configuration page 左鍵點擊 小萌臉 打開配置頁
-+ Support open with shortcut key, right click on the logo to close 可隨意拖拽 小萌臉，並隨意選擇位置放置，例如上中，下中，左上，右上，上左，上右等
-+ Support configuration export and quick sharing 支持配置導出與快捷分享
-+ Support middle button to open links in the background 支持中鍵後台打開連結
-+ Support custom css 支持自定義樣式
-+ Support full character encoding 支持全字符編碼
-+ Support Post, in-page post and non-jump post 支持 Post、頁內 post 以及無跳轉 post
-+ Comprehensive customization 全面的自定義功能，詳見最下方【搜索參數】
-+ No 3rd party dependencies 無第三方依賴庫
-+ Self-expand current category 自展開當前類別並提前
-+ No tamper with the original page 不篡改原始頁面
++ Search for pictures, links, videos, audios, pages, etc. (**long press the right mouse** on the corresponding object)
+  > 可以搜索圖片、連結、視頻、音頻、頁面等（在相應對象上**長按右鍵**）
++ Support word search on any page (need to **long press the right mouse**, you can also change to swipe to call out immediately in the settings)
+  > 支持任意頁面劃詞搜索（需要**長按右鍵**，亦可在設置中改為劃選立即調出）
++ Support search by site
+  > 支持站內搜索
++ Shortcut keys (single key or key combination) to start search (such as alt+g Google search, which can be customized at will)
+  > 可隨意使用快捷鍵（單個按鍵或者組合按鍵）開啟搜索（比如 alt+g 谷歌搜索，可隨意自定義）
++ Right-click the category icon to open the sites in batches
+  > 滑鼠右鍵單擊類別圖標批量打開同一類別
++ Hold **`shift`** + left click on category icon to open batches in new window
+  > 按住 **`shift`** 左鍵單擊類別圖標在新窗口批量打開
++ Hold **`alt`** + left click on category icon to open batches embedding
+  > 按住 **`alt`** 左鍵單擊類別圖標批量嵌入打開
++ Hold **`alt + shift`** + left-click a category icon to batch open multiple separate windows
+  > 按住 **`alt + shift`** 左鍵單擊類別圖標以多個單獨窗口批量打開
++ **`alt`** + left click on site to preview in small window
+  > 按住 **`alt`** 左鍵單擊站點以小窗口預覽結果
++ Can set the category to be displayed only on the specified site through the regular
+  > 可以通過正則設置類別僅在指定站點顯示
++ Right click on cute face to hide the toolbar
+  > 右鍵點擊 小萌臉 徹底隱藏工具欄
++ Left click on cute face to open the configuration page
+  > 左鍵點擊 小萌臉 打開配置頁
++ Support open with shortcut key, right click on the logo to close
+  > 可隨意拖拽 小萌臉，並隨意選擇位置放置，例如上中，下中，左上，右上，上左，上右等
++ Support configuration export and quick sharing
+  > 支持配置導出與快捷分享
++ Support middle button to open links in the background
+  > 支持中鍵後台打開連結
++ Support custom css
+  > 支持自定義樣式
++ Support full character encoding
+  > 支持全字符編碼
++ Support Post, in-page post and non-jump post
+  > 支持 Post、頁內 post 以及無跳轉 post
++ Comprehensive customization
+  > 全面的自定義功能，詳見最下方【搜索參數】
++ No 3rd party dependencies
+  > 無第三方依賴庫
++ Self-expand current category
+  > 自展開當前類別並提前
++ No tamper with the original page
+  > 不篡改原始頁面
 
 ## Config params
 | param | details | 详述 |
