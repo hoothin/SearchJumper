@@ -66,6 +66,18 @@ function TypeEdit(props) {
                 />
                 <TextField
                     margin="dense"
+                    id="description"
+                    label={window.i18n('description')}
+                    type="text"
+                    fullWidth
+                    variant="standard"
+                    value={typeData.description}
+                    onChange={e => {
+                        setTypeData({ ...typeData, description:e.target.value });
+                    }}
+                />
+                <TextField
+                    margin="dense"
                     id="icon"
                     label={window.i18n('typeIcon')}
                     type="text"
@@ -313,6 +325,9 @@ class SitesList extends React.Component {
         if (siteData.keywords) {
             obj.keywords = siteData.keywords;
         }
+        if (siteData.description) {
+            obj.description = siteData.description;
+        }
         if (siteData.match) {
             obj.match = siteData.match;
         }
@@ -488,6 +503,21 @@ class SitesList extends React.Component {
                             onChange={e => {
                                 this.setState(prevState => ({
                                     currentSite: {...this.state.currentSite, name: e.target.value}
+                                }));
+                            }}
+                        />
+                        <TextField
+                            autoFocus
+                            margin="dense"
+                            id="description"
+                            label={window.i18n('description')}
+                            type="text"
+                            fullWidth
+                            variant="standard"
+                            value={this.state.currentSite.description}
+                            onChange={e => {
+                                this.setState(prevState => ({
+                                    currentSite: {...this.state.currentSite, description: e.target.value}
                                 }));
                             }}
                         />
@@ -718,6 +748,7 @@ function typeObject(obj) {
         type: obj.type || '',
         icon: obj.icon || '',
         match: obj.match || '',
+        description: obj.description || '',
         selectTxt: obj.selectTxt || false,
         selectImg: obj.selectImg || false,
         selectAudio: obj.selectAudio || false,
@@ -740,6 +771,7 @@ function siteObject(obj) {
         url: obj.url || '',
         icon: obj.icon || '',
         keywords: obj.keywords || '',
+        description: obj.description || '',
         match: obj.match || '',
         charset: obj.charset || '',
         shortcut: obj.shortcut || '',
@@ -814,6 +846,9 @@ export default function Engines() {
         }
         if (typeData.match) {
             minType.match = typeData.match;
+        }
+        if (typeData.description) {
+            minType.description = typeData.description;
         }
         if (typeData.selectTxt) {
             minType.selectTxt = typeData.selectTxt;

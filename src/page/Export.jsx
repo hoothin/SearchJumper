@@ -8,6 +8,9 @@ import SpeedDialAction from '@mui/material/SpeedDialAction';
 import FileCopyIcon from '@mui/icons-material/FileCopyOutlined';
 import SaveIcon from '@mui/icons-material/Save';
 import InputLabel from '@mui/material/InputLabel';
+import InputBase from '@mui/material/InputBase';
+import IconButton from '@mui/material/IconButton';
+import SearchIcon from '@mui/icons-material/Search';
 import MenuItem from '@mui/material/MenuItem';
 import FormHelperText from '@mui/material/FormHelperText';
 import FormControl from '@mui/material/FormControl';
@@ -157,7 +160,7 @@ export default function Export() {
         }
     };
     return (
-        <Box>
+        <Box sx={{pb : 5}}>
             <Paper elevation={5} sx={{textAlign:'center', borderRadius:'10px'}}>
                 <h2 style={{padding:'5px'}}>{window.i18n('exportConfig')}</h2>
             </Paper>
@@ -203,13 +206,30 @@ export default function Export() {
                 id="fontAwesomeCss"
                 label={window.i18n('fontAwesomeCss')}
                 fullWidth
-                sx={{mb : 5}}
+                sx={{mb : 1}}
                 value={fontAwesomeCss}
                 placeholder="https://cdn.bootcdn.net/ajax/libs/font-awesome/6.1.1/css/all.min.css"
                 onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
                     setFontAwesomeCss(event.target.value);
                 }}
             />
+            <Paper
+              component="form"
+              target="_blank"
+              action="https://mycroftproject.com/search-engines.html"
+              method="get"
+              sx={{ p: '2px 4px', display: 'flex', alignItems: 'center', border: '1px solid rgba(0, 0, 0, 0.25)', boxShadow: 'unset' }}
+            >
+                <InputBase
+                    name="name"
+                    sx={{ ml: 1, flex: 1 }}
+                    placeholder={window.i18n("searchMycroft")}
+                    inputProps={{ 'aria-label': 'search google maps' }}
+                />
+                <IconButton type="submit" sx={{ p: '10px' }} aria-label="search">
+                <SearchIcon />
+                </IconButton>
+            </Paper>
             <SpeedDial
                 ariaLabel="SpeedDial"
                 sx={{ position: 'fixed', bottom: '20%', right: 16 }}
