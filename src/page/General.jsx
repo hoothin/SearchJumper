@@ -156,7 +156,7 @@ export default function General() {
                     </FormControl>
 
                     <Box
-                      sx={{ flexGrow: 1, bgcolor: 'background.paper', display: 'flex', maxWidth: '100%', flexWrap: 'wrap' }}
+                      sx={{ flexGrow: 1, bgcolor: 'background.paper', display: 'flex', width: '100%', flexWrap: 'wrap' }}
                     >
                         <Box sx={{ width: "75%", ml: "20px", mr: "20px"}}>
                             <Typography id="input-slider" gutterBottom>
