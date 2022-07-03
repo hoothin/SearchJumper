@@ -67,6 +67,7 @@
 | param | details | 详述 |
 | --- | --- | --- |
 | `%s` | search keyword |🗒️ 搜索關鍵詞 |
+| `%S` | cached search keyword |🗒️ 最近一次的搜索關鍵詞 |
 | `%e` | charset | 🗒️ 編碼 |
 | `%c` | client pc,mobile | 🗒️ 客戶端 pc,mobile |
 | `%u` | current website url | 🗒️ 當前網站 url |
