@@ -173,6 +173,23 @@ export default function Export() {
                 defaultValue={sitesData}
                 inputRef={input => sitesDataInput = input}
             />
+            <Paper
+              component="form"
+              target="_blank"
+              action="https://mycroftproject.com/search-engines.html"
+              method="get"
+              sx={{ p: '2px 4px', display: 'flex', alignItems: 'center', border: '1px solid rgba(0, 0, 0, 0.25)', boxShadow: 'unset' }}
+            >
+                <InputBase
+                    name="name"
+                    sx={{ ml: 1, flex: 1 }}
+                    placeholder={window.i18n("searchMycroft")}
+                    inputProps={{ 'aria-label': 'search mycroft' }}
+                />
+                <IconButton type="submit" sx={{ p: '10px' }} aria-label="search">
+                <SearchIcon />
+                </IconButton>
+            </Paper>
             <FormControl fullWidth sx={{ mt: 1 }}>
                 <InputLabel id="select-helper-label">{window.i18n('presetCss')}</InputLabel>
                 <Select
@@ -213,23 +230,6 @@ export default function Export() {
                     setFontAwesomeCss(event.target.value);
                 }}
             />
-            <Paper
-              component="form"
-              target="_blank"
-              action="https://mycroftproject.com/search-engines.html"
-              method="get"
-              sx={{ p: '2px 4px', display: 'flex', alignItems: 'center', border: '1px solid rgba(0, 0, 0, 0.25)', boxShadow: 'unset' }}
-            >
-                <InputBase
-                    name="name"
-                    sx={{ ml: 1, flex: 1 }}
-                    placeholder={window.i18n("searchMycroft")}
-                    inputProps={{ 'aria-label': 'search google maps' }}
-                />
-                <IconButton type="submit" sx={{ p: '10px' }} aria-label="search">
-                <SearchIcon />
-                </IconButton>
-            </Paper>
             <SpeedDial
                 ariaLabel="SpeedDial"
                 sx={{ position: 'fixed', bottom: '20%', right: 16 }}

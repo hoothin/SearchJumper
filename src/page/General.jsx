@@ -89,7 +89,7 @@ export default function General() {
                     <h4>{window.i18n('toolbarPosition')}</h4>
                 </Typography>
                 <Box
-                  sx={{ flexGrow: 1, bgcolor: 'background.paper', display: 'flex', maxWidth: '100%', flexWrap: 'wrap', justifyContent: 'space-evenly' }}
+                  sx={{ flexGrow: 1, bgcolor: 'background.paper', display: 'flex', maxWidth: '100%', flexWrap: 'wrap', justifyContent: 'space-around', align-items: 'center' }}
                 >
                     <FormControl sx={{ m: 1, minWidth: 80 }}>
                         <InputLabel id="demo-simple-select-autowidth-label">{window.i18n('horizontal')}</InputLabel>
@@ -222,6 +222,21 @@ export default function General() {
             </Paper>
             <Paper elevation={5} sx={{ padding: '20px', marginTop: '20px' }}>
                 <Typography gutterBottom component="div">
+                    <h4>{window.i18n('quickAddRule')}</h4>
+                </Typography>
+                <Box>
+                    <FormControl sx={{ m: 1, minWidth: 80 }}>
+                        <FormControlLabel
+                            control={
+                                <Switch checked={state.quickAddRule} onChange={handleCheckChange} name="quickAddRule" />
+                            }
+                            label={window.i18n('quickAddRuleTips')}
+                        />
+                    </FormControl>
+                </Box>
+            </Paper>
+            <Paper elevation={5} sx={{ padding: '20px', marginTop: '20px' }}>
+                <Typography gutterBottom component="div">
                     <h4>{window.i18n('overOpen')}</h4>
                 </Typography>
                 <Box>
@@ -306,21 +321,6 @@ export default function General() {
                                 <Switch checked={state.noAni} onChange={handleCheckChange} name="noAni" />
                             }
                             label={window.i18n('noAniTips')}
-                        />
-                    </FormControl>
-                </Box>
-            </Paper>
-            <Paper elevation={5} sx={{ padding: '20px', marginTop: '20px' }}>
-                <Typography gutterBottom component="div">
-                    <h4>{window.i18n('quickAddRule')}</h4>
-                </Typography>
-                <Box>
-                    <FormControl sx={{ m: 1, minWidth: 80 }}>
-                        <FormControlLabel
-                            control={
-                                <Switch checked={state.quickAddRule} onChange={handleCheckChange} name="quickAddRule" />
-                            }
-                            label={window.i18n('quickAddRuleTips')}
                         />
                     </FormControl>
                 </Box>
