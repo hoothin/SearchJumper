@@ -89,7 +89,7 @@ export default function General() {
                     <h4>{window.i18n('toolbarPosition')}</h4>
                 </Typography>
                 <Box
-                  sx={{ flexGrow: 1, bgcolor: 'background.paper', display: 'flex', maxWidth: '100%', flexWrap: 'wrap', justifyContent: 'space-around', align-items: 'center' }}
+                  sx={{ flexGrow: 1, bgcolor: 'background.paper', display: 'flex', maxWidth: '100%', flexWrap: 'wrap', justifyContent: 'space-around', alignItems: 'center' }}
                 >
                     <FormControl sx={{ m: 1, minWidth: 80 }}>
                         <InputLabel id="demo-simple-select-autowidth-label">{window.i18n('horizontal')}</InputLabel>
