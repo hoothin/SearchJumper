@@ -178,7 +178,7 @@ export default function Export() {
               target="_blank"
               action="https://mycroftproject.com/search-engines.html"
               method="get"
-              sx={{ p: '2px 4px', display: 'flex', alignItems: 'center', border: '1px solid rgba(0, 0, 0, 0.25)', boxShadow: 'unset' }}
+              sx={{ mt: '10px', p: '2px 4px', display: 'flex', alignItems: 'center', border: '1px solid rgba(0, 0, 0, 0.25)', boxShadow: 'unset' }}
             >
                 <InputBase
                     name="name"
