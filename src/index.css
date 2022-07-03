@@ -11,3 +11,21 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+@media screen and (max-width: 600px) {
+  #root>.MuiBox-root {
+    margin-left: 0px;
+  }
+  #root>.MuiBox-root>.MuiList-root {
+    height: 65px;
+    z-index: 9;
+    width: 100%;
+    max-width: unset;
+    overflow: hidden;
+  }
+  #root>.MuiBox-root>[role="tabpanel"] {
+    margin-top: 88px;
+  }
+  #root>.MuiBox-root>.MuiList-root:hover {
+    height: unset;
+  }
+}

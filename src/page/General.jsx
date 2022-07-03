@@ -10,6 +10,7 @@ import Switch from '@mui/material/Switch';
 import Typography from '@mui/material/Typography';
 import TextField from '@mui/material/TextField';
 import InputAdornment from '@mui/material/InputAdornment';
+import Slider from '@mui/material/Slider';
 
 function saveConfigToScript (notification) {
     var saveMessage = new CustomEvent('saveConfig', {
@@ -122,39 +123,6 @@ export default function General() {
                             <MenuItem value={'bottom'}>Bottom</MenuItem>
                         </Select>
                     </FormControl>
-                    <FormControl sx={{ m: 1, minWidth: 80 }}>
-                        <FormControlLabel
-                            control={
-                                <Switch checked={state.initShow} onChange={handleCheckChange} name="initShow" />
-                            }
-                            label={window.i18n('initShow')}
-                            labelPlacement="top"
-                        />
-                    </FormControl>
-                    <TextField
-                        sx={{ m: 1, minWidth: 100 }}
-                        label={window.i18n('customSize')}
-                        inputProps={{ inputMode: 'numeric', type:'number', pattern: '[0-9]*' }}
-                        InputProps={{
-                            endAdornment: <InputAdornment position="end">%</InputAdornment>
-                        }}
-                        value={state.customSize}
-                        onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
-                            let newValue = event.target.value;
-                            if (newValue > 1000) {
-                                newValue = 1000;
-                            } else if (newValue < 1) {
-                                newValue = 1;
-                            }
-                            var newPref = {
-                                ...state,
-                                customSize: newValue
-                            };
-                            setState(newPref);
-                            window.searchData.prefConfig = newPref;
-                            saveConfigToScript();
-                        }}
-                    />
                     <TextField
                         sx={{ m: 1, minWidth: 100 }}
                         label={window.i18n('typeOpenTime')}
@@ -177,6 +145,79 @@ export default function General() {
                             saveConfigToScript();
                         }}
                     />
+                    <FormControl sx={{ m: 1, minWidth: 80 }}>
+                        <FormControlLabel
+                            control={
+                                <Switch checked={state.initShow} onChange={handleCheckChange} name="initShow" />
+                            }
+                            label={window.i18n('initShow')}
+                            labelPlacement="end"
+                        />
+                    </FormControl>
+
+                    <Box
+                      sx={{ flexGrow: 1, bgcolor: 'background.paper', display: 'flex', maxWidth: '100%', flexWrap: 'wrap' }}
+                    >
+                        <Box sx={{ width: "75%", ml: "20px", mr: "20px"}}>
+                            <Typography id="input-slider" gutterBottom>
+                                {window.i18n('customSize')}: {state.customSize}%
+                            </Typography>
+                            <Slider
+                                value={state.customSize}
+                                onChange={(event: Event, newValue: number | number[]) => {
+                                    if (newValue > 1000) {
+                                        newValue = 1000;
+                                    } else if (newValue < 10) {
+                                        newValue = 10;
+                                    }
+                                    var newPref = {
+                                        ...state,
+                                        customSize: newValue
+                                    };
+                                    setState(newPref);
+                                    window.searchData.prefConfig = newPref;
+                                    saveConfigToScript();
+                                }}
+                                sx={{mt:"-8px"}}
+                                aria-labelledby="input-slider"
+                                min={10}
+                                max={1000}
+                                step={10}
+                                valueLabelDisplay="auto"
+                                marks={[{
+                                    value: 100,
+                                    label: '100%',
+                                },{
+                                    value: 1000,
+                                    label: '1000%',
+                                }]}
+                            />
+                        </Box>
+                        <TextField
+                            sx={{ m: 1, minWidth: 100, width: "15%"}}
+                            label={window.i18n('customSize')}
+                            inputProps={{ inputMode: 'numeric', type:'number', pattern: '[0-9]*' }}
+                            InputProps={{
+                                endAdornment: <InputAdornment position="end">%</InputAdornment>
+                            }}
+                            value={state.customSize}
+                            onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
+                                let newValue = event.target.value;
+                                if (newValue > 1000) {
+                                    newValue = 1000;
+                                } else if (newValue < 1) {
+                                    newValue = 1;
+                                }
+                                var newPref = {
+                                    ...state,
+                                    customSize: newValue
+                                };
+                                setState(newPref);
+                                window.searchData.prefConfig = newPref;
+                                saveConfigToScript();
+                            }}
+                        />
+                    </Box>
                 </Box>
             </Paper>
             <Paper elevation={5} sx={{ padding: '20px', marginTop: '20px' }}>
