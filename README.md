@@ -1,6 +1,7 @@
-# Search Jumper - 搜索醬  [Seek more sites 更多站點配置](https://github.com/hoothin/SearchJumper/issues?q=label%3A%22Sites+Rule%22)
+# [Search Jumper - 搜索醬](https://greasyfork.org/scripts/445274-searchjumper "Install from greasyfork")  [👆Seek more sites 更多站點配置](https://github.com/hoothin/SearchJumper/issues?q=label%3A%22Sites+Rule%22)
 > *A user script to assist in switching search engines*
 
+![i](https://socialify.git.ci/hoothin/searchjumper/image?description=1&font=Inter&forks=1&issues=1&language=1&owner=1&pattern=Brick%20Wall&stargazers=1&theme=Dark)
 ![star](https://img.shields.io/github/stars/hoothin/SearchJumper)
 ![react-version](https://img.shields.io/badge/React.js-lastest-green.svg)
 ![materialUI-version](https://img.shields.io/badge/MaterialUI-lastest-blue.svg)
@@ -8,8 +9,6 @@
 ![FontAwesome](https://img.shields.io/badge/FontAwesome-6.0-yellow.svg)
 ![support](https://img.shields.io/badge/Support-Chrome|Firefox|Edge-989898.svg)
 
-
-## [Install](https://greasyfork.org/scripts/445274-searchjumper)
 
 + Build with React.js
 + UI: [Material-UI](https://mui.com/)
@@ -34,9 +33,13 @@
   > 按住 **`alt`** 左鍵單擊類別圖標批量嵌入打開
 + Hold **`alt + shift`** + left-click a category icon to batch open multiple separate windows
   > 按住 **`alt + shift`** 左鍵單擊類別圖標以多個單獨窗口批量打開
-+ **`alt`** + left click on site to preview in small window
++ **`shift`** + left click on site icon to open in new window
+  > 按住 **`shift`** 左鍵單擊站點以新窗口打開結果頁
++ **`ctrl`** + left click on site icon to open in background TAB
+  > 按住 **`ctrl`** 左鍵單擊站點以後臺標籤頁打開結果頁
++ **`alt`** + left click on site icon to preview in small window
   > 按住 **`alt`** 左鍵單擊站點以小窗口預覽結果
-+ Can set the category to be displayed only on the specified site through the regular
++ Can set the category to be displayed only on the specified site through the regular rule
   > 可以通過正則設置類別僅在指定站點顯示
 + Right click on cute face to hide the toolbar
   > 右鍵點擊 小萌臉 徹底隱藏工具欄
