@@ -28,4 +28,7 @@ code {
   #root>.MuiBox-root>.MuiList-root:hover {
     height: unset;
   }
+  #root>.MuiBox-root>.MuiList-root:hover~div {
+    margin-top: 295px;
+  }
 }
