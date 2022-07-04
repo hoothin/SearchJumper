@@ -92,10 +92,8 @@ export default function General() {
                   sx={{ flexGrow: 1, bgcolor: 'background.paper', display: 'flex', maxWidth: '100%', flexWrap: 'wrap', justifyContent: 'space-around', alignItems: 'center' }}
                 >
                     <FormControl sx={{ m: 1, minWidth: 80 }}>
-                        <InputLabel id="demo-simple-select-autowidth-label">{window.i18n('horizontal')}</InputLabel>
+                        <InputLabel>{window.i18n('horizontal')}</InputLabel>
                         <Select
-                          labelId="demo-simple-select-autowidth-label"
-                          id="demo-simple-select-autowidth"
                           value={state.position.x}
                           name="x"
                           onChange={handleSelectChange}
@@ -108,10 +106,8 @@ export default function General() {
                         </Select>
                     </FormControl>
                     <FormControl sx={{ m: 1, minWidth: 80 }}>
-                        <InputLabel id="demo-simple-select-autowidth-label">{window.i18n('portrait')}</InputLabel>
+                        <InputLabel>{window.i18n('portrait')}</InputLabel>
                         <Select
-                          labelId="demo-simple-select-autowidth-label"
-                          id="demo-simple-select-autowidth"
                           value={state.position.y}
                           name="y"
                           onChange={handleSelectChange}
@@ -237,6 +233,72 @@ export default function General() {
             </Paper>
             <Paper elevation={5} sx={{ padding: '20px', marginTop: '20px' }}>
                 <Typography gutterBottom component="div">
+                    <h4>{window.i18n('cacheSwitch')}</h4>
+                </Typography>
+                <Box>
+                    <FormControl sx={{ m: 1, minWidth: 80 }}>
+                        <FormControlLabel
+                            control={
+                                <Switch checked={state.cacheSwitch} onChange={handleCheckChange} name="cacheSwitch" />
+                            }
+                            label={window.i18n('cacheSwitchTips')}
+                        />
+                    </FormControl>
+                </Box>
+            </Paper>
+            <Paper elevation={5} sx={{ padding: '20px', marginTop: '20px' }}>
+                <Typography gutterBottom component="div">
+                    <h4>{window.i18n('multiline')}</h4>
+                </Typography>
+                <Box>
+                    <FormControl sx={{ m: 1, minWidth: 80 }}>
+                        <InputLabel>{window.i18n('multilineLabel')}</InputLabel>
+                        <Select
+                            value={state.multiline}
+                            name="y"
+                            onChange={(event: SelectChangeEvent) => {
+                                var newPref = {
+                                    ...state,
+                                    multiline: event.target.value
+                                };
+                                setState(newPref);
+                                window.searchData.prefConfig = newPref;
+                                saveConfigToScript();
+                            }}
+                            autoWidth
+                            label={window.i18n('multilineLabel')}
+                        >
+                            <MenuItem value={0}>{window.i18n("disable")}</MenuItem>
+                            <MenuItem value={1}>{window.i18n("enable")}</MenuItem>
+                            <MenuItem value={2}>{window.i18n("ask")}</MenuItem>
+                        </Select>
+                    </FormControl>
+                    <TextField
+                        sx={{ minWidth: 100, margin: '8px' }}
+                        label={window.i18n('multilineGap')}
+                        inputProps={{ inputMode: 'numeric', type:'number', pattern: '[0-9]*' }}
+                        InputProps={{
+                            endAdornment: <InputAdornment position="end">ms</InputAdornment>
+                        }}
+                        value={state.multilineGap}
+                        onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
+                            let newValue = event.target.value;
+                            if (newValue < 0) {
+                                newValue = 0;
+                            }
+                            var newPref = {
+                                ...state,
+                                multilineGap: newValue
+                            };
+                            setState(newPref);
+                            window.searchData.prefConfig = newPref;
+                            saveConfigToScript();
+                        }}
+                    />
+                </Box>
+            </Paper>
+            <Paper elevation={5} sx={{ padding: '20px', marginTop: '20px' }}>
+                <Typography gutterBottom component="div">
                     <h4>{window.i18n('overOpen')}</h4>
                 </Typography>
                 <Box>
@@ -261,21 +323,6 @@ export default function General() {
                                 <Switch checked={state.openInNewTab} onChange={handleCheckChange} name="openInNewTab" />
                             }
                             label={window.i18n('openInNewTabTips')}
-                        />
-                    </FormControl>
-                </Box>
-            </Paper>
-            <Paper elevation={5} sx={{ padding: '20px', marginTop: '20px' }}>
-                <Typography gutterBottom component="div">
-                    <h4>{window.i18n('cacheSwitch')}</h4>
-                </Typography>
-                <Box>
-                    <FormControl sx={{ m: 1, minWidth: 80 }}>
-                        <FormControlLabel
-                            control={
-                                <Switch checked={state.cacheSwitch} onChange={handleCheckChange} name="cacheSwitch" />
-                            }
-                            label={window.i18n('cacheSwitchTips')}
                         />
                     </FormControl>
                 </Box>
