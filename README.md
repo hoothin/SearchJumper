@@ -1,6 +1,7 @@
-# Search Jumper - 搜索醬  [Seek more sites 更多站點配置](https://github.com/hoothin/SearchJumper/issues?q=label%3A%22Sites+Rule%22)
+# Search Jumper - 搜索醬  [👆Seek more sites 更多站點配置](https://github.com/hoothin/SearchJumper/issues?q=label%3A%22Sites+Rule%22)
 > *A user script to assist in switching search engines*
 
+![i](https://socialify.git.ci/hoothin/searchjumper/image?description=1&font=Inter&forks=1&issues=1&language=1&owner=1&pattern=Brick%20Wall&stargazers=1&theme=Dark)
 ![star](https://img.shields.io/github/stars/hoothin/SearchJumper)
 ![react-version](https://img.shields.io/badge/React.js-lastest-green.svg)
 ![materialUI-version](https://img.shields.io/badge/MaterialUI-lastest-blue.svg)
@@ -34,6 +35,10 @@
   > 按住 **`alt`** 左鍵單擊類別圖標批量嵌入打開
 + Hold **`alt + shift`** + left-click a category icon to batch open multiple separate windows
   > 按住 **`alt + shift`** 左鍵單擊類別圖標以多個單獨窗口批量打開
++ **`shift`** + left click on site to open in new window
+  > 按住 **`shift`** 左鍵單擊站點以新窗口打開結果頁
++ **`ctrl`** + left click on site to open in background TAB
+  > 按住 **`ctrl`** 左鍵單擊站點以後臺標籤頁打開結果頁
 + **`alt`** + left click on site to preview in small window
   > 按住 **`alt`** 左鍵單擊站點以小窗口預覽結果
 + Can set the category to be displayed only on the specified site through the regular
