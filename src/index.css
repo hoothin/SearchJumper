@@ -31,4 +31,7 @@ code {
   #root>.MuiBox-root>.MuiList-root:hover~div {
     margin-top: 295px;
   }
+  #root>.MuiBox-root>.MuiList-root:hover a {
+    pointer-events: none;
+  }
 }
