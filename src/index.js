@@ -296,9 +296,9 @@ switch (lang) {
             multiline: 'Multi-line search, separated by line feed, search by single line',
             multilineLabel: 'Switch',
             multilineGap: 'Search Gap',
-            disable: 'disable',
+            disable: 'Disable',
             enable: 'Enable',
-            ask: 'ask',
+            ask: 'Ask',
             cacheSwitchTips: 'The icons will cached with base64 images in the background when browsing, but some cross-domain requests will pop up',
             aboutContent: "I use the search engine jump function very frequently in my work, but I found that most of them contain trojans after tried many related extensions. \n\nThis is just a simple function, so why not write one by myself? \n\nThe result is that writing the configuration page takes several times more energy than the script itself... 🤦‍\n\nThis search engine jump supports dragging and dropping with defined location, and also supports in-site search, word-marking search, and configuration import and export."
         }
