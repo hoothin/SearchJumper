@@ -341,8 +341,8 @@ export default function General() {
                     sx={{ flexGrow: 1, display: 'flex', width: '100%', flexWrap: 'wrap' }}
                 >
                     <TextField
-                        sx={{ minWidth: 100, margin: '8px' }}
-                        label={window.i18n('historyLength')}
+                        sx={{ width: 70, margin: '8px' }}
+                        label={{"Number"}}
                         inputProps={{ inputMode: 'numeric', type:'number', pattern: '[0-9]*' }}
                         value={state.historyLength}
                         onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
