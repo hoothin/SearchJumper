@@ -371,22 +371,20 @@ class SitesList extends React.Component {
         if (update) {
             if (!this.state.currentSite.name) return this.handleAlertOpen(window.i18n('needName'));
             if (!this.state.currentSite.url) return this.handleAlertOpen(window.i18n('needUrl'));
-            if (this.state.currentSite.shortcut) {
-                let find = false;
-                for (let i = 0; i < window.searchData.sitesConfig.length; i++) {
-                    let typeData = window.searchData.sitesConfig[i];
-                    let sites = typeData.sites;
-                    for (let j = 0; j < sites.length; j++) {
-                        let site = sites[j];
-                        if (site.url !== this.state.currentSite.url && (site.name !== this.state.currentSite.name || typeData.type !== this.state.data.type) && site.shortcut === this.state.currentSite.shortcut) {
-                            find = site;
-                            break;
+            for (let i = 0; i < window.searchData.sitesConfig.length; i++) {
+                let typeData = window.searchData.sitesConfig[i];
+                let sites = typeData.sites;
+                for (let j = 0; j < sites.length; j++) {
+                    let site = sites[j];
+                    if (site.url === this.editSite.url) continue;
+                    if (this.state.currentSite.shortcut) {
+                        if (site.shortcut === this.state.currentSite.shortcut) {
+                            return this.handleAlertOpen(window.i18n('sameShortcut', site.name));
                         }
                     }
-                    if (find) break;
-                }
-                if (find) {
-                    return this.handleAlertOpen(window.i18n('sameShortcut', find.name));
+                    if (site.name === this.state.currentSite.name) {
+                        return this.handleAlertOpen(window.i18n('sameSiteName', typeData.type));
+                    }
                 }
             }
             if (this.editSite) {
