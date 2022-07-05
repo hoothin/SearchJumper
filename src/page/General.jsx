@@ -47,6 +47,12 @@ export default function General() {
     if (!window.searchData.prefConfig.showSiteLists) {
         window.searchData.prefConfig.showSiteLists = false;
     }
+    if (!window.searchData.prefConfig.historyLength) {
+        window.searchData.prefConfig.historyLength = 0;
+    }
+    if (!window.searchData.prefConfig.sortType) {
+        window.searchData.prefConfig.sortType = false;
+    }
     const [state, setState] = React.useState(
         window.searchData.prefConfig
     );
@@ -128,7 +134,7 @@ export default function General() {
                         }}
                         value={state.typeOpenTime}
                         onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
-                            let newValue = event.target.value;
+                            let newValue = parseInt(event.target.value);
                             if (newValue < 0) {
                                 newValue = 0;
                             }
@@ -198,7 +204,7 @@ export default function General() {
                             }}
                             value={state.customSize}
                             onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
-                                let newValue = event.target.value;
+                                let newValue = parseInt(event.target.value);
                                 if (newValue > 1000) {
                                     newValue = 1000;
                                 } else if (newValue < 1) {
@@ -282,7 +288,7 @@ export default function General() {
                         }}
                         value={state.multilineGap}
                         onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
-                            let newValue = event.target.value;
+                            let newValue = parseInt(event.target.value);
                             if (newValue < 0) {
                                 newValue = 0;
                             }
@@ -323,6 +329,55 @@ export default function General() {
                                 <Switch checked={state.openInNewTab} onChange={handleCheckChange} name="openInNewTab" />
                             }
                             label={window.i18n('openInNewTabTips')}
+                        />
+                    </FormControl>
+                </Box>
+            </Paper>
+            <Paper elevation={5} sx={{ padding: '20px', marginTop: '20px' }}>
+                <Typography gutterBottom component="div">
+                    <h4>{window.i18n('historyLength')}</h4>
+                </Typography>
+                <Box
+                    sx={{ flexGrow: 1, display: 'flex', width: '100%', flexWrap: 'wrap' }}
+                >
+                    <TextField
+                        sx={{ minWidth: 100, margin: '8px' }}
+                        label={window.i18n('historyLength')}
+                        inputProps={{ inputMode: 'numeric', type:'number', pattern: '[0-9]*' }}
+                        value={state.historyLength}
+                        onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
+                            let newValue = parseInt(event.target.value);
+                            if (newValue < 0) {
+                                newValue = 0;
+                            }
+                            if (newValue > 100) {
+                                newValue = 100;
+                            }
+                            var newPref = {
+                                ...state,
+                                historyLength: newValue
+                            };
+                            setState(newPref);
+                            window.searchData.prefConfig = newPref;
+                            saveConfigToScript();
+                        }}
+                    />
+                    <Typography gutterBottom component="div" sx={{ marginTop: '20px' }}>
+                        {window.i18n('historyLengthTips')}
+                    </Typography>
+                </Box>
+            </Paper>
+            <Paper elevation={5} sx={{ padding: '20px', marginTop: '20px' }}>
+                <Typography gutterBottom component="div">
+                    <h4>{window.i18n('sortType')}</h4>
+                </Typography>
+                <Box>
+                    <FormControl sx={{ m: 1, minWidth: 80 }}>
+                        <FormControlLabel
+                            control={
+                                <Switch checked={state.sortType} onChange={handleCheckChange} name="sortType" />
+                            }
+                            label={window.i18n('sortTypeTips')}
                         />
                     </FormControl>
                 </Box>
@@ -395,7 +450,7 @@ export default function General() {
                         onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
                             var newPref = {
                                 ...state,
-                                autoDelay: event.target.value
+                                autoDelay: parseInt(event.target.value)
                             };
                             setState(newPref);
                             window.searchData.prefConfig = newPref;
@@ -456,7 +511,7 @@ export default function General() {
                         }}
                         value={state.longPressTime}
                         onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
-                            let newValue = event.target.value;
+                            let newValue = parseInt(event.target.value);
                             if (newValue < 0) {
                                 newValue = 0;
                             }
