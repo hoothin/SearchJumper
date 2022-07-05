@@ -42,6 +42,13 @@ function TypeEdit(props) {
     function closeTypeEdit(update) {
         if (update) {
             if (!typeData.type) return props.handleAlertOpen(window.i18n('errorNoType'));
+            for (let i = 0; i < window.searchData.sitesConfig.length; i++) {
+                let type = window.searchData.sitesConfig[i];
+                if (type.type === props.data.type) continue;
+                if (type.type === typeData.type) {
+                    return props.handleAlertOpen(window.i18n('errorSameType'));
+                }
+            }
             props.changeType(typeData);
         }
         props.closeHandler();
