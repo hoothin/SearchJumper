@@ -985,9 +985,9 @@ export default function Engines() {
                             onDragOver={e => {e.preventDefault()}} 
                             icon={
                                 /^(http|data:)/.test(data.icon)?(
-                                    <img alt={data.type} src={data.icon} style={{m:1, background: 'darkgray', borderRadius: '15px'}} />
+                                    <img alt={data.type} src={data.icon} style={{m:1, background: 'darkgray', borderRadius: '35px', width: '65px', padding: '10px', boxSizing: 'border-box'}} />
                                 ):(
-                                    <i style={{background: 'darkgray', lineHeight: '65px', width: '50px', fontSize: '30px', color: 'white', borderRadius: '15px'}} className={`fa fa-${data.icon}`}/>
+                                    <i style={{background: 'darkgray', lineHeight: '65px', width: '65px', fontSize: '30px', color: 'white', borderRadius: '35px'}} className={`fa fa-${data.icon}`}/>
                                 )} 
                             label={data.type} 
                             key={index} 
