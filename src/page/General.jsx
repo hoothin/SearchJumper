@@ -342,7 +342,7 @@ export default function General() {
                 >
                     <TextField
                         sx={{ width: 70, margin: '8px' }}
-                        label={{"Number"}}
+                        label={"Number"}
                         inputProps={{ inputMode: 'numeric', type:'number', pattern: '[0-9]*' }}
                         value={state.historyLength}
                         onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
