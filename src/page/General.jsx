@@ -387,18 +387,35 @@ export default function General() {
                 </Box>
             </Paper>
             <Paper elevation={5} sx={{ padding: '20px', marginTop: '20px' }}>
-                <Typography gutterBottom component="div">
-                    <h4>{window.i18n('showSiteLists')}</h4>
-                </Typography>
-                <Box>
-                    <FormControl sx={{ m: 1, minWidth: 80 }}>
-                        <FormControlLabel
-                            control={
-                                <Switch checked={state.showSiteLists} onChange={handleCheckChange} name="showSiteLists" />
-                            }
-                            label={window.i18n('showSiteListsTips')}
-                        />
-                    </FormControl>
+                <Box sx={{ flexGrow: 1, display: 'flex'}}>
+                    <Box>
+                        <Typography gutterBottom component="div">
+                            <h4>{window.i18n('showSiteLists')}</h4>
+                        </Typography>
+                    
+                        <FormControl sx={{ m: 1, minWidth: 80 }}>
+                            <FormControlLabel
+                                control={
+                                    <Switch checked={state.showSiteLists} onChange={handleCheckChange} name="showSiteLists" />
+                                }
+                                label={window.i18n('showSiteListsTips')}
+                            />
+                        </FormControl>
+                    </Box>
+                    <Box>
+                        <Typography gutterBottom component="div">
+                            <h4>{window.i18n('alwaysShowSiteLists')}</h4>
+                        </Typography>
+                    
+                        <FormControl sx={{ m: 1, minWidth: 80 }}>
+                            <FormControlLabel
+                                control={
+                                    <Switch checked={state.alwaysShowSiteLists} onChange={handleCheckChange} name="alwaysShowSiteLists" />
+                                }
+                                label={window.i18n('alwaysShowSiteListsTips')}
+                            />
+                        </FormControl>
+                    </Box>
                 </Box>
             </Paper>
             <Paper elevation={5} sx={{ padding: '20px', marginTop: '20px' }}>
