@@ -11,6 +11,24 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+.site-list-box>div:first-child>*:not(.MuiIconButton-root) {
+  display: none;
+}
+.site-list-box.batch-edit>div:first-child>*:not(.MuiIconButton-root) {
+  display: inline-flex;
+}
+.site-list-box .site-icon>span {
+  display: none;
+  float: left;
+  position: absolute;
+  z-index: 1;
+}
+.site-list-box .site-icon>span>svg {
+  background: white;
+}
+.site-list-box.batch-edit .site-icon>span {
+  display: inline-flex;
+}
 @media screen and (max-width: 600px) {
   #root>.MuiBox-root {
     margin-left: 0px;
