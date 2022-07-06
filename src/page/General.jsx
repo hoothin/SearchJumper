@@ -70,7 +70,7 @@ export default function General() {
             }
         };
         if (newPref.position.x === 'center' && newPref.position.y === 'center') {
-            if (event.target.name == 'x') {
+            if (event.target.name === 'x') {
                 newPref.position.y = 'top';
             } else {
                 newPref.position.x = 'left';
