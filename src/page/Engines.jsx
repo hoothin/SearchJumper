@@ -384,6 +384,9 @@ class SitesList extends React.Component {
                 for (let j = 0; j < sites.length; j++) {
                     let site = sites[j];
                     if (site.url === this.editSite.url) continue;
+                    if (site.url === this.state.currentSite.url) {
+                        return this.handleAlertOpen(window.i18n('sameSiteUrl'));
+                    }
                     if (this.state.currentSite.shortcut) {
                         if (site.shortcut === this.state.currentSite.shortcut) {
                             return this.handleAlertOpen(window.i18n('sameShortcut', site.name));
@@ -452,6 +455,7 @@ class SitesList extends React.Component {
     }
 
     changeSitePos(targetSite, dragSite) {
+        if (targetSite.url === dragSite.url)return;
         let newSites = this.state.data.sites.filter(site => {
             return (site.url !== dragSite.url);
         })
@@ -485,8 +489,8 @@ class SitesList extends React.Component {
 
                 <Box sx={{flexGrow: 1, display: 'flex', flexWrap: 'wrap'}}>
                     {this.state.data.sites.map((site) => (
-                        <IconButton draggable='true' onDrop={e => {this.changeSitePos(site, this.dragSite)}} onDragStart={e => {this.dragSite = site}} onDragOver={e => {e.preventDefault()}} color="primary" key={site.name} title={site.name}  onClick={() => { this.openSiteEdit(site) }}>
-                            <Avatar sx={{m:1}} alt={site.name} src={site.icon||(/^http/.test(site.url) && site.url.replace(new RegExp('(https?://[^/]*/).*$'), "$1favicon.ico"))||site.name} />
+                        <IconButton sx={{fontSize: '1.1rem', fontWeight: 'bold', flexDirection: 'column'}} draggable='true' onDrop={e => {this.changeSitePos(site, this.dragSite)}} onDragStart={e => {this.dragSite = site}} onDragOver={e => {e.preventDefault()}} key={site.name} title={site.name}  onClick={() => { this.openSiteEdit(site) }}>
+                            <Avatar sx={{m:1}} alt={site.name} src={site.icon||(/^http/.test(site.url) && site.url.replace(new RegExp('(https?://[^/]*/).*$'), "$1favicon.ico"))||site.name} />{site.name.slice(0, 10)}
                         </IconButton>
                     ))}
                     <IconButton color="primary" key='addType' onClick={() => { this.openSiteEdit(false); }}>
@@ -962,6 +966,7 @@ export default function Engines() {
     };
 
     const changeTypePos = (targetType, dragType) => {
+        if (targetType.type === dragType.type) return;
         let newTypes = window.searchData.sitesConfig.filter(typeData => {
             return (typeData.type !== dragType.type);
         })
@@ -986,6 +991,7 @@ export default function Engines() {
                 <Tabs value={value} onChange={handleChange} aria-label="types" variant="scrollable" scrollButtons="auto">
                     {window.searchData.sitesConfig.map((data, index) =>
                         <Tab  
+                            sx={{width: 65}}
                             draggable='true'
                             onDrop={e => {changeTypePos(data, dragType)}} 
                             onDragStart={e => {dragType = data}} 
@@ -996,7 +1002,8 @@ export default function Engines() {
                                 ):(
                                     <i style={{background: 'darkgray', lineHeight: '65px', width: '65px', fontSize: '30px', color: 'white', borderRadius: '35px'}} className={`fa fa-${data.icon}`}/>
                                 )} 
-                            label={data.type} 
+                            label={data.type.slice(0, 10)} 
+                            title={data.type}
                             key={index} 
                             {...a11yProps(index)} 
                         />
