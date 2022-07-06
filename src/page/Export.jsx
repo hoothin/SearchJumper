@@ -154,9 +154,9 @@ export default function Export() {
 
     const handleChange = (event: SelectChangeEvent) => {
         setPresetCss(event.target.value);
-        if (event.target.value === '') return;
         if (!cssText || window.confirm(window.i18n('replaceCss'))) {
-            setCssText(presetCssList[event.target.value]);
+            if (event.target.value === '') setCssText('');
+            else setCssText(presetCssList[event.target.value]);
         }
     };
     return (
@@ -191,10 +191,8 @@ export default function Export() {
                 </IconButton>
             </Paper>
             <FormControl fullWidth sx={{ mt: 1 }}>
-                <InputLabel id="select-helper-label">{window.i18n('presetCss')}</InputLabel>
+                <InputLabel>{window.i18n('presetCss')}</InputLabel>
                 <Select
-                    labelId="select-helper-label"
-                    id="select-helper"
                     value={presetCss}
                     label="Css"
                     onChange={handleChange}
