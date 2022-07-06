@@ -70,7 +70,11 @@ export default function General() {
             }
         };
         if (newPref.position.x === 'center' && newPref.position.y === 'center') {
-            newPref.position.y = 'top';
+            if (event.target.name == 'x') {
+                newPref.position.y = 'top';
+            } else {
+                newPref.position.x = 'left';
+            }
         }
         setState(newPref);
         window.searchData.prefConfig = newPref;
