@@ -119,6 +119,10 @@ switch (lang) {
             autoHide: '自动隐藏搜索条',
             autoHideTips: '达到上方设置延时之后，自动隐藏搜索条',
             sameSiteUrl: '站点Url不能重复',
+            clone: '克隆',
+            cloneConfirm: '你确定要将这些站点克隆至 【#t#】?',
+            cloneAction: '你想要将它们克隆成一个集合吗?',
+            groupName: '集合名',
             donate: '💞如果对你有帮助，请通过以下方式打赏我',
             cacheSwitchTips: '浏览网页时在后台缓存图标为 base64 图片至配置，以免 icon 请求拉低性能，注意开启后会弹出跨域请求',
             aboutContent: '【%s】➡️ 搜索关键词，或是划选的文字\n【%e】➡️ 当前页面的编码\n【%c】➡️ 客户端类型 pc, mobile\n【%u】➡️ 当前网址 \n【%U】➡️ 当前网址的URI编码结果\n【%h】➡️ 当前网站域名，适用于站内搜索等场景，比如写成 %s site:%h\n【%t】➡️ 指向对象的网址，比如图片、音频、视频、链接的对应网址\n【%T】➡️ 指向对象的URI编码结果\n【%b】➡️ 指向对象的网址去除 http 头 \n【%B】➡️ 去头网址的 URI 编码结果\n【%n】➡️ 指向对象的文字内容，比如链接标题、图片标签或者网页标题\n【%i】 ➡️ 当前指向图片的 base64 编码\n【%p{params}】➡️ post 消息体，例如 %p{x=1&y=2&q=%s}\n【%P{params}】➡️ post 但不跳转\n【#p{params}】➡️ 页面之内的 post，可在页面之内使用“css选择器”填写参数提交查询，适用于不开放GET/POST接口（Ajax-render）的网站。例如 #p{#input=%s&div.param=2}\n【%input{tips}】➡️ 输入占位，例如%input{请输入您的三围}\n【["siteName1","siteName2"]】➡️ 通过你已经创建的站点名批量打开，例如 ["雅虎搜索","谷歌搜索"]\n\n平时工作中搜索引擎跳转功能用得很频繁，但尝试了相关的扩展，发现大多夹有私货。\n\n而这只是一个简单功能，所以不如自己写一个啦。\n\n结果写配置页面耗费的精力数倍于脚本本身……🤦‍\n\n这个搜索引擎跳转支持自己拖拽定义位置，同时也支持站内搜索，多语言编码设置（例如shift-jis），划词搜索，以及配置导入导出。'
@@ -236,6 +240,10 @@ switch (lang) {
             autoHide: '自動隱藏搜索條',
             autoHideTips: '達到上方設置延時之後，自動隱藏搜索條',
             sameSiteUrl: '站點Url不能重複',
+            clone: '克隆',
+            cloneConfirm: '你確定要將這些站點克隆至 【#t#】?',
+            cloneAction: '你想要將它們克隆成一個集合嗎?',
+            groupName: '集合名',
             donate: '💞如果對你有幫助，請通過以下方式打賞我',
             cacheSwitchTips: '瀏覽網頁時在後台緩存圖標為base64圖片，注意開啟後會彈出跨域請求',
             aboutContent: '平時工作中搜尋引擎跳轉功能用得很頻繁，但嘗試了相關的擴展，發現大多夾有私貨。\n\n而這只是一個簡單功能，所以不如自己寫一個啦。\n\n結果寫配置頁面耗費的精力數倍於腳本本身……🤦‍\n\n這個搜尋引擎跳轉支持自己拖拽定義位置，同時也支持站內搜索，多語言編碼設置（例如shift-jis），劃詞搜索，以及配置導入導出。'
@@ -352,6 +360,10 @@ switch (lang) {
             autoHide: 'Auto hide bar',
             autoHideTips: 'Auto hide search bar after hide delay set before',
             sameSiteUrl: 'Found a site with same url',
+            clone: 'Clone',
+            cloneConfirm: 'Do you want to clone these sites to 【#t#】?',
+            cloneAction: 'Do you want to clone as one group instead of a single site?',
+            groupName: 'Group Name',
             donate: '💞Buy me a coffee if it helps you',
             cacheSwitchTips: 'The icons will cached with base64 images in the background when browsing, but some cross-domain requests will pop up',
             aboutContent: "I use the search engine jump function very frequently in my work, but I found that most of them contain trojans after tried many related extensions. \n\nThis is just a simple function, so why not write one by myself? \n\nThe result is that writing the configuration page takes several times more energy than the script itself... 🤦‍\n\nThis search engine jump supports dragging and dropping with defined location, and also supports in-site search, word-marking search, and configuration import and export."

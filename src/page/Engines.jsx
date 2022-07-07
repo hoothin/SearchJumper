@@ -311,7 +311,7 @@ function TypeEdit(props) {
 class SitesList extends React.Component {
     constructor(props) {
         super(props);
-        this.state = {data: props.data, openSiteEdit: false, currentSite: siteObject(false), batchSelect: false, checked: Array(props.data.sites.length).fill(false)};
+        this.state = {data: props.data, openSiteEdit: false, currentSite: siteObject(false), batchSelect: false, checked: Array(props.data.sites.length).fill(false), cloneSite: false};
 
         this.editSite = null;
         this.openTypeEdit = props.openTypeEdit;
@@ -397,7 +397,7 @@ class SitesList extends React.Component {
                             return this.handleAlertOpen(window.i18n('sameShortcut', site.name));
                         }
                     }
-                    if (site.name === this.state.currentSite.name) {
+                    if (!/^\[/.test(site.url) && site.name === this.state.currentSite.name) {
                         return this.handleAlertOpen(window.i18n('sameSiteName', typeData.type));
                     }
                 }
@@ -486,7 +486,7 @@ class SitesList extends React.Component {
     render() {
         return (
             <Box elevation={5} component={Paper} sx={{p: '20px', mt: 2}} className={this.state.batchSelect ? 'site-list-box batch-edit' : 'site-list-box'}>
-                <Box sx={{ flexGrow: 1, display: 'flex', alignItems: 'center', height: 50 }}>
+                <Box sx={{ flexGrow: 1, display: 'flex', alignItems: 'center', minHeight: 50, flexWrap: 'wrap' }}>
                     <IconButton title={window.i18n('editType')} color="primary" key='editType' onClick={() => { this.openTypeEdit(this.state.data) }}>
                         <EditIcon />
                     </IconButton>
@@ -528,7 +528,7 @@ class SitesList extends React.Component {
                         }));
                         saveConfigToScript();
                     }}>{window.i18n('delete')}</Button>
-                    <FormControl sx={{ m: 1, minWidth: 80 }}>
+                    <FormControl sx={{ ml: 1, mr: 0 }}>
                         <InputLabel>{window.i18n('moveTo')}</InputLabel>
                         <Select
                             value={this.state.data.type}
@@ -538,24 +538,61 @@ class SitesList extends React.Component {
                                 let moveSites = this.state.data.sites.filter((site, i) => {
                                     return (this.state.checked[i] === true);
                                 })
-                                if (moveSites.length === 0 || !window.confirm(window.i18n('moveToConfirm', event.target.value))) return;
-                                let newSites = this.state.data.sites.filter((site, i) => {
-                                    return (this.state.checked[i] !== true);
-                                })
-                                let newType = {...this.state.data, sites: newSites};
-                                window.searchData.sitesConfig = window.searchData.sitesConfig.map(data =>{
-                                    if (this.state.data.type === data.type) {
-                                        return newType;
-                                    } else if (event.target.value === data.type) {
-                                        data.sites = data.sites.concat(moveSites);
+                                if (moveSites.length === 0) return;
+                                if (this.state.cloneSite) {
+                                    if (!window.confirm(window.i18n('cloneConfirm', event.target.value))) return;
+                                    let cloneToGroup = moveSites.length !== 1 && window.confirm(window.i18n('cloneAction'));
+                                    let cloneSites;
+                                    if (cloneToGroup) {
+                                        let groupName = window.prompt(window.i18n('groupName'));
+                                        let groupUrlArr = [];
+                                        moveSites.forEach(site => {
+                                            if (!/^\[/.test(site.url)) {
+                                                groupUrlArr.push(site.name);
+                                            }
+                                        });
+                                        cloneSites = [{name: groupName, url:JSON.stringify(groupUrlArr)}];
+                                    } else {
+                                        cloneSites = [];
+                                        moveSites.forEach(site => {
+                                            if (!/^\[/.test(site.url)) {
+                                                cloneSites.push({name: site.name, url: JSON.stringify([site.name])});
+                                            }
+                                        });
                                     }
-                                    return data;
-                                });
-                                this.setState(prevState => ({
-                                    data: newType,
-                                    openSiteEdit: false,
-                                    checked: Array(newSites.length).fill(false)
-                                }));
+                                    window.searchData.sitesConfig = window.searchData.sitesConfig.map(data =>{
+                                        if (event.target.value === data.type) {
+                                            cloneSites.forEach(cloneSite => {
+                                                let findIndex = data.sites.findIndex(site => {return site.url === cloneSite.url});
+                                                if (findIndex === -1) data.sites.push(cloneSite);
+                                            });
+                                        }
+                                        return data;
+                                    });
+                                    this.setState(prevState => ({
+                                        openSiteEdit: false,
+                                        checked: Array(prevState.checked.length).fill(false)
+                                    }));
+                                } else {
+                                    if (!window.confirm(window.i18n('moveToConfirm', event.target.value))) return;
+                                    let newSites = this.state.data.sites.filter((site, i) => {
+                                        return (this.state.checked[i] !== true);
+                                    })
+                                    let newType = {...this.state.data, sites: newSites};
+                                    window.searchData.sitesConfig = window.searchData.sitesConfig.map(data =>{
+                                        if (this.state.data.type === data.type) {
+                                            return newType;
+                                        } else if (event.target.value === data.type) {
+                                            data.sites = data.sites.concat(moveSites);
+                                        }
+                                        return data;
+                                    });
+                                    this.setState(prevState => ({
+                                        data: newType,
+                                        openSiteEdit: false,
+                                        checked: Array(newSites.length).fill(false)
+                                    }));
+                                }
                                 saveConfigToScript();
                             }}
                             autoWidth
@@ -568,6 +605,16 @@ class SitesList extends React.Component {
                         )}
                         </Select>
                     </FormControl>
+                    <FormControlLabel sx={{ ml: 0 }} control={
+                        <Checkbox 
+                            onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
+                                this.setState(prevState => ({
+                                    cloneSite: event.target.checked
+                                }))
+                            }}
+                            checked={this.state.cloneSite} 
+                        />
+                    } label={window.i18n('clone')} />
                 </Box>
 
                 <Box sx={{flexGrow: 1, display: 'flex', flexWrap: 'wrap'}}>
