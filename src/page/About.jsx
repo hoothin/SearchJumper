@@ -24,7 +24,9 @@ export default function About() {
                 Build with React.js<br/>
                 UI: <Link href='https://mui.com' style={{verticalAlign: 'top'}} target="_blank">Material-UI</Link><br/>
                 Icons: <Link href='https://fontawesome.com/' style={{verticalAlign: 'top'}} target="_blank">FontAwesome</Link><br/>
+                {window.i18n("donate")}<br/>
                 <VolunteerActivismIcon/> <Link href='https://buymeacoffee.com/hoothin' style={{verticalAlign: 'top'}} target="_blank">[Buy Me A Coffee]</Link>  <Link href='https://paypal.me/hoothin' style={{verticalAlign: 'top'}} target="_blank">[Paypal.Me]</Link><br/>
+                <img style={{maxWidth: '100%'}} src='donate.jpg' alt='donate' loading="lazy"/><br/>
                 <Box sx={{borderTop: 1, borderColor: 'divider'}}>
                 <Card sx={{maxWidth: 510, margin: '10px auto', textAlign: 'left'}}>
                     <CardContent>
@@ -34,7 +36,6 @@ export default function About() {
                     </CardContent>
                 </Card>
                 </Box>
-                <img style={{maxWidth: '100%'}} src='donate.jpg' alt='donate' loading="lazy"/>
             </Typography>
             </Paper>
         </Box>
