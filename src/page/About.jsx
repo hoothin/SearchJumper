@@ -28,7 +28,7 @@ export default function About() {
                 <VolunteerActivismIcon/> <Link href='https://buymeacoffee.com/hoothin' style={{verticalAlign: 'top'}} target="_blank">[Buy Me A Coffee]</Link>  <Link href='https://paypal.me/hoothin' style={{verticalAlign: 'top'}} target="_blank">[Paypal.Me]</Link><br/>
                 <img style={{maxWidth: '100%'}} src='donate.jpg' alt='donate' loading="lazy"/><br/>
                 <Box sx={{borderTop: 1, borderColor: 'divider'}}>
-                <Card sx={{maxWidth: 510, margin: '10px auto', textAlign: 'left'}}>
+                <Card sx={{maxWidth: 800, margin: '10px auto', textAlign: 'left'}}>
                     <CardContent>
                         <pre style={{whiteSpace: 'pre-wrap'}}>
                             {window.i18n('aboutContent')}
