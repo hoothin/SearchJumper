@@ -1,13 +1,14 @@
 # [Search Jumper - 搜索醬](https://greasyfork.org/scripts/445274-searchjumper "Install from greasyfork")  [👆Seek more sites 更多站點配置](https://github.com/hoothin/SearchJumper/issues?q=label%3A%22Sites+Rule%22)
-> *A user script to assist in switching search engines*
 
-![i](https://socialify.git.ci/hoothin/searchjumper/image?description=1&font=Inter&forks=1&issues=1&language=1&owner=1&pattern=Brick%20Wall&stargazers=1&theme=Dark)
 ![star](https://img.shields.io/github/stars/hoothin/SearchJumper)
 ![react-version](https://img.shields.io/badge/React.js-lastest-green.svg)
 ![materialUI-version](https://img.shields.io/badge/MaterialUI-lastest-blue.svg)
 ![license](https://img.shields.io/badge/License-GPL3.0-red.svg)
 ![FontAwesome](https://img.shields.io/badge/FontAwesome-6.0-yellow.svg)
 ![support](https://img.shields.io/badge/Support-Chrome|Firefox|Edge-989898.svg)
+> *A user script to assist in switching search engines*
+
+![i](https://socialify.git.ci/hoothin/searchjumper/image?description=1&font=Inter&forks=1&issues=1&language=1&owner=1&pattern=Brick%20Wall&stargazers=1&theme=Dark)
 
 
 + Build with React.js
