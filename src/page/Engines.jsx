@@ -555,7 +555,7 @@ class SitesList extends React.Component {
                     <FormControl sx={{ ml: 1, mr: 0 }}>
                         <InputLabel>{window.i18n('moveTo')}</InputLabel>
                         <Select
-                            value={this.state.data.type}
+                            value={0}
                             name="x"
                             sx={{height: 35}}
                             onChange={(event: SelectChangeEvent) => {
@@ -598,6 +598,7 @@ class SitesList extends React.Component {
                                         checked: Array(prevState.checked.length).fill(false)
                                     }));
                                 } else {
+                                    if (event.target.value === this.state.data.type) return;
                                     if (!window.confirm(window.i18n('moveToConfirm', event.target.value))) return;
                                     let newSites = this.state.data.sites.filter((site, i) => {
                                         return (this.state.checked[i] !== true);
@@ -622,6 +623,9 @@ class SitesList extends React.Component {
                             autoWidth
                             label={window.i18n('moveTo')}
                         >
+                        <MenuItem value={0}>
+                            {window.i18n('category')}
+                        </MenuItem>
                         {window.searchData.sitesConfig.map((data, index) =>
                             <MenuItem value={data.type}>
                                 {data.type}
