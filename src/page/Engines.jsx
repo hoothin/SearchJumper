@@ -410,11 +410,21 @@ class SitesList extends React.Component {
                     return site;
                 })
                 let newType = {...this.state.data, sites: newSites};
+                let changeName = this.editSite.name !== this.state.currentSite.name;
                 window.searchData.sitesConfig = window.searchData.sitesConfig.map(data =>{
+                    let returnData = data;
                     if (this.state.data.type === data.type) {
-                        return newType;
+                        returnData = newType;
                     }
-                    return data;
+                    if (changeName) {
+                        returnData.sites = returnData.sites.map(site => {
+                            if (/^\[/.test(site.url)) {
+                                site.url = site.url.replaceAll('"' + this.editSite.name + '"', '"' + this.state.currentSite.name + '"');
+                            }
+                            return site;
+                        });
+                    }
+                    return returnData;
                 });
                 this.setState(prevState => ({
                     data: newType
@@ -445,13 +455,27 @@ class SitesList extends React.Component {
         }));
         let newSites = this.state.data.sites.filter(site => {
             return (site.url !== this.editSite.url);
-        })
+        });
         let newType = {...this.state.data, sites: newSites};
         window.searchData.sitesConfig = window.searchData.sitesConfig.map(data =>{
+            let returnData = data;
             if (this.state.data.type === data.type) {
-                return newType;
+                returnData = newType;
             }
-            return data;
+            returnData.sites = returnData.sites.map(site => {
+                if (/^\[/.test(site.url)) {
+                    let namesArr = JSON.parse(site.url);
+                    namesArr = namesArr.filter(n => {
+                        return (n !== this.editSite.name);
+                    });
+                    site.url = namesArr.length === 0 ? '' : JSON.stringify(namesArr);
+                }
+                return site;
+            });
+            returnData.sites = returnData.sites.filter(site => {
+                return site.url !== '';
+            });
+            return returnData;
         });
         this.setState(prevState => ({
             data: newType
