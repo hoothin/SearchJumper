@@ -70,7 +70,7 @@
 + No tamper with the original page
   > 不篡改原始頁面
 
-## Config params
+## Search params
 | param | details | 详述 |
 | --- | --- | --- |
 | `%s` | search keyword |🗒️ 搜索關鍵詞 |
