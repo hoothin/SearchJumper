@@ -78,7 +78,7 @@
 | `%sl` | search keyword with lower case letters |🗒️ 小寫字母搜索詞 |
 | `%su` | search keyword with upper case letters |🗒️ 大寫字母搜索詞 |
 | `%sr` | search keyword without doing any encoding |🗒️ 未轉碼的搜索關鍵詞 |
-| `%s.replace` | replace keywords with regexp, like %sr.replace(/[^\d]/g, "").replace(/(\d)/g, "$1 ") means replace raw keywords to numbers and then join all number with space |🗒️ 用正則替換搜索關鍵詞，例如 %sr.replace(/[^\d]/g, "").replace(/(\d)/g, "$1 ") 代表提取原始關鍵詞中所有數字，並以空格分隔 |
+| `%s.replace` | replace keywords with regexp, like %sr.replace(/[^\d]/g, "").replace(/(\d)/g, "$1 ") means replace raw keywords to numbers and then join all numbers with space |🗒️ 用正則替換搜索關鍵詞，例如 %sr.replace(/[^\d]/g, "").replace(/(\d)/g, "$1 ") 代表提取原始關鍵詞中所有數字，並以空格分隔 |
 | `%e` | charset | 🗒️ 編碼 |
 | `%c` | client pc,mobile | 🗒️ 客戶端 pc,mobile |
 | `%u` | current website url | 🗒️ 當前網站 url |
