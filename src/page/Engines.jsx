@@ -26,6 +26,17 @@ import Select, { SelectChangeEvent } from '@mui/material/Select';
 import MenuItem from '@mui/material/MenuItem';
 import InputLabel from '@mui/material/InputLabel';
 import Checkbox from '@mui/material/Checkbox';
+import Accordion from '@mui/material/Accordion';
+import AccordionSummary from '@mui/material/AccordionSummary';
+import AccordionDetails from '@mui/material/AccordionDetails';
+import Typography from '@mui/material/Typography';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import Table from '@mui/material/Table';
+import TableBody from '@mui/material/TableBody';
+import TableCell from '@mui/material/TableCell';
+import TableContainer from '@mui/material/TableContainer';
+import TableHead from '@mui/material/TableHead';
+import TableRow from '@mui/material/TableRow';
 
 function saveConfigToScript (notification) {
     var saveMessage = new CustomEvent('saveConfig', {
@@ -986,6 +997,39 @@ function TabPanel(props: TabPanelProps) {
     );
 }
 
+function createData(
+  param: string,
+  infoEn: string,
+  infoCn: string
+) {
+  return { param, infoEn, infoCn };
+}
+
+const rows = [
+  createData('%s', 'search keyword', '搜索關鍵詞'),
+  createData('%S', 'cached search keyword', '最近一次的搜索關鍵詞'),
+  createData('%sl', 'search keyword with lower case letters', '小寫字母搜索詞'),
+  createData('%su', 'search keyword with upper case letters', '大寫字母搜索詞'),
+  createData('%sr', 'search keyword without doing any encoding', '未轉碼的搜索關鍵詞'),
+  createData('%s.replace', 'replace keywords with regexp, like %sr.replace(/[^\\d]/g, "").replace(/(\\d)/g, "$1 ") means replace raw keywords to numbers and then join all numbers with space', '用正則替換搜索關鍵詞，例如 %sr.replace(/[^\\d]/g, "").replace(/(\\d)/g, "$1 ") 代表提取原始關鍵詞中所有數字，並以空格分隔'),
+  createData('%e', 'charset', '當前頁面編碼'),
+  createData('%c', 'client: pc,mobile', '客戶端: pc,mobile'),
+  createData('%u', 'current website url', '當前網站 url'),
+  createData('%U', 'url with encodeURIComponent', '當前網站 url 的 URI 編碼'),
+  createData('%h', 'current website host', '當前網站 host'),
+  createData('%t', 'target src', '指向對象的 src'),
+  createData('%T', '%t with encodeURIComponent', '指向對象的 src 的 URI 編碼'),
+  createData('%b', 'target src without http', '指向對象 src 去 http頭'),
+  createData('%B', '%b with encodeURIComponent', '指向對象 src 去 http頭 的 URI 編碼'),
+  createData('%i', 'base64 of target image', '指向圖片的 base64'),
+  createData('%p{params}', 'post body, like %p{x=1&y=%s}', 'post 參數體，例如 %p{x=1&y=%s}'),
+  createData('%P{params}', 'post without navigation', 'post 但不跳轉'),
+  createData('%input{tips}', 'input something, like %input{love who?,you}', '輸入占位，例如%input{請輸入您的三圍,90 55 90}'),
+  createData('#p{params}', 'post in page, like #p{#input=1&div.param=2}, use \\& \\= instead of & = in content', '頁内 post，可在頁面之内使用【css選擇器】填寫參數提交查詢，適用於不開放GET/POST接口（Ajax-render）的網站，例如 #p{#input=1&div.param=2}, 可在内容中使用 \\& \\= 來 表示 & ='),
+  createData('["siteName1","siteName2"]', 'batch open by site name you\'ve created', '透過你已經創建的站點名批量打開，例如 ["雅虎搜索","谷歌搜索"]'),
+  createData('c:', 'put this at first then all words after will be copied to the clipboard', '在開頭使用"c:"可以複製之後的所有字串')
+];
+
 export default function Engines() {
     const [value, setValue] = React.useState(0);
 
@@ -1203,6 +1247,45 @@ export default function Engines() {
                   {alertBody.alertContent}
                 </MuiAlert>
             </Snackbar>
+            <Accordion>
+                <AccordionSummary
+                  expandIcon={<ExpandMoreIcon />}
+                  aria-controls="panel1a-content"
+                  id="panel1a-header"
+                >
+                  <Typography>Search params</Typography>
+                </AccordionSummary>
+                <AccordionDetails>
+                    <Typography variant="h6" gutterBottom component="div">
+                        Example url:➡️ https://www.google.com/search?q=%s
+                    </Typography>
+                    <TableContainer component={Paper}>
+                        <Table sx={{ minWidth: 650 }} aria-label="simple table">
+                            <TableHead>
+                                <TableRow>
+                                    <TableCell>Param</TableCell>
+                                    <TableCell align="right">Details</TableCell>
+                                    <TableCell align="right">詳述</TableCell>
+                            </TableRow>
+                            </TableHead>
+                            <TableBody>
+                            {rows.map((row) => (
+                                <TableRow
+                                  key={row.param}
+                                  sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+                                >
+                                    <TableCell component="th" scope="row">
+                                      {row.param}
+                                    </TableCell>
+                                    <TableCell align="right">{row.infoEn}</TableCell>
+                                    <TableCell align="right">{row.infoCn}</TableCell>
+                                </TableRow>
+                            ))}
+                            </TableBody>
+                        </Table>
+                    </TableContainer>
+                </AccordionDetails>
+            </Accordion>
         </Box>
     );
 }
