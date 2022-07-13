@@ -96,5 +96,27 @@
 | `["siteName1","siteName2"]` | batch open by site name you've created | 🗒️ 通過你已經創建的站點名批量打開，例如 \["雅虎搜索","谷歌搜索"\] |
 | `c:` | put this at first then all words after will be copied to the clipboard | 在開頭使用"c:"可以複製之後的所有字串 |
 
+## Call by event 透過鼠標手勢調用
++ Search by site name 以站點名調用搜索
+```
+// search by google
+const searchJumperEvent = new CustomEvent('searchJumper', {
+  detail: {
+    action: 'search',
+    name: 'Google search'
+  }
+});
+document.dispatchEvent(searchJumperEvent);
+```
++ Show search bar 顯示搜索條
+```
+const searchJumperEvent = new CustomEvent('searchJumper', {
+  detail: {
+    action: 'show'
+  }
+});
+document.dispatchEvent(searchJumperEvent);
+```
+
 ---
 
