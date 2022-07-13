@@ -71,7 +71,7 @@
   > 不篡改原始頁面
 
 ## Search params
-| param | details | 详述 |
+| param | details | 詳述 |
 | --- | --- | --- |
 | `%s` | search keyword |🗒️ 搜索關鍵詞 |
 | `%S` | cached search keyword |🗒️ 最近一次的搜索關鍵詞 |
@@ -82,12 +82,12 @@
 | `%e` | charset | 🗒️ 編碼 |
 | `%c` | client pc,mobile | 🗒️ 客戶端 pc,mobile |
 | `%u` | current website url | 🗒️ 當前網站 url |
-| `%U` | url with encodeURI | 🗒️ 當前網站 url 的 URI 編碼 |
+| `%U` | url with encodeURIComponent | 🗒️ 當前網站 url 的 URI 編碼 |
 | `%h` | current website host | 🗒️ 當前網站 host |
 | `%t` | target src | 🗒️ 指向對象的 src |
-| `%T` | %t with encodeURI | 🗒️ 指向對象的 src 的 URI 編碼 |
+| `%T` | %t with encodeURIComponent | 🗒️ 指向對象的 src 的 URI 編碼 |
 | `%b` | target src without http | 🗒️ 指向對象 src 去頭 |
-| `%B` | %b with encodeURI | 🗒️ 指向對象 src 去頭 的 URI 編碼 |
+| `%B` | %b with encodeURIComponent | 🗒️ 指向對象 src 去頭 的 URI 編碼 |
 | `%i` | base64 of target image | 🗒️ 指向圖片的 base64 |
 | `%p{params}` | post body, like %p{x=1&y=%s} | 🗒️ post 參數體，例如 %p{x=1&y=%s} |
 | `%P{params}` | post without navigation | 🗒️ post 但不跳轉 |
