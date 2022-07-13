@@ -41,6 +41,8 @@
   > 按住 **`ctrl`** 左鍵單擊站點以後臺標籤頁打開結果頁
 + **`alt`** + left click on site icon to preview in small window
   > 按住 **`alt`** 左鍵單擊站點以小窗口預覽結果
++ **`Ctrl + Alt`** + click single site to open in incognito window.
+  > 按住 **`ctrl + alt`** 左鍵單擊站點以隱身窗口打開
 + Can set the category to be displayed only on the specified site through the regular rule
   > 可以通過正則設置類別僅在指定站點顯示
 + Right click on cute face to hide the toolbar
@@ -68,11 +70,15 @@
 + No tamper with the original page
   > 不篡改原始頁面
 
-## Config params
+## Search params
 | param | details | 详述 |
 | --- | --- | --- |
 | `%s` | search keyword |🗒️ 搜索關鍵詞 |
 | `%S` | cached search keyword |🗒️ 最近一次的搜索關鍵詞 |
+| `%sl` | search keyword with lower case letters |🗒️ 小寫字母搜索詞 |
+| `%su` | search keyword with upper case letters |🗒️ 大寫字母搜索詞 |
+| `%sr` | search keyword without doing any encoding |🗒️ 未轉碼的搜索關鍵詞 |
+| `%s.replace` | replace keywords with regexp, like %sr.replace(/[^\d]/g, "").replace(/(\d)/g, "$1 ") means replace raw keywords to numbers and then join all numbers with space |🗒️ 用正則替換搜索關鍵詞，例如 %sr.replace(/[^\d]/g, "").replace(/(\d)/g, "$1 ") 代表提取原始關鍵詞中所有數字，並以空格分隔 |
 | `%e` | charset | 🗒️ 編碼 |
 | `%c` | client pc,mobile | 🗒️ 客戶端 pc,mobile |
 | `%u` | current website url | 🗒️ 當前網站 url |
@@ -88,6 +94,7 @@
 | `%input{tips}` | input something, like %input{love who?,you} | 🗒️ 輸入占位，例如%input{請輸入您的三圍,90 55 90} |
 | `#p{params}` | post in page, like #p{#input=1&div.param=2}, use \\& \\= instead of & = in content | 🗒️ 頁内 post，可在頁面之内使用【css選擇器】填寫參數提交查詢，適用於不開放GET/POST接口（Ajax-render）的網站，例如 #p{#input=1&div.param=2}, 可在内容中使用 \\& \\= 來 表示 & = |
 | `["siteName1","siteName2"]` | batch open by site name you've created | 🗒️ 通過你已經創建的站點名批量打開，例如 \["雅虎搜索","谷歌搜索"\] |
+| `c:` | put this at first then all words after will be copied to the clipboard | 在開頭使用"c:"可以複製之後的所有字串 |
 
 ---
 
