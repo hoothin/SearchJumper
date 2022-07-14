@@ -64,7 +64,7 @@ const presetCssList = [
 `     .search-jumper-searchBarCon {
      }
      .search-jumper-searchBar {
-         background: #AFAFAF;
+         background: rgb(153 153 153 / 50%);
          border-radius: 20px!important;
          border: 1px solid #c9c9c9;
          opacity: 0.3;
@@ -72,11 +72,11 @@ const presetCssList = [
      .search-jumper-btn {
      }
      .search-jumper-type {
-         background: #efefef;
+         background: rgb(255 255 255 / 38%);
      }
      .search-jumper-word {
-         background: white;
-         color: black!important;
+         background: rgb(255 255 255 / 70%);
+         color: #282828!important;
      }
      .search-jumper-tips {
          background: #0A0A0Ae0;
@@ -86,7 +86,7 @@ const presetCssList = [
          color: white;
      }
      .search-jumper-searchBar .search-jumper-btn:hover {
-         color: black;
+         color: white;
      }`
 ];
 
