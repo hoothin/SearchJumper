@@ -1,4 +1,4 @@
-# [Search Jumper - 搜索醬](https://greasyfork.org/scripts/445274-searchjumper "Install from greasyfork")  [👆Seek more sites 更多站點配置](https://github.com/hoothin/SearchJumper/issues?q=label%3A%22Sites+Rule%22)
+# [SearchJumper - 搜索醬](https://greasyfork.org/scripts/445274-searchjumper "Install from greasyfork")  [👆Seek more sites 更多站點配置](https://github.com/hoothin/SearchJumper/issues?q=label%3A%22Sites+Rule%22)
 
 ![star](https://img.shields.io/github/stars/hoothin/SearchJumper)
 ![react-version](https://img.shields.io/badge/React.js-lastest-green.svg)
@@ -71,7 +71,7 @@
   > 不篡改原始頁面
 
 ## Search params
-| param | details | 详述 |
+| param | details | 詳述 |
 | --- | --- | --- |
 | `%s` | search keyword |🗒️ 搜索關鍵詞 |
 | `%S` | cached search keyword |🗒️ 最近一次的搜索關鍵詞 |
@@ -82,12 +82,12 @@
 | `%e` | charset | 🗒️ 編碼 |
 | `%c` | client pc,mobile | 🗒️ 客戶端 pc,mobile |
 | `%u` | current website url | 🗒️ 當前網站 url |
-| `%U` | url with encodeURI | 🗒️ 當前網站 url 的 URI 編碼 |
+| `%U` | url with encodeURIComponent | 🗒️ 當前網站 url 的 URI 編碼 |
 | `%h` | current website host | 🗒️ 當前網站 host |
 | `%t` | target src | 🗒️ 指向對象的 src |
-| `%T` | %t with encodeURI | 🗒️ 指向對象的 src 的 URI 編碼 |
+| `%T` | %t with encodeURIComponent | 🗒️ 指向對象的 src 的 URI 編碼 |
 | `%b` | target src without http | 🗒️ 指向對象 src 去頭 |
-| `%B` | %b with encodeURI | 🗒️ 指向對象 src 去頭 的 URI 編碼 |
+| `%B` | %b with encodeURIComponent | 🗒️ 指向對象 src 去頭 的 URI 編碼 |
 | `%i` | base64 of target image | 🗒️ 指向圖片的 base64 |
 | `%p{params}` | post body, like %p{x=1&y=%s} | 🗒️ post 參數體，例如 %p{x=1&y=%s} |
 | `%P{params}` | post without navigation | 🗒️ post 但不跳轉 |
@@ -95,6 +95,28 @@
 | `#p{params}` | post in page, like #p{#input=1&div.param=2}, use \\& \\= instead of & = in content | 🗒️ 頁内 post，可在頁面之内使用【css選擇器】填寫參數提交查詢，適用於不開放GET/POST接口（Ajax-render）的網站，例如 #p{#input=1&div.param=2}, 可在内容中使用 \\& \\= 來 表示 & = |
 | `["siteName1","siteName2"]` | batch open by site name you've created | 🗒️ 通過你已經創建的站點名批量打開，例如 \["雅虎搜索","谷歌搜索"\] |
 | `c:` | put this at first then all words after will be copied to the clipboard | 在開頭使用"c:"可以複製之後的所有字串 |
+
+## Call by event 透過鼠標手勢調用
++ Search by site name 以站點名調用搜索
+```
+// search by google
+const searchJumperEvent = new CustomEvent('searchJumper', {
+  detail: {
+    action: 'search',
+    name: 'Google search'
+  }
+});
+document.dispatchEvent(searchJumperEvent);
+```
++ Show search bar 顯示搜索條
+```
+const searchJumperEvent = new CustomEvent('searchJumper', {
+  detail: {
+    action: 'show'
+  }
+});
+document.dispatchEvent(searchJumperEvent);
+```
 
 ---
 
