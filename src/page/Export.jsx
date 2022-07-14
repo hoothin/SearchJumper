@@ -74,7 +74,7 @@ const presetCssList = [
      .search-jumper-type {
          background: rgb(255 255 255 / 38%);
      }
-     .search-jumper-word {
+     .search-jumper-word,a.search-jumper-word {
          background: rgb(255 255 255 / 70%);
          color: #282828!important;
      }
