@@ -86,7 +86,10 @@ const presetCssList = [
          color: white;
      }
      .search-jumper-searchBar .search-jumper-btn:hover {
-         color: white;
+         color: black;
+     }
+     .search-jumper-searchBar .search-jumper-btn.search-jumper-word:hover{
+         background:white;
      }`
 ];
 
