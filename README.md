@@ -41,8 +41,8 @@
   > 按住 **`ctrl`** 左鍵單擊站點以後臺標籤頁打開結果頁
 + **`alt`** + left click on site icon to preview in small window
   > 按住 **`alt`** 左鍵單擊站點以小窗口預覽結果
-+ **`Ctrl + Alt`** + click single site to open in incognito window.
-  > 按住 **`ctrl + alt`** 左鍵單擊站點以隱身窗口打開
++ **`Ctrl + Alt`** + click single site/press shortcut key to open in incognito window.
+  > 按住 **`ctrl + alt`** 左鍵單擊站點或者按下快捷鍵以隱身窗口打開
 + Can set the category to be displayed only on the specified site through the regular rule
   > 可以通過正則設置類別僅在指定站點顯示
 + Right click on cute face to hide the toolbar
