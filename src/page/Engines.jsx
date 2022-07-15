@@ -326,6 +326,7 @@ class SitesList extends React.Component {
 
         this.editSite = null;
         this.openTypeEdit = props.openTypeEdit;
+        this.index = props.index;
         this.handleAlertOpen = props.handleAlertOpen;
 
         this.openSiteEdit = this.openSiteEdit.bind(this);
@@ -522,7 +523,7 @@ class SitesList extends React.Component {
         return (
             <Box elevation={5} component={Paper} sx={{p: '20px', mt: 2}} className={this.state.batchSelect ? 'site-list-box batch-edit' : 'site-list-box'}>
                 <Box sx={{ flexGrow: 1, display: 'flex', alignItems: 'center', minHeight: 50, flexWrap: 'wrap' }}>
-                    <IconButton title={window.i18n('editType')} color="primary" key='editType' onClick={() => { this.openTypeEdit(this.state.data) }}>
+                    <IconButton title={window.i18n('editType')} color="primary" key='editType' onClick={() => { this.openTypeEdit(this.index) }}>
                         <EditIcon />
                     </IconButton>
                     <IconButton title={window.i18n('batchAction')} color="primary" key='mulSelType' onClick={() => { this.setState(prevState => ({ batchSelect: !prevState.batchSelect })) }}>
@@ -1049,13 +1050,8 @@ export default function Engines() {
     };
 
     const openTypeEdit = editType => {
-        if (editType) {
-            for (let i in window.searchData.sitesConfig) {
-                if (window.searchData.sitesConfig[i].type === editType.type) {
-                    editType = window.searchData.sitesConfig[i];
-                    break;
-                }
-            }
+        if (editType !== false) {
+            editType = window.searchData.sitesConfig[editType];
         }
         setTypeData(typeObject(editType));
         setTypeOpen(true);
@@ -1231,7 +1227,7 @@ export default function Engines() {
             </Box>
             {window.searchData.sitesConfig.map((data, index) =>
                 <TabPanel value={value} index={index} key={data.type}>
-                    <SitesList data={data} openTypeEdit={openTypeEdit} handleAlertOpen={handleAlertOpen}/>
+                    <SitesList data={data} openTypeEdit={openTypeEdit} index={index} handleAlertOpen={handleAlertOpen}/>
                 </TabPanel>
             )}
             <TypeEdit 
