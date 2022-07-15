@@ -17,6 +17,7 @@ import FormControl from '@mui/material/FormControl';
 import Select, { SelectChangeEvent } from '@mui/material/Select';
 import FileUploadIcon from '@mui/icons-material/FileUpload';
 import FileDownloadIcon from '@mui/icons-material/FileDownload';
+import BookmarksIcon from '@mui/icons-material/Bookmarks';
 
 function saveConfigToScript (notification) {
     var saveMessage = new CustomEvent('saveConfig', {
@@ -113,6 +114,26 @@ function UploadSpeedDialAction(props) {
     );
 }
 
+function UploadBookmarkAction(props) {
+    return (
+        <React.Fragment>
+            <input
+                accept=".html"
+                style={{ display: "none" }}
+                id="icon-bookmark-file"
+                type="file"
+                onChange={props.onChange}
+            />
+            <label htmlFor="icon-bookmark-file">
+                <SpeedDialAction
+                    component="span"
+                    {...props}
+                ></SpeedDialAction>
+            </label>
+        </React.Fragment>
+    );
+}
+
 export default function Export() {
     const [presetCss, setPresetCss] = React.useState('');
     const [cssText, setCssText] = React.useState(window.searchData.prefConfig.cssText||'');
@@ -145,6 +166,48 @@ export default function Export() {
         reader.onload = function() {
             sitesDataInput.value = this.result;
             saveConfig();
+        };
+    }
+
+    function importBookmarks(event) {
+        let reader = new FileReader();
+        reader.readAsText(event.target.files[0]);
+        reader.onload = function() {
+            var doc = null;
+            try {
+                doc = document.implementation.createHTMLDocument('');
+                doc.documentElement.innerHTML = this.result;
+            }
+            catch (e) {
+                console.log('parse error');
+            }
+            let bookmarks = [];
+            [].forEach.call(doc.querySelectorAll("a"), item => {
+                for(let i = 0; i < bookmarks.length; i++) {
+                    if (item.href === bookmarks[i].url) return;
+                }
+                let site = {name: item.innerText || ("bookmark_" + bookmarks.length), url: item.href};
+                let icon = item.getAttribute("ICON");
+                if (icon) site.icon = icon;
+                bookmarks.push(site);
+            });
+            if (!bookmarks || bookmarks.length <= 0) return;
+            let typeName = "Bookmarts";
+            let hasType = true;
+            while (hasType) {
+                hasType = false;
+                for (let j = 0; j < window.searchData.sitesConfig.length; j++) {
+                    if (window.searchData.sitesConfig[j].type === typeName) {
+                        typeName += "_new";
+                        hasType = true;
+                        break;
+                    }
+                }
+            }
+            let newType = {type: typeName, icon: "bookmark", sites: bookmarks}
+            window.searchData.sitesConfig.push(newType);
+            sitesDataInput.value = JSON.stringify(window.searchData.sitesConfig, null, 4);
+            saveConfigToScript(true);
         };
     }
 
@@ -259,6 +322,12 @@ export default function Export() {
                     icon=<FileDownloadIcon />
                     tooltipTitle={window.i18n('export')}
                     onClick = {exportConfig}
+                />
+                <UploadBookmarkAction
+                    key='Bookmarks'
+                    icon=<BookmarksIcon />
+                    tooltipTitle={window.i18n('importBookmarks')}
+                    onChange = {importBookmarks}
                 />
             </SpeedDial>
         </Box>
