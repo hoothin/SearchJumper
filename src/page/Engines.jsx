@@ -638,7 +638,7 @@ class SitesList extends React.Component {
                             {window.i18n('category')}
                         </MenuItem>
                         {window.searchData.sitesConfig.map((data, index) =>
-                            <MenuItem value={data.type}>
+                            <MenuItem key={data.type} value={data.type}>
                                 {data.type}
                             </MenuItem>
                         )}
