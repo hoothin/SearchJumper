@@ -204,7 +204,7 @@ export default function Export() {
                     }
                 }
             }
-            let newType = {type: typeName, icon: "bookmark", sites: bookmarks}
+            let newType = {type: typeName, icon: "bookmark", sites: bookmarks, match: "0"}
             window.searchData.sitesConfig.push(newType);
             sitesDataInput.value = JSON.stringify(window.searchData.sitesConfig, null, 4);
             saveConfigToScript(true);
