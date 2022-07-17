@@ -137,6 +137,7 @@ let inited = false;
 let sitesData = '';
 export default function Export() {
     if (!inited) {
+        sitesData = '';
         let sitesNum = window.searchData.sitesConfig.reduce((pre, cur) => {
             return pre + cur.sites.length;
         }, 0);
