@@ -319,10 +319,63 @@ function TypeEdit(props) {
     );
 }
 
+class ChildSiteIcons extends React.Component {
+    shouldComponentUpdate(nextProps, nextState){
+        return nextProps.sites !== this.props.sites || nextProps.checkeds.length !== this.checkeds.length || !nextProps.checkeds.every((value, index) => value === this.checkeds[index]);
+    }
+
+    render() {
+        this.checkeds = [...this.props.checkeds];
+        return (
+            <Box sx={{flexGrow: 1, display: 'flex', flexWrap: 'wrap'}}>
+                {this.props.sites.map((site, i) => (
+                    <Box className="site-icon" key={i}>
+                        <Checkbox
+                            onChange={e => {
+                                this.props.checkChange(e, i);
+                            }}
+                            checked={this.props.checkeds[i]}
+                        />
+                        <IconButton sx={{fontSize: '1rem', flexDirection: 'column'}} draggable='true' onDrop={e => {this.props.changeSitePos(site, this.dragSite)}} onDragStart={e => {this.dragSite = site}} onDragOver={e => {e.preventDefault()}} key={site.name} title={site.name}  onClick={() => { this.props.openSiteEdit(site) }}>
+                            <Avatar sx={{m:1}} alt={site.name} src={(!this.props.tooLong && (site.icon || (/^http/.test(site.url) && site.url.replace(new RegExp('(https?://[^/]*/).*$'), "$1favicon.ico")))) || ''} />{site.name.length > 10 ? site.name.slice(0, 10) : site.name}
+                        </IconButton>
+                    </Box>
+                ))}
+                <IconButton color="primary" key='addType' onClick={() => { this.props.openSiteEdit(false); }}>
+                    <AddCircleOutlineIcon sx={{fontSize: '50px'}} />
+                </IconButton>
+            </Box>
+        );
+    }
+}
+// function ChildSiteIcon({sites, changeSitePos, tooLong, checkChange, checked, openSiteEdit}) {
+//     console.log("sitesIconRender");
+//     return (
+//         <Box sx={{flexGrow: 1, display: 'flex', flexWrap: 'wrap'}}>
+//             {sites.map((site, i) => (
+//                 <Box className="site-icon" key={i}>
+//                     <Checkbox
+//                         onChange={e => checkChange(e, i)}
+//                         checked={checked[i]}
+//                     />
+//                     <IconButton sx={{fontSize: '1rem', flexDirection: 'column'}} draggable='true' onDrop={e => {changeSitePos(site, this.dragSite)}} onDragStart={e => {this.dragSite = site}} onDragOver={e => {e.preventDefault()}} key={site.name} title={site.name}  onClick={() => { openSiteEdit(site) }}>
+//                         {tooLong ? '' : <Avatar sx={{m:1}} alt={site.name} src={(!tooLong && (site.icon || (/^http/.test(site.url) && site.url.replace(new RegExp('(https?://[^/]*/).*$'), "$1favicon.ico"))))||''} />}{site.name.length > 10 ? site.name.slice(0, 10) : site.name}
+//                     </IconButton>
+//                 </Box>
+//             ))}
+//             <IconButton color="primary" key='addType' onClick={() => { openSiteEdit(false); }}>
+//                 <AddCircleOutlineIcon sx={{fontSize: '50px'}} />
+//             </IconButton>
+//         </Box>
+//     );
+// }
+
+// const MemoSiteIcon = React.memo(ChildSiteIcon);
+
 class SitesList extends React.Component {
     constructor(props) {
         super(props);
-        this.state = {data: props.data, openSiteEdit: false, currentSite: siteObject(false), batchSelect: false, checked: Array(props.data.sites.length).fill(false), cloneSite: false};
+        this.state = {data: props.data, isOpenSiteEdit: false, currentSite: siteObject(false), checkeds: Array(props.data.sites.length).fill(false), cloneSite: false};
 
         this.editSite = null;
         this.openTypeEdit = props.openTypeEdit;
@@ -333,6 +386,8 @@ class SitesList extends React.Component {
         this.closeSiteEdit = this.closeSiteEdit.bind(this);
         this.handleDeleteSite = this.handleDeleteSite.bind(this);
         this.changeSitePos = this.changeSitePos.bind(this);
+        this.tooLong = props.data.sites && props.data.sites.length > 50;
+        this.batchSelect = false;
     }
 
     getMinSiteData(siteData) {
@@ -386,7 +441,7 @@ class SitesList extends React.Component {
         this.editSite = data;
         let currentSite = siteObject(data);
         this.setState(prevState => ({
-            openSiteEdit: true,
+            isOpenSiteEdit: true,
             currentSite: currentSite
         }));
     }
@@ -426,7 +481,7 @@ class SitesList extends React.Component {
                 window.searchData.sitesConfig = window.searchData.sitesConfig.map(data =>{
                     let returnData = data;
                     if (this.state.data.type === data.type) {
-                        returnData = newType;
+                        returnData = {...data, sites: newSites};
                     }
                     if (changeName) {
                         returnData.sites = returnData.sites.map(site => {
@@ -457,13 +512,13 @@ class SitesList extends React.Component {
             saveConfigToScript();
         }
         this.setState(prevState => ({
-            openSiteEdit: false
+            isOpenSiteEdit: false
         }));
     }
 
     handleDeleteSite() {
         this.setState(prevState => ({
-            openSiteEdit: false
+            isOpenSiteEdit: false
         }));
         let newSites = this.state.data.sites.filter(site => {
             return (site.url !== this.editSite.url);
@@ -521,33 +576,40 @@ class SitesList extends React.Component {
 
     render() {
         return (
-            <Box elevation={5} component={Paper} sx={{p: '20px', mt: 2}} className={this.state.batchSelect ? 'site-list-box batch-edit' : 'site-list-box'}>
+            <Box elevation={5} component={Paper} sx={{p: '20px', mt: 2}} className='site-list-box'>
                 <Box sx={{ flexGrow: 1, display: 'flex', alignItems: 'center', minHeight: 50, flexWrap: 'wrap' }}>
                     <IconButton title={window.i18n('editType')} color="primary" key='editType' onClick={() => { this.openTypeEdit(this.index) }}>
                         <EditIcon />
                     </IconButton>
-                    <IconButton title={window.i18n('batchAction')} color="primary" key='mulSelType' onClick={() => { this.setState(prevState => ({ batchSelect: !prevState.batchSelect })) }}>
+                    <IconButton title={window.i18n('batchAction')} color="primary" key='mulSelType' onClick={() => { 
+                        this.batchSelect = !this.batchSelect; 
+                        let siteListBox = document.querySelector(".site-list-box");
+                        if (this.batchSelect) {
+                            siteListBox.classList.add("batch-edit");
+                        } else {
+                            siteListBox.classList.remove("batch-edit");
+                        }
+                    }}>
                         <SelectAllIcon />
                     </IconButton>
                     <Button onClick={() => { 
                         this.setState(prevState => ({ 
-                            batchSelect: false,
-                            checked: Array(this.state.data.sites.length).fill(false)
+                            checkeds: Array(this.state.data.sites.length).fill(false)
                         }));
                     }}>{window.i18n('cancel')}</Button>
                     <Button onClick={() => { 
                         this.setState(prevState => ({ 
-                            checked: Array(this.state.data.sites.length).fill(true)
+                            checkeds: Array(this.state.data.sites.length).fill(true)
                         }));
                     }}>{window.i18n('selectAll')}</Button>
                     <Button onClick={() => { 
                         this.setState(prevState => ({ 
-                            checked: prevState.checked.map(v => !v)
+                            checkeds: prevState.checkeds.map(v => !v)
                         }));
                     }}>{window.i18n('invert')}</Button>
                     <Button variant="outlined" color="error" sx={{ml: 'auto', height: 35}} startIcon={<DeleteIcon />} onClick={() => {
                         let newSites = this.state.data.sites.filter((site, i) => {
-                            return (this.state.checked[i] !== true);
+                            return (this.state.checkeds[i] !== true);
                         })
                         if (newSites.length === this.state.data.sites.length || !window.confirm(window.i18n('deleteConfirm'))) return;
                         let newType = {...this.state.data, sites: newSites};
@@ -559,8 +621,8 @@ class SitesList extends React.Component {
                         });
                         this.setState(prevState => ({
                             data: newType,
-                            openSiteEdit: false,
-                            checked: Array(newSites.length).fill(false)
+                            isOpenSiteEdit: false,
+                            checkeds: Array(newSites.length).fill(false)
                         }));
                         saveConfigToScript();
                     }}>{window.i18n('delete')}</Button>
@@ -572,7 +634,7 @@ class SitesList extends React.Component {
                             sx={{height: 35}}
                             onChange={(event: SelectChangeEvent) => {
                                 let moveSites = this.state.data.sites.filter((site, i) => {
-                                    return (this.state.checked[i] === true);
+                                    return (this.state.checkeds[i] === true);
                                 })
                                 if (moveSites.length === 0) return;
                                 if (this.state.cloneSite) {
@@ -606,14 +668,14 @@ class SitesList extends React.Component {
                                         return data;
                                     });
                                     this.setState(prevState => ({
-                                        openSiteEdit: false,
-                                        checked: Array(prevState.checked.length).fill(false)
+                                        isOpenSiteEdit: false,
+                                        checkeds: Array(prevState.checkeds.length).fill(false)
                                     }));
                                 } else {
                                     if (event.target.value === this.state.data.type) return;
                                     if (!window.confirm(window.i18n('moveToConfirm', event.target.value))) return;
                                     let newSites = this.state.data.sites.filter((site, i) => {
-                                        return (this.state.checked[i] !== true);
+                                        return (this.state.checkeds[i] !== true);
                                     })
                                     let newType = {...this.state.data, sites: newSites};
                                     window.searchData.sitesConfig = window.searchData.sitesConfig.map(data =>{
@@ -626,8 +688,8 @@ class SitesList extends React.Component {
                                     });
                                     this.setState(prevState => ({
                                         data: newType,
-                                        openSiteEdit: false,
-                                        checked: Array(newSites.length).fill(false)
+                                        isOpenSiteEdit: false,
+                                        checkeds: Array(newSites.length).fill(false)
                                     }));
                                 }
                                 saveConfigToScript();
@@ -657,31 +719,24 @@ class SitesList extends React.Component {
                     } label={window.i18n('clone')} />
                 </Box>
 
-                <Box sx={{flexGrow: 1, display: 'flex', flexWrap: 'wrap'}}>
-                    {this.state.data.sites.map((site, i) => (
-                        <Box className="site-icon">
-                            <Checkbox
-                                onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
-                                    this.setState(prevState => {
-                                        let newChecked = prevState.checked;
-                                        newChecked[i] = event.target.checked;
-                                        return {
-                                            checked: newChecked
-                                        }
-                                    })
-                                }}
-                                checked={this.state.checked[i]}
-                            />
-                            <IconButton sx={{fontSize: '1rem', flexDirection: 'column'}} draggable='true' onDrop={e => {this.changeSitePos(site, this.dragSite)}} onDragStart={e => {this.dragSite = site}} onDragOver={e => {e.preventDefault()}} key={site.name} title={site.name}  onClick={() => { this.openSiteEdit(site) }}>
-                                <Avatar sx={{m:1}} alt={site.name} src={site.icon||(/^http/.test(site.url) && site.url.replace(new RegExp('(https?://[^/]*/).*$'), "$1favicon.ico"))||site.name} />{site.name.slice(0, 10)}
-                            </IconButton>
-                        </Box>
-                    ))}
-                    <IconButton color="primary" key='addType' onClick={() => { this.openSiteEdit(false); }}>
-                        <AddCircleOutlineIcon sx={{fontSize: '50px'}} />
-                    </IconButton>
-                </Box>
-                <Dialog open={this.state.openSiteEdit} onClose={() => this.closeSiteEdit(false)}>
+                <ChildSiteIcons 
+                    sites={this.state.data.sites} 
+                    checkChange={(event: React.ChangeEvent<HTMLInputElement>, i) => {
+                        let value = event.target.checked;
+                        this.setState(prevState => {
+                            let newCheckeds = prevState.checkeds;
+                            newCheckeds[i] = value;
+                            return {
+                                checkeds: newCheckeds
+                            }
+                        })
+                    }}
+                    tooLong={this.tooLong}
+                    changeSitePos={this.changeSitePos}
+                    checkeds={this.state.checkeds}
+                    openSiteEdit={this.openSiteEdit}
+                />
+                <Dialog open={this.state.isOpenSiteEdit} onClose={() => this.closeSiteEdit(false)}>
                     <DialogTitle>{window.i18n('editSite')}</DialogTitle>
                     <DialogContent>
                         <TextField
