@@ -1270,7 +1270,7 @@ export default function Engines() {
                                     <i style={{background: 'darkgray', lineHeight: '65px', width: '65px', fontSize: '30px', color: 'white', borderRadius: '35px'}} className={`fa fa-${data.icon}`}/>
                                 )} 
                             label={data.type.slice(0, 10)} 
-                            title={data.type}
+                            title={data.description || data.type}
                             key={index} 
                             {...a11yProps(index)} 
                         />
