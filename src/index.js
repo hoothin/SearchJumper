@@ -126,6 +126,7 @@ switch (lang) {
             groupName: '集合名',
             donate: '💞如果对你有帮助，请通过以下方式打赏我',
             importBookmarks: '导入浏览器书签',
+            jsonToolong: '站点数据过于庞大，是否继续格式化为JSON文本？',
             cacheSwitchTips: '浏览网页时在后台缓存图标为 base64 图片至配置，以免 icon 请求拉低性能，注意开启后会弹出跨域请求',
             aboutContent: '平时工作中搜索引擎跳转功能用得很频繁，但尝试了相关的扩展，发现大多夹有私货。\n\n而这只是一个简单功能，所以不如自己写一个啦。\n\n结果写配置页面耗费的精力数倍于脚本本身……🤦‍\n\n这个搜索引擎跳转支持自己拖拽定义位置，同时也支持站内搜索，多语言编码设置（例如shift-jis），划词搜索，以及配置导入导出。'
         }
@@ -249,6 +250,7 @@ switch (lang) {
             groupName: '集合名',
             donate: '💞如果對你有幫助，請通過以下方式打賞我',
             importBookmarks: '導入瀏覽器書簽',
+            jsonToolong: '站點數據過於龐大，是否繼續格式化為JSON文本？',
             cacheSwitchTips: '瀏覽網頁時在後台緩存圖標為base64圖片，注意開啟後會彈出跨域請求',
             aboutContent: '平時工作中搜尋引擎跳轉功能用得很頻繁，但嘗試了相關的擴展，發現大多夾有私貨。\n\n而這只是一個簡單功能，所以不如自己寫一個啦。\n\n結果寫配置頁面耗費的精力數倍於腳本本身……🤦‍\n\n這個搜尋引擎跳轉支持自己拖拽定義位置，同時也支持站內搜索，多語言編碼設置（例如shift-jis），劃詞搜索，以及配置導入導出。'
         }
@@ -371,6 +373,7 @@ switch (lang) {
             groupName: 'Group Name',
             donate: '💞Buy me a coffee if it helps you',
             importBookmarks: 'Import browser bookmarks',
+            jsonToolong: 'The sites data is too long, do you want to continue format to json?',
             cacheSwitchTips: 'The icons will cached with base64 images in the background when browsing, but some cross-domain requests will pop up',
             aboutContent: "I use the search engine jump function very frequently in my work, but I found that most of them contain trojans after tried many related extensions. \n\nThis is just a simple function, so why not write one by myself? \n\nThe result is that writing the configuration page takes several times more energy than the script itself... 🤦‍\n\nThis search engine jump supports dragging and dropping with defined location, and also supports in-site search, word-marking search, and configuration import and export."
         }
