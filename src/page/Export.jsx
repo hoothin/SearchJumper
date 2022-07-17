@@ -133,12 +133,20 @@ function UploadBookmarkAction(props) {
         </React.Fragment>
     );
 }
-
+let inited = false;
+let sitesData = '';
 export default function Export() {
+    if (!inited) {
+        let sitesNum = window.searchData.sitesConfig.reduce((pre, cur) => {
+            return pre + cur.sites.length;
+        }, 0);
+        if (sitesNum < 1000 || window.confirm(window.i18n('jsonToolong'))) sitesData = JSON.stringify(window.searchData.sitesConfig, null, 4);
+    }
+    inited = true;
+    setTimeout(() => inited = false, 0);
     const [presetCss, setPresetCss] = React.useState('');
     const [cssText, setCssText] = React.useState(window.searchData.prefConfig.cssText||'');
     const [fontAwesomeCss, setFontAwesomeCss] = React.useState(window.searchData.prefConfig.fontAwesomeCss);
-    const sitesData = JSON.stringify(window.searchData.sitesConfig, null, 4);
 
     var sitesDataInput;
     var downloadEle = document.createElement('a');
@@ -146,7 +154,7 @@ export default function Export() {
     downloadEle.target = "_blank";
     function saveConfig() {
         try {
-            window.searchData.sitesConfig = JSON.parse(sitesDataInput.value);
+            if (sitesDataInput.value) window.searchData.sitesConfig = JSON.parse(sitesDataInput.value);
             window.searchData.prefConfig.cssText = cssText;
             window.searchData.prefConfig.fontAwesomeCss = fontAwesomeCss;
             saveConfigToScript(true);
@@ -221,7 +229,7 @@ export default function Export() {
     }
 
     function exportConfig() {
-        let blobStr = [sitesDataInput.value];
+        let blobStr = [(sitesDataInput.value || JSON.stringify(window.searchData.sitesConfig, null, 4))];
         let myBlob = new Blob(blobStr, { type: "application/json" });
         downloadEle.href = window.URL.createObjectURL(myBlob);
         downloadEle.click();
