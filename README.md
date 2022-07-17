@@ -43,6 +43,8 @@
   > 按住 **`alt`** 左鍵單擊站點以小窗口預覽結果
 + **`Ctrl + Alt`** + click single site/press shortcut key to open in incognito window.
   > 按住 **`ctrl + alt`** 左鍵單擊站點或者按下快捷鍵以隱身窗口打開
++ Call search bar for input words to filter sites by shortcut key when select no words, press enter to search quickly, `ctrl` + enter search without lock.
+  > 沒有選擇文字或者圖片時通過喚出快捷鍵可喚出站點搜索框，搜索站點后按下回車可鎖定站點並輸入搜索詞，再次回車使用第一個結果搜索，ctrl+回車無需鎖定即可快捷搜索。
 + Can set the category to be displayed only on the specified site through the regular rule
   > 可以通過正則設置類別僅在指定站點顯示
 + Right click on cute face to hide the toolbar
