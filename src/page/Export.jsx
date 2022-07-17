@@ -181,6 +181,7 @@ export default function Export() {
             catch (e) {
                 console.log('parse error');
             }
+            let curSites = [];
             let bookmarks = [];
             [].forEach.call(doc.querySelectorAll("a"), item => {
                 for(let i = 0; i < bookmarks.length; i++) {
@@ -189,23 +190,31 @@ export default function Export() {
                 let site = {name: item.innerText || ("bookmark_" + bookmarks.length), url: item.href};
                 let icon = item.getAttribute("ICON");
                 if (icon) site.icon = icon;
-                bookmarks.push(site);
+                curSites.push(site);
+                if (curSites.length === 1) {
+                    bookmarks.push(curSites);
+                } else if (curSites.length >= 200) {
+                    curSites = [];
+                }
             });
             if (!bookmarks || bookmarks.length <= 0) return;
-            let typeName = "Bookmarts";
-            let hasType = true;
-            while (hasType) {
-                hasType = false;
-                for (let j = 0; j < window.searchData.sitesConfig.length; j++) {
-                    if (window.searchData.sitesConfig[j].type === typeName) {
-                        typeName += "_new";
-                        hasType = true;
-                        break;
+            let typeName = "BM", index = 0;
+            let createNewType = typeSites => {
+                let hasType = true;
+                while (hasType) {
+                    hasType = false;
+                    for (let j = 0; j < window.searchData.sitesConfig.length; j++) {
+                        if (window.searchData.sitesConfig[j].type === typeName) {
+                            typeName = "BM_" + (++index);
+                            hasType = true;
+                            break;
+                        }
                     }
                 }
+                let newType = {type: typeName, description:'Bookmarks', icon: "bookmark", sites: typeSites, match: "0"}
+                window.searchData.sitesConfig.push(newType);
             }
-            let newType = {type: typeName, icon: "bookmark", sites: bookmarks, match: "0"}
-            window.searchData.sitesConfig.push(newType);
+            bookmarks.forEach(typeSites => createNewType(typeSites));
             sitesDataInput.value = JSON.stringify(window.searchData.sitesConfig, null, 4);
             saveConfigToScript(true);
         };
