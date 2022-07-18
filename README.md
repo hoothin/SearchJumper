@@ -102,10 +102,11 @@
 + Search by site name 以站點名調用搜索
 ```
 // search by google
+const siteName = 'Google search';
 const searchJumperEvent = new CustomEvent('searchJumper', {
   detail: {
     action: 'search',
-    name: 'Google search'
+    name: siteName
   }
 });
 document.dispatchEvent(searchJumperEvent);
@@ -134,7 +135,8 @@ if (currentSite) {
 ```
 + Search by second shown site button 使用當前展開的第二個站點搜索
 ```
-let currentSite = document.querySelector(".search-jumper-type:not(.search-jumper-hide)>a:nth-of-type(2)");
+const siteOrder = 2;
+let currentSite = document.querySelector(`.search-jumper-type:not(.search-jumper-hide)>a:nth-of-type(${siteOrder})`);
 if (currentSite) {
   const searchJumperEvent = new CustomEvent('searchJumper', {
     detail: {
