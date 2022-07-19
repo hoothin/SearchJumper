@@ -278,7 +278,7 @@ export default function Export() {
                 <InputLabel>{window.i18n('presetCss')}</InputLabel>
                 <Select
                     value={presetCss}
-                    label="Css"
+                    label={window.i18n('presetCss')}
                     onChange={handleChange}
                 >
                     <MenuItem value="">
