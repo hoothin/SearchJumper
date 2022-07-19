@@ -100,7 +100,7 @@
 
 ## Call by event 透過鼠標手勢調用
 + Search by site name 以站點名調用搜索
-```
+``` javascript
 // search by google
 const siteName = 'Google search';
 const searchJumperEvent = new CustomEvent('searchJumper', {
@@ -112,7 +112,7 @@ const searchJumperEvent = new CustomEvent('searchJumper', {
 document.dispatchEvent(searchJumperEvent);
 ```
 + Show search bar 顯示搜索條
-```
+``` javascript
 const searchJumperEvent = new CustomEvent('searchJumper', {
   detail: {
     action: 'show'
@@ -121,7 +121,7 @@ const searchJumperEvent = new CustomEvent('searchJumper', {
 document.dispatchEvent(searchJumperEvent);
 ```
 + Search by fisrt shown site button 使用當前展開的第一個站點搜索
-```
+``` javascript
 let currentSite = document.querySelector(".search-jumper-type:not(.search-jumper-hide)>a");
 if (currentSite) {
   const searchJumperEvent = new CustomEvent('searchJumper', {
@@ -134,7 +134,7 @@ if (currentSite) {
 }
 ```
 + Search by second shown site button 使用當前展開的第二個站點搜索
-```
+``` javascript
 const siteOrder = 2;
 let currentSite = document.querySelector(`.search-jumper-type:not(.search-jumper-hide)>a:nth-of-type(${siteOrder})`);
 if (currentSite) {
