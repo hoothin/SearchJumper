@@ -637,6 +637,19 @@ export default function General() {
                             />
                         </FormControl>
                     </Box>
+                    <Typography gutterBottom component="div">
+                        <h4>{window.i18n('dragToSearch')}</h4>
+                    </Typography>
+                    <Box>
+                        <FormControl sx={{ m: 1, minWidth: 80 }}>
+                            <FormControlLabel
+                                control={
+                                    <Switch checked={state.dragToSearch} onChange={handleCheckChange} name="dragToSearch" />
+                                }
+                                label={window.i18n('dragToSearchTips')}
+                            />
+                        </FormControl>
+                    </Box>
                 </Box>
             </Paper>
         </Box>
