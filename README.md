@@ -215,4 +215,4 @@ Windows Registry Editor Version 5.00
 ```
 Modify path by yourself 自行修改補丁中的目錄，保存爲 lux.reg，雙擊導入注冊表。
 
-Open the page of video and download with "lux://%u" 完畢之後即可使用lux://%u調用lux下載當前網頁視頻
+Open the page of video and download with "lux://%u" 完畢之後即可新建站點使用 `lux://%u` 調用 lux 下載當前網頁視頻
