@@ -149,7 +149,7 @@ if (currentSite) {
 ```
 
 ---
-+ Download all video with lux 使用 LUX 下載全網視頻
+## Download all video with lux 使用 LUX 下載全網視頻
 Registry patch to call lux by SearchJumper 搜索醬調用本地應用的注冊表補丁
 ``` registry
 Windows Registry Editor Version 5.00
