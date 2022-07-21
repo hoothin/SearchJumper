@@ -479,7 +479,7 @@ class SitesList extends React.Component {
                     return site;
                 })
                 let newType = {...this.state.data, sites: newSites};
-                let changeName = this.editSite.name !== this.state.currentSite.name;
+                let changeName = this.editSite.name !== this.state.currentSite.name && !/^\[/.test(this.editSite.url);
                 window.searchData.sitesConfig = window.searchData.sitesConfig.map(data =>{
                     let returnData = data;
                     if (this.state.data.type === data.type) {
@@ -531,16 +531,18 @@ class SitesList extends React.Component {
             if (this.state.data.type === data.type) {
                 returnData = newType;
             }
-            returnData.sites = returnData.sites.map(site => {
-                if (/^\[/.test(site.url)) {
-                    let namesArr = JSON.parse(site.url);
-                    namesArr = namesArr.filter(n => {
-                        return (n !== this.editSite.name);
-                    });
-                    site.url = namesArr.length === 0 ? '' : JSON.stringify(namesArr);
-                }
-                return site;
-            });
+            if (!/^\[/.test(this.editSite.url)){
+                returnData.sites = returnData.sites.map(site => {
+                    if (/^\[/.test(site.url)) {
+                        let namesArr = JSON.parse(site.url);
+                        namesArr = namesArr.filter(n => {
+                            return (n !== this.editSite.name);
+                        });
+                        site.url = namesArr.length === 0 ? '' : JSON.stringify(namesArr);
+                    }
+                    return site;
+                });
+            }
             returnData.sites = returnData.sites.filter(site => {
                 return site.url !== '';
             });
