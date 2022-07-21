@@ -37,6 +37,8 @@ import TableCell from '@mui/material/TableCell';
 import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
+import InputBase from '@mui/material/InputBase';
+import SearchIcon from '@mui/icons-material/Search';
 
 function saveConfigToScript (notification) {
     var saveMessage = new CustomEvent('saveConfig', {
@@ -1307,6 +1309,28 @@ export default function Engines() {
                   <Typography>Search params</Typography>
                 </AccordionSummary>
                 <AccordionDetails>
+                    <Paper
+                      component="form"
+                      target="_blank"
+                      action="https://fontawesome.com/v6/search?m=free"
+                      method="get"
+                      sx={{ mt: '10px', p: '2px 4px', display: 'flex', alignItems: 'center', border: '1px solid rgba(0, 0, 0, 0.25)', boxShadow: 'unset' }}
+                    >
+                        <InputBase
+                            name="q"
+                            sx={{ ml: 1, flex: 1 }}
+                            placeholder={window.i18n("searchFontawesome")}
+                            inputProps={{ 'aria-label': 'search fontawesome' }}
+                        />
+                        <IconButton type="submit" sx={{ p: '10px' }} aria-label="search">
+                        <SearchIcon />
+                        </IconButton>
+                        <InputBase
+                            name="m"
+                            value="free"
+                            type="hidden"
+                        />
+                    </Paper>
                     <Typography variant="h6" gutterBottom component="div">
                         Example url:➡️ https://www.google.com/search?q=%s
                     </Typography>
