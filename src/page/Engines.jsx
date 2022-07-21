@@ -658,7 +658,7 @@ class SitesList extends React.Component {
                                         cloneSites = [];
                                         moveSites.forEach(site => {
                                             if (!/^\[/.test(site.url)) {
-                                                cloneSites.push({name: site.name, url: JSON.stringify([site.name])});
+                                                cloneSites.push({name: site.name + "-" + event.target.value, url: JSON.stringify([site.name])});
                                             }
                                         });
                                     }
