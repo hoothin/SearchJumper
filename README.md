@@ -196,7 +196,7 @@ if (currentSite) {
 ---
 ## Download all video with lux 使用 LUX 下載全網視頻
 Registry patch to call lux by SearchJumper 搜索醬調用本地程式的注冊表補丁
-``` registry
+``` ini
 Windows Registry Editor Version 5.00
 
 [HKEY_CLASSES_ROOT\lux]
