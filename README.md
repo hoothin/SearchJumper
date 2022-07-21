@@ -149,4 +149,25 @@ if (currentSite) {
 ```
 
 ---
++ Download all video with lux 使用 LUX 下載全網視頻
+Registry patch to call lux by SearchJumper 搜索醬調用本地應用的注冊表補丁
+``` registry
+Windows Registry Editor Version 5.00
 
+[HKEY_CLASSES_ROOT\lux]
+@="URL:lux Protocol"
+"URL Protocol"=""
+
+[HKEY_CLASSES_ROOT\lux\DefaultIcon]
+@="cmd.exe,1"
+
+[HKEY_CLASSES_ROOT\lux\shell]
+
+[HKEY_CLASSES_ROOT\lux\shell\open]
+
+[HKEY_CLASSES_ROOT\lux\shell\open\command]
+@="cmd /c set m=%1 & call set m=%%m:lux://=%% & d: & cd \"D:\\Program Files\\lux\" & call lux.exe %%m%% & pause"
+```
+Modify path by yourself 自行修改補丁中的目錄，保存爲 lux.reg，雙擊導入注冊表。
+
+Open the page of video and download with "lux://%u" 完畢之後即可使用lux://%u調用lux下載當前網頁視頻
