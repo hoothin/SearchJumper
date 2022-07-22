@@ -133,21 +133,7 @@ if (currentSite) {
   document.dispatchEvent(searchJumperEvent);
 }
 ```
-+ Search by second shown site button 使用當前展開的第二個站點搜索
-``` javascript
-const siteOrder = 2;
-let currentSite = document.querySelector(`.search-jumper-type:not(.search-jumper-hide)>a:nth-of-type(${siteOrder})`);
-if (currentSite) {
-  const searchJumperEvent = new CustomEvent('searchJumper', {
-    detail: {
-      action: 'search',
-      name: currentSite.dataset.name
-    }
-  });
-  document.dispatchEvent(searchJumperEvent);
-}
-```
-+ Search by second shown site button 使用當前展開的第二個站點搜索並在小窗打開結果
++ Search by second shown site button and open in new window 使用當前展開的第二個站點搜索並在小窗打開結果
 ``` javascript
 const siteOrder = 2;
 let currentSite = document.querySelector(`.search-jumper-type:not(.search-jumper-hide)>a:nth-of-type(${siteOrder})`);
@@ -162,35 +148,27 @@ if (currentSite) {
   document.dispatchEvent(searchJumperEvent);
 }
 ```
-+ Search by second shown site button 使用當前展開的第二個站點搜索並在後臺標籤頁打開結果
++ Search by site of current type in background tab 使用當前選中類別的站點搜索並在後臺標籤頁打開結果
 ``` javascript
-const siteOrder = 2;
-let currentSite = document.querySelector(`.search-jumper-type:not(.search-jumper-hide)>a:nth-of-type(${siteOrder})`);
-if (currentSite) {
-  const searchJumperEvent = new CustomEvent('searchJumper', {
-    detail: {
-      action: 'search',
-      name: currentSite.dataset.name,
-      key: {ctrlKey:true}
-    }
-  });
-  document.dispatchEvent(searchJumperEvent);
-}
+const searchJumperEvent = new CustomEvent('searchJumper', {
+  detail: {
+    action: 'search',
+    key: {ctrlKey:true}
+  }
+});
+document.dispatchEvent(searchJumperEvent);
 ```
-+ Search by second shown site button 使用當前展開的第二個站點搜索並在隱身標籤頁打開結果
++ Search by second site of current type in incognito tab 使用當前選中類別的第二個站點搜索並在隱身標籤頁打開結果
 ``` javascript
 const siteOrder = 2;
-let currentSite = document.querySelector(`.search-jumper-type:not(.search-jumper-hide)>a:nth-of-type(${siteOrder})`);
-if (currentSite) {
-  const searchJumperEvent = new CustomEvent('searchJumper', {
-    detail: {
-      action: 'search',
-      name: currentSite.dataset.name,
-      key: {ctrlKey:true, altKey:true}
-    }
-  });
-  document.dispatchEvent(searchJumperEvent);
-}
+const searchJumperEvent = new CustomEvent('searchJumper', {
+  detail: {
+    action: 'search',
+    index: siteOrder,
+    key: {ctrlKey:true, altKey:true}
+  }
+});
+document.dispatchEvent(searchJumperEvent);
 ```
 
 ---
