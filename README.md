@@ -101,7 +101,7 @@
  <details>
 <summary><h2>Filter sites to search 站點篩選並搜索</h></summary>
 
-+ Input keywords of site name to filter sites, support glob with "?/\*" 輸入站點名稱的關鍵詞來篩選，支持 “?/\*” 通配符
++ Call by global shortcut key, Input keywords of site name to filter sites, support glob with "?/\*" 通過全局快捷鍵喚出，輸入站點名稱的關鍵詞來篩選，支持 “?/\*” 通配符
 + Enter to lock filter and input words to search by click icon or another press of enter 回車鎖定篩選，輸入文字并且點擊站點圖標或者再次回車來進行搜索
 
 ![i](filter.jpg)
