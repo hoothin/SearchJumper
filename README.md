@@ -200,3 +200,18 @@ Modify path by yourself 自行修改補丁中的目錄，保存爲 lux.reg，雙
 
 Open the page of video and download with `lux://%u` 完畢之後即可新建站點使用 `lux://%u` 調用 lux 下載當前網頁視頻
  </details>
+
+---
+ <details>
+<summary><h2>Batch open types 多種批量打開方式</h></summary>
+  
++ **`shift`** + click category icon
+![i](batchOpen1.jpg)
+  
++ **`Alt`** + click category icon
+![i](batchOpen2.jpg)
+  
++ **`alt + shift`** + click category icon
+![i](batchOpen3.jpg)
+
+ </details>
