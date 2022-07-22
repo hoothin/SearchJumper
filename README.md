@@ -98,7 +98,9 @@
 | `["siteName1","siteName2"]` | batch open by site name you've created | 🗒️ 通過你已經創建的站點名批量打開，例如 \["雅虎搜索","谷歌搜索"\] |
 | `c:` | put this at first then all words after will be copied to the clipboard | 在開頭使用"c:"可以複製之後的所有字串 |
 
-## Call by event 透過鼠標手勢調用
+ <details>
+<summary><h2>Call by event 透過鼠標手勢調用</h></summary>
+
 + Search by site name 以站點名調用搜索
 ``` javascript
 // search by google
@@ -170,10 +172,13 @@ const searchJumperEvent = new CustomEvent('searchJumper', {
 });
 document.dispatchEvent(searchJumperEvent);
 ```
+ </details>
 
 ---
-## Download all video with lux 使用 LUX 下載全網視頻
+ <details>
+<summary><h2>Download all video with lux 使用 LUX 下載全網視頻</h></summary>
 Registry patch to call lux by SearchJumper 搜索醬調用本地程式的注冊表補丁
+
 ``` ini
 Windows Registry Editor Version 5.00
 
@@ -194,3 +199,4 @@ Windows Registry Editor Version 5.00
 Modify path by yourself 自行修改補丁中的目錄，保存爲 lux.reg，雙擊導入注冊表。
 
 Open the page of video and download with `lux://%u` 完畢之後即可新建站點使用 `lux://%u` 調用 lux 下載當前網頁視頻
+ </details>
