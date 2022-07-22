@@ -98,7 +98,9 @@
 | `["siteName1","siteName2"]` | batch open by site name you've created | 🗒️ 通過你已經創建的站點名批量打開，例如 \["雅虎搜索","谷歌搜索"\] |
 | `c:` | put this at first then all words after will be copied to the clipboard | 在開頭使用"c:"可以複製之後的所有字串 |
 
-## Call by event 透過鼠標手勢調用
+ <details>
+<summary><h2>Call by event 透過鼠標手勢調用</h></summary>
+
 + Search by site name 以站點名調用搜索
 ``` javascript
 // search by google
@@ -133,7 +135,7 @@ if (currentSite) {
   document.dispatchEvent(searchJumperEvent);
 }
 ```
-+ Search by second shown site button 使用當前展開的第二個站點搜索
++ Search by second shown site button and open in new window 使用當前展開的第二個站點搜索並在小窗打開結果
 ``` javascript
 const siteOrder = 2;
 let currentSite = document.querySelector(`.search-jumper-type:not(.search-jumper-hide)>a:nth-of-type(${siteOrder})`);
@@ -141,12 +143,75 @@ if (currentSite) {
   const searchJumperEvent = new CustomEvent('searchJumper', {
     detail: {
       action: 'search',
-      name: currentSite.dataset.name
+      name: currentSite.dataset.name,
+      key: {altKey:true}
     }
   });
   document.dispatchEvent(searchJumperEvent);
 }
 ```
++ Search by site of current type in background tab 使用當前選中類別的站點搜索並在後臺標籤頁打開結果
+``` javascript
+const searchJumperEvent = new CustomEvent('searchJumper', {
+  detail: {
+    action: 'search',
+    key: {ctrlKey:true}
+  }
+});
+document.dispatchEvent(searchJumperEvent);
+```
++ Search by second site of current type in incognito tab 使用當前選中類別的第二個站點搜索並在隱身標籤頁打開結果
+``` javascript
+const siteOrder = 2;
+const searchJumperEvent = new CustomEvent('searchJumper', {
+  detail: {
+    action: 'search',
+    index: siteOrder,
+    key: {ctrlKey:true, altKey:true}
+  }
+});
+document.dispatchEvent(searchJumperEvent);
+```
+ </details>
 
 ---
+ <details>
+<summary><h2>Download all video with lux 使用 LUX 下載全網視頻</h></summary>
+Registry patch to call lux by SearchJumper 搜索醬調用本地程式的注冊表補丁
 
+``` ini
+Windows Registry Editor Version 5.00
+
+[HKEY_CLASSES_ROOT\lux]
+@="URL:lux Protocol"
+"URL Protocol"=""
+
+[HKEY_CLASSES_ROOT\lux\DefaultIcon]
+@="cmd.exe,1"
+
+[HKEY_CLASSES_ROOT\lux\shell]
+
+[HKEY_CLASSES_ROOT\lux\shell\open]
+
+[HKEY_CLASSES_ROOT\lux\shell\open\command]
+@="cmd /c set m=%1 & call set m=%%m:lux://=%% & d: & cd \"D:\\Program Files\\lux\" & call lux.exe %%m%% & pause"
+```
+Modify path by yourself 自行修改補丁中的目錄，保存爲 lux.reg，雙擊導入注冊表。
+
+Open the page of video and download with `lux://%u` 完畢之後即可新建站點使用 `lux://%u` 調用 lux 下載當前網頁視頻
+ </details>
+
+---
+ <details>
+<summary><h2>Batch open types 多種批量打開方式</h></summary>
+  
++ **`shift`** + click category icon
+![i](batchOpen1.jpg)
+  
++ **`Alt`** + click category icon
+![i](batchOpen2.jpg)
+  
++ **`alt + shift`** + click category icon
+![i](batchOpen3.jpg)
+
+ </details>
