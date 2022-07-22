@@ -99,6 +99,18 @@
 | `c:` | put this at first then all words after will be copied to the clipboard | 在開頭使用"c:"可以複製之後的所有字串 |
 
  <details>
+<summary><h2>Add search engines quickly 快速添加搜索引擎</h></summary>
+
++ Add with shortcut key on current page 通過快捷鍵快速在當前頁面添加
+> click search input box with `ctrl + alt` 按住 `ctrl + alt` 點擊當前頁面中的搜索輸入框即可
+
++ Search on mycroftproject.com and add  在 mycroftproject 上搜索別人編輯好的站點並點擊導入
+> Click the searchJumper face icon in sites list on mycroftproject 點擊 mycroftproject 上站點列表裏的搜索醬圖標即可
+
+ </details>
+
+---
+ <details>
 <summary><h2>Filter sites to search 站點篩選並搜索</h></summary>
 
 + Call by global shortcut key, Input keywords of site name to filter sites, support glob with "?/\*" 通過全局快捷鍵喚出，輸入站點名稱的關鍵詞來篩選，支持 “?/\*” 通配符
