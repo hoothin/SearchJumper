@@ -72,7 +72,7 @@
 + No tamper with the original page
   > 不篡改原始頁面
 + Drag to search with current category
-  > 拖拽搜索當前分類（文字/圖片/鏈接），内圈為當前分類前6個站點，外圈為最近使用的10個站點
+  > 拖拽搜索當前分類（文字/圖片/鏈接），内圈為當前分類前6個站點，外圈為最近使用的10個站點，可透過編輯第一個（文字/圖片/鏈接）分類來自定義内容
 
 ## Search params
 | param | details | 詳述 |
