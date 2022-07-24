@@ -148,6 +148,7 @@ export default function Export() {
     const [presetCss, setPresetCss] = React.useState('');
     const [cssText, setCssText] = React.useState(window.searchData.prefConfig.cssText||'');
     const [fontAwesomeCss, setFontAwesomeCss] = React.useState(window.searchData.prefConfig.fontAwesomeCss);
+    const [speedDialOpen, setSpeedDialOpen] = React.useState(true);
 
     var sitesDataInput;
     var downloadEle = document.createElement('a');
@@ -316,6 +317,10 @@ export default function Export() {
                 ariaLabel="SpeedDial"
                 sx={{ position: 'fixed', bottom: '20%', right: 16 }}
                 icon={<SpeedDialIcon />}
+                open={speedDialOpen}
+                onClick={() => {
+                    setSpeedDialOpen(!speedDialOpen);
+                }}
             >
                 <SpeedDialAction
                     key='Save'
