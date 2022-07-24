@@ -146,19 +146,6 @@ const searchJumperEvent = new CustomEvent('searchJumper', {
 });
 document.dispatchEvent(searchJumperEvent);
 ```
-+ Search by fisrt shown site button 使用當前展開的第一個站點搜索
-``` javascript
-let currentSite = document.querySelector(".search-jumper-type:not(.search-jumper-hide)>a");
-if (currentSite) {
-  const searchJumperEvent = new CustomEvent('searchJumper', {
-    detail: {
-      action: 'search',
-      name: currentSite.dataset.name
-    }
-  });
-  document.dispatchEvent(searchJumperEvent);
-}
-```
 + Search by second shown site button and open in new window 使用當前展開的第二個站點搜索並在小窗打開結果
 ``` javascript
 const siteOrder = 2;
