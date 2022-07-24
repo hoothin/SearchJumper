@@ -98,7 +98,7 @@
 | `%input{tips}` | input something, like %input{love who?,you} | 🗒️ 輸入占位，例如%input{請輸入您的三圍,90 55 90} |
 | `#p{params}` | post in page, like #p{#input=1&div.param=2}, use \\& \\= instead of & = in content | 🗒️ 頁内 post，可在頁面之内使用【css選擇器】填寫參數提交查詢，適用於不開放GET/POST接口（Ajax-render）的網站，例如 #p{#input=1&div.param=2}, 可在内容中使用 \\& \\= 來 表示 & = |
 | `["siteName1","siteName2"]` | batch open by site name you've created | 🗒️ 通過你已經創建的站點名批量打開，例如 \["雅虎搜索","谷歌搜索"\] |
-| `c:` | put this at first then all words after will be copied to the clipboard | 在開頭使用"c:"可以複製之後的所有字串 |
+| `c:` | put this at first then all words after will be copied to the clipboard | 🗒️ 在開頭使用"c:"可以複製之後的所有字串 |
 
  <details>
 <summary><h2>Add search engines quickly 快速添加搜索引擎</h></summary>
@@ -145,19 +145,6 @@ const searchJumperEvent = new CustomEvent('searchJumper', {
   }
 });
 document.dispatchEvent(searchJumperEvent);
-```
-+ Search by fisrt shown site button 使用當前展開的第一個站點搜索
-``` javascript
-let currentSite = document.querySelector(".search-jumper-type:not(.search-jumper-hide)>a");
-if (currentSite) {
-  const searchJumperEvent = new CustomEvent('searchJumper', {
-    detail: {
-      action: 'search',
-      name: currentSite.dataset.name
-    }
-  });
-  document.dispatchEvent(searchJumperEvent);
-}
 ```
 + Search by second shown site button and open in new window 使用當前展開的第二個站點搜索並在小窗打開結果
 ``` javascript
