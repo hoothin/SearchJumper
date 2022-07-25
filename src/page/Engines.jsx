@@ -450,6 +450,7 @@ class SitesList extends React.Component {
 
     closeSiteEdit(update) {
         if (update) {
+            let currentType = window.searchData.sitesConfig[this.index];
             if (!this.state.currentSite.name) return this.handleAlertOpen(window.i18n('needName'));
             if (!this.state.currentSite.url) return this.handleAlertOpen(window.i18n('needUrl'));
             for (let i = 0; i < window.searchData.sitesConfig.length; i++) {
@@ -478,11 +479,11 @@ class SitesList extends React.Component {
                     }
                     return site;
                 })
-                let newType = {...this.state.data, sites: newSites};
+                let newType = {...currentType, sites: newSites};
                 let changeName = this.editSite.name !== this.state.currentSite.name && !/^\[/.test(this.editSite.url);
                 window.searchData.sitesConfig = window.searchData.sitesConfig.map(data =>{
                     let returnData = data;
-                    if (this.state.data.type === data.type) {
+                    if (currentType.type === data.type) {
                         returnData = {...data, sites: newSites};
                     }
                     if (changeName) {
@@ -500,9 +501,9 @@ class SitesList extends React.Component {
                 }));
             } else {
                 let newSites = this.state.data.sites.concat([this.getMinSiteData(this.state.currentSite)])
-                let newType = {...this.state.data, sites: newSites};
+                let newType = {...currentType, sites: newSites};
                 window.searchData.sitesConfig = window.searchData.sitesConfig.map(data =>{
-                    if (this.state.data.type === data.type) {
+                    if (currentType.type === data.type) {
                         return newType;
                     }
                     return data;
@@ -522,13 +523,14 @@ class SitesList extends React.Component {
         this.setState(prevState => ({
             isOpenSiteEdit: false
         }));
+        let currentType = window.searchData.sitesConfig[this.index];
         let newSites = this.state.data.sites.filter(site => {
             return (site.url !== this.editSite.url);
         });
-        let newType = {...this.state.data, sites: newSites};
+        let newType = {...currentType, sites: newSites};
         window.searchData.sitesConfig = window.searchData.sitesConfig.map(data =>{
             let returnData = data;
-            if (this.state.data.type === data.type) {
+            if (currentType.type === data.type) {
                 returnData = newType;
             }
             if (!/^\[/.test(this.editSite.url)){
@@ -556,6 +558,7 @@ class SitesList extends React.Component {
 
     changeSitePos(targetSite, dragSite) {
         if (targetSite.url === dragSite.url)return;
+        let currentType = window.searchData.sitesConfig[this.index];
         let newSites = this.state.data.sites.filter(site => {
             return (site.url !== dragSite.url);
         })
@@ -565,9 +568,9 @@ class SitesList extends React.Component {
                 break;
             }
         }
-        let newType = {...this.state.data, sites: newSites};
+        let newType = {...currentType, sites: newSites};
         window.searchData.sitesConfig = window.searchData.sitesConfig.map(data =>{
-            if (this.state.data.type === data.type) {
+            if (currentType.type === data.type) {
                 return newType;
             }
             return data;
@@ -616,7 +619,7 @@ class SitesList extends React.Component {
                             return (this.state.checkeds[i] !== true);
                         })
                         if (newSites.length === this.state.data.sites.length || !window.confirm(window.i18n('deleteConfirm'))) return;
-                        let newType = {...this.state.data, sites: newSites};
+                        let newType = {...window.searchData.sitesConfig[this.index], sites: newSites};
                         window.searchData.sitesConfig = window.searchData.sitesConfig.map(data =>{
                             if (this.state.data.type === data.type) {
                                 return newType;
@@ -681,7 +684,7 @@ class SitesList extends React.Component {
                                     let newSites = this.state.data.sites.filter((site, i) => {
                                         return (this.state.checkeds[i] !== true);
                                     })
-                                    let newType = {...this.state.data, sites: newSites};
+                                    let newType = {...window.searchData.sitesConfig[this.index], sites: newSites};
                                     window.searchData.sitesConfig = window.searchData.sitesConfig.map(data =>{
                                         if (this.state.data.type === data.type) {
                                             return newType;
