@@ -813,6 +813,7 @@ class SitesList extends React.Component {
                             type="text"
                             fullWidth
                             variant="standard"
+                            placeholder="wd|q"
                             value={this.state.currentSite.keywords}
                             onChange={e => {
                                 this.setState(prevState => ({
@@ -820,6 +821,9 @@ class SitesList extends React.Component {
                                 }));
                             }}
                         />
+                        <DialogContentText>
+                            {window.i18n('keywordRegTips')}
+                        </DialogContentText>
                         <TextField
                             margin="dense"
                             id="match"
