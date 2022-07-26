@@ -8,7 +8,7 @@
 ![support](https://img.shields.io/badge/Support-Chrome|Firefox|Edge-989898.svg)
 > *A user script to assist in switching search engines*
 
-[![i](https://socialify.git.ci/hoothin/searchjumper/image?description=1&font=Inter&forks=1&issues=1&language=1&owner=1&pattern=Circuit%20Board&stargazers=1&theme=Dark)]()
+[![i](https://socialify.git.ci/hoothin/searchjumper/image?description=1&font=Inter&forks=1&issues=1&language=1&owner=1&pattern=Circuit%20Board&stargazers=1&theme=Dark)](README.md)
 
 
 + Build with React.js
