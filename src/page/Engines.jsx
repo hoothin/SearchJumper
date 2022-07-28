@@ -1031,11 +1031,10 @@ class SitesList extends React.Component {
                             if(!/^\w+$/.test(n)){
                                 return this.handleAlertOpen(window.i18n('localAppWrongName'));
                             }
+                            n = "SearchJumper-" + n;
                             this.setState(prevState => ({
                                 currentSite: {...this.state.currentSite, url: n + "://" + match[6]}
                             }));
-                            console.log(localAppCall.value);
-                            console.log(localAppName.value);
                             let blobStr = [`
 Windows Registry Editor Version 5.00
 
@@ -1054,7 +1053,7 @@ Windows Registry Editor Version 5.00
 @="cmd /c set m=%1 & call set m=%%m:${n}://=%% & ${match[3]} & cd \\"${match[2]}\\" & call ${match[4]} ${match[5].replace(match[6], '%%m%%')} & pause"
 `.trim()];
                             let myBlob = new Blob(blobStr, { type: "application/text" });
-                            this.downloadEle.download = `searchJumper - ${n}.reg`;
+                            this.downloadEle.download = `${n}.reg`;
                             this.downloadEle.href = window.URL.createObjectURL(myBlob);
                             this.downloadEle.click();
                             this.setState(prevState => ({ 
