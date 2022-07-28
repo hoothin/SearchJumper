@@ -1419,8 +1419,25 @@ export default function Engines() {
                             type="hidden"
                         />
                     </Paper>
+                    <Paper
+                      component="form"
+                      target="_blank"
+                      action="https://mycroftproject.com/search-engines.html"
+                      method="get"
+                      sx={{ mt: '10px', p: '2px 4px', display: 'flex', alignItems: 'center', border: '1px solid rgba(0, 0, 0, 0.25)', boxShadow: 'unset' }}
+                    >
+                        <InputBase
+                            name="name"
+                            sx={{ ml: 1, flex: 1 }}
+                            placeholder={window.i18n("searchMycroft")}
+                            inputProps={{ 'aria-label': 'search mycroft' }}
+                        />
+                        <IconButton type="submit" sx={{ p: '10px' }} aria-label="search">
+                        <SearchIcon />
+                        </IconButton>
+                    </Paper>
                     <Typography variant="h6" gutterBottom component="div">
-                        Example url:➡️ https://www.google.com/search?q=%s
+                        Example url:️ https://www.google.com/search?q=%s
                     </Typography>
                     <TableContainer component={Paper}>
                         <Table sx={{ minWidth: 650 }} aria-label="simple table">

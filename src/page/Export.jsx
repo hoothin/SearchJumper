@@ -250,7 +250,7 @@ export default function Export() {
                 <h2 style={{padding:'5px'}}>{window.i18n('exportConfig')}</h2>
             </Paper>
             <TextField
-                id="outlined-multiline-static"
+                id="sitesData"
                 label={window.i18n('configContent')}
                 multiline
                 fullWidth
@@ -258,23 +258,6 @@ export default function Export() {
                 defaultValue={sitesData}
                 inputRef={input => sitesDataInput = input}
             />
-            <Paper
-              component="form"
-              target="_blank"
-              action="https://mycroftproject.com/search-engines.html"
-              method="get"
-              sx={{ mt: '10px', p: '2px 4px', display: 'flex', alignItems: 'center', border: '1px solid rgba(0, 0, 0, 0.25)', boxShadow: 'unset' }}
-            >
-                <InputBase
-                    name="name"
-                    sx={{ ml: 1, flex: 1 }}
-                    placeholder={window.i18n("searchMycroft")}
-                    inputProps={{ 'aria-label': 'search mycroft' }}
-                />
-                <IconButton type="submit" sx={{ p: '10px' }} aria-label="search">
-                <SearchIcon />
-                </IconButton>
-            </Paper>
             <FormControl fullWidth sx={{ mt: 1 }}>
                 <InputLabel>{window.i18n('presetCss')}</InputLabel>
                 <Select
