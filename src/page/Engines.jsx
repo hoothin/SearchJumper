@@ -377,7 +377,7 @@ class ChildSiteIcons extends React.Component {
 class SitesList extends React.Component {
     constructor(props) {
         super(props);
-        this.state = {data: props.data, isOpenSiteEdit: false, currentSite: siteObject(false), checkeds: Array(props.data.sites.length).fill(false), cloneSite: false};
+        this.state = {data: props.data, isOpenSiteEdit: false, isOpenLocalApp:false, currentSite: siteObject(false), checkeds: Array(props.data.sites.length).fill(false), cloneSite: false};
 
         this.editSite = null;
         this.openTypeEdit = props.openTypeEdit;
@@ -390,6 +390,9 @@ class SitesList extends React.Component {
         this.changeSitePos = this.changeSitePos.bind(this);
         this.tooLong = props.data.sites && props.data.sites.length > 50;
         this.batchSelect = false;
+        var downloadEle = document.createElement('a');
+        downloadEle.target = "_blank";
+        this.downloadEle = downloadEle;
     }
 
     getMinSiteData(siteData) {
@@ -978,9 +981,86 @@ class SitesList extends React.Component {
                         />
                     </DialogContent>
                     <DialogActions>
+                        <Button onClick={() => this.setState(prevState => ({ isOpenLocalApp: true }))}>{window.i18n('localAppAddBtn')}</Button>
                         <Button variant="outlined" style={{display:this.editSite?'':'none'}} color="error" startIcon={<DeleteIcon />} onClick={this.handleDeleteSite}>{window.i18n('delete')}</Button>
                         <Button onClick={() => this.closeSiteEdit(false)}>{window.i18n('cancel')}</Button>
                         <Button onClick={() => this.closeSiteEdit(true)}>{window.i18n('edit')}</Button>
+                    </DialogActions>
+                </Dialog>
+                <Dialog open={this.state.isOpenSiteEdit&&this.state.isOpenLocalApp} onClose={() => this.setState(prevState => ({ isOpenLocalApp: false }))}>
+                    <DialogTitle>{window.i18n('localApp')}</DialogTitle>
+                    <DialogContent>
+                        <TextField
+                            autoFocus
+                            margin="dense"
+                            id="localAppCall"
+                            label={window.i18n('localAppCall')}
+                            type="text"
+                            fullWidth
+                            variant="standard"
+                            placeholder={'"C:\\Program Files\\MPV\\mpv.exe" --stream %u'}
+                        />
+                        <TextField
+                            autoFocus
+                            margin="dense"
+                            id="localAppName"
+                            label={window.i18n('localAppName')}
+                            type="text"
+                            fullWidth
+                            inputProps={{ maxLength: 5 }} 
+                            variant="standard"
+                        />
+                    </DialogContent>
+                    <DialogActions>
+                        <Button onClick={() => this.setState(prevState => ({ isOpenLocalApp: false }))}>{window.i18n('cancel')}</Button>
+                        <Button onClick={() => {
+                            let localAppCall = document.querySelector("#localAppCall");
+                            let localAppName = document.querySelector("#localAppName");
+                            let n = localAppName.value;
+                            let c = localAppCall.value.replace(/([^\\])[\\]([^\\])/g, "$1\\\\$2");
+                            let match = c.match(/^"((([a-z]:).+?)([^/\\]+))" (.*(%.+?)\b.*)/i);
+                            if (!match) {
+                                match = c.match(/^((([a-z]:)\S+?)([^/\\ ]+)) (.*(%.+?)\b.*)/i);
+                            }
+                            if (!match) {
+                                return this.handleAlertOpen(window.i18n('localAppUnknowCall'));
+                            }
+                            if(!n) {
+                                n = match[4].replace(/([a-z]+).*/i, "$1")
+                            }
+                            if(!/^\w+$/.test(n)){
+                                return this.handleAlertOpen(window.i18n('localAppWrongName'));
+                            }
+                            this.setState(prevState => ({
+                                currentSite: {...this.state.currentSite, url: n + "://" + match[6]}
+                            }));
+                            console.log(localAppCall.value);
+                            console.log(localAppName.value);
+                            let blobStr = [`
+Windows Registry Editor Version 5.00
+
+[HKEY_CLASSES_ROOT\\${n}]
+@="URL:${n} Protocol"
+"URL Protocol"=""
+
+[HKEY_CLASSES_ROOT\\${n}\\DefaultIcon]
+@="\\"${match[1]}\\",1"
+
+[HKEY_CLASSES_ROOT\\${n}\\shell]
+
+[HKEY_CLASSES_ROOT\\${n}\\shell\\open]
+
+[HKEY_CLASSES_ROOT\\${n}\\shell\\open\\command]
+@="cmd /c set m=%1 & call set m=%%m:${n}://=%% & ${match[3]} & cd \\"${match[2]}\\" & call ${match[4]} ${match[5].replace(match[6], '%%m%%')} & pause"
+`.trim()];
+                            let myBlob = new Blob(blobStr, { type: "application/text" });
+                            this.downloadEle.download = `searchJumper - ${n}.reg`;
+                            this.downloadEle.href = window.URL.createObjectURL(myBlob);
+                            this.downloadEle.click();
+                            this.setState(prevState => ({ 
+                                isOpenLocalApp: false 
+                            }));
+                        }}>{window.i18n('geneRegFile')}</Button>
                     </DialogActions>
                 </Dialog>
             </Box>
@@ -1092,7 +1172,7 @@ const rows = [
   createData('%p{params}', 'post body, like %p{x=1&y=%s}', 'post 參數體，例如 %p{x=1&y=%s}'),
   createData('%P{params}', 'post without navigation', 'post 但不跳轉'),
   createData('%input{tips}', 'input something, like %input{love who?,you}', '輸入占位，例如%input{請輸入您的三圍,90 55 90}'),
-  createData('#p{params}', 'post in page, like #p{#input=%u&sleep=500&.submit=click()}, means: input current url to "#input", then wait for 500ms, then click ".submit". use \\& \\= instead of & = in content', '頁内 post，可在頁面之内使用【css選擇器】填寫參數提交查詢，適用於不開放GET/POST接口（Ajax-render）的網站，例如 #p{#input=%u&sleep=500&.submit=click()}, 代表在"#input"内輸入指定url，然後等待500毫秒，最後點擊".submit"。可在内容中使用 \\& \\= 來 表示 & ='),
+  createData('#p{params}', 'post in page, like #p{#input=%u&sleep=500&.submit=click()}, means: input current url to "#input", then wait for 500ms, then click ".submit". use \\& \\= instead of & = in content', '頁内 post，可在頁面之内使用【css選擇器】填寫參數提交查詢，適用於不開放GET/POST接口的網站，例如 #p{#input=%u&sleep=500&.submit=click()}, 代表在"#input"内輸入指定url，然後等待500毫秒，最後點擊".submit"。可在内容中使用 \\& \\= 來 表示 & ='),
   createData('["siteName1","siteName2"]', 'batch open by site name you\'ve created', '透過你已經創建的站點名批量打開，例如 ["雅虎搜索","谷歌搜索"]'),
   createData('c:', 'put this at first then all words after will be copied to the clipboard', '在開頭使用"c:"可以複製之後的所有字串')
 ];

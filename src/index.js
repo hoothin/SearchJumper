@@ -132,6 +132,13 @@ switch (lang) {
             cacheSwitchTips: '浏览网页时在后台缓存图标为 base64 图片至配置，以免 icon 请求拉低性能，注意开启后会弹出跨域请求',
             searchFontawesome: '搜索 FontAwesome 图标用于类别项',
             keywordRegTips: '单个关键词：wd；多个关键词：wd|qw|key；正则分组：(?:word)=(.*?)(&|$)',
+            localAppAddBtn: '添加自定义本地应用调用',
+            localApp: '本地应用调用',
+            localAppCall: '调用命令',
+            localAppName: '自定义调用头，可留空',
+            localAppUnknowCall: '无法分析此命令，请检查命令或者手动构造注册表',
+            localAppWrongName: '调用头只能输入数字或者字母',
+            geneRegFile: '生成注册表补丁',
             aboutContent: '平时工作中搜索引擎跳转功能用得很频繁，但尝试了相关的扩展，发现大多夹有私货。\n\n而这只是一个简单功能，所以不如自己写一个啦。\n\n结果写配置页面耗费的精力数倍于脚本本身……🤦‍\n\n这个搜索引擎跳转支持自己拖拽定义位置，同时也支持站内搜索，多语言编码设置（例如shift-jis），划词搜索，以及配置导入导出。'
         }
         break;
@@ -260,6 +267,13 @@ switch (lang) {
             cacheSwitchTips: '瀏覽網頁時在後台緩存圖標為base64圖片，注意開啟後會彈出跨域請求',
             searchFontawesome: '搜索 FontAwesome 圖標用於類別項',
             keywordRegTips: '單個關鍵詞：wd；多個關鍵詞：wd|qw|key；正則分組：(?:word)=(.*?)(&|$)',
+            localAppAddBtn: '添加自定義本地應用調用',
+            localApp: '本地應用調用',
+            localAppCall: '調用命令',
+            localAppName: '自定義調用頭，可留空',
+            localAppUnknowCall: '無法分析此命令，請檢查命令或者手動構造註冊表',
+            localAppWrongName: '調用頭只能輸入數字或者字母',
+            geneRegFile: '生成註冊表補丁',
             aboutContent: '平時工作中搜尋引擎跳轉功能用得很頻繁，但嘗試了相關的擴展，發現大多夾有私貨。\n\n而這只是一個簡單功能，所以不如自己寫一個啦。\n\n結果寫配置頁面耗費的精力數倍於腳本本身……🤦‍\n\n這個搜尋引擎跳轉支持自己拖拽定義位置，同時也支持站內搜索，多語言編碼設置（例如shift-jis），劃詞搜索，以及配置導入導出。'
         }
         break;
@@ -387,6 +401,13 @@ switch (lang) {
             cacheSwitchTips: 'The icons will cached with base64 images in the background when browsing, but some cross-domain requests will pop up',
             searchFontawesome: 'Search icons for category from FontAwesome.com',
             keywordRegTips: 'Single: wd, Multiple: wd|qw|key, RegExp group: (?:word)=(.*?)(&|$)',
+            localAppAddBtn: 'Call local application',
+            localApp: 'Local application call',
+            localAppCall: 'Call command',
+            localAppName: 'Custom call header, can be left blank',
+            localAppUnknowCall: 'Unable to parse this command, please check the command or manually construct the registry',
+            localAppWrongName: 'The call header can only enter with numbers or letters',
+            geneRegFile: 'Generate registry patch',
             aboutContent: "I use the search engine jump function very frequently in my work, but I found that most of them contain trojans after tried many related extensions. \n\nThis is just a simple function, so why not write one by myself? \n\nThe result is that writing the configuration page takes several times more energy than the script itself... 🤦‍\n\nThis search engine jump supports dragging and dropping with defined location, and also supports in-site search, word-marking search, and configuration import and export."
         }
         break;
