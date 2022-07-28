@@ -26,7 +26,7 @@ export default function About() {
                 Icons: <Link href='https://fontawesome.com/' style={{verticalAlign: 'top'}} target="_blank">FontAwesome</Link><br/>
                 {window.i18n("donate")}<br/>
                 <VolunteerActivismIcon/> <Link href='https://buymeacoffee.com/hoothin' style={{verticalAlign: 'top'}} target="_blank">[Buy Me A Coffee]</Link>  <Link href='https://paypal.me/hoothin' style={{verticalAlign: 'top'}} target="_blank">[Paypal.Me]</Link><br/>
-                <img style={{maxWidth: '100%'}} src='donate.jpg' alt='donate' loading="lazy"/><br/>
+                <br/>
                 <Box sx={{borderTop: 1, borderColor: 'divider'}}>
                 <Card sx={{maxWidth: 800, margin: '10px auto', textAlign: 'left'}}>
                     <CardContent>
@@ -36,6 +36,7 @@ export default function About() {
                     </CardContent>
                 </Card>
                 </Box>
+                <img style={{maxWidth: '100%', borderRadius: '20px', boxShadow: 'rgb(0 0 0) 0px 0px 15px'}} src='donate.jpg' alt='donate' loading="lazy"/>
             </Typography>
             </Paper>
         </Box>
