@@ -15,11 +15,9 @@ import Select, { SelectChangeEvent } from '@mui/material/Select';
 import FileUploadIcon from '@mui/icons-material/FileUpload';
 import FileDownloadIcon from '@mui/icons-material/FileDownload';
 import BookmarksIcon from '@mui/icons-material/Bookmarks';
-import Accordion from '@mui/material/Accordion';
-import AccordionSummary from '@mui/material/AccordionSummary';
-import AccordionDetails from '@mui/material/AccordionDetails';
-import Typography from '@mui/material/Typography';
-import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import { JSONEditor } from 'vanilla-jsoneditor'
+import { useEffect, useRef } from "react";
+import 'vanilla-jsoneditor/themes/jse-theme-dark.css';
 
 function saveConfigToScript (notification) {
     var saveMessage = new CustomEvent('saveConfig', {
@@ -116,6 +114,42 @@ function UploadSpeedDialAction(props) {
     );
 }
 
+var editor;
+
+function SvelteJSONEditor(props) {
+    const refContainer = useRef(null);
+    const refEditor = useRef(null);
+
+    useEffect(() => {
+        // create editor
+        console.log("create editor", refContainer.current);
+        refEditor.current = new JSONEditor({
+            target: refContainer.current,
+            props: {}
+        });
+        editor = refEditor.current;
+
+        return () => {
+            // destroy editor
+            if (refEditor.current) {
+                console.log("destroy editor");
+                refEditor.current.destroy();
+                refEditor.current = null;
+            }
+        };
+    }, []);
+
+    // update props
+    useEffect(() => {
+        if (refEditor.current) {
+            console.log("update props", props);
+            refEditor.current.updateProps(props);
+        }
+    }, [props]);
+
+    return <div className="svelte-jsoneditor-react jse-theme-dark" ref={refContainer}></div>;
+}
+
 function UploadBookmarkAction(props) {
     return (
         <React.Fragment>
@@ -135,20 +169,18 @@ function UploadBookmarkAction(props) {
         </React.Fragment>
     );
 }
-let sitesData = '';
 export default function Export() {
     const [presetCss, setPresetCss] = React.useState('');
     const [cssText, setCssText] = React.useState(window.searchData.prefConfig.cssText||'');
     const [fontAwesomeCss, setFontAwesomeCss] = React.useState(window.searchData.prefConfig.fontAwesomeCss);
     const [speedDialOpen, setSpeedDialOpen] = React.useState(true);
 
-    var sitesDataInput;
     var downloadEle = document.createElement('a');
     downloadEle.download = "searchJumper.json";
     downloadEle.target = "_blank";
     function saveConfig() {
         try {
-            if (sitesDataInput.value) window.searchData.sitesConfig = JSON.parse(sitesDataInput.value);
+            if (editor && editor.get().json) window.searchData.sitesConfig = editor.get().json;
             window.searchData.prefConfig.cssText = cssText;
             window.searchData.prefConfig.fontAwesomeCss = fontAwesomeCss;
             saveConfigToScript(true);
@@ -166,7 +198,7 @@ export default function Export() {
         let reader = new FileReader();
         reader.readAsText(event.target.files[0]);
         reader.onload = function() {
-            sitesDataInput.value = this.result;
+            editor.set({json:JSON.parse(this.result)})
             saveConfig();
         };
     }
@@ -217,13 +249,13 @@ export default function Export() {
                 window.searchData.sitesConfig.push(newType);
             }
             bookmarks.forEach(typeSites => createNewType(typeSites));
-            sitesDataInput.value = JSON.stringify(window.searchData.sitesConfig, null, 4);
+            editor.set({json:window.searchData.sitesConfig})
             saveConfigToScript(true);
         };
     }
 
     function exportConfig() {
-        let blobStr = [(sitesDataInput.value || JSON.stringify(window.searchData.sitesConfig, null, 4))];
+        let blobStr = [(JSON.stringify(editor.get().json || window.searchData.sitesConfig, null, 4))];
         let myBlob = new Blob(blobStr, { type: "application/json" });
         downloadEle.href = window.URL.createObjectURL(myBlob);
         downloadEle.click();
@@ -241,32 +273,11 @@ export default function Export() {
             <Paper elevation={5} sx={{textAlign:'center', borderRadius:'10px'}}>
                 <h2 style={{padding:'5px'}}>{window.i18n('exportConfig')}</h2>
             </Paper>
-            <Accordion 
-              onChange={(event, expanded) => {
-                if (expanded && !sitesData) {
-                    sitesData = JSON.stringify(window.searchData.sitesConfig, null, 4);
-                    sitesDataInput.value = sitesData||'';
-                }
-              }}
-            >
-                <AccordionSummary
-                  expandIcon={<ExpandMoreIcon />}
-                  aria-controls="panel1a-content"
-                  id="panel1a-header"
-                >
-                  <Typography>{window.i18n('configContent')}</Typography>
-                </AccordionSummary>
-                <AccordionDetails>
-                    <TextField
-                        id="sitesData"
-                        multiline
-                        fullWidth
-                        rows={25}
-                        defaultValue={sitesData}
-                        inputRef={input => sitesDataInput = input}
-                    />
-                </AccordionDetails>
-            </Accordion>
+            <Box sx={{ maxHeight: '80vh',overflow: 'auto'}}>
+                <SvelteJSONEditor
+                    content={{json:window.searchData.sitesConfig}}
+                />
+            </Box>
             <FormControl fullWidth sx={{ mt: 1 }}>
                 <InputLabel>{window.i18n('presetCss')}</InputLabel>
                 <Select

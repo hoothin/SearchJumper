@@ -132,8 +132,8 @@ export default function General() {
                     <TextField
                         sx={{ m: 1, minWidth: 100 }}
                         label={window.i18n('typeOpenTime')}
-                        inputProps={{ inputMode: 'numeric', type:'number', pattern: '[0-9]*' }}
                         InputProps={{
+                            inputMode: 'numeric', type:'number', pattern: '[0-9]*',
                             endAdornment: <InputAdornment position="end">ms</InputAdornment>
                         }}
                         value={state.typeOpenTime}
@@ -202,8 +202,8 @@ export default function General() {
                         <TextField
                             sx={{ m: 1, minWidth: 100, width: "15%"}}
                             label={window.i18n('customSize')}
-                            inputProps={{ inputMode: 'numeric', type:'number', pattern: '[0-9]*' }}
                             InputProps={{
+                                inputMode: 'numeric', type:'number', pattern: '[0-9]*',
                                 endAdornment: <InputAdornment position="end">%</InputAdornment>
                             }}
                             value={state.customSize}
@@ -286,8 +286,8 @@ export default function General() {
                     <TextField
                         sx={{ minWidth: 100, margin: '8px' }}
                         label={window.i18n('multilineGap')}
-                        inputProps={{ inputMode: 'numeric', type:'number', pattern: '[0-9]*' }}
                         InputProps={{
+                            inputMode: 'numeric', type:'number', pattern: '[0-9]*',
                             endAdornment: <InputAdornment position="end">ms</InputAdornment>
                         }}
                         value={state.multilineGap}
@@ -463,8 +463,8 @@ export default function General() {
                     </FormControl>
                     <TextField
                         label={window.i18n('autoDelay')}
-                        inputProps={{ inputMode: 'numeric', type:'number', pattern: '[0-9]*' }}
                         InputProps={{
+                            inputMode: 'numeric', type:'number', pattern: '[0-9]*',
                             endAdornment: <InputAdornment position="end">ms</InputAdornment>
                         }}
                         value={state.autoDelay}
@@ -539,8 +539,8 @@ export default function General() {
                     <TextField
                         sx={{ minWidth: 100 }}
                         label={window.i18n('longPressTime')}
-                        inputProps={{ inputMode: 'numeric', type:'number', pattern: '[0-9]*' }}
                         InputProps={{
+                            inputMode: 'numeric', type:'number', pattern: '[0-9]*',
                             endAdornment: <InputAdornment position="end">ms</InputAdornment>
                         }}
                         value={state.longPressTime}
