@@ -1388,7 +1388,7 @@ export default function Engines() {
                   {alertBody.alertContent}
                 </MuiAlert>
             </Snackbar>
-            <Accordion>
+            <Accordion sx={{ maxHeight: '60vh', overflow: 'auto' }}>
                 <AccordionSummary
                   expandIcon={<ExpandMoreIcon />}
                   aria-controls="panel1a-content"
