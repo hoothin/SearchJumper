@@ -135,15 +135,8 @@ function UploadBookmarkAction(props) {
         </React.Fragment>
     );
 }
-let inited = false;
 let sitesData = '';
 export default function Export() {
-    if (!inited) {
-        sitesData = '';
-        //if (sitesNum < 1000 || window.confirm(window.i18n('jsonToolong'))) sitesData = JSON.stringify(window.searchData.sitesConfig, null, 4);
-    }
-    inited = true;
-    setTimeout(() => inited = false, 0);
     const [presetCss, setPresetCss] = React.useState('');
     const [cssText, setCssText] = React.useState(window.searchData.prefConfig.cssText||'');
     const [fontAwesomeCss, setFontAwesomeCss] = React.useState(window.searchData.prefConfig.fontAwesomeCss);
