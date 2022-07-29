@@ -15,6 +15,11 @@ import Select, { SelectChangeEvent } from '@mui/material/Select';
 import FileUploadIcon from '@mui/icons-material/FileUpload';
 import FileDownloadIcon from '@mui/icons-material/FileDownload';
 import BookmarksIcon from '@mui/icons-material/Bookmarks';
+import Accordion from '@mui/material/Accordion';
+import AccordionSummary from '@mui/material/AccordionSummary';
+import AccordionDetails from '@mui/material/AccordionDetails';
+import Typography from '@mui/material/Typography';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 
 function saveConfigToScript (notification) {
     var saveMessage = new CustomEvent('saveConfig', {
@@ -135,10 +140,7 @@ let sitesData = '';
 export default function Export() {
     if (!inited) {
         sitesData = '';
-        let sitesNum = window.searchData.sitesConfig.reduce((pre, cur) => {
-            return pre + cur.sites.length;
-        }, 0);
-        if (sitesNum < 1000 || window.confirm(window.i18n('jsonToolong'))) sitesData = JSON.stringify(window.searchData.sitesConfig, null, 4);
+        //if (sitesNum < 1000 || window.confirm(window.i18n('jsonToolong'))) sitesData = JSON.stringify(window.searchData.sitesConfig, null, 4);
     }
     inited = true;
     setTimeout(() => inited = false, 0);
@@ -246,15 +248,32 @@ export default function Export() {
             <Paper elevation={5} sx={{textAlign:'center', borderRadius:'10px'}}>
                 <h2 style={{padding:'5px'}}>{window.i18n('exportConfig')}</h2>
             </Paper>
-            <TextField
-                id="sitesData"
-                label={window.i18n('configContent')}
-                multiline
-                fullWidth
-                rows={25}
-                defaultValue={sitesData}
-                inputRef={input => sitesDataInput = input}
-            />
+            <Accordion 
+              onChange={(event, expanded) => {
+                if (expanded && !sitesData) {
+                    sitesData = JSON.stringify(window.searchData.sitesConfig, null, 4);
+                    sitesDataInput.value = sitesData||'';
+                }
+              }}
+            >
+                <AccordionSummary
+                  expandIcon={<ExpandMoreIcon />}
+                  aria-controls="panel1a-content"
+                  id="panel1a-header"
+                >
+                  <Typography>{window.i18n('configContent')}</Typography>
+                </AccordionSummary>
+                <AccordionDetails>
+                    <TextField
+                        id="sitesData"
+                        multiline
+                        fullWidth
+                        rows={25}
+                        defaultValue={sitesData}
+                        inputRef={input => sitesDataInput = input}
+                    />
+                </AccordionDetails>
+            </Accordion>
             <FormControl fullWidth sx={{ mt: 1 }}>
                 <InputLabel>{window.i18n('presetCss')}</InputLabel>
                 <Select
@@ -314,17 +333,17 @@ export default function Export() {
                     tooltipTitle={window.i18n('copy')}
                     onClick = {copyConfig}
                 />
-                <UploadSpeedDialAction
-                    key='Import'
-                    icon=<FileUploadIcon />
-                    tooltipTitle={window.i18n('import')}
-                    onChange = {importConfig}
-                />
                 <SpeedDialAction
                     key='Export'
                     icon=<FileDownloadIcon />
                     tooltipTitle={window.i18n('export')}
                     onClick = {exportConfig}
+                />
+                <UploadSpeedDialAction
+                    key='Import'
+                    icon=<FileUploadIcon />
+                    tooltipTitle={window.i18n('import')}
+                    onChange = {importConfig}
                 />
                 <UploadBookmarkAction
                     key='Bookmarks'
