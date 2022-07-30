@@ -999,6 +999,7 @@ class SitesList extends React.Component {
                             fullWidth
                             variant="standard"
                             placeholder={'"C:\\Program Files\\MPV\\mpv.exe" --stream %u'}
+                            autoFocus
                         />
                         <TextField
                             autoFocus
