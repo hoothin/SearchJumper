@@ -26,6 +26,10 @@ code {
 .site-list-box .site-icon>span>svg {
   background: white;
 }
+.jse-theme-dark>.jse-main div.jse-menu {
+  background: black;
+  border-bottom: 1px solid #747474;
+}
 .site-list-box.batch-edit .site-icon>span {
   display: inline-flex;
 }
