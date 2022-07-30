@@ -18,6 +18,7 @@ import BookmarksIcon from '@mui/icons-material/Bookmarks';
 import { JSONEditor } from 'vanilla-jsoneditor'
 import { useEffect, useRef } from "react";
 import 'vanilla-jsoneditor/themes/jse-theme-dark.css';
+import { createAjvValidator } from 'vanilla-jsoneditor';
 
 function saveConfigToScript (notification) {
     var saveMessage = new CustomEvent('saveConfig', {
@@ -114,6 +115,50 @@ function UploadSpeedDialAction(props) {
     );
 }
 
+const schema = {
+    title: 'Types List',
+    description: 'List of the data of types',
+    type: 'array',
+    items: {
+        properties: {
+            type: {
+                title: 'Type Name',
+                description: 'The name of type.',
+                examples: ['Search'],
+                type: 'string'
+            },
+            icon: {
+                title: 'Type icon',
+                description: 'The icon of type.',
+                examples: ['image'],
+                type: 'string'
+            },
+            sites: {
+                title: 'Sites List',
+                description: 'List of the data of sites',
+                type: 'array',
+                items: {
+                    properties: {
+                        name: {
+                            title: 'Site Name',
+                            description: 'The name of site.',
+                            examples: ['Google'],
+                            type: 'string'
+                        },
+                        url: {
+                            title: 'Site Url',
+                            description: 'The url of site.',
+                            examples: ['https://www.google.com/search?q=%s'],
+                            type: 'string'
+                        }
+                    },
+                    required: ['name', 'url']
+                }
+            }
+        },
+        required: ['type', 'sites']
+    }
+}
 var editor;
 
 function SvelteJSONEditor(props) {
@@ -276,6 +321,7 @@ export default function Export() {
             <Box sx={{ maxHeight: '80vh',overflow: 'auto'}}>
                 <SvelteJSONEditor
                     content={{json:window.searchData.sitesConfig}}
+                    validator={createAjvValidator(schema)}
                 />
             </Box>
             <FormControl fullWidth sx={{ mt: 1 }}>
