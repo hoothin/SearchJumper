@@ -765,7 +765,6 @@ class SitesList extends React.Component {
                             }}
                         />
                         <TextField
-                            autoFocus
                             margin="dense"
                             id="description"
                             label={window.i18n('description')}
@@ -780,7 +779,6 @@ class SitesList extends React.Component {
                             }}
                         />
                         <TextField
-                            autoFocus
                             margin="dense"
                             id="url"
                             label={window.i18n('siteUrl')}
@@ -999,10 +997,8 @@ class SitesList extends React.Component {
                             fullWidth
                             variant="standard"
                             placeholder={'"C:\\Program Files\\MPV\\mpv.exe" --stream %u'}
-                            autoFocus
                         />
                         <TextField
-                            autoFocus
                             margin="dense"
                             id="localAppName"
                             label={window.i18n('localAppName')}
