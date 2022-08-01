@@ -218,14 +218,19 @@ export default function Export() {
     const [presetCss, setPresetCss] = React.useState('');
     const [cssText, setCssText] = React.useState(window.searchData.prefConfig.cssText||'');
     const [fontAwesomeCss, setFontAwesomeCss] = React.useState(window.searchData.prefConfig.fontAwesomeCss);
-    const [speedDialOpen, setSpeedDialOpen] = React.useState(true);
 
     var downloadEle = document.createElement('a');
     downloadEle.download = "searchJumper.json";
     downloadEle.target = "_blank";
     function saveConfig() {
         try {
-            if (editor && editor.get().json) window.searchData.sitesConfig = editor.get().json;
+            if (editor) {
+                if (editor.get().json) {
+                    window.searchData.sitesConfig = editor.get().json;
+                } else if (editor.get().text) {
+                    window.searchData.sitesConfig = JSON.parse(editor.get().text);
+                }
+            }
             window.searchData.prefConfig.cssText = cssText;
             window.searchData.prefConfig.fontAwesomeCss = fontAwesomeCss;
             saveConfigToScript(true);
@@ -366,10 +371,6 @@ export default function Export() {
                 ariaLabel="SpeedDial"
                 sx={{ position: 'fixed', bottom: '20%', right: 16 }}
                 icon={<SpeedDialIcon />}
-                open={speedDialOpen}
-                onClick={() => {
-                    setSpeedDialOpen(!speedDialOpen);
-                }}
             >
                 <SpeedDialAction
                     key='Save'
