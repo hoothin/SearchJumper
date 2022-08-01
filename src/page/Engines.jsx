@@ -1200,7 +1200,7 @@ const rows = [
   createData('["siteName1","siteName2"]', 'batch open by site name you\'ve created', '透過你已經創建的站點名批量打開，例如 ["雅虎搜索","谷歌搜索"]'),
   createData('%selector{}', 'query element for innerText from selector, like %selector{.mainTitle}', '透過 css 選擇器抓取元素並返回文字内容，例如 %selector{.mainTitle}'),
   createData('%xpath{}', 'query element for innerText from xpath, like %xpath{//div[@class="mainTitle"]}', '透過 xpath 抓取元素並返回文字内容，例如 %xpath{//div[@class="mainTitle"]}'),
-  createData('%selector{}.prop() or %xpath{}.prop()', 'return prop value for queried element, like %selector{.mainTitle}.prop(href)', '獲取抓取到元素的屬性值，例如 %selector{.mainTitle}.prop(href)'),
+  createData('%selector{}.prop() or %xpath{}.prop()', 'return prop value for queried element, like %selector{.mainTitle}.prop(href) %selector{.mainTitle}.prop(innerHTML)', '獲取抓取到元素的屬性值，例如 %selector{.mainTitle}.prop(href) %selector{.mainTitle}.prop(innerHTML)'),
   createData('%selector{}.replace() or %xpath{}.replace()', 'replace, same as above, like %selector{.mainTitle}.prop(href).replace(/https/i,"")', '正則替換，例如 %selector{.mainTitle}.prop(href).replace(/https/i,"")'),
   createData('c:', 'put this at first then all words after will be copied to the clipboard', '在開頭使用"c:"可以複製之後的所有字串')
 ];
