@@ -1198,6 +1198,10 @@ const rows = [
   createData('%input{tips}', 'input something, like %input{love who?,you}', '輸入占位，例如%input{請輸入您的三圍,90 55 90}'),
   createData('#p{params}', 'post in page, like #p{#input=%u&sleep=500&.submit=click()}, means: input current url to "#input", then wait for 500ms, then click ".submit". use \\& \\= instead of & = in content', '頁内 post，可在頁面之内使用【css選擇器】填寫參數提交查詢，適用於不開放GET/POST接口的網站，例如 #p{#input=%u&sleep=500&.submit=click()}, 代表在"#input"内輸入指定url，然後等待500毫秒，最後點擊".submit"。可在内容中使用 \\& \\= 來 表示 & ='),
   createData('["siteName1","siteName2"]', 'batch open by site name you\'ve created', '透過你已經創建的站點名批量打開，例如 ["雅虎搜索","谷歌搜索"]'),
+  createData('%selector{}', 'query element for innerText from selector, like %selector{.mainTitle}', '透過 css 選擇器抓取元素並返回文字内容，例如 %selector{.mainTitle}'),
+  createData('%xpath{}', 'query element for innerText from xpath, like %xpath{//div[@class="mainTitle"]}', '透過 xpath 抓取元素並返回文字内容，例如 %xpath{//div[@class="mainTitle"]}'),
+  createData('%selector{}.prop() or %xpath{}.prop()', 'return prop value for queried element, like %selector{.mainTitle}.prop(href)', '獲取抓取到元素的屬性值，例如 %selector{.mainTitle}.prop(href)'),
+  createData('%selector{}.replace() or %xpath{}.replace()', 'replace, same as above, like %selector{.mainTitle}.prop(href).replace(/https/i,"")', '正則替換，例如 %selector{.mainTitle}.prop(href).replace(/https/i,"")'),
   createData('c:', 'put this at first then all words after will be copied to the clipboard', '在開頭使用"c:"可以複製之後的所有字串')
 ];
 
