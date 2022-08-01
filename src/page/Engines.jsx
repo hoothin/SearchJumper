@@ -223,20 +223,6 @@ function TypeEdit(props) {
                         />
                     </FormControl>
                 </Box>
-                <FormControl sx={{ m: 1, minWidth: 80 }}>
-                    <FormControlLabel
-                        control={
-                            <Switch 
-                                checked={typeData.openInNewTab} 
-                                name="openInNewTab"
-                                onClick={e => {
-                                    setTypeData({ ...typeData, openInNewTab:e.target.checked });
-                                }}
-                            />
-                        }
-                        label={window.i18n('typeOpenInNewTab')}
-                    />
-                </FormControl>
                 <Box sx={{flexGrow: 1, display: 'flex', flexWrap: 'nowrap'}}>
                     <TextField
                         margin="dense"
@@ -311,6 +297,22 @@ function TypeEdit(props) {
                         />
                     </FormControl>
                 </Box>
+                <FormControl sx={{ minWidth: 80 }}>
+                    <InputLabel>{window.i18n('openSelect')}</InputLabel>
+                    <Select
+                        value={typeData.openInNewTab}
+                        name="openInNewTab"
+                        onChange={(event: SelectChangeEvent) => {
+                            setTypeData({ ...typeData, openInNewTab:event.target.value });
+                        }}
+                        autoWidth
+                        label={window.i18n('openSelect')}
+                    >
+                        <MenuItem value={'-1'}>{window.i18n("openInDefaultOption")}</MenuItem>
+                        <MenuItem value={true}>{window.i18n("openInNewTabOption")}</MenuItem>
+                        <MenuItem value={false}>{window.i18n("openInCurrentOption")}</MenuItem>
+                    </Select>
+                </FormControl>
             </DialogContent>
             <DialogActions>
                 <Button variant="outlined" color="error" startIcon={<DeleteIcon />} onClick={props.handleDeleteType}>{window.i18n('delete')}</Button>
@@ -438,6 +440,9 @@ class SitesList extends React.Component {
         }
         if (siteData.hideNotMatch) {
             obj.hideNotMatch = siteData.hideNotMatch;
+        }
+        if (siteData.openInNewTab !== '-1') {
+            obj.openInNewTab = siteData.openInNewTab;
         }
         return obj;
     }
@@ -842,22 +847,40 @@ class SitesList extends React.Component {
                                 }));
                             }}
                         />
-                        <FormControl sx={{ m: 1, minWidth: 80 }}>
-                            <FormControlLabel
-                                control={
-                                    <Switch 
-                                        checked={this.state.currentSite.hideNotMatch} 
-                                        name="hideNotMatch"
-                                        onClick={e => {
-                                            this.setState(prevState => ({
-                                                currentSite: {...prevState.currentSite, hideNotMatch: e.target.checked}
-                                            }));
-                                        }}
-                                    />
-                                }
-                                label={window.i18n('hideNotMatch')}
-                            />
-                        </FormControl>
+                        <Box sx={{ flexGrow: 1, display: 'flex'}}>
+                            <FormControl sx={{ m: 1, minWidth: 80 }}>
+                                <FormControlLabel
+                                    control={
+                                        <Switch 
+                                            checked={this.state.currentSite.hideNotMatch} 
+                                            name="hideNotMatch"
+                                            onClick={e => {
+                                                this.setState(prevState => ({
+                                                    currentSite: {...prevState.currentSite, hideNotMatch: e.target.checked}
+                                                }));
+                                            }}
+                                        />
+                                    }
+                                    label={window.i18n('hideNotMatch')}
+                                />
+                            </FormControl>
+                            <FormControl sx={{ m: 1, minWidth: 80 }}>
+                                <FormControlLabel
+                                    control={
+                                        <Switch 
+                                            checked={this.state.currentSite.nobatch} 
+                                            name="nobatch"
+                                            onClick={e => {
+                                                this.setState(prevState => ({
+                                                    currentSite: {...prevState.currentSite, nobatch: e.target.checked}
+                                                }));
+                                            }}
+                                        />
+                                    }
+                                    label={window.i18n('nobatch')}
+                                />
+                            </FormControl>
+                        </Box>
                         <Box sx={{flexGrow: 1, display: 'flex', flexWrap: 'nowrap'}}>
                             <TextField
                                 margin="dense"
@@ -942,41 +965,45 @@ class SitesList extends React.Component {
                                 />
                             </FormControl>
                         </Box>
-                        <FormControl sx={{ m: 1, minWidth: 80 }}>
-                            <FormControlLabel
-                                control={
-                                    <Switch 
-                                        checked={this.state.currentSite.nobatch} 
-                                        name="nobatch"
-                                        onClick={e => {
-                                            this.setState(prevState => ({
-                                                currentSite: {...prevState.currentSite, nobatch: e.target.checked}
-                                            }));
-                                        }}
-                                    />
-                                }
-                                label={window.i18n('nobatch')}
+                        <Box sx={{flexGrow: 1, display: 'flex', flexWrap: 'nowrap'}}>
+                            <FormControl sx={{ minWidth: 200 }}>
+                                <InputLabel>{window.i18n('openSelect')}</InputLabel>
+                                <Select
+                                    value={this.state.currentSite.openInNewTab}
+                                    name="openInNewTab"
+                                    onChange={(e: SelectChangeEvent) => {
+                                        this.setState(prevState => ({
+                                            currentSite: {...this.state.currentSite, openInNewTab: e.target.value}
+                                        }));
+                                    }}
+                                    autoWidth
+                                    label={window.i18n('openSelect')}
+                                >
+                                    <MenuItem value={'-1'}>{window.i18n("openInDefaultOption")}</MenuItem>
+                                    <MenuItem value={true}>{window.i18n("openInNewTabOption")}</MenuItem>
+                                    <MenuItem value={false}>{window.i18n("openInCurrentOption")}</MenuItem>
+                                </Select>
+                            </FormControl>
+                            <Autocomplete
+                                disablePortal
+                                margin="dense"
+                                sx={{ ml: 1 }}
+                                id="charset"
+                                fullWidth
+                                variant="standard"
+                                options={allCharset}
+                                value={this.state.currentSite.charset}
+                                onChange={e => {
+                                    this.setState(prevState => ({
+                                        currentSite: {...this.state.currentSite, charset: e.target.textContent}
+                                    }));
+                                }}
+                                renderInput={(params) => <TextField 
+                                    {...params}
+                                    label={window.i18n('siteCharset')} 
+                                />}
                             />
-                        </FormControl>
-                        <Autocomplete
-                            disablePortal
-                            margin="dense"
-                            // sx={{ mt: 5 }}
-                            id="charset"
-                            fullWidth
-                            variant="standard"
-                            options={allCharset}
-                            value={this.state.currentSite.charset}
-                            onChange={e => {
-                                this.setState(prevState => ({
-                                    currentSite: {...this.state.currentSite, charset: e.target.textContent}
-                                }));
-                            }}
-                            renderInput={(params) => <TextField 
-                                {...params}
-                                label={window.i18n('siteCharset')} 
-                            />}
-                        />
+                        </Box>
                     </DialogContent>
                     <DialogActions>
                         <Button onClick={() => this.setState(prevState => ({ isOpenLocalApp: true }))}>{window.i18n('localAppAddBtn')}</Button>
@@ -1090,7 +1117,7 @@ function typeObject(obj) {
         selectVideo: obj.selectVideo || false,
         selectLink: obj.selectLink || false,
         selectPage: obj.selectPage || false,
-        openInNewTab: obj.openInNewTab || false,
+        openInNewTab: typeof obj.openInNewTab === 'undefined' ? '-1' : obj.openInNewTab,
         shortcut: obj.shortcut || '',
         ctrl: obj.ctrl || false,
         alt: obj.alt || false,
@@ -1115,6 +1142,7 @@ function siteObject(obj) {
         shift: obj.shift || false,
         meta: obj.meta || false,
         nobatch: obj.nobatch || false,
+        openInNewTab: typeof obj.openInNewTab === 'undefined' ? '-1' : obj.openInNewTab,
         hideNotMatch: obj.hideNotMatch || false
     };
 }
@@ -1231,7 +1259,7 @@ export default function Engines() {
         if (typeData.selectPage) {
             minType.selectPage = typeData.selectPage;
         }
-        if (typeData.openInNewTab) {
+        if (typeData.openInNewTab !== '-1') {
             minType.openInNewTab = typeData.openInNewTab;
         }
         if (typeData.shortcut) {
