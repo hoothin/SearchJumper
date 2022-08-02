@@ -39,6 +39,8 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import InputBase from '@mui/material/InputBase';
 import SearchIcon from '@mui/icons-material/Search';
+import InputAdornment from '@mui/material/InputAdornment';
+import FileUploadIcon from '@mui/icons-material/FileUpload';
 
 function saveConfigToScript (notification) {
     var saveMessage = new CustomEvent('saveConfig', {
@@ -112,6 +114,34 @@ function TypeEdit(props) {
                     onChange={e => {
                         setTypeData({ ...typeData, icon:e.target.value });
                     }}
+                    InputProps={{
+                      endAdornment: (
+                          <InputAdornment position="end">
+                            <input
+                                accept="image/*"
+                                style={{ display: "none" }}
+                                id="upload-type-icon"
+                                type="file"
+                                onChange={event => {
+                                    let reader = new FileReader();
+                                    reader.readAsDataURL(event.target.files[0]);
+                                    reader.onload = function() {
+                                        setTypeData({ ...typeData, icon:reader.result });
+                                    };
+                                }}
+                            />
+                            <label htmlFor="upload-type-icon">
+                                <IconButton
+                                  edge="end"
+                                  component="span"
+                                >
+                                    <FileUploadIcon/>
+                                </IconButton>
+                            </label>
+                          </InputAdornment>
+                        )
+                    }}
+                    
                 />
                 <DialogContentText>
                     {window.i18n('iconTips')}
@@ -813,6 +843,36 @@ class SitesList extends React.Component {
                                 this.setState(prevState => ({
                                     currentSite: {...this.state.currentSite, icon: e.target.value}
                                 }));
+                            }}
+                            InputProps={{
+                              endAdornment: (
+                                  <InputAdornment position="end">
+                                    <input
+                                        accept="image/*"
+                                        style={{ display: "none" }}
+                                        id="upload-site-icon"
+                                        type="file"
+                                        onChange={event => {
+                                            let self = this;
+                                            let reader = new FileReader();
+                                            reader.readAsDataURL(event.target.files[0]);
+                                            reader.onload = function() {
+                                                self.setState(prevState => ({
+                                                    currentSite: {...self.state.currentSite, icon: reader.result}
+                                                }));
+                                            };
+                                        }}
+                                    />
+                                    <label htmlFor="upload-site-icon">
+                                        <IconButton
+                                          edge="end"
+                                          component="span"
+                                        >
+                                            <FileUploadIcon/>
+                                        </IconButton>
+                                    </label>
+                                  </InputAdornment>
+                                )
                             }}
                         />
                         <TextField
