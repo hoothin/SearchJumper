@@ -819,6 +819,7 @@ class SitesList extends React.Component {
                             label={window.i18n('siteUrl')}
                             type="text"
                             fullWidth
+                            multiline
                             variant="standard"
                             value={this.state.currentSite.url}
                             onChange={e => {
