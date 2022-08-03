@@ -31,6 +31,8 @@
   > 滑鼠右鍵單擊類別圖標批量打開同一類別
 + Hold **`shift`** + left click on category icon to open batches in new window
   > 按住 **`shift`** 左鍵單擊類別圖標在新窗口批量打開
++ Hold **`ctrl`** + left click on category icon to open in background TAB
+  > 按住 **`ctrl`** 左鍵單擊類別圖標以後臺標籤頁批量打開
 + Hold **`alt`** + left click on category icon to open batches embedding
   > 按住 **`alt`** 左鍵單擊類別圖標批量嵌入打開
 + Hold **`alt + shift`** + left-click a category icon to batch open multiple separate windows
@@ -41,8 +43,8 @@
   > 按住 **`ctrl`** (左鍵單擊/快捷鍵/拖拽)站點以後臺標籤頁打開結果頁
 + **`alt`** + (left click/shortcut/drag) on site icon to preview in small window
   > 按住 **`alt`** (左鍵單擊/快捷鍵/拖拽)站點以小窗口預覽結果
-+ **`Ctrl + Alt`** + (left click/shortcut/drag) single site/press shortcut key to open in incognito window.
-  > 按住 **`ctrl + alt`** (左鍵單擊/快捷鍵/拖拽)站點以隱身窗口打開
++ **`alt + shift`** + (left click/shortcut/drag) single site/press shortcut key to open in incognito window.
+  > 按住 **`alt + shift`** (左鍵單擊/快捷鍵/拖拽)站點以隱身窗口打開
 + Call search bar for input words to filter sites by shortcut key when select no words, press enter to search quickly, `ctrl` + enter to search without lock.
   > 沒有選擇文字或者圖片時通過喚出快捷鍵可喚出站點搜索框，搜索站點后按下回車可鎖定站點並輸入搜索詞，再次回車使用第一個結果搜索，ctrl+回車無需鎖定即可快捷打開，適用於靜態書簽。
 + Can set the category to be displayed only on the specified site through the regular rule
@@ -107,7 +109,7 @@
 <summary><h2>Add search engines quickly 快速添加搜索引擎</h></summary>
 
 + Add with shortcut key on current page 通過快捷鍵快速在當前頁面添加
-> click search input box with `ctrl + alt` 按住 `ctrl + alt` 點擊當前頁面中的搜索輸入框即可
+> click search input box with `alt + shift` 按住 `alt + shift` 點擊當前頁面中的搜索輸入框即可
 
 + Search on mycroftproject.com and add  在 mycroftproject 上搜索別人編輯好的站點並點擊導入
 > Click the searchJumper face icon in sites list on mycroftproject 點擊 mycroftproject 上站點列表裏的搜索醬圖標即可
