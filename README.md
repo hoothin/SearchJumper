@@ -33,18 +33,20 @@
   > 按住 **`shift`** 左鍵單擊類別圖標在新窗口批量打開
 + Hold **`ctrl`** + left click on category icon to open in background TAB
   > 按住 **`ctrl`** 左鍵單擊類別圖標以後臺標籤頁批量打開
-+ Hold **`alt`** + left click on category icon to open batches embedding
-  > 按住 **`alt`** 左鍵單擊類別圖標批量嵌入打開
-+ Hold **`alt + shift`** + left-click a category icon to batch open multiple separate windows
-  > 按住 **`alt + shift`** 左鍵單擊類別圖標以多個單獨窗口批量打開
++ Hold **`alt`** + left-click a category icon to batch open multiple separate windows
+  > 按住 **`alt`** 左鍵單擊類別圖標以多個單獨窗口批量打開
++ Hold **`ctrl + shift`** + left click on category icon to open batches in incognito window
+  > 按住 **`ctrl + shift`** 左鍵單擊類別圖標在隱身窗口批量打開
++ Hold **`alt + shift`** + left click on category icon to open batches embedding
+  > 按住 **`alt + shift`** 左鍵單擊類別圖標批量嵌入打開
 + **`shift`** + left click on site icon to open in new window
   > 按住 **`shift`** 左鍵單擊站點以新窗口打開結果頁
 + **`ctrl`** + (left click/shortcut/drag) on site icon to open in background TAB
   > 按住 **`ctrl`** (左鍵單擊/快捷鍵/拖拽)站點以後臺標籤頁打開結果頁
 + **`alt`** + (left click/shortcut/drag) on site icon to preview in small window
   > 按住 **`alt`** (左鍵單擊/快捷鍵/拖拽)站點以小窗口預覽結果
-+ **`alt + shift`** + (left click/shortcut/drag) single site/press shortcut key to open in incognito window.
-  > 按住 **`alt + shift`** (左鍵單擊/快捷鍵/拖拽)站點以隱身窗口打開
++ **`ctrl + shift`** + (left click/shortcut/drag) single site/press shortcut key to open in incognito window.
+  > 按住 **`ctrl + shift`** (左鍵單擊/快捷鍵/拖拽)站點以隱身窗口打開
 + Call search bar for input words to filter sites by shortcut key when select no words, press enter to search quickly, `ctrl` + enter to search without lock.
   > 沒有選擇文字或者圖片時通過喚出快捷鍵可喚出站點搜索框，搜索站點后按下回車可鎖定站點並輸入搜索詞，再次回車使用第一個結果搜索，ctrl+回車無需鎖定即可快捷打開，適用於靜態書簽。
 + Can set the category to be displayed only on the specified site through the regular rule
@@ -224,10 +226,10 @@ Open the page of video and download with `lux://%u` 完畢之後即可新建站�
 + **`shift`** + click category icon
 ![i](batchOpen1.jpg)
   
-+ **`Alt`** + click category icon
++ **`alt + shift`** + click category icon
 ![i](batchOpen2.jpg)
   
-+ **`alt + shift`** + click category icon
++ **`alt`** + click category icon
 ![i](batchOpen3.jpg)
 
  </details>
