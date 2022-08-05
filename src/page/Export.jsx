@@ -120,6 +120,7 @@ const schema = {
     description: 'List of the data of types',
     type: 'array',
     items: {
+        type: 'object',
         properties: {
             type: {
                 title: 'Type Name',
@@ -138,6 +139,7 @@ const schema = {
                 description: 'List of the data of sites',
                 type: 'array',
                 items: {
+                    type: 'object',
                     properties: {
                         name: {
                             title: 'Site Name',
@@ -214,6 +216,22 @@ function UploadBookmarkAction(props) {
         </React.Fragment>
     );
 }
+
+function DefaultOpenSpeedDial(props) {
+    const [isOpen, setIsOpen] = React.useState(true);
+    return (
+        <SpeedDial
+            open={isOpen}
+            onClick={e => {
+                if (e.target.classList.contains("MuiSpeedDialIcon-icon") || e.target.classList.contains("MuiFab-primary") || e.target.parentNode.classList.contains("MuiSpeedDialIcon-icon")) {
+                    setIsOpen(!isOpen);
+                }
+            }}
+            {...props}
+        />
+    );
+}
+
 export default function Export() {
     const [presetCss, setPresetCss] = React.useState('');
     const [cssText, setCssText] = React.useState(window.searchData.prefConfig.cssText||'');
@@ -367,7 +385,7 @@ export default function Export() {
                     setFontAwesomeCss(event.target.value);
                 }}
             />
-            <SpeedDial
+            <DefaultOpenSpeedDial
                 ariaLabel="SpeedDial"
                 sx={{ position: 'fixed', bottom: '20%', right: 16 }}
                 icon={<SpeedDialIcon />}
@@ -402,7 +420,7 @@ export default function Export() {
                     tooltipTitle={window.i18n('importBookmarks')}
                     onChange = {importBookmarks}
                 />
-            </SpeedDial>
+            </DefaultOpenSpeedDial>
         </Box>
     );
 }
