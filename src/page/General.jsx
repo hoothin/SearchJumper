@@ -593,17 +593,6 @@ export default function General() {
                 </Box>
                 <Box sx={state.enableInPage?{}:{ display: 'none' }}>
                     <Typography gutterBottom component="div">
-                        <h4>{window.i18n('enableLeftMouse')}</h4>
-                    </Typography>
-                    <FormControl sx={{ m: 1, minWidth: 80 }}>
-                        <FormControlLabel
-                            control={
-                                <Switch checked={state.leftMouse} onChange={handleCheckChange} name="leftMouse" />
-                            }
-                            label={window.i18n('enableLeftMouseTips')}
-                        />
-                    </FormControl>
-                    <Typography gutterBottom component="div">
                         <h4>{window.i18n('bindFunctionKey')}</h4>
                     </Typography>
                     <Box>
@@ -656,6 +645,17 @@ export default function General() {
                             }}
                         />
                     </Box>
+                    <Typography gutterBottom component="div">
+                        <h4>{window.i18n('enableLeftMouse')}</h4>
+                    </Typography>
+                    <FormControl sx={{ m: 1, minWidth: 80 }}>
+                        <FormControlLabel
+                            control={
+                                <Switch checked={state.leftMouse} onChange={handleCheckChange} name="leftMouse" />
+                            }
+                            label={window.i18n('enableLeftMouseTips')}
+                        />
+                    </FormControl>
                     <Typography gutterBottom component="div">
                         <h4>{window.i18n('selectToShow')}</h4>
                     </Typography>
