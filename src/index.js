@@ -301,7 +301,7 @@ switch (lang) {
         config = {
             name: 'SearchJumper',
             description: 'Description',
-            rulesStore: 'Rules store',
+            rulesStore: 'Search Engine collection store',
             import: 'Import config',
             export: 'Export JSON',
             general: 'General',
