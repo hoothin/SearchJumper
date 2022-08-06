@@ -682,6 +682,19 @@ export default function General() {
                             />
                         </FormControl>
                     </Box>
+                    <Typography gutterBottom component="div">
+                        <h4>{window.i18n('hideDragHistory')}</h4>
+                    </Typography>
+                    <Box>
+                        <FormControl sx={{ m: 1, minWidth: 80 }}>
+                            <FormControlLabel
+                                control={
+                                    <Switch checked={state.hideDragHistory} onChange={handleCheckChange} name="hideDragHistory" />
+                                }
+                                label={window.i18n('hideDragHistoryTips')}
+                            />
+                        </FormControl>
+                    </Box>
                 </Box>
             </Paper>
         </Box>
