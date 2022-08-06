@@ -21,7 +21,8 @@ import Switch from '@mui/material/Switch';
 import Snackbar from '@mui/material/Snackbar';
 import MuiAlert from '@mui/material/Alert';
 import Autocomplete from '@mui/material/Autocomplete';
-import SelectAllIcon from '@mui/icons-material/SelectAll';
+// import SelectAllIcon from '@mui/icons-material/SelectAll';
+import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import Select, { SelectChangeEvent } from '@mui/material/Select';
 import MenuItem from '@mui/material/MenuItem';
 import InputLabel from '@mui/material/InputLabel';
@@ -636,7 +637,7 @@ class SitesList extends React.Component {
                             siteListBox.classList.remove("batch-edit");
                         }
                     }}>
-                        <SelectAllIcon />
+                        <CheckCircleIcon />
                     </IconButton>
                     <Button onClick={() => { 
                         this.setState(prevState => ({ 
