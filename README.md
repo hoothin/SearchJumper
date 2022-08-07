@@ -221,7 +221,7 @@ Open the page of video and download with `lux://%u` 完畢之後即可新建站�
 
 ---
  <details>
-<summary><h2>Batch open types 多種批量打開方式</h></summary>
+<summary><h2>Batch open modes 多種批量打開方式</h></summary>
   
 + **`shift`** + click category icon
 ![i](batchOpen1.jpg)
