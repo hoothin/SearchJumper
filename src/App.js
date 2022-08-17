@@ -20,6 +20,7 @@ import General from './page/General.jsx';
 import Engines from './page/Engines.jsx';
 import About from './page/About.jsx';
 import Export from './page/Export.jsx';
+import FindInPage from './page/FindInPage.jsx';
 import Link from '@mui/material/Link';
 
 interface TabPanelProps {
@@ -114,7 +115,8 @@ export default function App() {
             <Tab label={window.i18n('general')} {...a11yProps(0)} />
             <Tab label={window.i18n('searchEngines')} {...a11yProps(1)} />
             <Tab label={window.i18n('exportConfig')} {...a11yProps(2)} />
-            <Tab label={window.i18n('about')} {...a11yProps(3)} />
+            <Tab label={window.i18n('findInPage')} {...a11yProps(3)} />
+            <Tab label={window.i18n('about')} {...a11yProps(4)} />
           </Tabs>
         </ListItem>
       </List>
@@ -128,6 +130,9 @@ export default function App() {
         {window.searchData ? <Export/> : <About/>}
       </TabPanel>
       <TabPanel value={value} index={3}>
+        {window.searchData ? <FindInPage/> : <About/>}
+      </TabPanel>
+      <TabPanel value={value} index={4}>
         <About/>
       </TabPanel>
     </Box>
