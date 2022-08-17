@@ -28,17 +28,16 @@ function getFormatRule() {
     keys.forEach(key => {
         let value = inPageRule[key];
         if (!value) return;
-        let splitSep = "";
+        let splitSep = null;
         if (value.indexOf("$c") === 0 && value.length > 2) {
             splitSep = value.substr(2, 1);
             value = value.substr(3).trim();
         } else if (value.indexOf("$o") === 0) {
-            splitSep = "";
             value = value.substr(2).trim();
         } else splitSep = " ";
         formarObj[key] = {};
-        formarObj[key]["sep"] = splitSep;
-        formarObj[key]["words"] = value.split(splitSep || null);
+        if (splitSep !== null && splitSep !== " ") formarObj[key]["sep"] = splitSep;
+        formarObj[key]["words"] = value.split(splitSep);
     });
     return JSON.stringify(formarObj, null, 4);
 }
@@ -66,12 +65,16 @@ function setInPageRule() {
         keys.forEach(key => {
             let value = ruleObj[key];
             if (!value) return;
-            let pre = value.sep;
-            if (pre) {
-                if (pre === " ") pre = "";
-                else pre = "$c" + pre;
-            } else pre = "$o";
-            storeObj[key] = pre + value.words.join(value.sep);
+            let pre = "", sep = value.sep || null;
+            if (!sep) sep = " ";
+            if (value.words.length > 1) {
+                if (sep === " ") pre = "";
+                else pre = "$c" + sep;
+            } else {
+                sep = null;
+                pre = "$o";
+            }
+            storeObj[key] = pre + value.words.join(sep);
         });
         window.searchData.prefConfig.inPageRule = storeObj;
     }
@@ -246,7 +249,7 @@ export default function FindInPage() {
                     defaultValue={getFormatRule()}
                     multiline
                     rows={10}
-                    placeholder={`{\n\t"*g??gle.com": {\t\t\t//site url\n\t\tsep: "$",\t\t\t\t//separator for words\n\t\twords: [\t\t\t\t//words to find\n\t\t\t"word1$t{wow}",\t//find word1 and add tips "wow"\n\t\t\t"word2$s{red;}"\t//find word2 and change background to red\n\t\t]\n\t},\n\t"*bing.com": {\n\t\tsep: " ",\n\t\twords: [\n\t\t\t"ring"\n\t\t]\n\t}\n}`}
+                    placeholder={`{\n\t"*g??gle.com": {\t\t\t//site url\n\t\tsep: "$",\t\t\t\t//separator for words, set when your keyword has space inside\n\t\twords: [\t\t\t\t//words to find\n\t\t\t"word1$t{wow}",\t//find word1 and add tips "wow"\n\t\t\t"word2$s{red;}"\t//find word2 and change background to red\n\t\t]\n\t},\n\t"*bing.com": {\n\t\twords: [\n\t\t\t"ring"\n\t\t]\n\t}\n}`}
                 />
                 <Button fullWidth variant="outlined" color="primary" onClick={setInPageRule}>{window.i18n('save')}</Button>
             </Paper>
