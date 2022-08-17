@@ -99,7 +99,7 @@ export default function App() {
               <Avatar alt="SearchJumper" component={Paper} elevation={5} src={logo}/>
             </Link>
           </ListItemAvatar>
-          <ListItemText primary={window.i18n('name')} secondary="Ver 0.9" />
+          <ListItemText primary={window.i18n('name')} secondary="Ver 0.91" />
         </ListItem>
         <Divider component="li" variant="inset" sx={{marginRight: 3}}/>
         <ListItem sx={{flexFlow: 'column'}}>
