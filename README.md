@@ -1,4 +1,4 @@
-# [SearchJumper - 搜索醬](https://greasyfork.org/scripts/445274-searchjumper "Install from greasyfork")  [👆Seek more sites 更多站點配置](https://github.com/hoothin/SearchJumper/issues?q=label%3A%22Sites+Rule%22)
+# [SearchJumper - 搜索醬](https://greasyfork.org/scripts/445274-searchjumper "搜索酱 検索ちゃん Install from greasyfork")  [👆Seek more sites 更多站點配置](https://github.com/hoothin/SearchJumper/issues?q=label%3A%22Sites+Rule%22)
 
 ![star](https://img.shields.io/github/stars/hoothin/SearchJumper)
 ![react-version](https://img.shields.io/badge/React.js-lastest-green.svg)
@@ -111,7 +111,7 @@
 <summary><h2>Add search engines quickly 快速添加搜索引擎</h></summary>
 
 + Add with shortcut key on current page 通過快捷鍵快速在當前頁面添加
-> click search input box with `ctrl + shift` 按住 `ctrl + shift` 點擊當前頁面中的搜索輸入框即可
+> Click search input box with `ctrl + shift` 按住 `ctrl + shift` 點擊當前頁面中的搜索輸入框即可
 
 + Search on mycroftproject.com and add  在 mycroftproject 上搜索別人編輯好的站點並點擊導入
 > Click the searchJumper face icon in sites list on mycroftproject 點擊 mycroftproject 上站點列表裏的搜索醬圖標即可
@@ -221,7 +221,7 @@ Open the page of video and download with `lux://%u` 完畢之後即可新建站�
 
 ---
  <details>
-<summary><h2>Batch open types 多種批量打開方式</h></summary>
+<summary><h2>Batch open modes 多種批量打開方式</h></summary>
   
 + **`shift`** + click category icon
 ![i](batchOpen1.jpg)
