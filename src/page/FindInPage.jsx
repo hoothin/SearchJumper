@@ -249,7 +249,7 @@ export default function FindInPage() {
                     defaultValue={getFormatRule()}
                     multiline
                     rows={10}
-                    placeholder={`{\n\t"*g??gle.com": {\t\t\t//site url\n\t\tsep: "$",\t\t\t\t//separator for words, set when your keyword has space inside\n\t\twords: [\t\t\t\t//words to find\n\t\t\t"word1$t{wow}",\t//find word1 and add tips "wow"\n\t\t\t"word2$s{red;}"\t//find word2 and change background to red\n\t\t]\n\t},\n\t"*bing.com": {\n\t\twords: [\n\t\t\t"ring"\n\t\t]\n\t}\n}`}
+                    placeholder={`{\n\t"https://www.g??gle.com": {\t\t\t//site url\n\t\tsep: "$",\t\t\t\t//separator for words, set when your keyword has space inside\n\t\twords: [\t\t\t\t//words to find\n\t\t\t"word1$t{wow}",\t//find word1 and add tips "wow"\n\t\t\t"word2$s{red;}"\t//find word2 and change background to red\n\t\t]\n\t},\n\t"*bing.com": {\n\t\twords: [\n\t\t\t"ring"\n\t\t]\n\t}\n}`}
                 />
                 <Button fullWidth variant="outlined" color="primary" onClick={setInPageRule}>{window.i18n('save')}</Button>
             </Paper>
