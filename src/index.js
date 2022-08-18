@@ -343,7 +343,7 @@ switch (lang) {
             limitInPageLenTips: 'Do not highlight keywords whose length is less than this value',
             ignoreWords: 'Ignore keyword list',
             inPageWordsStyles: 'Keyword styles',
-            inPageWordsAddStyles: 'Custom keyword CSS, an array target each keyword',
+            inPageWordsAddStyles: 'Custom keyword CSS, input an array target each keyword',
             inPageRule: 'Site auto-highlighting rules',
             errorNoType: 'Please enter the category name',
             errorSameType: 'Found same category name',
