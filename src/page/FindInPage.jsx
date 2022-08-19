@@ -207,7 +207,7 @@ export default function FindInPage() {
                     value={state.ignoreWords.join(",")}
                     placeholder="a, in, into, the, to, on, among, between, and, an, of, by, with, about, under"
                     onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
-                        let newValue = event.target.value.split(",");
+                        let newValue = event.target.value.replace(/\s*,\s*/g, ",").split(",");
                         var newPref = {
                             ...state,
                             ignoreWords: newValue
