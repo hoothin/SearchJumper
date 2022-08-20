@@ -65,6 +65,7 @@ function setInPageRule() {
         keys.forEach(key => {
             let value = ruleObj[key];
             if (!value) return;
+            if (!value.words || value.words.length === 0) return;
             let pre = "", sep = value.sep || null;
             if (!sep) sep = " ";
             if (value.words.length > 1) {
@@ -72,7 +73,10 @@ function setInPageRule() {
                 else pre = "$c" + sep;
             } else {
                 sep = null;
-                pre = "$o";
+                let onlyWord = value.words[0];
+                if (onlyWord.indexOf(" ") !== -1) {
+                    pre = "$o";
+                }
             }
             storeObj[key] = pre + value.words.join(sep);
         });
@@ -207,7 +211,7 @@ export default function FindInPage() {
                     value={state.ignoreWords.join(",")}
                     placeholder="a, in, into, the, to, on, among, between, and, an, of, by, with, about, under"
                     onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
-                        let newValue = event.target.value.replace(/\s*,\s*/g, ",").split(",");
+                        let newValue = event.target.value.trim().replace(/\s*,\s*/g, ",").split(",");
                         var newPref = {
                             ...state,
                             ignoreWords: newValue
