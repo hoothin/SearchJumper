@@ -72,9 +72,9 @@ function setInPageRule() {
                 if (sep === " ") pre = "";
                 else pre = "$c" + sep;
             } else {
-                sep = null;
                 let onlyWord = value.words[0];
                 if (onlyWord.indexOf(" ") !== -1) {
+                    sep = null;
                     pre = "$o";
                 }
             }
