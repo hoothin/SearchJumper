@@ -53,6 +53,12 @@ export default function General() {
     if (!window.searchData.prefConfig.sortType) {
         window.searchData.prefConfig.sortType = false;
     }
+    if (!window.searchData.prefConfig.altToHightlight) {
+        window.searchData.prefConfig.altToHightlight = false;
+    }
+    if (!window.searchData.prefConfig.defaultPicker) {
+        window.searchData.prefConfig.defaultPicker = false;
+    }
     const [state, setState] = React.useState(
         window.searchData.prefConfig
     );
@@ -382,6 +388,36 @@ export default function General() {
                                 <Switch checked={state.sortType} onChange={handleCheckChange} name="sortType" />
                             }
                             label={window.i18n('sortTypeTips')}
+                        />
+                    </FormControl>
+                </Box>
+            </Paper>
+            <Paper elevation={5} sx={{ padding: '20px', marginTop: '20px' }}>
+                <Typography gutterBottom component="div">
+                    <h4>{window.i18n('altToHightlight')}</h4>
+                </Typography>
+                <Box>
+                    <FormControl sx={{ m: 1, minWidth: 80 }}>
+                        <FormControlLabel
+                            control={
+                                <Switch checked={state.altToHightlight} onChange={handleCheckChange} name="altToHightlight" />
+                            }
+                            label={window.i18n('altToHightlightTips')}
+                        />
+                    </FormControl>
+                </Box>
+            </Paper>
+            <Paper elevation={5} sx={{ padding: '20px', marginTop: '20px' }}>
+                <Typography gutterBottom component="div">
+                    <h4>{window.i18n('defaultPicker')}</h4>
+                </Typography>
+                <Box>
+                    <FormControl sx={{ m: 1, minWidth: 80 }}>
+                        <FormControlLabel
+                            control={
+                                <Switch checked={state.defaultPicker} onChange={handleCheckChange} name="defaultPicker" />
+                            }
+                            label={window.i18n('defaultPickerTips')}
                         />
                     </FormControl>
                 </Box>
