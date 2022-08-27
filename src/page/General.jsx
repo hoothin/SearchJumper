@@ -53,8 +53,8 @@ export default function General() {
     if (!window.searchData.prefConfig.sortType) {
         window.searchData.prefConfig.sortType = false;
     }
-    if (!window.searchData.prefConfig.altToHightlight) {
-        window.searchData.prefConfig.altToHightlight = false;
+    if (!window.searchData.prefConfig.altToHighlight) {
+        window.searchData.prefConfig.altToHighlight = false;
     }
     if (!window.searchData.prefConfig.defaultPicker) {
         window.searchData.prefConfig.defaultPicker = false;
@@ -394,15 +394,15 @@ export default function General() {
             </Paper>
             <Paper elevation={5} sx={{ padding: '20px', marginTop: '20px' }}>
                 <Typography gutterBottom component="div">
-                    <h4>{window.i18n('altToHightlight')}</h4>
+                    <h4>{window.i18n('altToHighlight')}</h4>
                 </Typography>
                 <Box>
                     <FormControl sx={{ m: 1, minWidth: 80 }}>
                         <FormControlLabel
                             control={
-                                <Switch checked={state.altToHightlight} onChange={handleCheckChange} name="altToHightlight" />
+                                <Switch checked={state.altToHighlight} onChange={handleCheckChange} name="altToHighlight" />
                             }
-                            label={window.i18n('altToHightlightTips')}
+                            label={window.i18n('altToHighlightTips')}
                         />
                     </FormControl>
                 </Box>
@@ -664,6 +664,43 @@ export default function General() {
                                 label={window.i18n('metaKey')}
                             />
                         </FormControl>
+                    </Box>
+                    <Typography gutterBottom component="div">
+                        <h4>{window.i18n('callInputKey')}</h4>
+                    </Typography>
+                    <Box>
+                        <FormControl sx={{ m: 1, minWidth: 80 }}>
+                            <FormControlLabel
+                                control={
+                                    <Switch checked={state.callBarCtrl} onChange={handleCheckChange} name="callBarCtrl" />
+                                }
+                                label={window.i18n('ctrlKey')}
+                            />
+                        </FormControl>
+                        <FormControl sx={{ m: 1, minWidth: 80 }}>
+                            <FormControlLabel
+                                control={
+                                    <Switch checked={state.callBarAlt} onChange={handleCheckChange} name="callBarAlt" />
+                                }
+                                label={window.i18n('altKey')}
+                            />
+                        </FormControl>
+                        <FormControl sx={{ m: 1, minWidth: 80 }}>
+                            <FormControlLabel
+                                control={
+                                    <Switch checked={state.callBarShift} onChange={handleCheckChange} name="callBarShift" />
+                                }
+                                label={window.i18n('shiftKey')}
+                            />
+                        </FormControl>
+                        <FormControl sx={{ m: 1, minWidth: 80 }}>
+                            <FormControlLabel
+                                control={
+                                    <Switch checked={state.callBarMeta} onChange={handleCheckChange} name="callBarMeta" />
+                                }
+                                label={window.i18n('metaKey')}
+                            />
+                        </FormControl>
                         <TextField
                             label={window.i18n('siteShotcut')}
                             type="text"
@@ -681,6 +718,28 @@ export default function General() {
                             }}
                         />
                     </Box>
+                    <Typography gutterBottom component="div">
+                        <h4>{window.i18n('defaultFindTab')}</h4>
+                    </Typography>
+                    <FormControl sx={{ m: 1, minWidth: 80 }}>
+                        <FormControlLabel
+                            control={
+                                <Switch checked={state.defaultFindTab} onChange={handleCheckChange} name="defaultFindTab" />
+                            }
+                            label={window.i18n('defaultFindTabTips')}
+                        />
+                    </FormControl>
+                    <Typography gutterBottom component="div">
+                        <h4>{window.i18n('disableInputOnWords')}</h4>
+                    </Typography>
+                    <FormControl sx={{ m: 1, minWidth: 80 }}>
+                        <FormControlLabel
+                            control={
+                                <Switch checked={state.disableInputOnWords} onChange={handleCheckChange} name="disableInputOnWords" />
+                            }
+                            label={window.i18n('disableInputOnWordsTips')}
+                        />
+                    </FormControl>
                     <Typography gutterBottom component="div">
                         <h4>{window.i18n('enableLeftMouse')}</h4>
                     </Typography>
