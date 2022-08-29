@@ -1452,7 +1452,7 @@ export default function Engines() {
     var dragType;
 
     return (
-        <Box>
+        <Box sx={{pb: 3}}>
             <Paper elevation={5} sx={{textAlign:'center', borderRadius:'10px'}}>
                 <h2 style={{padding:'5px'}}>{window.i18n('searchEngines')}</h2>
             </Paper>
@@ -1506,7 +1506,7 @@ export default function Engines() {
                   {alertBody.alertContent}
                 </MuiAlert>
             </Snackbar>
-            <Paper sx={{ mt:2, pt: 1, pb: 2, boxShadow: 'unset', textAlign:'center', borderRadius:'3px', overflow: 'auto' }}>
+            <Paper sx={{ mt:2, pt: 1, pb: 2, boxShadow: 'unset', textAlign:'center', borderRadius:'3px', overflow: 'auto', whiteSpace: 'nowrap' }}>
                 <span className={'selectTxt'}>{window.i18n('targetTxt')}</span>
                 <span className={'selectImg'}>{window.i18n('targetImg')}</span>
                 <span className={'selectLink'}>{window.i18n('targetLink')}</span>
@@ -1560,9 +1560,6 @@ export default function Engines() {
                         <SearchIcon />
                         </IconButton>
                     </Paper>
-                    <Typography variant="h6" gutterBottom component="div">
-                        Example url:️ https://www.google.com/search?q=%s
-                    </Typography>
                     <TableContainer component={Paper}>
                         <Table sx={{ minWidth: 650 }} aria-label="simple table">
                             <TableHead>
