@@ -493,6 +493,7 @@ class SitesList extends React.Component {
             let currentType = window.searchData.sitesConfig[this.index];
             if (!this.state.currentSite.name) return this.handleAlertOpen(window.i18n('needName'));
             if (!this.state.currentSite.url) return this.handleAlertOpen(window.i18n('needUrl'));
+            let isClone = this.state.currentSite.url.indexOf('[') === 0;
             for (let i = 0; i < window.searchData.sitesConfig.length; i++) {
                 let typeData = window.searchData.sitesConfig[i];
                 let sites = typeData.sites;
@@ -507,7 +508,7 @@ class SitesList extends React.Component {
                             return this.handleAlertOpen(window.i18n('sameShortcut', site.name));
                         }
                     }
-                    if (!/^\[/.test(site.url) && site.name === this.state.currentSite.name) {
+                    if (!isClone && site.url.indexOf('[') !== 0 && site.name === this.state.currentSite.name) {
                         return this.handleAlertOpen(window.i18n('sameSiteName', typeData.type));
                     }
                 }
@@ -1505,19 +1506,19 @@ export default function Engines() {
                   {alertBody.alertContent}
                 </MuiAlert>
             </Snackbar>
-            <Paper sx={{mt: 1, p: 1, textAlign:'center', borderRadius:'3px', overflow: 'auto'}}>
+            <Paper sx={{mt: 2, p: 1, boxShadow: 'unset', textAlign:'center', borderRadius:'3px', overflow: 'auto'}}>
                 <span className={'selectTxt'}>{window.i18n('targetTxt')}</span>
                 <span className={'selectImg'}>{window.i18n('targetImg')}</span>
                 <span className={'selectLink'}>{window.i18n('targetLink')}</span>
                 <span className={'selectPage'}>{window.i18n('targetPage')}</span>
             </Paper>
-            <Accordion sx={{ maxHeight: '60vh', overflow: 'auto', mt: 1 }}>
+            <Accordion sx={{ boxShadow: 5, maxHeight: '60vh', overflow: 'auto', mt: 2 }}>
                 <AccordionSummary
                   expandIcon={<ExpandMoreIcon />}
                   aria-controls="panel1a-content"
                   id="panel1a-header"
                 >
-                  <Typography>Search params</Typography>
+                  <Typography sx={{display: 'block', width: '100%', textAlign: 'center', fontSize: '1.3em', fontWeight: 'bold'}}>Search params</Typography>
                 </AccordionSummary>
                 <AccordionDetails>
                     <Paper
