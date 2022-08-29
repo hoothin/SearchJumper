@@ -257,6 +257,7 @@ function TypeEdit(props) {
                 </Box>
                 <Box sx={{flexGrow: 1, display: 'flex', flexWrap: 'nowrap'}}>
                     <TextField
+                        sx={{ minWidth: 100 }}
                         margin="dense"
                         id="match"
                         label={window.i18n('typeShotcut')}
@@ -948,6 +949,7 @@ class SitesList extends React.Component {
                         </Box>
                         <Box sx={{flexGrow: 1, display: 'flex', flexWrap: 'nowrap'}}>
                             <TextField
+                                sx={{ minWidth: 100 }}
                                 margin="dense"
                                 id="match"
                                 label={window.i18n('siteShotcut')}
