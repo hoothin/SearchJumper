@@ -47,13 +47,68 @@ code {
   #root>.MuiBox-root>[role="tabpanel"] {
     margin-top: 88px;
   }
-  #root>.MuiBox-root>.MuiList-root:hover {
+  #root>.MuiBox-root>.MuiList-root:not(.hide):hover {
     height: unset;
   }
-  #root>.MuiBox-root>.MuiList-root:hover~div {
+  #root>.MuiBox-root>.MuiList-root:not(.hide):hover~div {
     margin-top: 295px;
   }
-  #root>.MuiBox-root>.MuiList-root:hover a {
+  #root>.MuiBox-root>.MuiList-root:not(.hide):hover a {
     pointer-events: none;
   }
+}
+.selectTxt>i,span.selectTxt {
+  background: #f3533a!important;
+}
+.selectImg>i,span.selectImg {
+  background: #fa9f42!important;
+}
+.selectLink>i,span.selectLink {
+  background: #8ad879!important;
+}
+.selectPage>i,span.selectPage {
+  background: #5acfc9!important;
+}
+span.selectTxt,
+span.selectImg,
+span.selectLink,
+span.selectPage {
+  color: white;
+  margin: 10px;
+  padding: 3px 10px;
+  border-radius: 5px;
+  font-size: large;
+  user-select: none;
+}
+.selectTxt.selectImg>i {
+  background: linear-gradient(45deg, #f3533a 0%, #f3533a 50%, #fa9f42 50%, #fa9f42 100%)!important;
+}
+.selectTxt.selectLink>i {
+  background: linear-gradient(45deg, #f3533a 0%, #f3533a 50%, #8ad879 50%, #8ad879 100%)!important;
+}
+.selectTxt.selectPage>i {
+  background: linear-gradient(45deg, #f3533a 0%, #f3533a 50%, #5acfc9 50%, #5acfc9 100%)!important;
+}
+.selectLink.selectImg>i {
+  background: linear-gradient(45deg, #8ad879 0%, #8ad879 50%, #fa9f42 50%, #fa9f42 100%)!important;
+}
+.selectPage.selectImg>i {
+  background: linear-gradient(45deg, #5acfc9 0%, #5acfc9 50%, #fa9f42 50%, #fa9f42 100%)!important;
+}
+.selectPage.selectLink>i {
+  background: linear-gradient(45deg, #5acfc9 0%, #5acfc9 50%, #8ad879 50%, #8ad879 100%)!important;
+}
+
+.selectTxt.selectImg.selectLink>i {
+  background: linear-gradient(45deg, #f3533a 0%, #f3533a 33%, #fa9f42 33%, #fa9f42 66%, #8ad879 66%, #8ad879 100%)!important;
+}
+.selectTxt.selectImg.selectPage>i {
+  background: linear-gradient(45deg, #f3533a 0%, #f3533a 33%, #fa9f42 33%, #fa9f42 66%, #5acfc9 66%, #5acfc9 100%)!important;
+}
+.selectPage.selectImg.selectLink>i {
+  background: linear-gradient(45deg, #5acfc9 0%, #5acfc9 33%, #fa9f42 33%, #fa9f42 66%, #8ad879 66%, #8ad879 100%)!important;
+}
+
+.selectTxt.selectImg.selectLink.selectPage>i {
+  background: linear-gradient(45deg, #f3533a 0%, #f3533a 25%, #fa9f42 25%, #fa9f42 50%, #8ad879 50%, #8ad879 75%, #5acfc9 75%, #5acfc9 100%)!important;
 }

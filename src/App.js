@@ -63,6 +63,7 @@ export default function App() {
 
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
     setValue(newValue);
+    document.querySelector('#tabs').classList.add('hide');
   };
   React.useEffect(() => {
     if (window.isListen) return;
@@ -83,6 +84,7 @@ export default function App() {
       sx={{ flexGrow: 1, bgcolor: 'background.paper', display: 'flex', height: '100vh', marginLeft: '200px' }}
     >
       <List
+        id="tabs"
         component={Paper}
         elevation={5}
         sx={{
@@ -93,7 +95,11 @@ export default function App() {
           position: 'fixed'
         }}
       >
-        <ListItem>
+        <ListItem
+          onClick={() => {
+            document.querySelector('#tabs').classList.remove('hide');
+          }}
+        >
           <ListItemAvatar>
             <Link href='https://github.com/hoothin/SearchJumper' target="_blank">
               <Avatar alt="SearchJumper" component={Paper} elevation={5} src={logo}/>

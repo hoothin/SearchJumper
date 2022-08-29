@@ -1269,6 +1269,25 @@ const rows = [
 ];
 
 export default function Engines() {
+    let selectTxt = -1, selectImg = -1, selectLink = -1, selectPage = -1;
+    for (let i = 0; i < window.searchData.sitesConfig.length; i++) {
+        let site = window.searchData.sitesConfig[i];
+        if (site.match || (site.selectTxt && site.selectImg && site.selectAudio && site.selectVideo && site.selectLink && site.selectPage)) continue;
+
+        if (selectTxt === -1 && site.selectTxt) {
+            selectTxt = i;
+        }
+        if (selectImg === -1 && site.selectImg) {
+            selectImg = i;
+        }
+        if (selectLink === -1 && site.selectLink) {
+            selectLink = i;
+        }
+        if (selectPage === -1 && site.selectPage) {
+            selectPage = i;
+        }
+        if (selectTxt !== -1 && selectImg !== -1 && selectLink !== -1 && selectPage !== -1) break;
+    }
     const [value, setValue] = React.useState(0);
 
     const [editTypeOpen, setTypeOpen] = React.useState(false);
@@ -1279,7 +1298,7 @@ export default function Engines() {
     const [refresh, setRefresh] = React.useState(false);
      
     React.useEffect(() => {
-        refresh && setTimeout(() => setRefresh(false))
+        refresh && setTimeout(() => setRefresh(false), 0)
     }, [refresh]);
 
     const handleChange = (event: React.SyntheticEvent, newValue: number) => {
@@ -1438,25 +1457,31 @@ export default function Engines() {
             </Paper>
             <Box sx={{ borderBottom: 1, borderColor: 'divider', flexGrow: 1, display: 'flex' }}>
                 <Tabs value={value} onChange={handleChange} aria-label="types" variant="scrollable" scrollButtons="auto">
-                    {window.searchData.sitesConfig.map((data, index) =>
-                        <Tab  
-                            sx={{width: 65}}
-                            draggable='true'
-                            onDrop={e => {changeTypePos(data, dragType)}} 
-                            onDragStart={e => {dragType = data}} 
-                            onDragOver={e => {e.preventDefault()}} 
-                            icon={
-                                /^(http|data:)/.test(data.icon)?(
-                                    <img alt={data.type} src={data.icon} style={{m:1, background: 'darkgray', borderRadius: '35px', width: '65px', padding: '15px', boxSizing: 'border-box'}} />
-                                ):(
-                                    <i style={{background: 'darkgray', lineHeight: '65px', width: '65px', fontSize: '30px', color: 'white', borderRadius: '35px'}} className={`${/^fa/.test(data.icon) ? data.icon : "fa fa-" + data.icon}`}/>
-                                )} 
-                            label={data.type.slice(0, 10)} 
-                            title={data.description || data.type}
-                            key={index} 
-                            {...a11yProps(index)} 
-                        />
-                    )}
+                    {
+                        window.searchData.sitesConfig.map((data, index) =>
+                            <Tab  
+                                sx={{width: 65}}
+                                className={(selectTxt === index ? 'selectTxt ' : '') + 
+                                            (selectImg === index ? 'selectImg ' : '') +
+                                            (selectLink === index ? 'selectLink ' : '') +
+                                            (selectPage === index ? 'selectPage ' : '')}
+                                draggable='true'
+                                onDrop={e => {changeTypePos(data, dragType)}} 
+                                onDragStart={e => {dragType = data}} 
+                                onDragOver={e => {e.preventDefault()}} 
+                                icon={
+                                    /^(http|data:)/.test(data.icon)?(
+                                        <img alt={data.type} src={data.icon} style={{m:1, background: 'darkgray', borderRadius: '35px', width: '65px', padding: '15px', boxSizing: 'border-box'}} />
+                                    ):(
+                                        <i style={{background: 'darkgray', lineHeight: '65px', width: '65px', fontSize: '30px', color: 'white', borderRadius: '35px'}} className={`${/^fa/.test(data.icon) ? data.icon : "fa fa-" + data.icon}`}/>
+                                    )} 
+                                label={data.type.slice(0, 10)} 
+                                title={data.description || data.type}
+                                key={index} 
+                                {...a11yProps(index)} 
+                            />
+                        )
+                    }
                 </Tabs>
                 <IconButton color="primary" onClick={() => {openTypeEdit(false)}}>
                     <AddCircleOutlineIcon sx={{fontSize: '30px'}}/>
@@ -1480,7 +1505,13 @@ export default function Engines() {
                   {alertBody.alertContent}
                 </MuiAlert>
             </Snackbar>
-            <Accordion sx={{ maxHeight: '60vh', overflow: 'auto' }}>
+            <Paper sx={{mt: 1, p: 1, textAlign:'center', borderRadius:'3px', overflow: 'auto'}}>
+                <span className={'selectTxt'}>{window.i18n('targetTxt')}</span>
+                <span className={'selectImg'}>{window.i18n('targetImg')}</span>
+                <span className={'selectLink'}>{window.i18n('targetLink')}</span>
+                <span className={'selectPage'}>{window.i18n('targetPage')}</span>
+            </Paper>
+            <Accordion sx={{ maxHeight: '60vh', overflow: 'auto', mt: 1 }}>
                 <AccordionSummary
                   expandIcon={<ExpandMoreIcon />}
                   aria-controls="panel1a-content"
