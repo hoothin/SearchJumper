@@ -38,7 +38,7 @@ code {
     margin-left: 0px;
   }
   #root>.MuiBox-root>.MuiList-root {
-    height: 65px;
+    height: 64px;
     z-index: 9;
     width: 100%;
     max-width: unset;
