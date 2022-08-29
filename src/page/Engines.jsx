@@ -1506,13 +1506,13 @@ export default function Engines() {
                   {alertBody.alertContent}
                 </MuiAlert>
             </Snackbar>
-            <Paper sx={{mt: 2, p: 1, boxShadow: 'unset', textAlign:'center', borderRadius:'3px', overflow: 'auto'}}>
+            <Paper sx={{ mt:2, pt: 1, pb: 2, boxShadow: 'unset', textAlign:'center', borderRadius:'3px', overflow: 'auto' }}>
                 <span className={'selectTxt'}>{window.i18n('targetTxt')}</span>
                 <span className={'selectImg'}>{window.i18n('targetImg')}</span>
                 <span className={'selectLink'}>{window.i18n('targetLink')}</span>
                 <span className={'selectPage'}>{window.i18n('targetPage')}</span>
             </Paper>
-            <Accordion sx={{ boxShadow: 5, maxHeight: '60vh', overflow: 'auto', mt: 2 }}>
+            <Accordion sx={{ boxShadow: 5, maxHeight: '60vh', overflow: 'auto' }}>
                 <AccordionSummary
                   expandIcon={<ExpandMoreIcon />}
                   aria-controls="panel1a-content"
