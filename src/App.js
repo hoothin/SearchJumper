@@ -63,7 +63,6 @@ export default function App() {
 
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
     setValue(newValue);
-    document.querySelector('#tabs').classList.add('hide');
   };
   React.useEffect(() => {
     if (window.isListen) return;
@@ -115,6 +114,7 @@ export default function App() {
             scrollButtons="auto"
             value={value}
             onChange={handleChange}
+            onClick={()=>{document.querySelector('#tabs').classList.add('hide')}}
             aria-label="Vertical tabs example"
             sx={{ borderRight: 1, borderColor: 'divider', width: '100%' }}
           >
