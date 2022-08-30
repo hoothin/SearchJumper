@@ -255,9 +255,9 @@ function TypeEdit(props) {
                         />
                     </FormControl>
                 </Box>
-                <Box sx={{flexGrow: 1, display: 'flex', flexWrap: 'nowrap'}}>
+                <Box sx={{flexGrow: 1, display: 'flex', flexWrap: 'nowrap', mb: 1}}>
                     <TextField
-                        sx={{ minWidth: 100 }}
+                        sx={{ minWidth: 100, maxWidth: 150 }}
                         margin="dense"
                         id="match"
                         label={window.i18n('typeShotcut')}
@@ -269,66 +269,68 @@ function TypeEdit(props) {
                             setTypeData({...typeData, shortcut: e.target.value});
                         }}
                     />
-                    <FormControl sx={{ m: 1, minWidth: 80 }}>
-                        <FormControlLabel
-                            control={
-                                <Switch 
-                                    checked={typeData.ctrl} 
-                                    name="ctrl"
-                                    onClick={e => {
-                                        setTypeData({...typeData, ctrl: e.target.checked});
-                                    }}
-                                />
-                            }
-                            label='Ctrl'
-                            labelPlacement="bottom"
-                        />
-                    </FormControl>
-                    <FormControl sx={{ m: 1, minWidth: 80 }}>
-                        <FormControlLabel
-                            control={
-                                <Switch 
-                                    checked={typeData.alt} 
-                                    name="alt"
-                                    onClick={e => {
-                                        setTypeData({...typeData, alt: e.target.checked});
-                                    }}
-                                />
-                            }
-                            label='Alt'
-                            labelPlacement="bottom"
-                        />
-                    </FormControl>
-                    <FormControl sx={{ m: 1, minWidth: 80 }}>
-                        <FormControlLabel
-                            control={
-                                <Switch 
-                                    checked={typeData.shift} 
-                                    name="shift"
-                                    onClick={e => {
-                                        setTypeData({...typeData, shift: e.target.checked});
-                                    }}
-                                />
-                            }
-                            label='Shift'
-                            labelPlacement="bottom"
-                        />
-                    </FormControl>
-                    <FormControl sx={{ m: 1, minWidth: 80 }}>
-                        <FormControlLabel
-                            control={
-                                <Switch 
-                                    checked={typeData.meta} 
-                                    name="meta"
-                                    onClick={e => {
-                                        setTypeData({...typeData, meta: e.target.checked});
-                                    }}
-                                />
-                            }
-                            label='Meta'
-                            labelPlacement="bottom"
-                        />
-                    </FormControl>
+                    <Box sx={{flexGrow: 1, display: 'flex', flexWrap: 'wrap'}}>
+                        <FormControl sx={{ minWidth: 60 }}>
+                            <FormControlLabel
+                                control={
+                                    <Switch 
+                                        checked={typeData.ctrl} 
+                                        name="ctrl"
+                                        onClick={e => {
+                                            setTypeData({...typeData, ctrl: e.target.checked});
+                                        }}
+                                    />
+                                }
+                                label='Ctrl'
+                                labelPlacement="bottom"
+                            />
+                        </FormControl>
+                        <FormControl sx={{ minWidth: 60 }}>
+                            <FormControlLabel
+                                control={
+                                    <Switch 
+                                        checked={typeData.alt} 
+                                        name="alt"
+                                        onClick={e => {
+                                            setTypeData({...typeData, alt: e.target.checked});
+                                        }}
+                                    />
+                                }
+                                label='Alt'
+                                labelPlacement="bottom"
+                            />
+                        </FormControl>
+                        <FormControl sx={{ minWidth: 60 }}>
+                            <FormControlLabel
+                                control={
+                                    <Switch 
+                                        checked={typeData.shift} 
+                                        name="shift"
+                                        onClick={e => {
+                                            setTypeData({...typeData, shift: e.target.checked});
+                                        }}
+                                    />
+                                }
+                                label='Shift'
+                                labelPlacement="bottom"
+                            />
+                        </FormControl>
+                        <FormControl sx={{ minWidth: 60 }}>
+                            <FormControlLabel
+                                control={
+                                    <Switch 
+                                        checked={typeData.meta} 
+                                        name="meta"
+                                        onClick={e => {
+                                            setTypeData({...typeData, meta: e.target.checked});
+                                        }}
+                                    />
+                                }
+                                label='Meta'
+                                labelPlacement="bottom"
+                            />
+                        </FormControl>
+                    </Box>
                 </Box>
                 <FormControl sx={{ minWidth: 80 }}>
                     <InputLabel>{window.i18n('openSelect')}</InputLabel>
@@ -947,9 +949,9 @@ class SitesList extends React.Component {
                                 />
                             </FormControl>
                         </Box>
-                        <Box sx={{flexGrow: 1, display: 'flex', flexWrap: 'nowrap'}}>
+                        <Box sx={{flexGrow: 1, display: 'flex', flexWrap: 'nowrap', mb: 1}}>
                             <TextField
-                                sx={{ minWidth: 100 }}
+                                sx={{ minWidth: 100, maxWidth: 150 }}
                                 margin="dense"
                                 id="match"
                                 label={window.i18n('siteShotcut')}
@@ -963,77 +965,79 @@ class SitesList extends React.Component {
                                     }));
                                 }}
                             />
-                            <FormControl sx={{ m: 1, minWidth: 80 }}>
-                                <FormControlLabel
-                                    control={
-                                        <Switch 
-                                            checked={this.state.currentSite.ctrl} 
-                                            name="ctrl"
-                                            onClick={e => {
-                                                this.setState(prevState => ({
-                                                    currentSite: {...prevState.currentSite, ctrl: e.target.checked}
-                                                }));
-                                            }}
-                                        />
-                                    }
-                                    label='Ctrl'
-                                    labelPlacement="bottom"
-                                />
-                            </FormControl>
-                            <FormControl sx={{ m: 1, minWidth: 80 }}>
-                                <FormControlLabel
-                                    control={
-                                        <Switch 
-                                            checked={this.state.currentSite.alt} 
-                                            name="alt"
-                                            onClick={e => {
-                                                this.setState(prevState => ({
-                                                    currentSite: {...prevState.currentSite, alt: e.target.checked}
-                                                }));
-                                            }}
-                                        />
-                                    }
-                                    label='Alt'
-                                    labelPlacement="bottom"
-                                />
-                            </FormControl>
-                            <FormControl sx={{ m: 1, minWidth: 80 }}>
-                                <FormControlLabel
-                                    control={
-                                        <Switch 
-                                            checked={this.state.currentSite.shift} 
-                                            name="shift"
-                                            onClick={e => {
-                                                this.setState(prevState => ({
-                                                    currentSite: {...prevState.currentSite, shift: e.target.checked}
-                                                }));
-                                            }}
-                                        />
-                                    }
-                                    label='Shift'
-                                    labelPlacement="bottom"
-                                />
-                            </FormControl>
-                            <FormControl sx={{ m: 1, minWidth: 80 }}>
-                                <FormControlLabel
-                                    control={
-                                        <Switch 
-                                            checked={this.state.currentSite.meta} 
-                                            name="meta"
-                                            onClick={e => {
-                                                this.setState(prevState => ({
-                                                    currentSite: {...prevState.currentSite, meta: e.target.checked}
-                                                }));
-                                            }}
-                                        />
-                                    }
-                                    label='Meta'
-                                    labelPlacement="bottom"
-                                />
-                            </FormControl>
+                            <Box sx={{flexGrow: 1, display: 'flex', flexWrap: 'wrap'}}>
+                                <FormControl sx={{ minWidth: 60 }}>
+                                    <FormControlLabel
+                                        control={
+                                            <Switch 
+                                                checked={this.state.currentSite.ctrl} 
+                                                name="ctrl"
+                                                onClick={e => {
+                                                    this.setState(prevState => ({
+                                                        currentSite: {...prevState.currentSite, ctrl: e.target.checked}
+                                                    }));
+                                                }}
+                                            />
+                                        }
+                                        label='Ctrl'
+                                        labelPlacement="bottom"
+                                    />
+                                </FormControl>
+                                <FormControl sx={{ minWidth: 60 }}>
+                                    <FormControlLabel
+                                        control={
+                                            <Switch 
+                                                checked={this.state.currentSite.alt} 
+                                                name="alt"
+                                                onClick={e => {
+                                                    this.setState(prevState => ({
+                                                        currentSite: {...prevState.currentSite, alt: e.target.checked}
+                                                    }));
+                                                }}
+                                            />
+                                        }
+                                        label='Alt'
+                                        labelPlacement="bottom"
+                                    />
+                                </FormControl>
+                                <FormControl sx={{ minWidth: 60 }}>
+                                    <FormControlLabel
+                                        control={
+                                            <Switch 
+                                                checked={this.state.currentSite.shift} 
+                                                name="shift"
+                                                onClick={e => {
+                                                    this.setState(prevState => ({
+                                                        currentSite: {...prevState.currentSite, shift: e.target.checked}
+                                                    }));
+                                                }}
+                                            />
+                                        }
+                                        label='Shift'
+                                        labelPlacement="bottom"
+                                    />
+                                </FormControl>
+                                <FormControl sx={{ minWidth: 60 }}>
+                                    <FormControlLabel
+                                        control={
+                                            <Switch 
+                                                checked={this.state.currentSite.meta} 
+                                                name="meta"
+                                                onClick={e => {
+                                                    this.setState(prevState => ({
+                                                        currentSite: {...prevState.currentSite, meta: e.target.checked}
+                                                    }));
+                                                }}
+                                            />
+                                        }
+                                        label='Meta'
+                                        labelPlacement="bottom"
+                                    />
+                                </FormControl>
+                            </Box>
                         </Box>
                         <Box sx={{flexGrow: 1, display: 'flex', flexWrap: 'nowrap'}}>
-                            <FormControl sx={{ minWidth: 200 }}>
+                            <FormControl sx={{ minWidth: '30%' }}>
                                 <InputLabel>{window.i18n('openSelect')}</InputLabel>
                                 <Select
                                     value={this.state.currentSite.openInNewTab}
