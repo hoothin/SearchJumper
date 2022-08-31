@@ -17,7 +17,7 @@ export default function About() {
                 <h2 style={{padding:'5px'}}>{window.i18n('about')}</h2>
             </Paper>
             <Paper elevation={5} sx={{ padding: '20px' }}>
-            <Typography gutterBottom  component="div" style={{textAlign: 'center'}}>
+            <Typography gutterBottom  component="div" style={{textAlign: 'center', display: 'flex', flexDirection: 'column', alignItems: 'center'}}>
                 <GitHubIcon/> <Link href='https://github.com/hoothin/SearchJumper/issues?q=label%3A%22Sites+Rule%22' style={{verticalAlign: 'top'}} target="_blank">{window.i18n('rulesStore')} [Github]</Link><br/>
                 <InstallDesktopIcon/> <Link href='https://greasyfork.org/scripts/445274-searchjumper' style={{verticalAlign: 'top'}} target="_blank">Install [Greasyfork]</Link><br/>
                 <EmailIcon/> <Link href='mailto:rixixi@gmail.com' style={{verticalAlign: 'top'}} target="_blank">rixixi@gmail.com</Link><br/>
