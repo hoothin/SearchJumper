@@ -565,6 +565,36 @@ export default function General() {
                 <Box sx={{ flexGrow: 1, display: 'flex'}}>
                     <Box>
                         <Typography gutterBottom component="div">
+                            <h4>{window.i18n('disableAutoOpen')}</h4>
+                        </Typography>
+                        <FormControl sx={{ m: 1, minWidth: 80 }}>
+                            <FormControlLabel
+                                control={
+                                    <Switch checked={state.disableAutoOpen} onChange={handleCheckChange} name="disableAutoOpen" />
+                                }
+                                label={window.i18n('disableAutoOpenTips')}
+                            />
+                        </FormControl>
+                    </Box>
+                    <Box>
+                        <Typography gutterBottom component="div">
+                            <h4>{window.i18n('hideOnSearchEngine')}</h4>
+                        </Typography>
+                        <FormControl sx={{ m: 1, minWidth: 80 }}>
+                            <FormControlLabel
+                                control={
+                                    <Switch checked={state.hideOnSearchEngine} onChange={handleCheckChange} name="hideOnSearchEngine" />
+                                }
+                                label={window.i18n('hideOnSearchEngineTips')}
+                            />
+                        </FormControl>
+                    </Box>
+                </Box>
+            </Paper>
+            <Paper elevation={5} sx={{ padding: '20px', marginTop: '20px' }}>
+                <Box sx={{ flexGrow: 1, display: 'flex'}}>
+                    <Box>
+                        <Typography gutterBottom component="div">
                             <h4>{window.i18n('enableShortcut')}</h4>
                         </Typography>
                         <FormControl sx={{ m: 1, minWidth: 80 }}>
