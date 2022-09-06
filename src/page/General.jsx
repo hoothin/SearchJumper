@@ -105,7 +105,7 @@ export default function General() {
                     <h4>{window.i18n('toolbarPosition')}</h4>
                 </Typography>
                 <Box
-                  sx={{ flexGrow: 1, bgcolor: 'background.paper', display: 'flex', maxWidth: '100%', flexWrap: 'wrap', justifyContent: 'space-around', alignItems: 'center' }}
+                  sx={{ flexGrow: 1, bgcolor: 'background.paper', display: 'flex', maxWidth: '100%', flexWrap: 'wrap', alignItems: 'center' }}
                 >
                     <FormControl sx={{ m: 1, minWidth: 80 }}>
                         <InputLabel>{window.i18n('horizontal')}</InputLabel>
@@ -157,7 +157,7 @@ export default function General() {
                             saveConfigToScript();
                         }}
                     />
-                    <FormControl sx={{ m: 1, minWidth: 80 }}>
+                    <FormControl sx={{ m: 1, minWidth: 80, width: '100%', mb: '20px' }}>
                         <FormControlLabel
                             control={
                                 <Switch checked={state.initShow} onChange={handleCheckChange} name="initShow" />
@@ -170,7 +170,7 @@ export default function General() {
                     <Box
                       sx={{ flexGrow: 1, bgcolor: 'background.paper', display: 'flex', width: '100%', flexWrap: 'wrap' }}
                     >
-                        <Box sx={{ width: "75%", ml: "20px", mr: "20px"}}>
+                        <Box sx={{ width: "75%", ml: "10px", mr: "20px"}}>
                             <Typography id="input-slider" gutterBottom>
                                 {window.i18n('customSize')}: {state.customSize}%
                             </Typography>
@@ -735,9 +735,11 @@ export default function General() {
                             label={window.i18n('siteShotcut')}
                             type="text"
                             value={state.shortcutKey}
-                            inputProps={{ maxLength: 1 }}
-                            onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
-                                let newValue = event.target.value;
+                            inputProps={{ readOnly: 'readonly' }}
+                            onKeyDown={(event) => {
+                                event.stopPropagation();
+                                event.preventDefault();
+                                let newValue = (event.key === 'Escape' || event.key === 'Backspace') ? '' : event.key;
                                 var newPref = {
                                     ...state,
                                     shortcutKey: newValue

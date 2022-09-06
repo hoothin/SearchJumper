@@ -264,9 +264,9 @@ function TypeEdit(props) {
                         type="text"
                         variant="outlined"
                         value={typeData.shortcut}
-                        inputProps={{ maxLength: 1 }}
-                        onChange={e => {
-                            setTypeData({...typeData, shortcut: e.target.value});
+                        inputProps={{ readOnly: 'readonly' }}
+                        onKeyDown={e => {
+                            setTypeData({...typeData, shortcut: (e.key === 'Escape' || e.key === 'Backspace') ? '' : e.key});
                         }}
                     />
                     <Box sx={{flexGrow: 1, display: 'flex', flexWrap: 'wrap'}}>
@@ -958,10 +958,10 @@ class SitesList extends React.Component {
                                 type="text"
                                 variant="outlined"
                                 value={this.state.currentSite.shortcut}
-                                inputProps={{ maxLength: 1 }}
-                                onChange={e => {
+                                inputProps={{ readOnly: 'readonly' }}
+                                onKeyDown={e => {
                                     this.setState(prevState => ({
-                                        currentSite: {...this.state.currentSite, shortcut: e.target.value}
+                                        currentSite: {...this.state.currentSite, shortcut: (e.key === 'Escape' || e.key === 'Backspace') ? '' : e.key}
                                     }));
                                 }}
                             />
@@ -1518,7 +1518,7 @@ export default function Engines() {
                 <span className={'selectLink'}>{window.i18n('targetLink')}</span>
                 <span className={'selectPage'}>{window.i18n('targetPage')}</span>
             </Paper>
-            <Accordion sx={{ boxShadow: 5, maxHeight: '60vh', overflow: 'auto' }}>
+            <Accordion defaultExpanded={true} sx={{ boxShadow: 5, maxHeight: '60vh', overflow: 'auto' }}>
                 <AccordionSummary
                   expandIcon={<ExpandMoreIcon />}
                   aria-controls="panel1a-content"
