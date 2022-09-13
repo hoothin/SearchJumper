@@ -1,7 +1,7 @@
 {
   "main.css": "./static/css/main.76ab229f.chunk.css",
-  "main.js": "./static/js/main.de75a97b.chunk.js",
-  "main.js.map": "./static/js/main.de75a97b.chunk.js.map",
+  "main.js": "./static/js/main.3e1c8377.chunk.js",
+  "main.js.map": "./static/js/main.3e1c8377.chunk.js.map",
   "static/js/1.a1435797.chunk.js": "./static/js/1.a1435797.chunk.js",
   "static/js/1.a1435797.chunk.js.map": "./static/js/1.a1435797.chunk.js.map",
   "static/css/2.03abf85e.chunk.css": "./static/css/2.03abf85e.chunk.css",
@@ -10,13 +10,13 @@
   "runtime~main.js": "./static/js/runtime~main.6a4e43e6.js",
   "runtime~main.js.map": "./static/js/runtime~main.6a4e43e6.js.map",
   "static/media/logo.svg": "./static/media/logo.a40a1ffc.svg",
-  "static/media/300.css": "./static/media/roboto-cyrillic-ext-300-normal.d0441335.woff2",
+  "static/media/300.css": "./static/media/roboto-latin-300-normal.b9c29351.woff2",
   "static/media/400.css": "./static/media/roboto-latin-400-normal.15d9f621.woff2",
   "static/media/500.css": "./static/media/roboto-latin-500-normal.3a44e06e.woff2",
   "static/media/700.css": "./static/media/roboto-latin-700-normal.e9f5aaf5.woff2",
   "static/css/main.76ab229f.chunk.css.map": "./static/css/main.76ab229f.chunk.css.map",
   "static/css/2.03abf85e.chunk.css.map": "./static/css/2.03abf85e.chunk.css.map",
   "index.html": "./index.html",
-  "precache-manifest.ef12f24afe450397ab8e3d230101eccb.js": "./precache-manifest.ef12f24afe450397ab8e3d230101eccb.js",
+  "precache-manifest.570d91044df1ce71731d43a7086d53f2.js": "./precache-manifest.570d91044df1ce71731d43a7086d53f2.js",
   "service-worker.js": "./service-worker.js"
 }
