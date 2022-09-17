@@ -192,7 +192,7 @@ export default function General() {
                                 }}
                                 sx={{mt:"-8px"}}
                                 aria-labelledby="input-slider"
-                                min={10}
+                                min={50}
                                 max={1000}
                                 step={10}
                                 valueLabelDisplay="auto"
@@ -217,8 +217,8 @@ export default function General() {
                                 let newValue = parseInt(event.target.value);
                                 if (newValue > 1000) {
                                     newValue = 1000;
-                                } else if (newValue < 1) {
-                                    newValue = 1;
+                                } else if (newValue < 50) {
+                                    newValue = 50;
                                 }
                                 var newPref = {
                                     ...state,
