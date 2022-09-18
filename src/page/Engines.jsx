@@ -154,7 +154,7 @@ function TypeEdit(props) {
                     type="text"
                     fullWidth
                     variant="standard"
-                    placeholder="www\\.google\\.com"
+                    placeholder="www\.google\.com"
                     value={typeData.match}
                     onChange={e => {
                         setTypeData({ ...typeData, match:e.target.value });
@@ -907,7 +907,7 @@ class SitesList extends React.Component {
                             type="text"
                             fullWidth
                             variant="standard"
-                            placeholder="www\\.google\\.com"
+                            placeholder="www\.google\.com"
                             value={this.state.currentSite.match}
                             onChange={e => {
                                 this.setState(prevState => ({
