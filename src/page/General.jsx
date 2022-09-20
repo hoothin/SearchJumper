@@ -532,19 +532,6 @@ export default function General() {
                 </Box>
             </Paper>
             <Paper elevation={5} sx={{ padding: '20px', marginTop: '20px' }}>
-                <Typography gutterBottom component="div">
-                    <h4>{window.i18n('minSizeMode')}</h4>
-                </Typography>
-                <FormControl sx={{ m: 1, minWidth: 80 }}>
-                    <FormControlLabel
-                        control={
-                            <Switch checked={state.minSizeMode} onChange={handleCheckChange} name="minSizeMode" />
-                        }
-                        label={window.i18n('minSizeModeTips')}
-                    />
-                </FormControl>
-            </Paper>
-            <Paper elevation={5} sx={{ padding: '20px', marginTop: '20px' }}>
                 <Box sx={{ flexGrow: 1, display: 'flex'}}>
                     <Box>
                         <Typography gutterBottom component="div">
@@ -603,6 +590,19 @@ export default function General() {
                         </FormControl>
                     </Box>
                 </Box>
+            </Paper>
+            <Paper elevation={5} sx={{ padding: '20px', marginTop: '20px' }}>
+                <Typography gutterBottom component="div">
+                    <h4>{window.i18n('minSizeMode')}</h4>
+                </Typography>
+                <FormControl sx={{ m: 1, minWidth: 80 }}>
+                    <FormControlLabel
+                        control={
+                            <Switch checked={state.minSizeMode} onChange={handleCheckChange} name="minSizeMode" />
+                        }
+                        label={window.i18n('minSizeModeTips')}
+                    />
+                </FormControl>
             </Paper>
             <Paper elevation={5} sx={{ padding: '20px', marginTop: '20px' }}>
                 <Box sx={{ flexGrow: 1, display: 'flex'}}>
