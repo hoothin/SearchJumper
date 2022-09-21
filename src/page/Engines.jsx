@@ -1267,7 +1267,7 @@ const rows = [
   createData('%p{params}', 'post body, like %p{x=1&y=%s}', 'post 參數體，例如 %p{x=1&y=%s}'),
   createData('%P{params}', 'post without navigation', 'post 但不跳轉'),
   createData('%input{tips}', 'input something, like %input{love who?,you}', '輸入占位，例如%input{請輸入您的三圍,90 55 90}'),
-  createData('#p{params}', 'post in page, like #p{#input=%u&sleep(500)&click(.submit)}, means: input current url to "#input", then wait for 500ms, then click ".submit". use \\& \\= instead of & = in content', '頁内 post，可在頁面之内使用【css選擇器】填寫參數提交查詢，適用於不開放GET/POST接口的網站，例如 #p{#input=%u&sleep(500)&click(.submit)}, 代表在"#input"内輸入指定url，然後等待500毫秒，最後點擊".submit"。可在内容中使用 \\& \\= 來 表示 & ='),
+  createData('#p{params}', 'post in page by selector or xpath, like #p{#input=%u&sleep(500)&click(.submit)}, means: input current url to "#input", then wait for 500ms, then click ".submit". use \\& \\= instead of & = in content', '頁内 post，可在頁面之内使用【css 選擇器或者 xpath】填寫參數提交查詢，適用於不開放GET/POST接口的網站，例如 #p{#input=%u&sleep(500)&click(.submit)}, 代表在"#input"内輸入指定url，然後等待500毫秒，最後點擊".submit"。可在内容中使用 \\& \\= 來 表示 & ='),
   createData('["siteName1","siteName2"]', 'batch open by site name you\'ve created', '透過你已經創建的站點名批量打開，例如 ["雅虎搜索","谷歌搜索"]'),
   createData('%element{}', 'query element for innerText from selector or xpath, like %element{.mainTitle}', '透過 css 選擇器或者 xpath 抓取元素並返回文字内容，例如 %element{.mainTitle}'),
   createData('%element{}.prop()', 'return prop value for queried element, like %element{.mainTitle}.prop(href) %element{.mainTitle}.prop(innerHTML)', '獲取抓取到元素的屬性值，例如 %element{.mainTitle}.prop(href) %element{.mainTitle}.prop(innerHTML)'),
