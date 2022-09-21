@@ -18,6 +18,7 @@
 <img src='demo1.gif' height='210px'><img src='demo3.gif' height='210px'><img src='demo2.gif' height='210px'>
 ![config](config.jpg)
 ![findInPage](findInPage.jpg)
+![etc](etc.jpg)
 
 ## Features：
 + Search for pictures, links, videos, audios, pages, etc. (**long press the right mouse** on the corresponding object)
