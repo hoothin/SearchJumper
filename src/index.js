@@ -179,9 +179,13 @@ switch (lang) {
             hideDragHistoryTips: '隐藏拖拽轮盘中用于存放最近 10 个历史访问站点的外圈',
             disableAutoOpen: '禁用类别自动展开',
             disableAutoOpenTips: '启用后，调出搜索条之后，对应类别将不再自动展开',
+            minPopup: '最小化搜索弹框',
+            minPopupTips: '启用后，划词弹框将只显示一个类别图标，直至鼠标划过',
+            hidePopup: '禁用搜索弹框',
+            hidePopupTips: '开启后，划词弹框将会禁用，划词时以完整搜索条取代',
             hideOnSearchEngine: '在搜索引擎页面隐藏',
             hideOnSearchEngineTips: '启用后，在搜索引擎页面搜索条将不再自动显示',
-            aboutContent: '平时工作中搜索引擎跳转功能用得很频繁，但尝试了相关的扩展，发现大多夹有私货。\n\n而这只是一个简单功能，所以不如自己写一个啦。\n\n结果写配置页面耗费的精力数倍于脚本本身……🤦‍\n\n这个搜索引擎跳转支持自己拖拽定义位置，同时也支持站内搜索，多语言编码设置（例如shift-jis），划词搜索，以及配置导入导出。'
+            aboutContent: '平时工作中搜索引擎跳转功能用得很频繁，但尝试了相关的扩展，发现大多夹有私货。特别是国内公司做的插件，基本都有购物返链和隐私数据收集。\n\n而这只是一个简单功能，所以不如自己写一个啦。\n\n结果写配置页面耗费的精力数倍于脚本本身……🤦‍\n\n这个搜索引擎跳转支持自己拖拽定义位置，同时也支持站内搜索，多语言编码设置（例如shift-jis），划词搜索，以及配置导入导出。'
         }
         break;
     case 'zh-TW':
@@ -356,6 +360,10 @@ switch (lang) {
             hideDragHistoryTips: '隱藏拖拽輪盤中用於存放最近 10 個歷史訪問站點的外圈',
             disableAutoOpen: '禁用類別自動展開',
             disableAutoOpenTips: '啓用後，調出搜索條之後，對應類別將不再自動展開',
+            minPopup: '最小化搜尋彈框',
+            minPopupTips: '啟用後，劃詞彈框將只顯示一個類別圖標，直至鼠標劃過',
+            hidePopup: '禁用搜尋彈框',
+            hidePopupTips: '開啟後，劃詞彈框將會禁用，劃詞時以完整搜尋條取代',
             hideOnSearchEngine: '在搜索引擎頁面隱藏',
             hideOnSearchEngineTips: '啓用後，在搜索引擎頁面搜索條將不再自動顯示',
             aboutContent: '平時工作中搜尋引擎跳轉功能用得很頻繁，但嘗試了相關的擴展，發現大多夾有私貨。\n\n而這只是一個簡單功能，所以不如自己寫一個啦。\n\n結果寫配置頁面耗費的精力數倍於腳本本身……🤦‍\n\n這個搜尋引擎跳轉支持自己拖拽定義位置，同時也支持站內搜索，多語言編碼設置（例如shift-jis），劃詞搜索，以及配置導入導出。'
@@ -532,6 +540,10 @@ switch (lang) {
             hideDragHistoryTips: 'Hide the outer ring of the drag wheel which storing the last 10 historically visited sites',
             disableAutoOpen: 'Disable category auto-expansion',
             disableAutoOpenTips: 'After enabling, when Search Bar is called up, Category will no longer be expanded automatically',
+            minPopup: 'Minimize the search popup',
+            minPopupTips: 'When enabled, the popup box will only display a category icon until the mouse is over',
+            hidePopup: 'Disable search popup',
+            hidePopupTips: 'After opening, the popup box will be disabled, and the full search bar will be used to replace it',
             hideOnSearchEngine: 'Hide on search engine page',
             hideOnSearchEngineTips: 'After enabling, Search Bar on the search engine page will no longer be displayed automatically',
             aboutContent: "I use the search engine jump function very frequently in my work, but I found that most of them contain trojans after tried many related extensions. \n\nThis is just a simple function, so why not write one by myself? \n\nThe result is that writing the configuration page takes several times more energy than the script itself... 🤦‍\n\nThis search engine jump supports dragging and dropping with defined location, and also supports in-site search, word-marking search, and configuration import and export."
