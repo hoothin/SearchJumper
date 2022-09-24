@@ -763,6 +763,34 @@ export default function General() {
                             }}
                         />
                     </Box>
+                    <Box sx={{ flexGrow: 1, display: 'flex'}}>
+                        <Box>
+                            <Typography gutterBottom component="div">
+                                <h4>{window.i18n('minPopup')}</h4>
+                            </Typography>
+                            <FormControl sx={{ m: 1, minWidth: 80 }}>
+                                <FormControlLabel
+                                    control={
+                                        <Switch checked={state.minPopup} onChange={handleCheckChange} name="minPopup" />
+                                    }
+                                    label={window.i18n('minPopupTips')}
+                                />
+                            </FormControl>
+                        </Box>
+                        <Box>
+                            <Typography gutterBottom component="div">
+                                <h4>{window.i18n('hidePopup')}</h4>
+                            </Typography>
+                            <FormControl sx={{ m: 1, minWidth: 80 }}>
+                                <FormControlLabel
+                                    control={
+                                        <Switch checked={state.hidePopup} onChange={handleCheckChange} name="hidePopup" />
+                                    }
+                                    label={window.i18n('hidePopupTips')}
+                                />
+                            </FormControl>
+                        </Box>
+                    </Box>
                     <Typography gutterBottom component="div">
                         <h4>{window.i18n('defaultFindTab')}</h4>
                     </Typography>
