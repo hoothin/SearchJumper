@@ -199,6 +199,21 @@ document.dispatchEvent(searchJumperEvent);
 <summary><h2>Download all video with lux 使用 LUX 下載全網視頻</h></summary>
 
 ![bilibili](https://s3.bmp.ovh/imgs/2022/09/25/543a696312baf85d.gif "B站VIDEO下載")
+
+ <details>
+<summary>一鍵視頻下載配置方法（B站為例）</summary>
+
++ 下載[BBDown](https://github.com/nilaoda/BBDown)
++ 下載[ffmpeg](https://www.gyan.dev/ffmpeg/builds/ffmpeg-git-essentials.7z)，解壓並且複制\bin\ffmpeg.exe
++ 將BBDown.exe 與 ffmpeg.exe 放置於同一文件夾，記錄該路徑，例如 `D:\Program Files\BBDown`
++ 在你的搜索醬“當前網頁”分類新增站點
++ 點擊“編輯站點”最下方的“添加自定義本地應用調用”
++ 調用命令處填入`"D:\Program Files\BBDown\BBDown.exe" %u -tv`，點擊生成註冊表補丁
++ 此時會自動生成註冊表補丁，點擊導入，並且保存編輯站點
++ 在 bilibili 視頻播放頁面按住 ctrl 點擊右鍵，點擊BBDown即可下載
++ 其他視頻下載工具（例如lux、you-get、yt-dlp等）同理，可自行編輯。
+ </details>
+ 
 Registry patch to call lux by SearchJumper 搜索醬調用本地程式的注冊表補丁
 
 ``` ini
