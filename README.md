@@ -197,6 +197,8 @@ document.dispatchEvent(searchJumperEvent);
 ---
  <details>
 <summary><h2>Download all video with lux 使用 LUX 下載全網視頻</h></summary>
+
+![bilibili](https://s3.bmp.ovh/imgs/2022/09/25/543a696312baf85d.gif "B站VIDEO下載")
 Registry patch to call lux by SearchJumper 搜索醬調用本地程式的注冊表補丁
 
 ``` ini
