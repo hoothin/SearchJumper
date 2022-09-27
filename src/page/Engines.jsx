@@ -1513,10 +1513,54 @@ export default function Engines() {
                 </MuiAlert>
             </Snackbar>
             <Paper sx={{ mt:2, pt: 1, pb: 2, boxShadow: 'unset', textAlign:'center', borderRadius:'3px', overflow: 'auto', whiteSpace: 'nowrap' }}>
-                <span className={'selectTxt'}>{window.i18n('targetTxt')}</span>
-                <span className={'selectImg'}>{window.i18n('targetImg')}</span>
-                <span className={'selectLink'}>{window.i18n('targetLink')}</span>
-                <span className={'selectPage'}>{window.i18n('targetPage')}</span>
+                <span
+                    className={'selectTxt'}
+                    onClick={() => {
+                        let selectTxt = document.body.querySelector('.selectTxt');
+                        if (selectTxt) {
+                            selectTxt.scrollIntoView(false);
+                            selectTxt.click();
+                        }
+                    }}
+                >
+                    {window.i18n('targetTxt')}
+                </span>
+                <span
+                    className={'selectImg'}
+                    onClick={() => {
+                        let selectImg = document.body.querySelector('.selectImg');
+                        if (selectImg) {
+                            selectImg.scrollIntoView(false);
+                            selectImg.click();
+                        }
+                    }}
+                >
+                    {window.i18n('targetImg')}
+                </span>
+                <span
+                    className={'selectLink'}
+                    onClick={() => {
+                        let selectLink = document.body.querySelector('.selectLink');
+                        if (selectLink) {
+                            selectLink.scrollIntoView(false);
+                            selectLink.click();
+                        }
+                    }}
+                >
+                    {window.i18n('targetLink')}
+                </span>
+                <span
+                    className={'selectPage'}
+                    onClick={() => {
+                        let selectPage = document.body.querySelector('.selectPage');
+                        if (selectPage) {
+                            selectPage.scrollIntoView(false);
+                            selectPage.click();
+                        }
+                    }}
+                >
+                    {window.i18n('targetPage')}
+                </span>
             </Paper>
             <Accordion defaultExpanded={true} sx={{ boxShadow: 5, maxHeight: '60vh', overflow: 'auto' }}>
                 <AccordionSummary
