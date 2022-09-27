@@ -79,6 +79,7 @@ span.selectPage {
   border-radius: 5px;
   font-size: large;
   user-select: none;
+  cursor: pointer;
   box-shadow: 0px 3px 5px -1px rgb(0 0 0 / 20%), 0px 5px 8px 0px rgb(0 0 0 / 14%), 0px 1px 5px 0px rgb(0 0 0 / 12%);
 }
 .selectTxt.selectImg>i {
