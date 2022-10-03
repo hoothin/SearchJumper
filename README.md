@@ -16,9 +16,7 @@
 + Icons: [FontAwesome](https://fontawesome.com/)
 
 <img src='demo1.gif' height='221px'><img src='demo3.gif' height='221px'><img src='demo2.gif' height='221px'>
-![config](config.jpg)
-![findInPage](findInPage.jpg)
-![etc](etc.jpg)
+
 
 ## Features：
 + Search for pictures, links, videos, audios, pages, etc. (**long press the right mouse** on the corresponding object)
@@ -79,6 +77,10 @@
   > 不篡改原始頁面
 + Drag to search with current category
   > 拖拽搜索當前分類（文字/圖片/鏈接），内圈為當前分類前6個站點，外圈為最近使用的10個站點，可透過編輯第一個（文字/圖片/鏈接）分類來自定義内容
+
+![config](config.jpg)
+![findInPage](findInPage.jpg)
+![etc](etc.jpg)
 
 ## Search params
 | param | details | 詳述 |
