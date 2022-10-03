@@ -15,7 +15,7 @@
 + UI: [Material-UI](https://mui.com/)
 + Icons: [FontAwesome](https://fontawesome.com/)
 
-<img src='demo1.gif' height='210px'><img src='demo3.gif' height='210px'><img src='demo2.gif' height='210px'>
+<img src='demo1.gif' height='221px'><img src='demo3.gif' height='221px'><img src='demo2.gif' height='221px'>
 ![config](config.jpg)
 ![findInPage](findInPage.jpg)
 ![etc](etc.jpg)
