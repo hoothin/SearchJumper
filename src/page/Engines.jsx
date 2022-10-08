@@ -77,7 +77,7 @@ function TypeEdit(props) {
 
     return (
         <Dialog open={props.typeOpen} onClose={() => {closeTypeEdit(false)}}>
-            <DialogTitle>{window.i18n('editType')}</DialogTitle>
+            <DialogTitle>{window.i18n(typeData.type === '' ? 'addType' : 'editType')}</DialogTitle>
             <DialogContent>
                 <TextField
                     autoFocus
@@ -352,7 +352,7 @@ function TypeEdit(props) {
             <DialogActions>
                 <Button variant="outlined" color="error" startIcon={<DeleteIcon />} onClick={props.handleDeleteType}>{window.i18n('delete')}</Button>
                 <Button onClick={() => { closeTypeEdit(false) }}>{window.i18n('cancel')}</Button>
-                <Button onClick={() => { closeTypeEdit(true) }}>{window.i18n('edit')}</Button>
+                <Button onClick={() => { closeTypeEdit(true) }}>{window.i18n(typeData.type === '' ? 'add' : 'edit')}</Button>
             </DialogActions>
         </Dialog>
     );
@@ -788,7 +788,7 @@ class SitesList extends React.Component {
                     openSiteEdit={this.openSiteEdit}
                 />
                 <Dialog open={this.state.isOpenSiteEdit} onClose={() => this.closeSiteEdit(false)}>
-                    <DialogTitle>{window.i18n('editSite')}</DialogTitle>
+                    <DialogTitle>{window.i18n(this.state.currentSite.url === '' ? 'addSite' : 'editSite')}</DialogTitle>
                     <DialogContent>
                         <TextField
                             autoFocus
@@ -811,6 +811,7 @@ class SitesList extends React.Component {
                             label={window.i18n('description')}
                             type="text"
                             fullWidth
+                            multiline
                             variant="standard"
                             value={this.state.currentSite.description}
                             onChange={e => {
@@ -844,6 +845,7 @@ class SitesList extends React.Component {
                             label={window.i18n('siteIcon')}
                             type="text"
                             fullWidth
+                            multiline
                             variant="standard"
                             value={this.state.currentSite.icon}
                             onChange={e => {
@@ -907,7 +909,7 @@ class SitesList extends React.Component {
                             type="text"
                             fullWidth
                             variant="standard"
-                            placeholder="www\.google\.com"
+                            placeholder="(www|m)\.google\.com"
                             value={this.state.currentSite.match}
                             onChange={e => {
                                 this.setState(prevState => ({
@@ -1080,7 +1082,7 @@ class SitesList extends React.Component {
                         <Button onClick={() => this.setState(prevState => ({ isOpenLocalApp: true }))}>{window.i18n('localAppAddBtn')}</Button>
                         <Button variant="outlined" style={{display:this.editSite?'':'none'}} color="error" startIcon={<DeleteIcon />} onClick={this.handleDeleteSite}>{window.i18n('delete')}</Button>
                         <Button onClick={() => this.closeSiteEdit(false)}>{window.i18n('cancel')}</Button>
-                        <Button onClick={() => this.closeSiteEdit(true)}>{window.i18n('edit')}</Button>
+                        <Button onClick={() => this.closeSiteEdit(true)}>{window.i18n(this.state.currentSite.url === '' ? 'add' : 'edit')}</Button>
                     </DialogActions>
                 </Dialog>
                 <Dialog open={this.state.isOpenSiteEdit&&this.state.isOpenLocalApp} onClose={() => this.setState(prevState => ({ isOpenLocalApp: false }))}>
@@ -1241,41 +1243,39 @@ function TabPanel(props: TabPanelProps) {
 
 function createData(
   param: string,
-  infoEn: string,
-  infoCn: string
+  info: string
 ) {
-  return { param, infoEn, infoCn };
+  return { param, info };
 }
 
-const rows = [
-  createData('%s', 'search keyword', '搜索關鍵詞'),
-  createData('%S', 'cached search keyword', '最近一次的搜索關鍵詞'),
-  createData('%sl', 'search keyword with lower case letters', '小寫字母搜索詞'),
-  createData('%su', 'search keyword with upper case letters', '大寫字母搜索詞'),
-  createData('%sr', 'search keyword without doing any encoding', '未轉碼的搜索關鍵詞'),
-  createData('%e', 'charset', '當前頁面編碼'),
-  createData('%c', 'client: pc,mobile', '客戶端: pc,mobile'),
-  createData('%u', 'current website url', '當前網站 url'),
-  createData('%U', 'url with encodeURIComponent', '當前網站 url 的 URI 編碼'),
-  createData('%h', 'current website host', '當前網站 host'),
-  createData('%t', 'target src', '指向對象的 src'),
-  createData('%T', '%t with encodeURIComponent', '指向對象的 src 的 URI 編碼'),
-  createData('%b', 'target src without http', '指向對象 src 去 http頭'),
-  createData('%B', '%b with encodeURIComponent', '指向對象 src 去 http頭 的 URI 編碼'),
-  createData('%i', 'base64 of target image', '指向圖片的 base64'),
-  createData('%s.replace', 'replace keywords/url/src with regexp, like %sr.replace(/[^\\d]/g, "").replace(/(\\d)/g, "$1 ") means replace raw keywords to numbers and then join all numbers with space, support %s %sl %sr %su %t %u', '用正則替換搜索關鍵詞/頁面或鏈接url/圖片src，例如 %sr.replace(/[^\\d]/g, "").replace(/(\\d)/g, "$1 ") 代表提取原始關鍵詞中所有數字，並以空格分隔，支持 %s %sl %sr %su %t %u'),
-  createData('%p{params}', 'post body, like %p{x=1&y=%s}', 'post 參數體，例如 %p{x=1&y=%s}'),
-  createData('%P{params}', 'post without navigation', 'post 但不跳轉'),
-  createData('%input{tips}', 'input something, like %input{love who?,you}', '輸入占位，例如%input{請輸入您的三圍,90 55 90}'),
-  createData('#p{params}', 'post in page by selector or xpath, like #p{#input=%u&sleep(500)&click(.submit)}, means: input current url to "#input", then wait for 500ms, then click ".submit". use \\& \\= instead of & = in content', '頁内 post，可在頁面之内使用【css 選擇器或者 xpath】填寫參數提交查詢，適用於不開放GET/POST接口的網站，例如 #p{#input=%u&sleep(500)&click(.submit)}, 代表在"#input"内輸入指定url，然後等待500毫秒，最後點擊".submit"。可在内容中使用 \\& \\= 來 表示 & ='),
-  createData('["siteName1","siteName2"]', 'batch open by site name you\'ve created', '透過你已經創建的站點名批量打開，例如 ["雅虎搜索","谷歌搜索"]'),
-  createData('%element{}', 'query element for innerText from selector or xpath, like %element{.mainTitle}', '透過 css 選擇器或者 xpath 抓取元素並返回文字内容，例如 %element{.mainTitle}'),
-  createData('%element{}.prop()', 'return prop value for queried element, like %element{.mainTitle}.prop(href) %element{.mainTitle}.prop(innerHTML)', '獲取抓取到元素的屬性值，例如 %element{.mainTitle}.prop(href) %element{.mainTitle}.prop(innerHTML)'),
-  createData('%element{}.replace()', 'replace, same as above, like %element{.mainTitle}.prop(href).replace(/https/i,"")', '正則替換，例如 %element{.mainTitle}.prop(href).replace(/https/i,"")'),
-  createData('c:', 'put this at first then all words after will be copied to the clipboard', '在開頭使用"c:"可以複製之後的所有字串')
-];
-
 export default function Engines() {
+    const rows = [
+      createData('%s', window.i18n('param_s')),
+      createData('%S', window.i18n('param_S')),
+      createData('%sl', window.i18n('param_sl')),
+      createData('%su', window.i18n('param_su')),
+      createData('%sr', window.i18n('param_sr')),
+      createData('%e', window.i18n('param_e')),
+      createData('%c', window.i18n('param_c')),
+      createData('%u', window.i18n('param_u')),
+      createData('%U', window.i18n('param_U')),
+      createData('%h', window.i18n('param_h')),
+      createData('%t', window.i18n('param_t')),
+      createData('%T', window.i18n('param_T')),
+      createData('%b', window.i18n('param_b')),
+      createData('%B', window.i18n('param_B')),
+      createData('%i', window.i18n('param_i')),
+      createData('%s.replace', window.i18n('param_sre')),
+      createData('%p{params}', window.i18n('param_p1')),
+      createData('%P{params}', window.i18n('param_p2')),
+      createData('#p{params}', window.i18n('param_p3')),
+      createData('["siteName1","siteName2"]', window.i18n('param_group')),
+      createData('%input{tips}', window.i18n('param_input')),
+      createData('%element{}', window.i18n('param_ele')),
+      createData('%element{}.prop()', window.i18n('param_elep')),
+      createData('%element{}.replace()', window.i18n('param_elere')),
+      createData('c:', window.i18n('param_cp'))
+    ];
     let selectTxt = -1, selectImg = -1, selectLink = -1, selectPage = -1;
     for (let i = 0; i < window.searchData.sitesConfig.length; i++) {
         let site = window.searchData.sitesConfig[i];
@@ -1568,7 +1568,7 @@ export default function Engines() {
                   aria-controls="panel1a-content"
                   id="panel1a-header"
                 >
-                  <Typography sx={{display: 'block', width: '100%', textAlign: 'center', fontSize: '1.3em', fontWeight: 'bold'}}>Search params</Typography>
+                  <Typography sx={{display: 'block', width: '100%', textAlign: 'center', fontSize: '1.3em', fontWeight: 'bold'}}>{window.i18n("paramTitle")}</Typography>
                 </AccordionSummary>
                 <AccordionDetails>
                     <Paper
@@ -1614,9 +1614,8 @@ export default function Engines() {
                         <Table sx={{ minWidth: 650 }} aria-label="simple table">
                             <TableHead>
                                 <TableRow>
-                                    <TableCell>Param</TableCell>
-                                    <TableCell align="right">Details</TableCell>
-                                    <TableCell align="right">詳述</TableCell>
+                                    <TableCell>{window.i18n("param")}</TableCell>
+                                    <TableCell>{window.i18n("details")}</TableCell>
                             </TableRow>
                             </TableHead>
                             <TableBody>
@@ -1628,8 +1627,7 @@ export default function Engines() {
                                     <TableCell component="th" scope="row">
                                       {row.param}
                                     </TableCell>
-                                    <TableCell align="right">{row.infoEn}</TableCell>
-                                    <TableCell align="right">{row.infoCn}</TableCell>
+                                    <TableCell>{row.info}</TableCell>
                                 </TableRow>
                             ))}
                             </TableBody>
