@@ -745,7 +745,7 @@ export default function General() {
                             />
                         </FormControl>
                         <TextField
-                            label={window.i18n('siteShotcut')}
+                            label={window.i18n('shortcut')}
                             type="text"
                             value={state.shortcutKey}
                             inputProps={{ readOnly: 'readonly' }}
@@ -756,6 +756,61 @@ export default function General() {
                                 var newPref = {
                                     ...state,
                                     shortcutKey: newValue
+                                };
+                                setState(newPref);
+                                window.searchData.prefConfig = newPref;
+                                saveConfigToScript();
+                            }}
+                        />
+                    </Box>
+                    <Typography gutterBottom component="div">
+                        <h4>{window.i18n('showAllKey')}</h4>
+                    </Typography>
+                    <Box>
+                        <FormControl sx={{ m: 1, minWidth: 80 }}>
+                            <FormControlLabel
+                                control={
+                                    <Switch checked={state.showAllCtrl} onChange={handleCheckChange} name="showAllCtrl" />
+                                }
+                                label={window.i18n('ctrlKey')}
+                            />
+                        </FormControl>
+                        <FormControl sx={{ m: 1, minWidth: 80 }}>
+                            <FormControlLabel
+                                control={
+                                    <Switch checked={state.showAllAlt} onChange={handleCheckChange} name="showAllAlt" />
+                                }
+                                label={window.i18n('altKey')}
+                            />
+                        </FormControl>
+                        <FormControl sx={{ m: 1, minWidth: 80 }}>
+                            <FormControlLabel
+                                control={
+                                    <Switch checked={state.showAllShift} onChange={handleCheckChange} name="showAllShift" />
+                                }
+                                label={window.i18n('shiftKey')}
+                            />
+                        </FormControl>
+                        <FormControl sx={{ m: 1, minWidth: 80 }}>
+                            <FormControlLabel
+                                control={
+                                    <Switch checked={state.showAllMeta} onChange={handleCheckChange} name="showAllMeta" />
+                                }
+                                label={window.i18n('metaKey')}
+                            />
+                        </FormControl>
+                        <TextField
+                            label={window.i18n('shortcut')}
+                            type="text"
+                            value={state.showAllShortcutKey}
+                            inputProps={{ readOnly: 'readonly' }}
+                            onKeyDown={(event) => {
+                                event.stopPropagation();
+                                event.preventDefault();
+                                let newValue = (event.key === 'Escape' || event.key === 'Backspace') ? '' : event.key;
+                                var newPref = {
+                                    ...state,
+                                    showAllShortcutKey: newValue
                                 };
                                 setState(newPref);
                                 window.searchData.prefConfig = newPref;
