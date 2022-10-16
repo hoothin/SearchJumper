@@ -352,7 +352,7 @@ function TypeEdit(props) {
             <DialogActions>
                 <Button variant="outlined" color="error" startIcon={<DeleteIcon />} onClick={props.handleDeleteType}>{window.i18n('delete')}</Button>
                 <Button onClick={() => { closeTypeEdit(false) }}>{window.i18n('cancel')}</Button>
-                <Button onClick={() => { closeTypeEdit(true) }}>{window.i18n(typeData.type === '' ? 'add' : 'edit')}</Button>
+                <Button onClick={() => { closeTypeEdit(true) }}>{window.i18n(typeData.type === '' ? 'add' : 'save')}</Button>
             </DialogActions>
         </Dialog>
     );
@@ -1082,7 +1082,7 @@ class SitesList extends React.Component {
                         <Button onClick={() => this.setState(prevState => ({ isOpenLocalApp: true }))}>{window.i18n('localAppAddBtn')}</Button>
                         <Button variant="outlined" style={{display:this.editSite?'':'none'}} color="error" startIcon={<DeleteIcon />} onClick={this.handleDeleteSite}>{window.i18n('delete')}</Button>
                         <Button onClick={() => this.closeSiteEdit(false)}>{window.i18n('cancel')}</Button>
-                        <Button onClick={() => this.closeSiteEdit(true)}>{window.i18n(this.state.currentSite.url === '' ? 'add' : 'edit')}</Button>
+                        <Button onClick={() => this.closeSiteEdit(true)}>{window.i18n(this.state.currentSite.url === '' ? 'add' : 'save')}</Button>
                     </DialogActions>
                 </Dialog>
                 <Dialog open={this.state.isOpenSiteEdit&&this.state.isOpenLocalApp} onClose={() => this.setState(prevState => ({ isOpenLocalApp: false }))}>
