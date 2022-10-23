@@ -1495,7 +1495,15 @@ export default function Engines() {
                 </IconButton>
             </Box>
             {window.searchData.sitesConfig.map((data, index) =>
-                <TabPanel value={value} index={index} key={data.type}>
+                <TabPanel
+                    value={value}
+                    index={index}
+                    key={data.type}
+                    className={(selectTxt === index ? 'selectTxt ' : '') + 
+                                (selectImg === index ? 'selectImg ' : '') +
+                                (selectLink === index ? 'selectLink ' : '') +
+                                (selectPage === index ? 'selectPage ' : '')}
+                >
                     <SitesList data={data} openTypeEdit={openTypeEdit} index={index} handleAlertOpen={handleAlertOpen}/>
                 </TabPanel>
             )}
