@@ -69,6 +69,20 @@ code {
 .selectPage>i,span.selectPage {
   background: #5acfc9!important;
 }
+
+.selectTxt .site-icon:nth-child(-n+6) {
+  background: #f3533a30!important;
+}
+.selectImg .site-icon:nth-child(-n+6) {
+  background: #fa9f4230!important;
+}
+.selectLink .site-icon:nth-child(-n+6) {
+  background: #8ad87930!important;
+}
+.selectPage .site-icon:nth-child(-n+6) {
+  background: #5acfc930!important;
+}
+
 span.selectTxt,
 span.selectImg,
 span.selectLink,
