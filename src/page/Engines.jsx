@@ -1473,7 +1473,7 @@ export default function Engines() {
         if (!dragType.type) {
             if (!dragType.url) return;
             for (let i = 0; i < targetType.sites.length; i++) {
-                if (targetType.sites[i].url == dragType.url) return;
+                if (targetType.sites[i].url === dragType.url) return;
             }
             window.searchData.sitesConfig = window.searchData.sitesConfig.map((data, i) =>{
                 if (targetType.type === data.type) {
