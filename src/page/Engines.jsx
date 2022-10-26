@@ -375,7 +375,7 @@ class ChildSiteIcons extends React.Component {
                             }}
                             checked={this.props.checkeds[i]}
                         />
-                        <IconButton sx={{fontSize: '1rem', flexDirection: 'column'}} draggable='true' onDrop={e => {this.props.changeSitePos(site, this.dragSite)}} onDragStart={e => {this.dragSite = site}} onDragOver={e => {e.preventDefault()}} key={site.name} title={site.name}  onClick={() => { this.props.openSiteEdit(site) }}>
+                        <IconButton sx={{fontSize: '1rem', flexDirection: 'column'}} draggable='true' onDrop={e => {this.props.changeSitePos(site, e);}} onDragStart={e => {e.dataTransfer.setData("data", JSON.stringify(site));}} onDragOver={e => {e.preventDefault()}} key={site.name} title={site.name}  onClick={() => { this.props.openSiteEdit(site) }}>
                             <Avatar sx={{m:1}} alt={site.name} src={(!this.props.tooLong && (site.icon || (/^http/.test(site.url) && site.url.replace(new RegExp('(https?://[^/]*/).*$'), "$1favicon.ico")))) || ''} />{site.name.length > 10 ? site.name.slice(0, 10) : site.name}
                         </IconButton>
                     </Box>
@@ -600,15 +600,25 @@ class SitesList extends React.Component {
         saveConfigToScript();
     }
 
-    changeSitePos(targetSite, dragSite) {
-        if (targetSite.url === dragSite.url)return;
+    changeSitePos(targetSite, event) {
+        let dragSite;
+        try {
+            dragSite = JSON.parse(event.dataTransfer.getData("data"));
+        } catch (e) {
+            console.log(e);
+            return;
+        }
+        let target = event.currentTarget;
+        let isRight = event.clientX > getOffsetLeft(target) + target.offsetWidth / 2;
+        if (!targetSite || !dragSite || !targetSite.url || !dragSite.url) return;
+        if (targetSite.url === dragSite.url) return;
         let currentType = window.searchData.sitesConfig[this.index];
         let newSites = this.state.data.sites.filter(site => {
             return (site.url !== dragSite.url);
         })
         for (let i in newSites) {
             if (newSites[i].url === targetSite.url) {
-                newSites.splice(i, 0, dragSite);
+                newSites.splice((isRight ? i + 1 : i), 0, dragSite);
                 break;
             }
         }
@@ -1220,6 +1230,16 @@ function siteObject(obj) {
     };
 }
 
+function getOffsetLeft(ele) {
+    var actualLeft = ele.offsetLeft;
+    var current = ele.offsetParent;
+    while (current) {
+        actualLeft += current.offsetLeft;
+        current = current.offsetParent;
+    }
+    return actualLeft;
+}
+
 function TabPanel(props: TabPanelProps) {
     const { children, value, index, ...other } = props;
 
@@ -1440,14 +1460,42 @@ export default function Engines() {
         });
     };
 
-    const changeTypePos = (targetType, dragType) => {
+    const changeTypePos = (targetType, event) => {
+        let dragType;
+        try {
+            dragType = JSON.parse(event.dataTransfer.getData("data"));
+        } catch (e) {
+            console.log(e);
+            return;
+        }
+        let target = event.currentTarget;
+        let isRight = event.clientX > getOffsetLeft(target) + target.offsetWidth / 2;
+        if (!dragType.type) {
+            if (!dragType.url) return;
+            for (let i = 0; i < targetType.sites.length; i++) {
+                if (targetType.sites[i].url == dragType.url) return;
+            }
+            window.searchData.sitesConfig = window.searchData.sitesConfig.map((data, i) =>{
+                if (targetType.type === data.type) {
+                    data.sites = data.sites.concat([dragType]);
+                } else if (value === i) {
+                    data.sites = data.sites.filter(site => {
+                        return (site.url !== dragType.url);
+                    })
+                }
+                return data;
+            });
+            saveConfigToScript();
+            setRefresh(true);
+            return;
+        }
         if (targetType.type === dragType.type) return;
         let newTypes = window.searchData.sitesConfig.filter(typeData => {
             return (typeData.type !== dragType.type);
         })
         for (let i in newTypes) {
             if (newTypes[i].type === targetType.type) {
-                newTypes.splice(i, 0, dragType);
+                newTypes.splice((isRight ? i + 1 : i), 0, dragType);
                 break;
             }
         }
@@ -1455,7 +1503,6 @@ export default function Engines() {
         saveConfigToScript();
         setRefresh(true);
     };
-    var dragType;
 
     return (
         <Box sx={{pb: 3}}>
@@ -1473,8 +1520,8 @@ export default function Engines() {
                                             (selectLink === index ? 'selectLink ' : '') +
                                             (selectPage === index ? 'selectPage ' : '')}
                                 draggable='true'
-                                onDrop={e => {changeTypePos(data, dragType)}} 
-                                onDragStart={e => {dragType = data}} 
+                                onDrop={e => {changeTypePos(data, e)}} 
+                                onDragStart={e => {e.dataTransfer.setData("data", JSON.stringify(data))}} 
                                 onDragOver={e => {e.preventDefault()}} 
                                 icon={
                                     /^(http|data:)/.test(data.icon)?(
