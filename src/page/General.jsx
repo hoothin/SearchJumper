@@ -214,7 +214,14 @@ export default function General() {
                             }}
                             value={state.customSize}
                             onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
-                                let newValue = parseInt(event.target.value);
+                                var newPref = {
+                                    ...state,
+                                    customSize: event.target.value
+                                };
+                                setState(newPref);
+                            }}
+                            onBlur={e => {
+                                let newValue = parseInt(e.target.value);
                                 if (newValue > 1000) {
                                     newValue = 1000;
                                 } else if (newValue < 50) {

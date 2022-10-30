@@ -15,12 +15,92 @@ import Select, { SelectChangeEvent } from '@mui/material/Select';
 import FileUploadIcon from '@mui/icons-material/FileUpload';
 import FileDownloadIcon from '@mui/icons-material/FileDownload';
 import BookmarksIcon from '@mui/icons-material/Bookmarks';
+import CloudSyncIcon from '@mui/icons-material/CloudSync';
+import DeleteIcon from '@mui/icons-material/Delete';
 import { JSONEditor } from 'vanilla-jsoneditor'
 import { useEffect, useRef } from "react";
 import 'vanilla-jsoneditor/themes/jse-theme-dark.css';
 import { createAjvValidator } from 'vanilla-jsoneditor';
+import Dialog from '@mui/material/Dialog';
+import DialogActions from '@mui/material/DialogActions';
+import DialogContent from '@mui/material/DialogContent';
+import DialogTitle from '@mui/material/DialogTitle';
+import Button from '@mui/material/Button';
+import Visibility from '@mui/icons-material/Visibility';
+import VisibilityOff from '@mui/icons-material/VisibilityOff';
+import InputAdornment from '@mui/material/InputAdornment';
+import OutlinedInput from '@mui/material/OutlinedInput';
+import IconButton from '@mui/material/IconButton';
+import DialogContentText from '@mui/material/DialogContentText';
+import { createClient } from "webdav";
+import Snackbar from '@mui/material/Snackbar';
+import MuiAlert from '@mui/material/Alert';
+
+async function saveToWebdav() {
+    if (!window.searchData.webdavConfig) return;
+    const client = createClient(window.searchData.webdavConfig.host, {
+        username: window.searchData.webdavConfig.username,
+        password: window.searchData.webdavConfig.password
+    });
+    const path = "/SearchJumper";
+    if (await client.exists(path + "/") === false) {
+        await client.createDirectory(path);
+    }
+    await client.putFileContents(path + "/lastModified", "" + window.searchData.lastModified);
+    await client.putFileContents(path + "/sitesConfig.json", JSON.stringify(window.searchData.sitesConfig));
+    if (window.searchData.prefConfig.inPageRule) {
+        await client.putFileContents(path + "/inPageRule.json", JSON.stringify(window.searchData.prefConfig.inPageRule))
+    }
+}
+
+async function checkWebdav(host, username, password) {
+    const client = createClient(host, {
+        username: username,
+        password: password
+    });
+    const path = "/SearchJumper";
+    if (await client.exists(path + "/") === false) {
+        await client.createDirectory(path);
+        await client.putFileContents(path + "/lastModified", "");
+    } else if (await client.exists(path + "/lastModified") === false) {
+        await client.putFileContents(path + "/lastModified", "");
+    }
+    let lastModified = await client.getFileContents(path + "/lastModified", { format: "text" });
+    lastModified = parseFloat(lastModified) || 0;
+    if (lastModified && (!window.searchData.lastModified || lastModified > window.searchData.lastModified)) {
+        window.searchData.lastModified = lastModified;
+        if (await client.exists(path + "/sitesConfig.json")) {
+            let sitesConfig = await client.getFileContents(path + "/sitesConfig.json", { format: "text" });
+            sitesConfig = JSON.parse(sitesConfig);
+            window.searchData.sitesConfig = sitesConfig;
+            if (editor) editor.set({json:window.searchData.sitesConfig});
+        }
+        if (await client.exists(path + "/inPageRule.json")) {
+            let inPageRule = await client.getFileContents(path + "/inPageRule.json", { format: "text" });
+            inPageRule = JSON.parse(inPageRule);
+            window.searchData.prefConfig.inPageRule = inPageRule;
+        }
+    } else if (lastModified === 0 || window.searchData.lastModified > lastModified) {
+        await client.putFileContents(path + "/lastModified", "" + (window.searchData.lastModified || new Date().getTime()));
+        await client.putFileContents(path + "/sitesConfig.json", JSON.stringify(window.searchData.sitesConfig));
+        await client.putFileContents(path + "/inPageRule.json", JSON.stringify(window.searchData.prefConfig.inPageRule))
+    }
+    window.searchData.webdavConfig = {
+        host: host,
+        username: username,
+        password: password
+    };
+    var saveMessage = new CustomEvent('saveConfig', {
+        detail: {
+            searchData: window.searchData, 
+            notification: false
+        }
+    });
+    document.dispatchEvent(saveMessage);
+}
 
 function saveConfigToScript (notification) {
+    if (notification) window.searchData.lastModified = new Date().getTime();
     var saveMessage = new CustomEvent('saveConfig', {
         detail: {
             searchData: window.searchData, 
@@ -28,6 +108,7 @@ function saveConfigToScript (notification) {
         }
     });
     document.dispatchEvent(saveMessage);
+    saveToWebdav();
 }
 
 const presetCssList = [
@@ -226,11 +307,141 @@ function DefaultOpenSpeedDial(props) {
     );
 }
 
+function SyncEdit(props) {
+    let _host = "", _username = "", _password = "";
+    if (window.searchData.webdavConfig) {
+        _host = window.searchData.webdavConfig.host;
+        _username = window.searchData.webdavConfig.username;
+        _password = window.searchData.webdavConfig.password;
+    }
+    const [host, setHost] = React.useState(_host);
+    const [username, setUsername] = React.useState(_username);
+    const [password, setPassword] = React.useState(_password);
+    const [showPassword, setShowPassword] = React.useState(false);
+    React.useEffect(() => {
+       setPassword(_host);
+       setUsername(_username);
+       setPassword(_password);
+    }, [props.open]);
+    return (
+        <Dialog open={props.open} onClose={() => {props.close()}}>
+            <DialogTitle>{window.i18n('sync')}</DialogTitle>
+            <DialogContent>
+                <FormControl fullWidth sx={{ mt: 1, mb: 1 }} variant="outlined">
+                  <InputLabel htmlFor="outlined-adornment-host">{window.i18n('host')}</InputLabel>
+                  <OutlinedInput
+                    fullWidth
+                    id="outlined-adornment-host"
+                    type='text'
+                    value={host}
+                    placeholder="http://127.0.0.1:1900"
+                    onChange={e => {
+                        setHost(e.target.value);
+                    }}
+                    label="Host"
+                  />
+                </FormControl>
+                <FormControl fullWidth sx={{ mt: 1, mb: 1 }} variant="outlined">
+                  <InputLabel htmlFor="outlined-adornment-username">{window.i18n('username')}</InputLabel>
+                  <OutlinedInput
+                    fullWidth
+                    id="outlined-adornment-username"
+                    type='text'
+                    value={username}
+                    onChange={e => {
+                        setUsername(e.target.value);
+                    }}
+                    label="Username"
+                  />
+                </FormControl>
+                <FormControl fullWidth sx={{ mt: 1, mb: 1 }} variant="outlined">
+                  <InputLabel htmlFor="outlined-adornment-password">{window.i18n('password')}</InputLabel>
+                  <OutlinedInput
+                    fullWidth
+                    id="outlined-adornment-password"
+                    type={showPassword ? 'text' : 'password'}
+                    value={password}
+                    onChange={e => {
+                        setPassword(e.target.value);
+                    }}
+                    endAdornment={
+                      <InputAdornment position="end">
+                        <IconButton
+                          aria-label="toggle password visibility"
+                          onClick={e => setShowPassword(!showPassword)}
+                          onMouseDown={e => {e.preventDefault()}}
+                          edge="end"
+                        >
+                          {showPassword ? <VisibilityOff /> : <Visibility />}
+                        </IconButton>
+                      </InputAdornment>
+                    }
+                    label="Password"
+                  />
+                </FormControl>
+                <DialogContentText sx={{textAlign: 'center'}}>
+                    {window.i18n('syncTips')}
+                </DialogContentText>
+            </DialogContent>
+            <DialogActions>
+                <Button variant="outlined" color="error" startIcon={<DeleteIcon />} onClick={() => {
+                    window.searchData.webdavConfig = null;
+                    saveConfigToScript();
+                    props.close();
+                }}>{window.i18n('empty')}</Button>
+                <Button onClick={() => { props.close() }}>{window.i18n('cancel')}</Button>
+                <Button onClick={() => {
+                    if (!host) return;
+                    checkWebdav(host, username, password).then(() => {
+                        props.handleAlertOpen(window.i18n("success"), 3);
+                        props.close();
+                    }).catch(e => {
+                        props.handleAlertOpen(e.toString());
+                    });
+                }}>{window.i18n('save')}</Button>
+            </DialogActions>
+        </Dialog>
+    );
+}
+
 export default function Export() {
     const [presetCss, setPresetCss] = React.useState('');
+    const [openSync, setOpenSync] = React.useState(false);
     const [cssText, setCssText] = React.useState(window.searchData.prefConfig.cssText||'');
     const [fontAwesomeCss, setFontAwesomeCss] = React.useState(window.searchData.prefConfig.fontAwesomeCss);
 
+    const [alertBody, setAlert] = React.useState({openAlert: false, alertContent: '', alertType: 'error'});
+    const handleAlertOpen = (content, type) => {
+        switch (type) {
+            case 0:
+                type = "error";
+            break;
+            case 1:
+                type = "warning";
+            break;
+            case 2:
+                type = "info";
+            break;
+            case 3:
+                type = "success";
+            break;
+            default:
+                type = "error";
+            break;
+        }
+        setAlert({
+            openAlert: true,
+            alertContent: content,
+            alertType: type
+        });
+    };
+
+    const handleAlertClose = () => {
+        setAlert({
+            openAlert: false,
+            alertContent: ''
+        });
+    };
     var downloadEle = document.createElement('a');
     downloadEle.download = "searchJumper.json";
     downloadEle.target = "_blank";
@@ -314,6 +525,10 @@ export default function Export() {
             editor.set({json:window.searchData.sitesConfig})
             saveConfigToScript(true);
         };
+    }
+
+    function webdavSync() {
+        setOpenSync(true);
     }
 
     function exportConfig() {
@@ -414,7 +629,23 @@ export default function Export() {
                     tooltipTitle={window.i18n('importBookmarks')}
                     onChange = {importBookmarks}
                 />
+                <SpeedDialAction
+                    key='Sync'
+                    icon=<CloudSyncIcon />
+                    tooltipTitle={window.i18n('sync')}
+                    onClick = {webdavSync}
+                />
             </DefaultOpenSpeedDial>
+            <SyncEdit
+                handleAlertOpen={handleAlertOpen}
+                open={openSync}
+                close={() => {setOpenSync(false)}}
+            />
+            <Snackbar open={alertBody.openAlert} autoHideDuration={2000} anchorOrigin={{vertical: 'top', horizontal: 'center'}} onClose={handleAlertClose}>
+                <MuiAlert elevation={6} variant="filled" onClose={handleAlertClose} severity={alertBody.alertType} sx={{ width: '100%' }} >
+                  {alertBody.alertContent}
+                </MuiAlert>
+            </Snackbar>
         </Box>
     );
 }

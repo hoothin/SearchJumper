@@ -42,8 +42,27 @@ import InputBase from '@mui/material/InputBase';
 import SearchIcon from '@mui/icons-material/Search';
 import InputAdornment from '@mui/material/InputAdornment';
 import FileUploadIcon from '@mui/icons-material/FileUpload';
+import { createClient } from "webdav";
+
+async function saveToWebdav() {
+    if (!window.searchData.webdavConfig) return;
+    const client = createClient(window.searchData.webdavConfig.host, {
+        username: window.searchData.webdavConfig.username,
+        password: window.searchData.webdavConfig.password
+    });
+    const path = "/SearchJumper";
+    if (await client.exists(path + "/") === false) {
+        await client.createDirectory(path);
+    }
+    await client.putFileContents(path + "/lastModified", "" + window.searchData.lastModified);
+    await client.putFileContents(path + "/sitesConfig.json", JSON.stringify(window.searchData.sitesConfig));
+    if (window.searchData.prefConfig.inPageRule) {
+        await client.putFileContents(path + "/inPageRule.json", JSON.stringify(window.searchData.prefConfig.inPageRule))
+    }
+}
 
 function saveConfigToScript (notification) {
+    window.searchData.lastModified = new Date().getTime();
     var saveMessage = new CustomEvent('saveConfig', {
         detail: {
             searchData: window.searchData, 
@@ -51,6 +70,7 @@ function saveConfigToScript (notification) {
         }
     });
     document.dispatchEvent(saveMessage);
+    saveToWebdav();
 }
 
 function TypeEdit(props) {
@@ -1324,6 +1344,13 @@ export default function Engines() {
 
     const [refresh, setRefresh] = React.useState(false);
      
+    React.useEffect(() => {
+        window.addEventListener('message',function(e){
+          if (e.data.command === 'refresh') {
+            setRefresh(true);
+          }
+        });
+    }, []);
     React.useEffect(() => {
         refresh && setTimeout(() => setRefresh(false), 0)
     }, [refresh]);

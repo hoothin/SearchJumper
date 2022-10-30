@@ -22,11 +22,58 @@ import About from './page/About.jsx';
 import Export from './page/Export.jsx';
 import FindInPage from './page/FindInPage.jsx';
 import Link from '@mui/material/Link';
+import { createClient } from "webdav";
 
 interface TabPanelProps {
   children?: React.ReactNode;
   index: number;
   value: number;
+}
+
+function saveConfigToScript (notification) {
+    var saveMessage = new CustomEvent('saveConfig', {
+        detail: {
+            searchData: window.searchData, 
+            notification: !!notification
+        }
+    });
+    document.dispatchEvent(saveMessage);
+}
+
+async function refreshByWebdav(callback) {
+  if (!window.searchData.webdavConfig) return;
+  const client = createClient(window.searchData.webdavConfig.host, {
+    username: window.searchData.webdavConfig.username,
+    password: window.searchData.webdavConfig.password
+  });
+  const path = "/SearchJumper";
+  if (await client.exists(path + "/") === false) {
+    await client.createDirectory(path);
+    await client.putFileContents(path + "/lastModified", "");
+  } else if (await client.exists(path + "/lastModified") === false) {
+    await client.putFileContents(path + "/lastModified", "");
+  }
+  let lastModified = await client.getFileContents(path + "/lastModified", { format: "text" });
+  lastModified = parseFloat(lastModified) || 0;
+  if (lastModified && (!window.searchData.lastModified || lastModified > window.searchData.lastModified)) {
+    window.searchData.lastModified = lastModified;
+    if (await client.exists(path + "/sitesConfig.json")) {
+      let sitesConfig = await client.getFileContents(path + "/sitesConfig.json", { format: "text" });
+      sitesConfig = JSON.parse(sitesConfig);
+      window.searchData.sitesConfig = sitesConfig;
+    }
+    if (await client.exists(path + "/inPageRule.json")) {
+      let inPageRule = await client.getFileContents(path + "/inPageRule.json", { format: "text" });
+      inPageRule = JSON.parse(inPageRule);
+      window.searchData.prefConfig.inPageRule = inPageRule;
+    }
+    saveConfigToScript();
+    callback();
+  } else if (lastModified === 0 || window.searchData.lastModified > lastModified) {
+    await client.putFileContents(path + "/lastModified", "" + window.searchData.lastModified);
+    await client.putFileContents(path + "/sitesConfig.json", JSON.stringify(window.searchData.sitesConfig));
+    await client.putFileContents(path + "/inPageRule.json", JSON.stringify(window.searchData.prefConfig.inPageRule))
+  }
 }
 
 function TabPanel(props: TabPanelProps) {
@@ -73,7 +120,14 @@ export default function App() {
         var receivedMessage = new Event('received');
         document.dispatchEvent(receivedMessage);
         setInited(true);
+        refreshByWebdav(() => {
+          setInited(true);
+          window.postMessage({
+              command: 'refresh'
+          }, '*');
+        });
       }
+      return true;
     }, true);
   }, [])
 
