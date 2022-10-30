@@ -59,6 +59,9 @@ export default function General() {
     if (!window.searchData.prefConfig.defaultPicker) {
         window.searchData.prefConfig.defaultPicker = false;
     }
+    if (!window.searchData.prefConfig.expandType) {
+        window.searchData.prefConfig.expandType = false;
+    }
     const [state, setState] = React.useState(
         window.searchData.prefConfig
     );
@@ -502,6 +505,21 @@ export default function General() {
                                 <Switch checked={state.showCurrent} onChange={handleCheckChange} name="showCurrent" />
                             }
                             label={window.i18n('showCurrentTips')}
+                        />
+                    </FormControl>
+                </Box>
+            </Paper>
+            <Paper elevation={5} sx={{ padding: '20px', marginTop: '20px' }}>
+                <Typography gutterBottom component="div">
+                    <h4>{window.i18n('expandType')}</h4>
+                </Typography>
+                <Box>
+                    <FormControl sx={{ m: 1, minWidth: 80 }}>
+                        <FormControlLabel
+                            control={
+                                <Switch checked={state.expandType} onChange={handleCheckChange} name="expandType" />
+                            }
+                            label={window.i18n('expandTypeTips')}
                         />
                     </FormControl>
                 </Box>
