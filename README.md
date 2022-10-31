@@ -265,8 +265,8 @@ cors:
     - Content-Length
     - Content-Range
 users:
-  - username: guest
-    password: guest
+  - username: 用戶名
+    password: 密碼
     scope: webdav 同步文件夾路徑
     modify: true
 ```
