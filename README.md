@@ -242,7 +242,7 @@ Open the page of video and download with `lux://%u` 完畢之後即可新建站�
 
 ---
  <details>
-<summary><h2>透過 webdav 同步站點配置與高亮規則</h2></summary>
+<summary><h2>Sync by webdav 透過 webdav 同步站點配置與高亮規則</h2></summary>
 
 + webdav 伺服器需要支持自設 cors
 + 也可以自己架設 webdav 伺服器，方法如下
