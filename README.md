@@ -246,8 +246,8 @@ Open the page of video and download with `lux://%u` 完畢之後即可新建站�
 
 + webdav 伺服器需要支持自設 cors
 + 也可以自己架設 webdav 伺服器，方法如下
- - 下載 [webdav server](https://github.com/hacdias/webdav/releases)
- - 創建配置文件 `config.yml`，內容如下：
+  - 下載 [webdav server](https://github.com/hacdias/webdav/releases)
+  - 創建配置文件 `config.yml`，內容如下：
 
 ```
 address: 伺服器地址
