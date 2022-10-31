@@ -242,6 +242,38 @@ Open the page of video and download with `lux://%u` 完畢之後即可新建站�
 
 ---
  <details>
+<summary><h2>透過 webdav 同步站點配置與高亮規則</h2></summary>
+
++ webdav 伺服器需要支持自設 cors
++ 也可以自己架設 webdav 伺服器，方法如下
+ - 下載 [webdav server](https://github.com/hacdias/webdav/releases)
+ - 創建配置文件 `config.yml`，內容如下：
+
+```
+address: 伺服器地址
+port: 伺服器端口
+cors:
+  enabled: true
+  credentials: true
+  allowed_headers:
+    - '*'
+  allowed_hosts:
+    - https://hoothin.github.io
+  allowed_methods:
+    - '*'
+  exposed_headers:
+    - Content-Length
+    - Content-Range
+users:
+  - username: guest
+    password: guest
+    scope: webdav 同步文件夾路徑
+    modify: true
+```
+ </details>
+ 
+---
+ <details>
 <summary><h2>Batch open modes 多種批量打開方式</h></summary>
   
 + **`shift`** + click category icon
