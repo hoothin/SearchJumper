@@ -11,6 +11,8 @@ import Typography from '@mui/material/Typography';
 import TextField from '@mui/material/TextField';
 import InputAdornment from '@mui/material/InputAdornment';
 import Slider from '@mui/material/Slider';
+import Radio from '@mui/material/Radio';
+import RadioGroup from '@mui/material/RadioGroup';
 
 function saveConfigToScript (notification) {
     var saveMessage = new CustomEvent('saveConfig', {
@@ -575,13 +577,25 @@ export default function General() {
                         <Typography gutterBottom component="div">
                             <h4>{window.i18n('autoHideAll')}</h4>
                         </Typography>
-                        <FormControl sx={{ m: 1, minWidth: 80 }}>
-                            <FormControlLabel
-                                control={
-                                    <Switch checked={state.autoHideAll} onChange={handleCheckChange} name="autoHideAll" />
-                                }
-                                label={window.i18n('autoHideAllTips')}
-                            />
+                        <FormControl>
+                          <RadioGroup
+                            row
+                            value={state.resizePage ? "resizePage" : (state.autoHideAll ? "autoHideAll" : "unset")}
+                            onChange={event => {
+                                var newPref = {
+                                    ...state,
+                                    "resizePage": event.target.value === "resizePage",
+                                    "autoHideAll": event.target.value === "autoHideAll"
+                                };
+                                setState(newPref);
+                                window.searchData.prefConfig = newPref;
+                                saveConfigToScript();
+                            }}
+                          >
+                            <FormControlLabel value="unset" control={<Radio />} label={window.i18n('unsetTips')} />
+                            <FormControlLabel value="autoHideAll" control={<Radio />} label={window.i18n('autoHideAllTips')} />
+                            <FormControlLabel value="resizePage" control={<Radio />} label={window.i18n('resizePageTips')} />
+                          </RadioGroup>
                         </FormControl>
                     </Box>
                 </Box>
