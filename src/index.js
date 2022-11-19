@@ -594,7 +594,7 @@ switch (lang) {
             autoHide: 'Auto hide bar',
             autoHideTips: 'Auto hide search bar after hide delay set before',
             autoHideAll: 'Completely hide',
-            autoHideAllTips: 'Hide the search bar for completely disappear',
+            autoHideAllTips: 'Hide the search bar completely',
             unsetTips: 'Unset',
             resizePageTips: 'Resize page without hide',
             minSizeMode: 'Minimalist Mode',
