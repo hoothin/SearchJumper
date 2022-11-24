@@ -1,4 +1,4 @@
-# [SearchJumper - 搜索醬](https://greasyfork.org/scripts/445274-searchjumper "搜索酱 検索ちゃん Install from greasyfork")  [👆Seek more sites 更多站點配置](https://github.com/hoothin/SearchJumper/issues?q=label%3A%22Sites+Rule%22)
+# [SearchJumper](https://greasyfork.org/scripts/445274-searchjumper "搜索酱 搜尋醬 検索ちゃん Install from greasyfork")  [👆Seek more search engines 更多引擎配置](https://github.com/hoothin/SearchJumper/issues?q=label%3A%22Sites+Rule%22)
 
 ![star](https://img.shields.io/github/stars/hoothin/SearchJumper)
 ![react-version](https://img.shields.io/badge/React.js-lastest-green.svg)
