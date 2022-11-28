@@ -64,6 +64,9 @@ export default function General() {
     if (!window.searchData.prefConfig.expandType) {
         window.searchData.prefConfig.expandType = false;
     }
+    if (!window.searchData.prefConfig.batchOpenConfirm) {
+        window.searchData.prefConfig.batchOpenConfirm = 0;
+    }
     const [state, setState] = React.useState(
         window.searchData.prefConfig
     );
@@ -283,7 +286,6 @@ export default function General() {
                         <InputLabel>{window.i18n('multilineLabel')}</InputLabel>
                         <Select
                             value={state.multiline}
-                            name="y"
                             onChange={(event: SelectChangeEvent) => {
                                 var newPref = {
                                     ...state,
@@ -401,6 +403,34 @@ export default function General() {
                             }
                             label={window.i18n('sortTypeTips')}
                         />
+                    </FormControl>
+                </Box>
+            </Paper>
+            <Paper elevation={5} sx={{ padding: '20px', marginTop: '20px' }}>
+                <Typography gutterBottom component="div">
+                    <h4>{window.i18n('batchOpenConfirm')}</h4>
+                </Typography>
+                <Box>
+                    <FormControl sx={{ m: 1, minWidth: 80 }}>
+                        <InputLabel>{window.i18n('batchOpenConfirm')}</InputLabel>
+                        <Select
+                            value={state.batchOpenConfirm}
+                            onChange={(event: SelectChangeEvent) => {
+                                var newPref = {
+                                    ...state,
+                                    batchOpenConfirm: event.target.value
+                                };
+                                setState(newPref);
+                                window.searchData.prefConfig = newPref;
+                                saveConfigToScript();
+                            }}
+                            autoWidth
+                            label={window.i18n('batchOpenConfirm')}
+                        >
+                            <MenuItem value={0}>{window.i18n("batchOpenConfirmDefault")}</MenuItem>
+                            <MenuItem value={1}>{window.i18n("batchOpenConfirmAlways")}</MenuItem>
+                            <MenuItem value={2}>{window.i18n("batchOpenConfirmNo")}</MenuItem>
+                        </Select>
                     </FormControl>
                 </Box>
             </Paper>

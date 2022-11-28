@@ -383,6 +383,31 @@ class ChildSiteIcons extends React.Component {
         return nextProps.sites !== this.props.sites || nextProps.checkeds.length !== this.checkeds.length || !nextProps.checkeds.every((value, index) => value === this.checkeds[index]);
     }
 
+    getIcon(site){
+        let isClone = site.url.indexOf('[') === 0;
+        if (isClone) {
+            let siteNames = JSON.parse(site.url);
+            if (siteNames.length === 1) {
+                for (let i = 0; i < window.searchData.sitesConfig.length; i++) {
+                    let typeData = window.searchData.sitesConfig[i];
+                    let sites = typeData.sites;
+                    for (let j = 0; j < sites.length; j++) {
+                        let _site = sites[j];
+                        if (_site.url.indexOf('[') !== 0 && _site.name === siteNames[0]) {
+                            return _site.icon || _site.url.replace(new RegExp('(https?://[^/]*/).*$'), "$1favicon.ico");
+                        }
+                    }
+                }
+            }
+        }
+        if (site.icon) {
+            return site.icon;
+        } else if (/^http/.test(site.url)) {
+            return site.url.replace(new RegExp('(https?://[^/]*/).*$'), "$1favicon.ico");
+        }
+        return "";
+    }
+
     render() {
         this.checkeds = [...this.props.checkeds];
         return (
@@ -396,7 +421,7 @@ class ChildSiteIcons extends React.Component {
                             checked={this.props.checkeds[i]}
                         />
                         <IconButton sx={{fontSize: '1rem', flexDirection: 'column'}} draggable='true' onDrop={e => {this.props.changeSitePos(site, e);}} onDragStart={e => {e.dataTransfer.setData("data", JSON.stringify(site));}} onDragOver={e => {e.preventDefault()}} key={site.name} title={site.name}  onClick={() => { this.props.openSiteEdit(site) }}>
-                            <Avatar sx={{m:1}} alt={site.name} src={(!this.props.tooLong && (site.icon || (/^http/.test(site.url) && site.url.replace(new RegExp('(https?://[^/]*/).*$'), "$1favicon.ico")))) || ''} />{site.name.length > 10 ? site.name.slice(0, 10) : site.name}
+                            <Avatar sx={{m:1}} alt={site.name} src={(!this.props.tooLong && this.getIcon(site)) || ''} />{site.name.length > 10 ? site.name.slice(0, 10) : site.name}
                         </IconButton>
                     </Box>
                 ))}
