@@ -67,6 +67,9 @@ export default function General() {
     if (!window.searchData.prefConfig.batchOpenConfirm) {
         window.searchData.prefConfig.batchOpenConfirm = 0;
     }
+    if (typeof window.searchData.prefConfig.rightMouse === "undefined") {
+        window.searchData.prefConfig.rightMouse = true;
+    }
     const [state, setState] = React.useState(
         window.searchData.prefConfig
     );
@@ -935,6 +938,17 @@ export default function General() {
                                 <Switch checked={state.disableInputOnWords} onChange={handleCheckChange} name="disableInputOnWords" />
                             }
                             label={window.i18n('disableInputOnWordsTips')}
+                        />
+                    </FormControl>
+                    <Typography gutterBottom component="div">
+                        <h4>{window.i18n('enableRightMouse')}</h4>
+                    </Typography>
+                    <FormControl sx={{ m: 1, minWidth: 80 }}>
+                        <FormControlLabel
+                            control={
+                                <Switch checked={state.rightMouse} onChange={handleCheckChange} name="rightMouse" />
+                            }
+                            label={window.i18n('enableRightMouseTips')}
                         />
                     </FormControl>
                     <Typography gutterBottom component="div">
