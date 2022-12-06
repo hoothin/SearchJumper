@@ -70,6 +70,18 @@ export default function General() {
     if (typeof window.searchData.prefConfig.rightMouse === "undefined") {
         window.searchData.prefConfig.rightMouse = true;
     }
+    if (!window.searchData.prefConfig.dragCtrl) {
+        window.searchData.prefConfig.dragCtrl = false;
+    }
+    if (!window.searchData.prefConfig.dragAlt) {
+        window.searchData.prefConfig.dragAlt = false;
+    }
+    if (!window.searchData.prefConfig.dragShift) {
+        window.searchData.prefConfig.dragShift = false;
+    }
+    if (!window.searchData.prefConfig.dragMeta) {
+        window.searchData.prefConfig.dragMeta = false;
+    }
     const [state, setState] = React.useState(
         window.searchData.prefConfig
     );
@@ -985,6 +997,38 @@ export default function General() {
                                     <Switch checked={state.dragToSearch} onChange={handleCheckChange} name="dragToSearch" />
                                 }
                                 label={window.i18n('dragToSearchTips')}
+                            />
+                        </FormControl>
+                        <FormControl sx={{ m: 1, minWidth: 80 }}>
+                            <FormControlLabel
+                                control={
+                                    <Switch checked={state.dragCtrl} onChange={handleCheckChange} name="dragCtrl" />
+                                }
+                                label={window.i18n('ctrlKey')}
+                            />
+                        </FormControl>
+                        <FormControl sx={{ m: 1, minWidth: 80 }}>
+                            <FormControlLabel
+                                control={
+                                    <Switch checked={state.dragAlt} onChange={handleCheckChange} name="dragAlt" />
+                                }
+                                label={window.i18n('altKey')}
+                            />
+                        </FormControl>
+                        <FormControl sx={{ m: 1, minWidth: 80 }}>
+                            <FormControlLabel
+                                control={
+                                    <Switch checked={state.dragShift} onChange={handleCheckChange} name="dragShift" />
+                                }
+                                label={window.i18n('shiftKey')}
+                            />
+                        </FormControl>
+                        <FormControl sx={{ m: 1, minWidth: 80 }}>
+                            <FormControlLabel
+                                control={
+                                    <Switch checked={state.dragMeta} onChange={handleCheckChange} name="dragMeta" />
+                                }
+                                label={window.i18n('metaKey')}
                             />
                         </FormControl>
                     </Box>
