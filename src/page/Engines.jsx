@@ -286,7 +286,7 @@ function TypeEdit(props) {
                         value={typeData.shortcut}
                         inputProps={{ readOnly: 'readonly' }}
                         onKeyDown={e => {
-                            setTypeData({...typeData, shortcut: (e.key === 'Escape' || e.key === 'Backspace') ? '' : e.key});
+                            setTypeData({...typeData, shortcut: (e.key === 'Escape' || e.key === 'Backspace') ? '' : (e.code || e.key)});
                         }}
                     />
                     <Box sx={{flexGrow: 1, display: 'flex', flexWrap: 'wrap'}}>
@@ -1018,7 +1018,7 @@ class SitesList extends React.Component {
                                 inputProps={{ readOnly: 'readonly' }}
                                 onKeyDown={e => {
                                     this.setState(prevState => ({
-                                        currentSite: {...this.state.currentSite, shortcut: (e.key === 'Escape' || e.key === 'Backspace') ? '' : e.key}
+                                        currentSite: {...this.state.currentSite, shortcut: (e.key === 'Escape' || e.key === 'Backspace') ? '' : (e.code || e.key)}
                                     }));
                                 }}
                             />
