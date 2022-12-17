@@ -836,7 +836,7 @@ export default function General() {
                             onKeyDown={(event) => {
                                 event.stopPropagation();
                                 event.preventDefault();
-                                let newValue = (event.key === 'Escape' || event.key === 'Backspace') ? '' : event.key;
+                                let newValue = (event.key === 'Escape' || event.key === 'Backspace') ? '' : (event.code || event.key);
                                 var newPref = {
                                     ...state,
                                     shortcutKey: newValue
@@ -891,7 +891,7 @@ export default function General() {
                             onKeyDown={(event) => {
                                 event.stopPropagation();
                                 event.preventDefault();
-                                let newValue = (event.key === 'Escape' || event.key === 'Backspace') ? '' : event.key;
+                                let newValue = (event.key === 'Escape' || event.key === 'Backspace') ? '' : (event.code || event.key);
                                 var newPref = {
                                     ...state,
                                     showAllShortcutKey: newValue
