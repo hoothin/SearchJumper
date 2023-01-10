@@ -52,6 +52,9 @@ export default function General() {
     if (!window.searchData.prefConfig.historyLength) {
         window.searchData.prefConfig.historyLength = 0;
     }
+    if (!window.searchData.prefConfig.limitPopupLen) {
+        window.searchData.prefConfig.limitPopupLen = 1;
+    }
     if (!window.searchData.prefConfig.sortType) {
         window.searchData.prefConfig.sortType = false;
     }
@@ -755,6 +758,38 @@ export default function General() {
                     />
                 </Box>
                 <Box sx={state.enableInPage?{}:{ display: 'none' }}>
+                    <Typography gutterBottom component="div">
+                        <h4>{window.i18n('limitPopupLen')}</h4>
+                    </Typography>
+                    <Box
+                        sx={{ flexGrow: 1, display: 'flex', width: '100%', flexWrap: 'wrap' }}
+                    >
+                        <TextField
+                            sx={{ width: 70, margin: '8px' }}
+                            label={"Length"}
+                            inputProps={{ inputMode: 'numeric', type:'number', pattern: '[0-9]*' }}
+                            value={state.limitPopupLen}
+                            onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
+                                let newValue = parseInt(event.target.value);
+                                if (newValue < 0) {
+                                    newValue = 0;
+                                }
+                                if (newValue > 100) {
+                                    newValue = 100;
+                                }
+                                var newPref = {
+                                    ...state,
+                                    limitPopupLen: newValue
+                                };
+                                setState(newPref);
+                                window.searchData.prefConfig = newPref;
+                                saveConfigToScript();
+                            }}
+                        />
+                        <Typography gutterBottom component="div" sx={{ marginTop: '20px' }}>
+                            {window.i18n('limitPopupLenTips')}
+                        </Typography>
+                    </Box>
                     <Typography gutterBottom component="div">
                         <h4>{window.i18n('bindFunctionKey')}</h4>
                     </Typography>
