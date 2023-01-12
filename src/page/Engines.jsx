@@ -882,6 +882,7 @@ class SitesList extends React.Component {
                             type="text"
                             fullWidth
                             multiline
+                            maxRows={5}
                             variant="standard"
                             value={this.state.currentSite.url}
                             onChange={e => {
@@ -901,6 +902,7 @@ class SitesList extends React.Component {
                             type="text"
                             fullWidth
                             multiline
+                            maxRows={5}
                             variant="standard"
                             value={this.state.currentSite.icon}
                             onChange={e => {
