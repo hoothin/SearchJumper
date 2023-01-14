@@ -71,16 +71,16 @@ code {
 }
 
 .selectTxt .site-icon:nth-child(-n+6) {
-  background: #f3533a30!important;
+  background: #f3533a10!important;
 }
 .selectImg .site-icon:nth-child(-n+6) {
-  background: #fa9f4230!important;
+  background: #fa9f4210!important;
 }
 .selectLink .site-icon:nth-child(-n+6) {
-  background: #8ad87930!important;
+  background: #8ad87910!important;
 }
 .selectPage .site-icon:nth-child(-n+6) {
-  background: #5acfc930!important;
+  background: #5acfc910!important;
 }
 
 .hideIcon>i,.hideIcon>div {
