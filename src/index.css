@@ -83,6 +83,10 @@ code {
   background: #5acfc930!important;
 }
 
+.hideIcon>i,.hideIcon>div {
+  opacity: 0.3;
+}
+
 span.selectTxt,
 span.selectImg,
 span.selectLink,

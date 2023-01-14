@@ -43,6 +43,8 @@ import SearchIcon from '@mui/icons-material/Search';
 import InputAdornment from '@mui/material/InputAdornment';
 import FileUploadIcon from '@mui/icons-material/FileUpload';
 import { createClient } from "webdav";
+import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
+import VisibilityIcon from '@mui/icons-material/Visibility';
 
 async function saveToWebdav() {
     if (!window.searchData.webdavConfig) return;
@@ -80,24 +82,52 @@ function TypeEdit(props) {
         setTypeData(props.data);
     }, [props.data])
 
-    function closeTypeEdit(update) {
+    function closeTypeEdit(update, forceData) {
         if (update) {
-            if (!typeData.type) return props.handleAlertOpen(window.i18n('errorNoType'));
+            let targetData = forceData || typeData;
+            if (!targetData.type) return props.handleAlertOpen(window.i18n('errorNoType'));
             for (let i = 0; i < window.searchData.sitesConfig.length; i++) {
                 let type = window.searchData.sitesConfig[i];
                 if (type.type === props.data.type) continue;
-                if (type.type === typeData.type) {
+                if (type.type === targetData.type) {
                     return props.handleAlertOpen(window.i18n('errorSameType'));
                 }
             }
-            props.changeType(typeData);
+            props.changeType(targetData);
         }
         props.closeHandler();
     }
 
     return (
         <Dialog open={props.typeOpen} onClose={() => {closeTypeEdit(false)}}>
-            <DialogTitle>{window.i18n(typeData.type === '' ? 'addType' : 'editType')}</DialogTitle>
+            <DialogTitle
+              sx={{display: 'flex', alignItems: 'center'}}
+            >
+              {window.i18n(typeData.type === '' ? 'addType' : 'editType')}
+              {typeData.match === '0' ?
+                  <Button
+                    sx={{padding: '0 10px', cursor: 'pointer'}}
+                    title={window.i18n('showIcon')}
+                    onClick={e => {
+                        closeTypeEdit(true, { ...typeData, match:'' });
+                    }}
+                  >
+                    <VisibilityIcon/>
+                  </Button>
+                  :
+                  <Button
+                    sx={{padding: '0 10px', cursor: 'pointer'}}
+                    title={window.i18n('hideIcon')}
+                    onClick={e => {
+                        closeTypeEdit(true, { ...typeData, match:'0' });
+                    }}
+                  >
+                    <VisibilityOffIcon/>
+                  </Button>
+              }
+            </DialogTitle>
+
+            
             <DialogContent>
                 <TextField
                     autoFocus
@@ -420,7 +450,7 @@ class ChildSiteIcons extends React.Component {
                             }}
                             checked={this.props.checkeds[i]}
                         />
-                        <IconButton sx={{fontSize: '1rem', flexDirection: 'column'}} draggable='true' onDrop={e => {this.props.changeSitePos(site, e);}} onDragStart={e => {e.dataTransfer.setData("data", JSON.stringify(site));}} onDragOver={e => {e.preventDefault()}} key={site.name} title={site.name}  onClick={() => { this.props.openSiteEdit(site) }}>
+                        <IconButton className={(site.match === '0' ? 'hideIcon' : '')} sx={{fontSize: '1rem', flexDirection: 'column'}} draggable='true' onDrop={e => {this.props.changeSitePos(site, e);}} onDragStart={e => {e.dataTransfer.setData("data", JSON.stringify(site));}} onDragOver={e => {e.preventDefault()}} key={site.name} title={site.name}  onClick={() => { this.props.openSiteEdit(site) }}>
                             <Avatar sx={{m:1}} alt={site.name} src={(!this.props.tooLong && this.getIcon(site)) || ''} />{site.name.length > 10 ? site.name.slice(0, 10) : site.name}
                         </IconButton>
                     </Box>
@@ -1572,7 +1602,8 @@ export default function Engines() {
                                 className={(selectTxt === index ? 'selectTxt ' : '') + 
                                             (selectImg === index ? 'selectImg ' : '') +
                                             (selectLink === index ? 'selectLink ' : '') +
-                                            (selectPage === index ? 'selectPage ' : '')}
+                                            (selectPage === index ? 'selectPage ' : '') +
+                                            (data.match === '0' ? 'hideIcon' : '')}
                                 draggable='true'
                                 onDrop={e => {changeTypePos(data, e)}} 
                                 onDragStart={e => {e.dataTransfer.setData("data", JSON.stringify(data))}} 

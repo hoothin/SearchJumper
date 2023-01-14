@@ -11,7 +11,10 @@ switch (lang) {
     case 'zh-SG':
         config = {
             name: '搜索酱',
+            outOfDate: '发现新版本，点击前往更新',
             description: '详细描述',
+            showIcon: '显示图标',
+            hideIcon: '隐藏图标',
             rulesStore: '站点规则仓库',
             import: '导入配置',
             export: '导出配置',
@@ -242,7 +245,10 @@ switch (lang) {
     case 'zh-HK':
         config = {
             name: '搜尋醬',
+            outOfDate: '發現新版本，點擊前往更新',
             description: '詳細描述',
+            showIcon: '顯示圖標',
+            hideIcon: '隱藏圖標',
             rulesStore: '站點規則倉庫',
             import: '導入配置',
             export: '導出配置',
@@ -472,7 +478,10 @@ switch (lang) {
     default:
         config = {
             name: 'SearchJumper',
+            outOfDate: 'The script is out of date, click to update',
             description: 'Description',
+            showIcon: 'Show icon',
+            hideIcon: 'Hide icon',
             rulesStore: 'Collection Store',
             import: 'Import config',
             export: 'Export JSON',

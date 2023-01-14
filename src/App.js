@@ -24,6 +24,8 @@ import FindInPage from './page/FindInPage.jsx';
 import Link from '@mui/material/Link';
 import { createClient } from "webdav";
 
+const version = "1.6.6.54.8";
+
 interface TabPanelProps {
   children?: React.ReactNode;
   index: number;
@@ -117,6 +119,7 @@ export default function App() {
     window.addEventListener('message',function(e){
       if (e.data.command === 'loadConfig') {
         window.searchData = e.data.searchData;
+        window.version = e.data.version;
         var receivedMessage = new Event('received');
         document.dispatchEvent(receivedMessage);
         setInited(true);
@@ -158,7 +161,15 @@ export default function App() {
               <Avatar alt="SearchJumper" component={Paper} elevation={5} src={logo}/>
             </Link>
           </ListItemAvatar>
-          <ListItemText primary={window.i18n('name')} secondary="Ver 0.91" />
+          <ListItemText 
+            primary={window.i18n('name')} 
+            secondary={"Ver " + (window.version || "1.0")} 
+            sx={{cursor: 'pointer'}}
+            onClick={()=>window.open("https://greasyfork.org/scripts/445274-searchjumper/code/SearchJumper.user.js")}
+            secondaryTypographyProps={inited && window.version !== version ? {
+              sx:{color: 'red'},
+              title:window.i18n('outOfDate')
+            } : {}}/>
         </ListItem>
         <Divider component="li" variant="inset" sx={{marginRight: 3}}/>
         <ListItem sx={{flexFlow: 'column'}}>
