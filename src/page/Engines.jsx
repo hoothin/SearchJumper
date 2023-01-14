@@ -451,7 +451,7 @@ class ChildSiteIcons extends React.Component {
                             checked={this.props.checkeds[i]}
                         />
                         <IconButton className={(site.match === '0' ? 'hideIcon' : '')} sx={{fontSize: '1rem', flexDirection: 'column'}} draggable='true' onDrop={e => {this.props.changeSitePos(site, e);}} onDragStart={e => {e.dataTransfer.setData("data", JSON.stringify(site));}} onDragOver={e => {e.preventDefault()}} key={site.name} title={site.name}  onClick={() => { this.props.openSiteEdit(site) }}>
-                            <Avatar sx={{m:1}} alt={site.name} src={(!this.props.tooLong && this.getIcon(site)) || ''} />{site.name.length > 10 ? site.name.slice(0, 10) : site.name}
+                            <Avatar sx={{m:1}} alt={site.name} src={(!this.props.tooLong && this.getIcon(site)) || site.name} />{site.name.length > 10 ? site.name.slice(0, 10) : site.name}
                         </IconButton>
                     </Box>
                 ))}
