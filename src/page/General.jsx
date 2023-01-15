@@ -799,6 +799,24 @@ export default function General() {
                         <h4>{window.i18n('callInputKey')}</h4>
                     </Typography>
                     <Box>
+                        <TextField
+                            label={window.i18n('shortcut')}
+                            type="text"
+                            value={state.shortcutKey}
+                            inputProps={{ readOnly: 'readonly' }}
+                            onKeyDown={(event) => {
+                                event.stopPropagation();
+                                event.preventDefault();
+                                let newValue = (event.key === 'Escape' || event.key === 'Backspace') ? '' : (event.code || event.key);
+                                var newPref = {
+                                    ...state,
+                                    shortcutKey: newValue
+                                };
+                                setState(newPref);
+                                window.searchData.prefConfig = newPref;
+                                saveConfigToScript();
+                            }}
+                        />
                         <FormControl sx={{ m: 1, minWidth: 80 }}>
                             <FormControlLabel
                                 control={
@@ -831,10 +849,15 @@ export default function General() {
                                 label={window.i18n('metaKey')}
                             />
                         </FormControl>
+                    </Box>
+                    <Typography gutterBottom component="div">
+                        <h4>{window.i18n('showAllKey')}</h4>
+                    </Typography>
+                    <Box>
                         <TextField
                             label={window.i18n('shortcut')}
                             type="text"
-                            value={state.shortcutKey}
+                            value={state.showAllShortcutKey}
                             inputProps={{ readOnly: 'readonly' }}
                             onKeyDown={(event) => {
                                 event.stopPropagation();
@@ -842,18 +865,13 @@ export default function General() {
                                 let newValue = (event.key === 'Escape' || event.key === 'Backspace') ? '' : (event.code || event.key);
                                 var newPref = {
                                     ...state,
-                                    shortcutKey: newValue
+                                    showAllShortcutKey: newValue
                                 };
                                 setState(newPref);
                                 window.searchData.prefConfig = newPref;
                                 saveConfigToScript();
                             }}
                         />
-                    </Box>
-                    <Typography gutterBottom component="div">
-                        <h4>{window.i18n('showAllKey')}</h4>
-                    </Typography>
-                    <Box>
                         <FormControl sx={{ m: 1, minWidth: 80 }}>
                             <FormControlLabel
                                 control={
@@ -886,24 +904,6 @@ export default function General() {
                                 label={window.i18n('metaKey')}
                             />
                         </FormControl>
-                        <TextField
-                            label={window.i18n('shortcut')}
-                            type="text"
-                            value={state.showAllShortcutKey}
-                            inputProps={{ readOnly: 'readonly' }}
-                            onKeyDown={(event) => {
-                                event.stopPropagation();
-                                event.preventDefault();
-                                let newValue = (event.key === 'Escape' || event.key === 'Backspace') ? '' : (event.code || event.key);
-                                var newPref = {
-                                    ...state,
-                                    showAllShortcutKey: newValue
-                                };
-                                setState(newPref);
-                                window.searchData.prefConfig = newPref;
-                                saveConfigToScript();
-                            }}
-                        />
                     </Box>
                     <Box sx={{ flexGrow: 1, display: 'flex'}}>
                         <Box>
@@ -1034,38 +1034,40 @@ export default function General() {
                                 label={window.i18n('dragToSearchTips')}
                             />
                         </FormControl>
-                        <FormControl sx={{ m: 1, minWidth: 80 }}>
-                            <FormControlLabel
-                                control={
-                                    <Switch checked={state.dragCtrl} onChange={handleCheckChange} name="dragCtrl" />
-                                }
-                                label={window.i18n('ctrlKey')}
-                            />
-                        </FormControl>
-                        <FormControl sx={{ m: 1, minWidth: 80 }}>
-                            <FormControlLabel
-                                control={
-                                    <Switch checked={state.dragAlt} onChange={handleCheckChange} name="dragAlt" />
-                                }
-                                label={window.i18n('altKey')}
-                            />
-                        </FormControl>
-                        <FormControl sx={{ m: 1, minWidth: 80 }}>
-                            <FormControlLabel
-                                control={
-                                    <Switch checked={state.dragShift} onChange={handleCheckChange} name="dragShift" />
-                                }
-                                label={window.i18n('shiftKey')}
-                            />
-                        </FormControl>
-                        <FormControl sx={{ m: 1, minWidth: 80 }}>
-                            <FormControlLabel
-                                control={
-                                    <Switch checked={state.dragMeta} onChange={handleCheckChange} name="dragMeta" />
-                                }
-                                label={window.i18n('metaKey')}
-                            />
-                        </FormControl>
+                        <Box>
+                            <FormControl sx={{ m: 1, minWidth: 80 }}>
+                                <FormControlLabel
+                                    control={
+                                        <Switch checked={state.dragCtrl} onChange={handleCheckChange} name="dragCtrl" />
+                                    }
+                                    label={window.i18n('ctrlKey')}
+                                />
+                            </FormControl>
+                            <FormControl sx={{ m: 1, minWidth: 80 }}>
+                                <FormControlLabel
+                                    control={
+                                        <Switch checked={state.dragAlt} onChange={handleCheckChange} name="dragAlt" />
+                                    }
+                                    label={window.i18n('altKey')}
+                                />
+                            </FormControl>
+                            <FormControl sx={{ m: 1, minWidth: 80 }}>
+                                <FormControlLabel
+                                    control={
+                                        <Switch checked={state.dragShift} onChange={handleCheckChange} name="dragShift" />
+                                    }
+                                    label={window.i18n('shiftKey')}
+                                />
+                            </FormControl>
+                            <FormControl sx={{ m: 1, minWidth: 80 }}>
+                                <FormControlLabel
+                                    control={
+                                        <Switch checked={state.dragMeta} onChange={handleCheckChange} name="dragMeta" />
+                                    }
+                                    label={window.i18n('metaKey')}
+                                />
+                            </FormControl>
+                        </Box>
                     </Box>
                     <Typography gutterBottom component="div">
                         <h4>{window.i18n('hideDragHistory')}</h4>
