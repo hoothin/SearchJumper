@@ -1,14 +1,14 @@
 ---
 name: Share Engine rules
 about: Share your rules for search engines
-title: ''
-labels: ''
+title: 'My Engine rules'
+labels: 'Sites Rule'
 assignees: ''
 
 ---
 
-<pre>
 Paste rules here as:
+<pre>
 [
   {
     "type": "Image",
