@@ -2,7 +2,7 @@
 name: Seek help
 about: Seek help for site rule
 title: 'Seek help for rule of xxx.com'
-labels: 'Seek Help'
+labels: 'Seek help'
 assignees: ''
 
 ---
