@@ -1,7 +1,7 @@
 ---
-name: Share Engine rules
+name: Share engine rules
 about: Share your rules for search engines
-title: 'My Engine rules'
+title: 'My engine rules'
 labels: 'Sites Rule'
 assignees: ''
 
