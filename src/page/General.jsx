@@ -411,6 +411,21 @@ export default function General() {
             </Paper>
             <Paper elevation={5} sx={{ padding: '20px', marginTop: '20px' }}>
                 <Typography gutterBottom component="div">
+                    <h4>{window.i18n('shiftLastUsedType')}</h4>
+                </Typography>
+                <Box>
+                    <FormControl sx={{ m: 1, minWidth: 80 }}>
+                        <FormControlLabel
+                            control={
+                                <Switch checked={state.shiftLastUsedType} onChange={handleCheckChange} name="shiftLastUsedType" />
+                            }
+                            label={window.i18n('shiftLastUsedTypeTips')}
+                        />
+                    </FormControl>
+                </Box>
+            </Paper>
+            <Paper elevation={5} sx={{ padding: '20px', marginTop: '20px' }}>
+                <Typography gutterBottom component="div">
                     <h4>{window.i18n('sortType')}</h4>
                 </Typography>
                 <Box>
