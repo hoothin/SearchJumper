@@ -85,6 +85,9 @@ export default function General() {
     if (!window.searchData.prefConfig.dragMeta) {
         window.searchData.prefConfig.dragMeta = false;
     }
+    if (typeof window.searchData.prefConfig.shiftLastUsedType === "undefined") {
+        window.searchData.prefConfig.shiftLastUsedType = true;
+    }
     const [state, setState] = React.useState(
         window.searchData.prefConfig
     );
