@@ -1385,6 +1385,8 @@ export default function Engines() {
       createData('["siteName1","siteName2"]', window.i18n('param_group')),
       createData('%input{tips}', window.i18n('param_input')),
       createData('%element{}', window.i18n('param_ele')),
+      createData('%date', window.i18n('param_date1')),
+      createData('%date{}', window.i18n('param_date2')),
       createData('%element{}.prop()', window.i18n('param_elep')),
       createData('%element{}.replace()', window.i18n('param_elere')),
       createData('c:', window.i18n('param_cp'))
