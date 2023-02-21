@@ -34,6 +34,7 @@ jobs:
         node-version: ${{ matrix.node-version }}
         cache: 'npm'
     - run: npm install
+    - run: npx update-browserslist-db@latest
     - run: CI=false && npm run build
     - name: Deploy 🚀 # 部署
       id: 'deploy'
