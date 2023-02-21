@@ -24,7 +24,7 @@ import FindInPage from './page/FindInPage.jsx';
 import Link from '@mui/material/Link';
 import { createClient } from "webdav";
 
-const version = "1.6.6.54.23";
+const version = "1.6.6.55.1";
 
 interface TabPanelProps {
   children?: React.ReactNode;
