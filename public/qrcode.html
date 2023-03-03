@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>SearchJumper QRCode</title>
+    <link rel="icon" href="./favicon.ico">
+    <script src="./qrcode.js"></script>
+    <style type="text/css">
+        body {
+            background: #3c3c3c;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0;
+            padding: 0;
+            width: 100vw;
+            height: 100vh;
+        }
+        .qrWindow {
+            text-align: center;
+            background: white;
+            border-radius: 15px;
+            padding: 16px 24px;
+            width: 100%;
+            max-width: 400px;
+            box-sizing: border-box;
+            transition: transform 300ms;
+            will-change: transform;
+            background-color: #121212;
+            box-shadow: 2px 6px 5px 3px rgb(0 0 0 / 14%), 0 1px 10px 0 rgb(0 0 0 / 12%), 0 2px 4px -1px;
+        }
+        .qrWindow>a {
+            font-size: 30px;
+            font-weight: bold;
+            color: white;
+            font-family: system-ui;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+        .qrWindow>a:hover {
+            color: #03a9f4;
+        }
+        #qrcode {
+            width: 240px;
+            height: 240px;
+            margin: 10px auto;
+            padding: 5px;
+            background-color: white;
+        }
+        .textarea {
+            box-sizing: border-box;
+            border: none;
+            outline: none;
+            padding: 16px 24px;
+            border-radius: 20px;
+            margin: 25px 0 8px 0;
+            font-size: 14px;
+            font-family: inherit;
+            background: #f1f3f4;
+            display: block;
+            overflow: auto;
+            resize: none;
+            min-height: 40px;
+            line-height: 16px;
+            max-height: 300px;
+            width: 100%;
+            color: #eee;
+            background-color: #333;
+        }
+    </style>
+</head>
+<body>
+    <div class="qrWindow">
+        <a target="_blank" href="https://hoothin.github.io/SearchJumper/">SearchJumper</a>
+        <div id="qrcode"></div>
+        <input type="text" id="urlInput" class="textarea" style="width:100%" autocomplete="off" autofocus contenteditable>
+    </div>
+    <script type="text/javascript">
+        let qrcode = new QRCode(document.getElementById("qrcode"), {
+            width: 240,
+            height: 240
+        });
+        let qrwords = "SearchJumper";
+        if (location.hash) {
+            let hash = location.hash.slice(1);
+            if (hash) {
+                try {
+                    hash = decodeURIComponent(hash);
+                    qrwords = hash;
+                } catch (e) {}
+            }
+        }
+        let text = document.querySelector('#urlInput');
+        function makeCode() {
+            qrcode.makeCode(text.value);
+        }
+        text.value = qrwords;
+        text.addEventListener('input', _ => makeCode());
+        makeCode();
+    </script>
+</body>
+</html>
