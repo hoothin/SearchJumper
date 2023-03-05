@@ -85,6 +85,9 @@ export default function General() {
     if (!window.searchData.prefConfig.dragMeta) {
         window.searchData.prefConfig.dragMeta = false;
     }
+    if (!window.searchData.prefConfig.suggestType) {
+        window.searchData.prefConfig.suggestType = "google";
+    }
     if (typeof window.searchData.prefConfig.shiftLastUsedType === "undefined") {
         window.searchData.prefConfig.shiftLastUsedType = true;
     }
@@ -921,6 +924,32 @@ export default function General() {
                                 }
                                 label={window.i18n('metaKey')}
                             />
+                        </FormControl>
+                    </Box>
+                    <Typography gutterBottom component="div">
+                        <h4>{window.i18n('suggestType')}</h4>
+                    </Typography>
+                    <Box>
+                        <FormControl sx={{ m: 1, minWidth: 80 }}>
+                            <InputLabel>source</InputLabel>
+                            <Select
+                                value={state.suggestType}
+                                onChange={(event: SelectChangeEvent) => {
+                                    var newPref = {
+                                        ...state,
+                                        suggestType: event.target.value
+                                    };
+                                    setState(newPref);
+                                    window.searchData.prefConfig = newPref;
+                                    saveConfigToScript();
+                                }}
+                                autoWidth
+                                label={window.i18n('suggestType')}
+                            >
+                                <MenuItem value='google'>Google</MenuItem>
+                                <MenuItem value='bing'>Bing</MenuItem>
+                                <MenuItem value='baidu'>Baidu</MenuItem>
+                            </Select>
                         </FormControl>
                     </Box>
                     <Box sx={{ flexGrow: 1, display: 'flex'}}>
