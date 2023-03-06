@@ -1364,12 +1364,10 @@ function createData(
 export default function Engines() {
     const rows = [
       createData('%s', window.i18n('param_s')),
-      createData('%S', window.i18n('param_S')),
       createData('%sl', window.i18n('param_sl')),
       createData('%su', window.i18n('param_su')),
       createData('%sr', window.i18n('param_sr')),
-      createData('%e', window.i18n('param_e')),
-      createData('%c', window.i18n('param_c')),
+      createData('%S', window.i18n('param_S')),
       createData('%u', window.i18n('param_u')),
       createData('%U', window.i18n('param_U')),
       createData('%h', window.i18n('param_h')),
@@ -1378,6 +1376,8 @@ export default function Engines() {
       createData('%b', window.i18n('param_b')),
       createData('%B', window.i18n('param_B')),
       createData('%i', window.i18n('param_i')),
+      createData('%e', window.i18n('param_e')),
+      createData('%c', window.i18n('param_c')),
       createData('%s.replace', window.i18n('param_sre')),
       createData('%p{params}', window.i18n('param_p1')),
       createData('%P{params}', window.i18n('param_p2')),
