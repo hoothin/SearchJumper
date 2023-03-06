@@ -23,8 +23,7 @@ import Export from './page/Export.jsx';
 import FindInPage from './page/FindInPage.jsx';
 import Link from '@mui/material/Link';
 import { createClient } from "webdav";
-
-const version = "1.6.6.55.16";
+import { version } from './Version.js';
 
 interface TabPanelProps {
   children?: React.ReactNode;
