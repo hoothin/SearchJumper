@@ -1,11 +1,11 @@
 self.__precacheManifest = [
   {
-    "revision": "46883106c2e7e6bf887d",
+    "revision": "07bc0fa73baccd9d4e46",
     "url": "./static/css/main.6ee65b8c.chunk.css"
   },
   {
-    "revision": "46883106c2e7e6bf887d",
-    "url": "./static/js/main.46883106.chunk.js"
+    "revision": "07bc0fa73baccd9d4e46",
+    "url": "./static/js/main.07bc0fa7.chunk.js"
   },
   {
     "revision": "86adbce1c7159b927c13",
@@ -112,12 +112,12 @@ self.__precacheManifest = [
     "url": "./static/media/roboto-greek-500-normal.53f395eb.woff2"
   },
   {
-    "revision": "7cda2cfee99d697daf8c14819d9004eb",
-    "url": "./static/media/roboto-vietnamese-500-normal.7cda2cfe.woff2"
-  },
-  {
     "revision": "e36fccd06262bef92e7a9841e2202225",
     "url": "./static/media/roboto-latin-ext-500-normal.e36fccd0.woff2"
+  },
+  {
+    "revision": "7cda2cfee99d697daf8c14819d9004eb",
+    "url": "./static/media/roboto-vietnamese-500-normal.7cda2cfe.woff2"
   },
   {
     "revision": "3a44e06eb954b96aa043227f3534189d",
@@ -156,7 +156,7 @@ self.__precacheManifest = [
     "url": "./static/media/roboto-latin-700-normal.e9f5aaf5.woff2"
   },
   {
-    "revision": "0894e900a68cea9477414b2c7d3646b1",
+    "revision": "a23165965fd910591b259d98e8090ab4",
     "url": "./index.html"
   }
 ];
