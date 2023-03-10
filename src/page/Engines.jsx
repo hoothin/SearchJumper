@@ -1389,7 +1389,7 @@ export default function Engines() {
       createData('%date{}', window.i18n('param_date2')),
       createData('%element{}.prop()', window.i18n('param_elep')),
       createData('%element{}.replace()', window.i18n('param_elere')),
-      createData('c:', window.i18n('param_cp'))
+      createData('copy:', window.i18n('param_cp'))
     ];
     let selectTxt = -1, selectImg = -1, selectLink = -1, selectPage = -1;
     for (let i = 0; i < window.searchData.sitesConfig.length; i++) {
