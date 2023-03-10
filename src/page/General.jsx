@@ -968,6 +968,7 @@ export default function General() {
                                 <MenuItem value='google'>Google</MenuItem>
                                 <MenuItem value='bing'>Bing</MenuItem>
                                 <MenuItem value='baidu'>Baidu</MenuItem>
+                                <MenuItem value='disable'>Disable</MenuItem>
                             </Select>
                         </FormControl>
                     </Box>
