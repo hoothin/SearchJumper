@@ -45,6 +45,7 @@ import FileUploadIcon from '@mui/icons-material/FileUpload';
 import { createClient } from "webdav";
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 import VisibilityIcon from '@mui/icons-material/Visibility';
+import AspectRatioIcon from '@mui/icons-material/AspectRatio';
 
 async function saveToWebdav() {
     if (!window.searchData.webdavConfig) return;
@@ -1392,7 +1393,7 @@ export default function Engines() {
       createData('%element{}.replace()', window.i18n('param_elere')),
       createData('copy:', window.i18n('param_cp'))
     ];
-    let selectTxt = -1, selectImg = -1, selectLink = -1, selectPage = -1;
+    let selectTxt = -1, selectImg = -1, selectLink = -1, selectPage = -1, filterDataListTimer, filterHighlightTimer;
     for (let i = 0; i < window.searchData.sitesConfig.length; i++) {
         let site = window.searchData.sitesConfig[i];
         if (site.match || (site.selectTxt && site.selectImg && site.selectAudio && site.selectVideo && site.selectLink && site.selectPage)) continue;
@@ -1613,7 +1614,7 @@ export default function Engines() {
                 <h2 style={{padding:'5px'}}>{window.i18n('searchEngines')}</h2>
             </Paper>
             <Box sx={{ borderBottom: 1, borderColor: 'divider', flexGrow: 1, display: 'flex' }}>
-                <Tabs value={value} onChange={handleChange} aria-label="types" variant="scrollable" scrollButtons="auto">
+                <Tabs value={value} onChange={handleChange} aria-label="types" variant="scrollable" scrollButtons allowScrollButtonsMobile>
                     {
                         window.searchData.sitesConfig.map((data, index) =>
                             <Tab  
@@ -1641,9 +1642,18 @@ export default function Engines() {
                         )
                     }
                 </Tabs>
-                <IconButton color="primary" onClick={() => {openTypeEdit(false)}}>
-                    <AddCircleOutlineIcon sx={{fontSize: '30px'}}/>
-                </IconButton>
+                <Box>
+                    <IconButton color="primary" sx={{mt: '8px'}} onClick={() => {openTypeEdit(false)}}>
+                        <AddCircleOutlineIcon sx={{fontSize: '30px'}}/>
+                    </IconButton>
+                    <IconButton color="primary" onClick={(e) => {
+                        let scrollCon = e.currentTarget.parentNode.parentNode;
+                        scrollCon.classList.toggle('unfold');
+                        scrollCon.querySelector(".MuiTabs-scroller").scrollLeft += 1;
+                    }}>
+                        <AspectRatioIcon sx={{fontSize: '30px'}}/>
+                    </IconButton>
+                </Box>
             </Box>
             {window.searchData.sitesConfig.map((data, index) =>
                 <TabPanel
@@ -1696,6 +1706,76 @@ export default function Engines() {
                 >
                     {window.i18n('targetImg')}
                 </span>
+                <input placeholder={window.i18n('filterEngine')} className={'filterEngine'} list="filterlist"
+                    onChange={e => {
+                        clearTimeout(filterDataListTimer);
+                        clearTimeout(filterHighlightTimer);
+                        filterDataListTimer = setTimeout(() => {
+                            let list = e.target.list;
+                            let inputWord = e.target.value, inputWordLc;
+                            list.innerHTML = "";
+                            if (inputWord) inputWordLc = inputWord.toLowerCase();
+                            else return;
+                            window.searchData.sitesConfig.every((data, index) => {
+                                return data.sites.every((site, i) => {
+                                    if (site.name.toLowerCase().indexOf(inputWordLc) !== -1) {
+                                        if (site.name !== inputWord) {
+                                            let option = document.createElement('option');
+                                            option.value = site.name;
+                                            list.appendChild(option);
+                                        }
+                                    } else if (site.url.indexOf(inputWordLc) !== -1) {
+                                        if (site.url !== inputWord) {
+                                            let option = document.createElement('option');
+                                            option.value = site.url;
+                                            list.appendChild(option);
+                                        }
+                                    }
+                                    return list.children.length < 10;
+                                });
+                            });
+                        }, 500);
+                    }}
+                    onKeyDown={e => {
+                        if (e.key === 'Enter' && e.target.value) {
+                            let filterEngine = document.querySelector('.site-icon.filter');
+                            if (filterEngine) {
+                                filterEngine.classList.remove('filter');
+                            }
+                            clearTimeout(filterDataListTimer);
+                            clearTimeout(filterHighlightTimer);
+                            let inputWord = e.target.value;
+                            if (!inputWord) return true;
+                            let list = e.target.list;
+                            let filterEngineName = "";
+                            let typeIndex = window.searchData.sitesConfig.findIndex((data, index) => {
+                                return data.sites.findIndex((site, i) => {
+                                    if (site.name === inputWord || site.url === inputWord) {
+                                        filterEngineName = site.name;
+                                        return true;
+                                    }
+                                    return false;
+                                }) > -1;
+                            });
+                            if (typeIndex > -1) {
+                                setValue(typeIndex);
+                                if (list) list.innerHTML = "";
+                                filterHighlightTimer = setInterval(() => {
+                                    [].every.call(document.querySelectorAll(".site-icon"), icon => {
+                                        if (icon.childNodes[1].childNodes[1].data === filterEngineName) {
+                                            icon.classList.add("filter");
+                                            icon.scrollIntoView({ behavior: "smooth", block: "nearest", inline: "nearest" });
+                                            clearTimeout(filterHighlightTimer);
+                                            return false;
+                                        }
+                                        return true;
+                                    });
+                                }, 500);
+                            }
+                        }
+                    }}
+                />
+                <datalist id="filterlist"></datalist>
                 <span
                     className={'selectLink'}
                     onClick={() => {

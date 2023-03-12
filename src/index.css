@@ -132,3 +132,33 @@ span.selectPage {
 .selectTxt.selectImg.selectLink.selectPage>i {
   background: linear-gradient(45deg, #f3533a 0%, #f3533a 25%, #fa9f42 25%, #fa9f42 50%, #8ad879 50%, #8ad879 75%, #5acfc9 75%, #5acfc9 100%)!important;
 }
+.unfold .MuiTabs-indicator,
+.unfold .MuiTabs-scrollButtons {
+  display: none;
+}
+.unfold .MuiTabs-flexContainer {
+  flex-wrap: wrap;
+}
+.unfold .Mui-selected {
+  background: aliceblue;
+}
+input.filterEngine {
+  width: 80px;
+  height: 30px;
+  margin: 0 10px;
+  padding: 0 10px;
+  border-radius: 5px;
+  font-size: large;
+  border: none;
+  box-shadow: 0px 3px 5px -1px rgb(0 0 0 / 20%), 0px 5px 8px 0px rgb(0 0 0 / 14%), 0px 1px 5px 0px rgb(0 0 0 / 12%);
+  transition: width 0.3s ease;
+}
+input.filterEngine:focus,
+input.filterEngine:focus-visible {
+  border: none;
+  outline: none;
+  width: 40%;
+}
+#root .site-icon.filter {
+  background: aliceblue!important;
+}
