@@ -920,6 +920,7 @@ class SitesList extends React.Component {
                         </DialogContentText>
                         <Accordion>
                             <AccordionSummary
+                              sx={{background: '#a8a8a820'}}
                               expandIcon={<ExpandMoreIcon />}>
                               <Typography align="center" sx={{width: '100%'}}>{window.i18n('moreOptions')}</Typography>
                             </AccordionSummary>
