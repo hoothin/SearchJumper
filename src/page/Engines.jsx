@@ -1681,31 +1681,7 @@ export default function Engines() {
                   {alertBody.alertContent}
                 </MuiAlert>
             </Snackbar>
-            <Paper sx={{ mt:2, pt: 1, pb: 2, boxShadow: 'unset', textAlign:'center', borderRadius:'3px', overflow: 'auto', whiteSpace: 'nowrap' }}>
-                <span
-                    className={'selectTxt'}
-                    onClick={() => {
-                        let selectTxt = document.body.querySelector('.selectTxt');
-                        if (selectTxt) {
-                            selectTxt.scrollIntoView(false);
-                            selectTxt.click();
-                        }
-                    }}
-                >
-                    {window.i18n('targetTxt')}
-                </span>
-                <span
-                    className={'selectImg'}
-                    onClick={() => {
-                        let selectImg = document.body.querySelector('.selectImg');
-                        if (selectImg) {
-                            selectImg.scrollIntoView(false);
-                            selectImg.click();
-                        }
-                    }}
-                >
-                    {window.i18n('targetImg')}
-                </span>
+            <Box sx={{ mt:1, textAlign:'center' }}>
                 <input placeholder={window.i18n('filterEngine')} className={'filterEngine'} list="filterlist"
                     onChange={e => {
                         clearTimeout(filterDataListTimer);
@@ -1717,6 +1693,13 @@ export default function Engines() {
                             if (inputWord) inputWordLc = inputWord.toLowerCase();
                             else return;
                             window.searchData.sitesConfig.every((data, index) => {
+                                if (data.type.toLowerCase().indexOf(inputWordLc) !== -1) {
+                                    if (`【${window.i18n('category')}】` + data.type !== inputWord) {
+                                        let option = document.createElement('option');
+                                        option.value = `【${window.i18n('category')}】` + data.type;
+                                        list.appendChild(option);
+                                    }
+                                }
                                 return data.sites.every((site, i) => {
                                     if (site.name.toLowerCase().indexOf(inputWordLc) !== -1) {
                                         if (site.name !== inputWord) {
@@ -1748,7 +1731,13 @@ export default function Engines() {
                             if (!inputWord) return true;
                             let list = e.target.list;
                             let filterEngineName = "";
+                            let filterGroup = false;
+                            if (inputWord.indexOf(`【${window.i18n('category')}】`) === 0) {
+                                filterGroup = true;
+                                inputWord = inputWord.replace(`【${window.i18n('category')}】`, '');
+                            }
                             let typeIndex = window.searchData.sitesConfig.findIndex((data, index) => {
+                                if (filterGroup) return inputWord === data.type;
                                 return data.sites.findIndex((site, i) => {
                                     if (site.name === inputWord || site.url === inputWord) {
                                         filterEngineName = site.name;
@@ -1760,6 +1749,7 @@ export default function Engines() {
                             if (typeIndex > -1) {
                                 setValue(typeIndex);
                                 if (list) list.innerHTML = "";
+                                if (filterGroup) return e.target.value = '';
                                 filterHighlightTimer = setInterval(() => {
                                     [].every.call(document.querySelectorAll(".site-icon"), icon => {
                                         if (icon.childNodes[1].childNodes[1].data === filterEngineName) {
@@ -1776,6 +1766,32 @@ export default function Engines() {
                     }}
                 />
                 <datalist id="filterlist"></datalist>
+            </Box>
+            <Paper sx={{ mt:2, pt: 1, pb: 2, boxShadow: 'unset', textAlign:'center', borderRadius:'3px', overflow: 'auto', whiteSpace: 'nowrap' }}>
+                <span
+                    className={'selectTxt'}
+                    onClick={() => {
+                        let selectTxt = document.body.querySelector('.selectTxt');
+                        if (selectTxt) {
+                            selectTxt.scrollIntoView(false);
+                            selectTxt.click();
+                        }
+                    }}
+                >
+                    {window.i18n('targetTxt')}
+                </span>
+                <span
+                    className={'selectImg'}
+                    onClick={() => {
+                        let selectImg = document.body.querySelector('.selectImg');
+                        if (selectImg) {
+                            selectImg.scrollIntoView(false);
+                            selectImg.click();
+                        }
+                    }}
+                >
+                    {window.i18n('targetImg')}
+                </span>
                 <span
                     className={'selectLink'}
                     onClick={() => {

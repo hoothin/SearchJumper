@@ -143,7 +143,7 @@ span.selectPage {
   background: aliceblue;
 }
 input.filterEngine {
-  width: 80px;
+  width: 100px;
   height: 30px;
   margin: 0 10px;
   padding: 0 10px;
@@ -157,7 +157,7 @@ input.filterEngine:focus,
 input.filterEngine:focus-visible {
   border: none;
   outline: none;
-  width: 40%;
+  width: 90%;
 }
 #root .site-icon.filter {
   background: aliceblue!important;
