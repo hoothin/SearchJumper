@@ -1765,6 +1765,7 @@ export default function Engines() {
                         }
                     }}
                 />
+                <SearchIcon/>
                 <datalist id="filterlist"></datalist>
             </Box>
             <Paper sx={{ mt:2, pt: 1, pb: 2, boxShadow: 'unset', textAlign:'center', borderRadius:'3px', overflow: 'auto', whiteSpace: 'nowrap' }}>
