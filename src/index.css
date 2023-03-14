@@ -169,3 +169,21 @@ input.filterEngine+svg {
 #root .site-icon.filter {
   background: aliceblue!important;
 }
+#dragTargetLine {
+  height: 80px;
+  width: 2px;
+  background: #c0def9;
+  position: absolute;
+  display: none;
+  pointer-events: none;
+}
+#dragTargetLine::after {
+  content: "";
+  width: 0;
+  height: 0;
+  display: block;
+  margin-left: -7px;
+  border-width: 8px;
+  border-style: solid;
+  border-color: #f3533a transparent transparent transparent;
+}

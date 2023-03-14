@@ -188,6 +188,7 @@ function TypeEdit(props) {
                 </DialogContentText>
                 <Accordion>
                     <AccordionSummary
+                      sx={{background: '#d1d1d120', minHeight: '45px!important', maxHeight: '45px!important'}}
                       expandIcon={<ExpandMoreIcon />}>
                       <Typography align="center" sx={{width: '100%'}}>{window.i18n('moreOptions')}</Typography>
                     </AccordionSummary>
@@ -417,6 +418,14 @@ function TypeEdit(props) {
     );
 }
 
+var dragTargetLine;
+function hideDragLine() {
+    if (!dragTargetLine) dragTargetLine = document.querySelector(`#dragTargetLine`);
+    if (dragTargetLine) {
+        dragTargetLine.style.display = "";
+    }
+}
+
 class ChildSiteIcons extends React.Component {
     shouldComponentUpdate(nextProps, nextState){
         return nextProps.sites !== this.props.sites || nextProps.checkeds.length !== this.checkeds.length || !nextProps.checkeds.every((value, index) => value === this.checkeds[index]);
@@ -447,6 +456,19 @@ class ChildSiteIcons extends React.Component {
         return "";
     }
 
+    dragOver(e) {
+        e.preventDefault();
+        if (!dragTargetLine) dragTargetLine = document.querySelector(`#dragTargetLine`);
+        if (dragTargetLine) {
+            dragTargetLine.style.display = "block";
+            let target = e.currentTarget;
+            target.parentNode.parentNode.appendChild(dragTargetLine);
+            let isRight = e.clientX > getOffsetLeft(target) + target.offsetWidth / 2;
+            dragTargetLine.style.top = target.offsetTop + "px";
+            dragTargetLine.style.left = (isRight ? target.offsetLeft + target.offsetWidth : target.offsetLeft) + "px";
+        }
+    }
+
     render() {
         this.checkeds = [...this.props.checkeds];
         return (
@@ -459,11 +481,12 @@ class ChildSiteIcons extends React.Component {
                             }}
                             checked={this.props.checkeds[i]}
                         />
-                        <IconButton className={(site.match === '0' ? 'hideIcon' : '')} sx={{fontSize: '1rem', flexDirection: 'column'}} draggable='true' onDrop={e => {this.props.changeSitePos(site, e);}} onDragStart={e => {e.dataTransfer.setData("data", JSON.stringify(site));}} onDragOver={e => {e.preventDefault()}} key={site.name} title={site.name}  onClick={() => { this.props.openSiteEdit(site) }}>
+                        <IconButton className={(site.match === '0' ? 'hideIcon' : '')} sx={{fontSize: '1rem', flexDirection: 'column'}} draggable='true' onDragLeave={e => {hideDragLine()}} onDrop={e => {hideDragLine();this.props.changeSitePos(site, e);}} onDragStart={e => {e.dataTransfer.setData("data", JSON.stringify(site));}} onDragOver={e => this.dragOver(e)} key={site.name} title={site.name}  onClick={() => { this.props.openSiteEdit(site) }}>
                             <Avatar sx={{m:1}} alt={site.name} src={(!this.props.tooLong && this.getIcon(site)) || ''} >{/^[\s\w]{2}/.test(site.name) ? site.name.slice(0, 2) : Array.from(site.name)[0]}</Avatar>{site.name.length > 10 ? site.name.slice(0, 10) : site.name}
                         </IconButton>
                     </Box>
                 ))}
+                <div id="dragTargetLine"/>
                 <IconButton color="primary" key='addType' onClick={() => { this.props.openSiteEdit(false); }}>
                     <AddCircleOutlineIcon sx={{fontSize: '50px'}} />
                 </IconButton>
@@ -529,6 +552,9 @@ class SitesList extends React.Component {
         }
         if (siteData.keywords) {
             obj.keywords = siteData.keywords;
+        }
+        if (siteData.kwFilter) {
+            obj.kwFilter = siteData.kwFilter;
         }
         if (siteData.description) {
             obj.description = siteData.description;
@@ -702,7 +728,7 @@ class SitesList extends React.Component {
         })
         for (let i in newSites) {
             if (newSites[i].url === targetSite.url) {
-                newSites.splice((isRight ? i + 1 : i), 0, dragSite);
+                newSites.splice(parseInt(i) + (isRight ? 1 : 0), 0, dragSite);
                 break;
             }
         }
@@ -921,7 +947,7 @@ class SitesList extends React.Component {
                         </DialogContentText>
                         <Accordion>
                             <AccordionSummary
-                              sx={{background: '#a8a8a820'}}
+                              sx={{background: '#d1d1d120', minHeight: '45px!important', maxHeight: '45px!important'}}
                               expandIcon={<ExpandMoreIcon />}>
                               <Typography align="center" sx={{width: '100%'}}>{window.i18n('moreOptions')}</Typography>
                             </AccordionSummary>
@@ -1004,6 +1030,24 @@ class SitesList extends React.Component {
                                 />
                                 <DialogContentText>
                                     {window.i18n('keywordRegTips')}
+                                </DialogContentText>
+                                <TextField
+                                    margin="dense"
+                                    id="kwFilter"
+                                    label={window.i18n('kwFilter')}
+                                    type="text"
+                                    fullWidth
+                                    variant="standard"
+                                    placeholder="\d+"
+                                    value={this.state.currentSite.kwFilter}
+                                    onChange={e => {
+                                        this.setState(prevState => ({
+                                            currentSite: {...this.state.currentSite, kwFilter: e.target.value}
+                                        }));
+                                    }}
+                                />
+                                <DialogContentText>
+                                    {window.i18n('kwFilterTips')}
                                 </DialogContentText>
                                 <TextField
                                     margin="dense"
@@ -1311,6 +1355,7 @@ function siteObject(obj) {
         url: obj.url || '',
         icon: obj.icon || '',
         keywords: obj.keywords || '',
+        kwFilter: obj.kwFilter || '',
         description: obj.description || '',
         match: obj.match || '',
         charset: obj.charset || '',
@@ -1565,6 +1610,7 @@ export default function Engines() {
     };
 
     const changeTypePos = (targetType, event) => {
+        hideDragLine();
         let dragType;
         try {
             dragType = JSON.parse(event.dataTransfer.getData("data"));
@@ -1608,6 +1654,20 @@ export default function Engines() {
         setRefresh(true);
     };
 
+
+    const dragOver = e => {
+        e.preventDefault();
+        if (!dragTargetLine) dragTargetLine = document.querySelector(`#dragTargetLine`);
+        if (dragTargetLine) {
+            dragTargetLine.style.display = "block";
+            let target = e.currentTarget;
+            target.parentNode.parentNode.appendChild(dragTargetLine);
+            let isRight = e.clientX > getOffsetLeft(target) + target.offsetWidth / 2;
+            dragTargetLine.style.top = target.offsetTop + "px";
+            dragTargetLine.style.left = (isRight ? target.offsetLeft + target.offsetWidth : target.offsetLeft) + "px";
+        }
+    };
+
     return (
         <Box sx={{pb: 3}}>
             <Paper elevation={5} sx={{textAlign:'center', borderRadius:'10px'}}>
@@ -1627,7 +1687,8 @@ export default function Engines() {
                                 draggable='true'
                                 onDrop={e => {changeTypePos(data, e)}} 
                                 onDragStart={e => {e.dataTransfer.setData("data", JSON.stringify(data))}} 
-                                onDragOver={e => {e.preventDefault()}} 
+                                onDragOver={e => {dragOver(e)}} 
+                                onDragLeave={e => {hideDragLine()}}
                                 icon={
                                     /^(http|data:)/.test(data.icon)?(
                                         <img alt={data.type} src={data.icon} style={{m:1, background: 'darkgray', borderRadius: '35px', width: '65px', padding: '15px', boxSizing: 'border-box'}} />
@@ -1820,6 +1881,7 @@ export default function Engines() {
             </Paper>
             <Accordion defaultExpanded={true} sx={{ boxShadow: 5, maxHeight: '60vh', overflow: 'auto' }}>
                 <AccordionSummary
+                  sx={{background: '#d1d1d120', minHeight: '45px!important', maxHeight: '45px!important'}}
                   expandIcon={<ExpandMoreIcon />}
                   aria-controls="panel1a-content"
                   id="panel1a-header"
