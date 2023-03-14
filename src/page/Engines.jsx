@@ -1038,7 +1038,7 @@ class SitesList extends React.Component {
                                     type="text"
                                     fullWidth
                                     variant="standard"
-                                    placeholder="\d+"
+                                    placeholder="^\d+$"
                                     value={this.state.currentSite.kwFilter}
                                     onChange={e => {
                                         this.setState(prevState => ({
@@ -1056,7 +1056,7 @@ class SitesList extends React.Component {
                                     type="text"
                                     fullWidth
                                     variant="standard"
-                                    placeholder="(www|m)\.google\.com"
+                                    placeholder="\.google\.(com|co.jp)"
                                     value={this.state.currentSite.match}
                                     onChange={e => {
                                         this.setState(prevState => ({
