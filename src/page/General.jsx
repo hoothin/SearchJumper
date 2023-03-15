@@ -962,7 +962,7 @@ export default function General() {
                     </Typography>
                     <Box>
                         <FormControl sx={{ m: 1, minWidth: 80 }}>
-                            <InputLabel>source</InputLabel>
+                            <InputLabel>Source</InputLabel>
                             <Select
                                 value={state.suggestType}
                                 onChange={(event: SelectChangeEvent) => {
