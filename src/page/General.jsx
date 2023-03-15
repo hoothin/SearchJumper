@@ -91,6 +91,9 @@ export default function General() {
     if (typeof window.searchData.prefConfig.shiftLastUsedType === "undefined") {
         window.searchData.prefConfig.shiftLastUsedType = true;
     }
+    if (typeof window.searchData.prefConfig.expandTypeLength === "undefined") {
+        window.searchData.prefConfig.expandTypeLength = 12;
+    }
     const [state, setState] = React.useState(
         window.searchData.prefConfig
     );
@@ -493,36 +496,6 @@ export default function General() {
                 </Box>
             </Paper>
             <Paper elevation={5} sx={{ padding: '20px', marginTop: '20px' }}>
-                <Typography gutterBottom component="div">
-                    <h4>{window.i18n('altToHighlight')}</h4>
-                </Typography>
-                <Box>
-                    <FormControl sx={{ m: 1, minWidth: 80 }}>
-                        <FormControlLabel
-                            control={
-                                <Switch checked={state.altToHighlight} onChange={handleCheckChange} name="altToHighlight" />
-                            }
-                            label={window.i18n('altToHighlightTips')}
-                        />
-                    </FormControl>
-                </Box>
-            </Paper>
-            <Paper elevation={5} sx={{ padding: '20px', marginTop: '20px' }}>
-                <Typography gutterBottom component="div">
-                    <h4>{window.i18n('defaultPicker')}</h4>
-                </Typography>
-                <Box>
-                    <FormControl sx={{ m: 1, minWidth: 80 }}>
-                        <FormControlLabel
-                            control={
-                                <Switch checked={state.defaultPicker} onChange={handleCheckChange} name="defaultPicker" />
-                            }
-                            label={window.i18n('defaultPickerTips')}
-                        />
-                    </FormControl>
-                </Box>
-            </Paper>
-            <Paper elevation={5} sx={{ padding: '20px', marginTop: '20px' }}>
                 <Box sx={{ flexGrow: 1, display: 'flex'}}>
                     <Box>
                         <Typography gutterBottom component="div">
@@ -600,18 +573,54 @@ export default function General() {
                 </Box>
             </Paper>
             <Paper elevation={5} sx={{ padding: '20px', marginTop: '20px' }}>
-                <Typography gutterBottom component="div">
-                    <h4>{window.i18n('expandType')}</h4>
-                </Typography>
-                <Box>
-                    <FormControl sx={{ m: 1, minWidth: 80 }}>
-                        <FormControlLabel
-                            control={
-                                <Switch checked={state.expandType} onChange={handleCheckChange} name="expandType" />
-                            }
-                            label={window.i18n('expandTypeTips')}
-                        />
-                    </FormControl>
+                <Box sx={{ flexGrow: 1, display: 'flex'}}>
+                    <Box>
+                        <Typography gutterBottom component="div">
+                            <h4>{window.i18n('expandType')}</h4>
+                        </Typography>
+                        <FormControl sx={{ m: 1, minWidth: 80 }}>
+                            <FormControlLabel
+                                control={
+                                    <Switch checked={state.expandType} onChange={handleCheckChange} name="expandType" />
+                                }
+                                label={window.i18n('expandTypeTips')}
+                            />
+                        </FormControl>
+                    </Box>
+                    <Box>
+                        <Typography gutterBottom component="div">
+                            <h4>{window.i18n('expandTypeLength')}</h4>
+                        </Typography>
+                        <Box
+                            sx={{ flexGrow: 1, display: 'flex', width: '100%', flexWrap: 'wrap' }}
+                        >
+                            <TextField
+                                sx={{ width: 70, margin: '8px' }}
+                                label={"Number"}
+                                inputProps={{ inputMode: 'numeric', type:'number', pattern: '[0-9]*' }}
+                                value={state.expandTypeLength}
+                                onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
+                                    let newValue = parseInt(event.target.value);
+                                    if (newValue < 1) {
+                                        newValue = 1;
+                                    }
+                                    if (newValue > 100) {
+                                        newValue = 100;
+                                    }
+                                    var newPref = {
+                                        ...state,
+                                        expandTypeLength: newValue
+                                    };
+                                    setState(newPref);
+                                    window.searchData.prefConfig = newPref;
+                                    saveConfigToScript();
+                                }}
+                            />
+                            <Typography gutterBottom component="div" sx={{ marginTop: '20px' }}>
+                                {window.i18n('expandTypeLengthTips')}
+                            </Typography>
+                        </Box>
+                    </Box>
                 </Box>
             </Paper>
             <Paper elevation={5} sx={{ padding: '20px', marginTop: '20px' }}>
@@ -760,6 +769,9 @@ export default function General() {
                         </FormControl>
                     </Box>
                 </Box>
+            </Paper>
+            <Paper elevation={5} sx={{textAlign:'center', borderRadius:'10px', mt: 5}}>
+                <h2 style={{padding:'5px'}}>{window.i18n('customSearch')}</h2>
             </Paper>
             <Paper elevation={5} sx={{ padding: '20px', marginTop: '20px' }}>
                 <Typography gutterBottom component="div">
@@ -971,6 +983,34 @@ export default function General() {
                                 <MenuItem value='disable'>Disable</MenuItem>
                             </Select>
                         </FormControl>
+                    </Box>
+                    <Box sx={{ flexGrow: 1, display: 'flex'}}>
+                        <Box>
+                            <Typography gutterBottom component="div">
+                                <h4>{window.i18n('altToHighlight')}</h4>
+                            </Typography>
+                            <FormControl sx={{ m: 1, minWidth: 80 }}>
+                                <FormControlLabel
+                                    control={
+                                        <Switch checked={state.altToHighlight} onChange={handleCheckChange} name="altToHighlight" />
+                                    }
+                                    label={window.i18n('altToHighlightTips')}
+                                />
+                            </FormControl>
+                        </Box>
+                        <Box>
+                            <Typography gutterBottom component="div">
+                                <h4>{window.i18n('defaultPicker')}</h4>
+                            </Typography>
+                            <FormControl sx={{ m: 1, minWidth: 80 }}>
+                                <FormControlLabel
+                                    control={
+                                        <Switch checked={state.defaultPicker} onChange={handleCheckChange} name="defaultPicker" />
+                                    }
+                                    label={window.i18n('defaultPickerTips')}
+                                />
+                            </FormControl>
+                        </Box>
                     </Box>
                     <Box sx={{ flexGrow: 1, display: 'flex'}}>
                         <Box>
