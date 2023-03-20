@@ -144,27 +144,40 @@ span.selectPage {
 }
 input.filterEngine {
   width: 115px;
-  height: 30px;
-  margin: 0 10px;
-  padding: 0 20px;
-  border-radius: 5px;
-  font-size: large;
+  height: 37.5px;
+  margin: 2px 10px;
   border: none;
-  box-shadow: 0px 3px 5px -1px rgb(0 0 0 / 20%), 0px 5px 8px 0px rgb(0 0 0 / 14%), 0px 1px 5px 0px rgb(0 0 0 / 12%);
-  transition: width 0.3s ease;
+  font-family: "Roboto","Helvetica","Arial",sans-serif;
+  font-weight: 500;
+  font-size: 0.875rem;
+  padding: 6px 16px;
+  box-sizing: border-box;
+  line-height: 1.75;
+  letter-spacing: 0.02857em;
+  border-radius: 4px;
+  box-shadow: 0px 3px 1px -2px rgba(0,0,0,0.2), 0px 2px 2px 0px rgba(0,0,0,0.14), 0px 1px 5px 0px rgba(0,0,0,0.12);
+  transition: width 0.3s ease, background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,border-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+}
+input.filterEngine:hover {
+  box-shadow: 0px 2px 4px -1px rgba(0,0,0,0.2), 0px 4px 5px 0px rgba(0,0,0,0.14), 0px 1px 10px 0px rgba(0,0,0,0.12);
 }
 input.filterEngine:focus,
 input.filterEngine:focus-visible {
   border: none;
   outline: none;
   width: 90%;
+  box-shadow: 0px 3px 5px -1px rgb(0 0 0 / 20%), 0px 5px 8px 0px rgb(0 0 0 / 14%), 0px 1px 5px 0px rgb(0 0 0 / 12%);
+}
+input.filterEngine:focus~button,
+input.filterEngine:focus-visible~button {
+  display: none;
 }
 input.filterEngine+svg {
   position: absolute;
   margin-left: -35px;
   color: #757575;
   font-size: 20px;
-  height: 30px;
+  height: 43px;
 }
 #root .site-icon.filter {
   background: aliceblue!important;
@@ -186,4 +199,37 @@ input.filterEngine+svg {
   border-width: 8px;
   border-style: solid;
   border-color: #f3533a transparent transparent transparent;
+}
+#verifyResultList {
+  width: 100%;
+  display: table;
+  border-collapse: collapse;
+  border-spacing: 0;
+  table-layout: fixed;
+}
+#verifyResultList > tr > td {
+  max-width: 100%;
+  font-family: "Roboto","Helvetica","Arial",sans-serif;
+  font-weight: 400;
+  font-size: 0.875rem;
+  line-height: 1.43;
+  letter-spacing: 0.01071em;
+  display: table-cell;
+  vertical-align: inherit;
+  border-bottom: 1px solid rgba(224, 224, 224, 1);
+  text-align: left;
+  padding: 16px;
+  color: rgba(0, 0, 0, 0.87);
+  word-wrap: break-word;
+  cursor: pointer;
+}
+#verifyResultList > tr > td:nth-child(1),
+#verifyResultList > tr > td:nth-child(3) {
+  width: 10%;
+}
+#verifyPanel {
+  display: none;
+}
+#verifyResultList.finished .okItem {
+  display: none;
 }

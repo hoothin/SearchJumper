@@ -45,7 +45,8 @@ import FileUploadIcon from '@mui/icons-material/FileUpload';
 import { createClient } from "webdav";
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 import VisibilityIcon from '@mui/icons-material/Visibility';
-import AspectRatioIcon from '@mui/icons-material/AspectRatio';
+import FullscreenIcon from '@mui/icons-material/Fullscreen';
+import DomainVerificationIcon from '@mui/icons-material/DomainVerification';
 
 async function saveToWebdav() {
     if (!window.searchData.webdavConfig) return;
@@ -1408,6 +1409,72 @@ function createData(
   return { param, info };
 }
 
+var verifyArray, filterDataListTimer, filterHighlightTimer, inited = false;
+
+function sendVerifyRequest() {
+    if (!verifyArray || !verifyArray.length) {
+        let verifyResultList = document.getElementById('verifyResultList');
+        if (verifyResultList) verifyResultList.classList.add('finished');
+        let verifyStatus = document.getElementById('verifyStatus');
+        if (verifyStatus) verifyStatus.innerText = window.i18n('verifyFinish');
+        return;
+    }
+    let item = verifyArray.shift();
+    if (item) {
+        var saveMessage = new CustomEvent('verifyUrl', {
+            detail: {
+                url: item.url.replace(/#.*/, '').replace(/%p.*/, '').replace(/%s[lure]?\b(\.replace\(.*?\))*/g, 'searchJumper').replace(/%[ut]\b/, 'https://google.com'),
+                name: item.name
+            }
+        });
+        document.dispatchEvent(saveMessage);
+    } else {
+        return;
+    }
+}
+
+function forwordToSite(inputWord) {
+    let filterEngine = document.querySelector('.site-icon.filter');
+    if (filterEngine) {
+        filterEngine.classList.remove('filter');
+    }
+    clearTimeout(filterDataListTimer);
+    clearTimeout(filterHighlightTimer);
+    if (!inputWord) return true;
+    let filterEngineName = "";
+    let filterGroup = false;
+    if (inputWord.indexOf(`【${window.i18n('category')}】`) === 0) {
+        filterGroup = true;
+        inputWord = inputWord.replace(`【${window.i18n('category')}】`, '');
+    }
+    let typeIndex = window.searchData.sitesConfig.findIndex((data, index) => {
+        if (filterGroup) return inputWord === data.type;
+        return data.sites.findIndex((site, i) => {
+            if (site.name === inputWord || site.url === inputWord) {
+                filterEngineName = site.name;
+                return true;
+            }
+            return false;
+        }) > -1;
+    });
+    if (typeIndex > -1) {
+        if (filterGroup) return typeIndex;
+        filterHighlightTimer = setInterval(() => {
+            [].every.call(document.querySelectorAll(".site-icon"), icon => {
+                if (icon.childNodes[1].childNodes[1].data === filterEngineName) {
+                    icon.classList.add("filter");
+                    icon.scrollIntoView({ behavior: "smooth", block: "nearest", inline: "nearest" });
+                    clearTimeout(filterHighlightTimer);
+                    return false;
+                }
+                return true;
+            });
+        }, 500);
+        return typeIndex;
+    }
+    return false;
+}
+
 export default function Engines() {
     const rows = [
       createData('%s', window.i18n('param_s')),
@@ -1438,7 +1505,7 @@ export default function Engines() {
       createData('%element{}.replace()', window.i18n('param_elere')),
       createData('copy:', window.i18n('param_cp'))
     ];
-    let selectTxt = -1, selectImg = -1, selectLink = -1, selectPage = -1, filterDataListTimer, filterHighlightTimer;
+    let selectTxt = -1, selectImg = -1, selectLink = -1, selectPage = -1;
     for (let i = 0; i < window.searchData.sitesConfig.length; i++) {
         let site = window.searchData.sitesConfig[i];
         if (site.match || (site.selectTxt && site.selectImg && site.selectAudio && site.selectVideo && site.selectLink && site.selectPage)) continue;
@@ -1467,9 +1534,69 @@ export default function Engines() {
     const [refresh, setRefresh] = React.useState(false);
      
     React.useEffect(() => {
+        if (inited) return;
+        inited = true;
         window.addEventListener('message',function(e){
           if (e.data.command === 'refresh') {
             setRefresh(true);
+          } else if (e.data.command === 'verifyResult') {
+            let verifyResultList = document.body.querySelector('#verifyResultList');
+            if (!verifyResultList) return;
+            let verifyItem = document.createElement('tr');
+            let statusStr = '';
+            switch(e.data.status) {
+                case 200:
+                    statusStr = 'OK';
+                    break;
+                case 300:
+                    statusStr = 'Multiple Choices';
+                    break;
+                case 301:
+                    statusStr = 'Moved Permanently';
+                    break;
+                case 304:
+                    statusStr = 'Not Modified';
+                    break;
+                case 400:
+                    statusStr = 'Bad Request';
+                    break;
+                case 401:
+                    statusStr = 'Unauthorized';
+                    break;
+                case 403:
+                    statusStr = 'Forbidden';
+                    break;
+                case 404:
+                    statusStr = 'Not Found';
+                    break;
+                case 500:
+                    statusStr = 'Internal Server Error';
+                    break;
+                case 502:
+                    statusStr = 'Bad Gateway';
+                    break;
+                case 503:
+                    statusStr = 'Service Unavailable';
+                    break;
+                case 504:
+                    statusStr = 'Gateway Timeout';
+                    break;
+                default:
+                    break;
+            }
+            verifyItem.innerHTML = `<td>${e.data.name}</td><td><a href='${e.data.url}'>${e.data.url}</a></td><td><span title='${statusStr}'>${e.data.status}</span></td>`;
+            if (e.data.status < 300) verifyItem.classList.add('okItem');
+            verifyItem.onclick = ev => {
+                if (ev.target.tagName !== 'A') {
+                    forwordToSite(e.data.name);
+                    let typeIndex = forwordToSite(e.data.name);
+                    if (typeIndex !== false) {
+                        setValue(typeIndex);
+                    }
+                }
+            };
+            verifyResultList.appendChild(verifyItem);
+            sendVerifyRequest();
           }
         });
     }, []);
@@ -1712,7 +1839,7 @@ export default function Engines() {
                         scrollCon.classList.toggle('unfold');
                         scrollCon.querySelector(".MuiTabs-scroller").scrollLeft += 1;
                     }}>
-                        <AspectRatioIcon sx={{fontSize: '30px'}}/>
+                        <FullscreenIcon sx={{fontSize: '30px'}}/>
                     </IconButton>
                 </Box>
             </Box>
@@ -1742,7 +1869,7 @@ export default function Engines() {
                   {alertBody.alertContent}
                 </MuiAlert>
             </Snackbar>
-            <Box sx={{ mt:1, textAlign:'center' }}>
+            <Box sx={{ mt:1, textAlign:'center', whiteSpace:'nowrap'}}>
                 <input placeholder={window.i18n('filterEngine')} className={'filterEngine'} list="filterlist"
                     onChange={e => {
                         clearTimeout(filterDataListTimer);
@@ -1782,51 +1909,40 @@ export default function Engines() {
                     }}
                     onKeyDown={e => {
                         if (e.key === 'Enter' && e.target.value) {
-                            let filterEngine = document.querySelector('.site-icon.filter');
-                            if (filterEngine) {
-                                filterEngine.classList.remove('filter');
-                            }
-                            clearTimeout(filterDataListTimer);
-                            clearTimeout(filterHighlightTimer);
                             let inputWord = e.target.value;
-                            if (!inputWord) return true;
-                            let list = e.target.list;
-                            let filterEngineName = "";
-                            let filterGroup = false;
-                            if (inputWord.indexOf(`【${window.i18n('category')}】`) === 0) {
-                                filterGroup = true;
-                                inputWord = inputWord.replace(`【${window.i18n('category')}】`, '');
-                            }
-                            let typeIndex = window.searchData.sitesConfig.findIndex((data, index) => {
-                                if (filterGroup) return inputWord === data.type;
-                                return data.sites.findIndex((site, i) => {
-                                    if (site.name === inputWord || site.url === inputWord) {
-                                        filterEngineName = site.name;
-                                        return true;
-                                    }
-                                    return false;
-                                }) > -1;
-                            });
-                            if (typeIndex > -1) {
+                            let typeIndex = forwordToSite(inputWord);
+                            if (typeIndex !== false) {
                                 setValue(typeIndex);
+                                let list = e.target.list;
                                 if (list) list.innerHTML = "";
-                                if (filterGroup) return e.target.value = '';
-                                filterHighlightTimer = setInterval(() => {
-                                    [].every.call(document.querySelectorAll(".site-icon"), icon => {
-                                        if (icon.childNodes[1].childNodes[1].data === filterEngineName) {
-                                            icon.classList.add("filter");
-                                            icon.scrollIntoView({ behavior: "smooth", block: "nearest", inline: "nearest" });
-                                            clearTimeout(filterHighlightTimer);
-                                            return false;
-                                        }
-                                        return true;
-                                    });
-                                }, 500);
                             }
                         }
                     }}
                 />
                 <SearchIcon/>
+                <Button variant="contained" endIcon={<DomainVerificationIcon/>}
+                    onClick={() => {
+                        verifyArray = [];
+                        let verifyResultList = document.getElementById('verifyResultList');
+                        let verifyPanel = document.getElementById('verifyPanel');
+                        let verifyStatus = document.getElementById('verifyStatus');
+                        if (!verifyResultList || !verifyPanel || !verifyStatus || !window.searchData || !window.searchData.sitesConfig) return;
+                        verifyPanel.style.display = 'block';
+                        verifyResultList.classList.remove('finished');
+                        verifyResultList.innerHTML = '';
+                        verifyStatus.innerText = window.i18n('verifying');
+                        window.searchData.sitesConfig.forEach(data => {
+                            data.sites.forEach(site => {
+                                if (/^https?:\/\//.test(site.url)) {
+                                    verifyArray.push(site);
+                                }
+                            });
+                        });
+                        for (var i = 0; i < 5; i++) {
+                            sendVerifyRequest();
+                        }
+                    }}
+                >{window.i18n('verifyBtn')}</Button>
                 <datalist id="filterlist"></datalist>
             </Box>
             <Paper sx={{ mt:2, pt: 1, pb: 2, boxShadow: 'unset', textAlign:'center', borderRadius:'3px', overflow: 'auto', whiteSpace: 'nowrap' }}>
@@ -1879,6 +1995,19 @@ export default function Engines() {
                     {window.i18n('targetPage')}
                 </span>
             </Paper>
+            <Accordion id='verifyPanel' defaultExpanded={true} sx={{ boxShadow: 5, maxHeight: '60vh', overflow: 'auto' }}>
+                <AccordionSummary
+                  sx={{background: '#d1d1d120', minHeight: '45px!important', maxHeight: '45px!important'}}
+                  expandIcon={<ExpandMoreIcon />}
+                  aria-controls="panel1a-content"
+                  id="panel1a-header"
+                >
+                  <Typography sx={{display: 'block', width: '100%', textAlign: 'center', fontSize: '1.3em', fontWeight: 'bold'}}>{window.i18n("verifyResult")}<span style={{marginLeft: '10px'}} id='verifyStatus'></span></Typography>
+                </AccordionSummary>
+                <AccordionDetails>
+                    <table><tbody id='verifyResultList'></tbody></table>
+                </AccordionDetails>
+            </Accordion>
             <Accordion defaultExpanded={true} sx={{ boxShadow: 5, maxHeight: '60vh', overflow: 'auto' }}>
                 <AccordionSummary
                   sx={{background: '#d1d1d120', minHeight: '45px!important', maxHeight: '45px!important'}}

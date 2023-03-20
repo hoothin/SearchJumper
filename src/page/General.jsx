@@ -82,6 +82,9 @@ export default function General() {
     if (!window.searchData.prefConfig.dragShift) {
         window.searchData.prefConfig.dragShift = false;
     }
+    if (!window.searchData.prefConfig.alwaysShow) {
+        window.searchData.prefConfig.alwaysShow = false;
+    }
     if (!window.searchData.prefConfig.dragMeta) {
         window.searchData.prefConfig.dragMeta = false;
     }
@@ -192,15 +195,7 @@ export default function General() {
                             saveConfigToScript();
                         }}
                     />
-                    <FormControl sx={{ m: 1, minWidth: 80, width: '100%', mb: '20px' }}>
-                        <FormControlLabel
-                            control={
-                                <Switch checked={state.initShow} onChange={handleCheckChange} name="initShow" />
-                            }
-                            label={window.i18n('initShow')}
-                            labelPlacement="end"
-                        />
-                    </FormControl>
+                    
 
                     <Box
                       sx={{ flexGrow: 1, bgcolor: 'background.paper', display: 'flex', width: '100%', flexWrap: 'wrap' }}
@@ -271,6 +266,40 @@ export default function General() {
                                 saveConfigToScript();
                             }}
                         />
+                    </Box>
+                </Box>
+            </Paper>
+            <Paper elevation={5} sx={{ padding: '20px', marginTop: '20px' }}>
+                <Box
+                    sx={{ flexGrow: 1, display: 'flex', width: '100%', flexWrap: 'wrap' }}
+                >
+                    <Box>
+                        <Typography gutterBottom component="div">
+                            <h4>{window.i18n('initShow')}</h4>
+                        </Typography>
+                        <FormControl sx={{ m: 1, minWidth: 80, width: '100%', mb: '20px' }}>
+                            <FormControlLabel
+                                control={
+                                    <Switch checked={state.initShow} onChange={handleCheckChange} name="initShow" />
+                                }
+                                label={window.i18n('initShowTips')}
+                                labelPlacement="end"
+                            />
+                        </FormControl>
+                    </Box>
+                    <Box>
+                        <Typography gutterBottom component="div">
+                            <h4>{window.i18n('alwaysShow')}</h4>
+                        </Typography>
+                        <FormControl sx={{ m: 1, minWidth: 80, width: '100%', mb: '20px' }}>
+                            <FormControlLabel
+                                control={
+                                    <Switch checked={state.alwaysShow} onChange={handleCheckChange} name="alwaysShow" />
+                                }
+                                label={window.i18n('alwaysShowTips')}
+                                labelPlacement="end"
+                            />
+                        </FormControl>
                     </Box>
                 </Box>
             </Paper>

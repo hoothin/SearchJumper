@@ -164,7 +164,7 @@ export default function App() {
             primary={window.i18n('name')} 
             secondary={"Ver " + (window.version || "1.0")} 
             sx={{cursor: 'pointer'}}
-            onClick={()=>window.open("https://greasyfork.org/scripts/445274-searchjumper/code/SearchJumper.user.js")}
+            onClick={e => {inited && window.version !== version && window.open("https://greasyfork.org/scripts/445274-searchjumper/code/SearchJumper.user.js")}}
             secondaryTypographyProps={inited && window.version !== version ? {
               sx:{color: 'red'},
               title:window.i18n('outOfDate')
