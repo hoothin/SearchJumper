@@ -1997,7 +1997,7 @@ export default function Engines() {
             </Paper>
             <Accordion id='verifyPanel' defaultExpanded={true} sx={{ boxShadow: 5, maxHeight: '60vh', overflow: 'auto' }}>
                 <AccordionSummary
-                  sx={{background: '#d1d1d120', minHeight: '45px!important', maxHeight: '45px!important'}}
+                  sx={{background: '#f9f9f9', position: 'sticky', top: 0, minHeight: '45px!important', maxHeight: '45px!important'}}
                   expandIcon={<ExpandMoreIcon />}
                   aria-controls="panel1a-content"
                   id="panel1a-header"
@@ -2010,7 +2010,7 @@ export default function Engines() {
             </Accordion>
             <Accordion defaultExpanded={true} sx={{ boxShadow: 5, maxHeight: '60vh', overflow: 'auto' }}>
                 <AccordionSummary
-                  sx={{background: '#d1d1d120', minHeight: '45px!important', maxHeight: '45px!important'}}
+                  sx={{background: '#f9f9f9', position: 'sticky', top: 0, minHeight: '45px!important', maxHeight: '45px!important'}}
                   expandIcon={<ExpandMoreIcon />}
                   aria-controls="panel1a-content"
                   id="panel1a-header"
