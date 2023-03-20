@@ -1423,7 +1423,7 @@ function sendVerifyRequest() {
     if (item) {
         var saveMessage = new CustomEvent('verifyUrl', {
             detail: {
-                url: item.url.replace(/#.*/, '').replace(/%p.*/, '').replace(/%s[lure]?\b(\.replace\(.*?\))*/g, 'searchJumper').replace(/%[ut]\b/, 'https://google.com'),
+                url: item.url.replace(/#.*/, '').replace(/%[pn].*/, '').replace(/%s[lure]?\b(\.replace\(.*?\))*/g, 'searchJumper').replace(/%[ut]\b/i, 'https://google.com'),
                 name: item.name
             }
         });
