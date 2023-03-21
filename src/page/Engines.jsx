@@ -483,7 +483,7 @@ class ChildSiteIcons extends React.Component {
                             checked={this.props.checkeds[i]}
                         />
                         <IconButton className={(site.match === '0' ? 'hideIcon' : '')} sx={{fontSize: '1rem', flexDirection: 'column'}} draggable='true' onDragLeave={e => {hideDragLine()}} onDrop={e => {hideDragLine();this.props.changeSitePos(site, e);}} onDragStart={e => {e.dataTransfer.setData("data", JSON.stringify(site));}} onDragOver={e => this.dragOver(e)} key={site.name} title={site.name}  onClick={() => { this.props.openSiteEdit(site) }}>
-                            <Avatar sx={{m:1}} alt={site.name} src={(!this.props.tooLong && this.getIcon(site)) || ''} >{this.props.tooLong ? 'BM' : (/^[\s\w]{2}/.test(site.name) ? site.name.slice(0, 2) : Array.from(site.name)[0])}</Avatar>{this.props.tooLong ? site.name.slice(0, 5) : (site.name.length > 10 ? site.name.slice(0, 10) : site.name)}
+                            <Avatar sx={{m:1}} alt={site.name} src={(!this.props.tooLong && this.getIcon(site)) || ''} >{this.props.tooLong ? 'SE' : (/^[\s\w]{2}/.test(site.name) ? site.name.slice(0, 2) : Array.from(site.name)[0])}</Avatar>{this.props.tooLong ? site.name.slice(0, 5) : (site.name.length > 10 ? site.name.slice(0, 10) : site.name)}
                         </IconButton>
                     </Box>
                 ))}
