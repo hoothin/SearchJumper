@@ -488,40 +488,57 @@ export default function Export() {
             catch (e) {
                 console.log('parse error');
             }
-            let curSites = [];
-            let bookmarks = [];
-            [].forEach.call(doc.querySelectorAll("a"), item => {
-                for(let i = 0; i < bookmarks.length; i++) {
-                    if (item.href === bookmarks[i].url) return;
-                }
-                let site = {name: item.innerText || ("bookmark_" + bookmarks.length), url: item.href};
-                let icon = item.getAttribute("ICON");
-                if (icon) site.icon = icon;
-                curSites.push(site);
-                if (curSites.length === 1) {
-                    bookmarks.push(curSites);
-                } else if (curSites.length >= 200) {
-                    curSites = [];
-                }
-            });
-            if (!bookmarks || bookmarks.length <= 0) return;
-            let typeName = "BM", index = 0;
-            let createNewType = typeSites => {
-                let hasType = true;
-                while (hasType) {
-                    hasType = false;
-                    for (let j = 0; j < window.searchData.sitesConfig.length; j++) {
-                        if (window.searchData.sitesConfig[j].type === typeName) {
-                            typeName = "BM_" + (++index);
-                            hasType = true;
-                            break;
-                        }
+            let bookmarks = {};
+            let bookmarkNum = 0;
+            let createNewType = typeName => {
+                typeName = "BM_" + typeName;
+                for (let j = 0; j < window.searchData.sitesConfig.length; j++) {
+                    if (window.searchData.sitesConfig[j].type === typeName) {
+                        return window.searchData.sitesConfig[j];
                     }
                 }
-                let newType = {type: typeName, description:'Bookmarks', icon: "bookmark", sites: typeSites, match: "0"}
+                let newType = {type: typeName, description:'Bookmarks', icon: "bookmark", sites: [], match: "0"};
                 window.searchData.sitesConfig.push(newType);
+                return newType;
             }
-            bookmarks.forEach(typeSites => createNewType(typeSites));
+            [].forEach.call(doc.querySelectorAll("a"), item => {
+                for(let i in bookmarks) {
+                    if (bookmarks[i].sites.find(site => {return item.href === site.url})) return;
+                }
+                for (let j = 0; j < window.searchData.sitesConfig.length; j++) {
+                    if (window.searchData.sitesConfig[j].sites.find(site => {return item.href === site.url})) return;
+                }
+                ++bookmarkNum;
+                let site = {name: (item.innerText || "bookmark") + "_" + bookmarkNum, url: item.href};
+                let icon = item.getAttribute("ICON");
+                if (icon) site.icon = icon;
+
+                let parentGroup = item;
+                let title = [];
+                while(parentGroup) {
+                  title.unshift(parentGroup.innerText);
+                  parentGroup = parentGroup.parentNode &&
+                    parentGroup.parentNode.parentNode &&
+                    parentGroup.parentNode.parentNode.previousElementSibling &&
+                    parentGroup.parentNode.parentNode.previousElementSibling.tagName.indexOf('H') === 0 &&
+                    parentGroup.parentNode.parentNode.previousElementSibling;
+                }
+                if (!title) title = 'Bookmarks';
+                else {
+                  if (title.length > 3) {
+                    site.description = title.slice(2, title.length - 1).join("_");
+                    title = title[2];
+                  } else {
+                    title = title[0];
+                  }
+                }
+                let type = bookmarks[title];
+                if (!type) {
+                  bookmarks[title] = createNewType(title);
+                }
+                bookmarks[title].sites.push(site);
+            });
+            if (!bookmarks || bookmarks === {}) return;
             editor.set({json:window.searchData.sitesConfig})
             saveConfigToScript(true);
         };
