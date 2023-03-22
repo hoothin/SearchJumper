@@ -987,6 +987,41 @@ export default function General() {
                         </FormControl>
                     </Box>
                     <Typography gutterBottom component="div">
+                        <h4>{window.i18n('enableRightMouse')}</h4>
+                    </Typography>
+                    <FormControl sx={{ m: 1, minWidth: 80 }}>
+                        <FormControlLabel
+                            control={
+                                <Switch checked={state.rightMouse} onChange={handleCheckChange} name="rightMouse" />
+                            }
+                            label={window.i18n('enableRightMouseTips')}
+                        />
+                    </FormControl>
+                    <Typography gutterBottom component="div">
+                        <h4>{window.i18n('enableLeftMouse')}</h4>
+                    </Typography>
+                    <FormControl sx={{ m: 1, minWidth: 80 }}>
+                        <FormControlLabel
+                            control={
+                                <Switch checked={state.leftMouse} onChange={handleCheckChange} name="leftMouse" />
+                            }
+                            label={window.i18n('enableLeftMouseTips')}
+                        />
+                    </FormControl>
+                    <Typography gutterBottom component="div">
+                        <h4>{window.i18n('selectToShow')}</h4>
+                    </Typography>
+                    <Box>
+                        <FormControl sx={{ m: 1, minWidth: 80 }}>
+                            <FormControlLabel
+                                control={
+                                    <Switch checked={state.selectToShow} onChange={handleCheckChange} name="selectToShow" />
+                                }
+                                label={window.i18n('selectToShowTips')}
+                            />
+                        </FormControl>
+                    </Box>
+                    <Typography gutterBottom component="div">
                         <h4>{window.i18n('suggestType')}</h4>
                     </Typography>
                     <Box>
@@ -1012,34 +1047,6 @@ export default function General() {
                                 <MenuItem value='disable'>Disable</MenuItem>
                             </Select>
                         </FormControl>
-                    </Box>
-                    <Box sx={{ flexGrow: 1, display: 'flex'}}>
-                        <Box>
-                            <Typography gutterBottom component="div">
-                                <h4>{window.i18n('altToHighlight')}</h4>
-                            </Typography>
-                            <FormControl sx={{ m: 1, minWidth: 80 }}>
-                                <FormControlLabel
-                                    control={
-                                        <Switch checked={state.altToHighlight} onChange={handleCheckChange} name="altToHighlight" />
-                                    }
-                                    label={window.i18n('altToHighlightTips')}
-                                />
-                            </FormControl>
-                        </Box>
-                        <Box>
-                            <Typography gutterBottom component="div">
-                                <h4>{window.i18n('defaultPicker')}</h4>
-                            </Typography>
-                            <FormControl sx={{ m: 1, minWidth: 80 }}>
-                                <FormControlLabel
-                                    control={
-                                        <Switch checked={state.defaultPicker} onChange={handleCheckChange} name="defaultPicker" />
-                                    }
-                                    label={window.i18n('defaultPickerTips')}
-                                />
-                            </FormControl>
-                        </Box>
                     </Box>
                     <Box sx={{ flexGrow: 1, display: 'flex'}}>
                         <Box>
@@ -1123,40 +1130,33 @@ export default function General() {
                             label={window.i18n('disableInputOnWordsTips')}
                         />
                     </FormControl>
-                    <Typography gutterBottom component="div">
-                        <h4>{window.i18n('enableRightMouse')}</h4>
-                    </Typography>
-                    <FormControl sx={{ m: 1, minWidth: 80 }}>
-                        <FormControlLabel
-                            control={
-                                <Switch checked={state.rightMouse} onChange={handleCheckChange} name="rightMouse" />
-                            }
-                            label={window.i18n('enableRightMouseTips')}
-                        />
-                    </FormControl>
-                    <Typography gutterBottom component="div">
-                        <h4>{window.i18n('enableLeftMouse')}</h4>
-                    </Typography>
-                    <FormControl sx={{ m: 1, minWidth: 80 }}>
-                        <FormControlLabel
-                            control={
-                                <Switch checked={state.leftMouse} onChange={handleCheckChange} name="leftMouse" />
-                            }
-                            label={window.i18n('enableLeftMouseTips')}
-                        />
-                    </FormControl>
-                    <Typography gutterBottom component="div">
-                        <h4>{window.i18n('selectToShow')}</h4>
-                    </Typography>
-                    <Box>
-                        <FormControl sx={{ m: 1, minWidth: 80 }}>
-                            <FormControlLabel
-                                control={
-                                    <Switch checked={state.selectToShow} onChange={handleCheckChange} name="selectToShow" />
-                                }
-                                label={window.i18n('selectToShowTips')}
-                            />
-                        </FormControl>
+                    <Box sx={{ flexGrow: 1, display: 'flex'}}>
+                        <Box>
+                            <Typography gutterBottom component="div">
+                                <h4>{window.i18n('altToHighlight')}</h4>
+                            </Typography>
+                            <FormControl sx={{ m: 1, minWidth: 80 }}>
+                                <FormControlLabel
+                                    control={
+                                        <Switch checked={state.altToHighlight} onChange={handleCheckChange} name="altToHighlight" />
+                                    }
+                                    label={window.i18n('altToHighlightTips')}
+                                />
+                            </FormControl>
+                        </Box>
+                        <Box>
+                            <Typography gutterBottom component="div">
+                                <h4>{window.i18n('defaultPicker')}</h4>
+                            </Typography>
+                            <FormControl sx={{ m: 1, minWidth: 80 }}>
+                                <FormControlLabel
+                                    control={
+                                        <Switch checked={state.defaultPicker} onChange={handleCheckChange} name="defaultPicker" />
+                                    }
+                                    label={window.i18n('defaultPickerTips')}
+                                />
+                            </FormControl>
+                        </Box>
                     </Box>
                     <Typography gutterBottom component="div">
                         <h4>{window.i18n('dragToSearch')}</h4>
