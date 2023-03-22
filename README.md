@@ -118,6 +118,7 @@ name: SearchJumper
 icon: search filled S
 url: https://hoothin.github.io/SearchJumper/all.html#***
 ```
+Select the above text, PopClip will offer an "Install Extension" action. Click it.
 
 ---
  <details>
