@@ -111,6 +111,15 @@
 | `%element{}.replace()` | replace, same as above, like %element{.mainTitle}.prop(href).replace(/https/i,"") | 🗒️ 正則替換，例如 %element{.mainTitle}.prop(href).replace(/https/i,"") |
 | `c:` | put this at first then all words after will be copied to the clipboard | 🗒️ 在開頭使用"c:"可以複製之後的所有字串 |
 
+## Popclip extension for SearchJumper
+``` yaml
+#popclip extension for SearchJumper
+name: SearchJumper
+icon: search filled S
+url: https://hoothin.github.io/SearchJumper/all.html#***
+```
+
+---
  <details>
 <summary><h2>Add search engines quickly 快速添加搜索引擎</h></summary>
 
