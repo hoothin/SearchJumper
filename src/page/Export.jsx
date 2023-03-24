@@ -338,7 +338,7 @@ function SyncEdit(props) {
                     onChange={e => {
                         setHost(e.target.value);
                     }}
-                    label="Host"
+                    label={window.i18n('host')}
                   />
                 </FormControl>
                 <FormControl fullWidth sx={{ mt: 1, mb: 1 }} variant="outlined">
@@ -351,7 +351,7 @@ function SyncEdit(props) {
                     onChange={e => {
                         setUsername(e.target.value);
                     }}
-                    label="Username"
+                    label={window.i18n('username')}
                   />
                 </FormControl>
                 <FormControl fullWidth sx={{ mt: 1, mb: 1 }} variant="outlined">
@@ -376,7 +376,7 @@ function SyncEdit(props) {
                         </IconButton>
                       </InputAdornment>
                     }
-                    label="Password"
+                    label={window.i18n('password')}
                   />
                 </FormControl>
                 <DialogContentText sx={{textAlign: 'center'}}>
