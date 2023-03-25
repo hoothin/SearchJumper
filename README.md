@@ -1,4 +1,4 @@
-# [SearchJumper](https://greasyfork.org/scripts/445274-searchjumper "搜索酱 搜尋醬 検索ちゃん Install from greasyfork")  [👆Seek more search engines](https://github.com/hoothin/SearchJumper/issues?q=label%3A%22Sites+Rule%22)
+# [SearchJumper](https://greasyfork.org/scripts/445274-searchjumper "搜索酱 搜尋醬 検索ちゃん Install from greasyfork")  [👆Share your search engines](https://github.com/hoothin/SearchJumper/issues?q=label%3A%22Sites+Rule%22)
 
 ![star](https://img.shields.io/github/stars/hoothin/SearchJumper)
 ![react-version](https://img.shields.io/badge/React.js-lastest-green.svg)
@@ -48,9 +48,9 @@
 + **`ctrl + shift`** + (left click/shortcut/drag) single site/press shortcut key to open in incognito window.
   > 按住 **`ctrl + shift`** (左鍵單擊/快捷鍵/拖拽)站點以隱身窗口打開
 + Call search bar for input words to filter sites by shortcut key when select no words, press enter to search quickly, `ctrl` + enter to search without lock.
-  > 沒有選擇文字或者圖片時通過喚出快捷鍵可喚出站點搜索框，搜索站點后按下回車可鎖定站點並輸入搜索詞，再次回車使用第一個結果搜索，ctrl+回車無需鎖定即可快捷打開，適用於靜態書簽。
+  > 沒有選擇文字或者圖片時透過喚出快捷鍵可喚出站點搜索框，搜索站點后按下回車可鎖定站點並輸入搜索詞，再次回車使用第一個結果搜索，ctrl+回車無需鎖定即可快捷打開，適用於靜態書簽。
 + Can set the category to be displayed only on the specified site through the regular rule
-  > 可以通過正則設置類別僅在指定站點顯示
+  > 可以透過正則設置類別僅在指定站點顯示
 + Right click on cute face to hide the toolbar
   > 右鍵點擊 小萌臉 徹底隱藏工具欄
 + Left click on cute face to open the configuration page
@@ -124,7 +124,7 @@ Select the above text, PopClip will offer an "Install Extension" action. Click i
  <details>
 <summary><h2>Add search engines quickly 快速添加搜索引擎</h></summary>
 
-+ Add with shortcut key on current page 通過快捷鍵快速在當前頁面添加
++ Add with shortcut key on current page 透過快捷鍵快速在當前頁面添加
 > Click search input box with `ctrl + shift` 按住 `ctrl + shift` 點擊當前頁面中的搜索輸入框即可
 
 + Search on mycroftproject.com and add  在 mycroftproject 上搜索別人編輯好的站點並點擊導入
@@ -136,7 +136,7 @@ Select the above text, PopClip will offer an "Install Extension" action. Click i
  <details>
 <summary><h2>Filter sites to search 站點篩選並搜索</h></summary>
 
-+ Call by global shortcut key, Input keywords of site name to filter sites, support glob with "?/\*" 通過全局快捷鍵喚出，輸入站點名稱的關鍵詞來篩選，支持 “?/\*” 通配符
++ Call by global shortcut key, Input keywords of site name to filter sites, support glob with "?/\*" 透過全局快捷鍵喚出，輸入站點名稱的關鍵詞來篩選，支持 “?/\*” 通配符
 + Enter to lock filter and input words to search by click icon or another press of enter 回車鎖定篩選，輸入文字并且點擊站點圖標或者再次回車來進行搜索
 
 ![i](filter.jpg)
