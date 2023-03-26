@@ -195,67 +195,23 @@ export default function General() {
                             saveConfigToScript();
                         }}
                     />
-                    
-
-                    <Box
-                      sx={{ flexGrow: 1, bgcolor: 'background.paper', display: 'flex', width: '100%', flexWrap: 'wrap' }}
-                    >
-                        <Box sx={{ width: "75%", ml: "10px", mr: "20px"}}>
-                            <Typography id="input-slider" gutterBottom>
-                                {window.i18n('customSize')}: {state.customSize}%
-                            </Typography>
-                            <Slider
-                                value={state.customSize}
-                                onChange={(event: Event, newValue: number | number[]) => {
-                                    if (newValue > 1000) {
-                                        newValue = 1000;
-                                    } else if (newValue < 10) {
-                                        newValue = 10;
-                                    }
-                                    var newPref = {
-                                        ...state,
-                                        customSize: newValue
-                                    };
-                                    setState(newPref);
-                                    window.searchData.prefConfig = newPref;
-                                    saveConfigToScript();
-                                }}
-                                sx={{mt:"-8px"}}
-                                aria-labelledby="input-slider"
-                                min={50}
-                                max={1000}
-                                step={10}
-                                valueLabelDisplay="auto"
-                                marks={[{
-                                    value: 100,
-                                    label: '100%',
-                                },{
-                                    value: 1000,
-                                    label: '1000%',
-                                }]}
-                            />
-                        </Box>
-                        <TextField
-                            sx={{ m: 1, minWidth: 100, width: "15%"}}
-                            label={window.i18n('customSize')}
-                            InputProps={{
-                                inputMode: 'numeric', type:'number', pattern: '[0-9]*',
-                                endAdornment: <InputAdornment position="end">%</InputAdornment>
-                            }}
+                </Box>
+            </Paper>
+            <Paper elevation={5} sx={{ padding: '20px', marginTop: '20px' }}>
+                <Typography gutterBottom  component="div">
+                    <h4>{window.i18n('customSize')}: {state.customSize}%</h4>
+                </Typography>
+                <Box
+                  sx={{ flexGrow: 1, bgcolor: 'background.paper', display: 'flex', width: '100%', flexWrap: 'wrap' }}
+                >
+                    <Box sx={{ width: "75%", ml: "10px", mr: "20px", mt: "15px"}}>
+                        <Slider
                             value={state.customSize}
-                            onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
-                                var newPref = {
-                                    ...state,
-                                    customSize: event.target.value
-                                };
-                                setState(newPref);
-                            }}
-                            onBlur={e => {
-                                let newValue = parseInt(e.target.value);
+                            onChange={(event: Event, newValue: number | number[]) => {
                                 if (newValue > 1000) {
                                     newValue = 1000;
-                                } else if (newValue < 50) {
-                                    newValue = 50;
+                                } else if (newValue < 10) {
+                                    newValue = 10;
                                 }
                                 var newPref = {
                                     ...state,
@@ -265,8 +221,52 @@ export default function General() {
                                 window.searchData.prefConfig = newPref;
                                 saveConfigToScript();
                             }}
+                            sx={{mt:"-8px"}}
+                            aria-labelledby="input-slider"
+                            min={50}
+                            max={1000}
+                            step={10}
+                            valueLabelDisplay="auto"
+                            marks={[{
+                                value: 100,
+                                label: '100%',
+                            },{
+                                value: 1000,
+                                label: '1000%',
+                            }]}
                         />
                     </Box>
+                    <TextField
+                        sx={{ m: 1, minWidth: 100, width: "15%"}}
+                        label={window.i18n('customSize')}
+                        InputProps={{
+                            inputMode: 'numeric', type:'number', pattern: '[0-9]*',
+                            endAdornment: <InputAdornment position="end">%</InputAdornment>
+                        }}
+                        value={state.customSize}
+                        onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
+                            var newPref = {
+                                ...state,
+                                customSize: event.target.value
+                            };
+                            setState(newPref);
+                        }}
+                        onBlur={e => {
+                            let newValue = parseInt(e.target.value);
+                            if (newValue > 1000) {
+                                newValue = 1000;
+                            } else if (newValue < 50) {
+                                newValue = 50;
+                            }
+                            var newPref = {
+                                ...state,
+                                customSize: newValue
+                            };
+                            setState(newPref);
+                            window.searchData.prefConfig = newPref;
+                            saveConfigToScript();
+                        }}
+                    />
                 </Box>
             </Paper>
             <Paper elevation={5} sx={{ padding: '20px', marginTop: '20px' }}>
