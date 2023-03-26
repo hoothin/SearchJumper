@@ -210,8 +210,8 @@ export default function General() {
                             onChange={(event: Event, newValue: number | number[]) => {
                                 if (newValue > 1000) {
                                     newValue = 1000;
-                                } else if (newValue < 10) {
-                                    newValue = 10;
+                                } else if (newValue < 50) {
+                                    newValue = 50;
                                 }
                                 var newPref = {
                                     ...state,
