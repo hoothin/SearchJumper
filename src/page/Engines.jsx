@@ -533,7 +533,7 @@ class SitesList extends React.Component {
         this.closeSiteEdit = this.closeSiteEdit.bind(this);
         this.handleDeleteSite = this.handleDeleteSite.bind(this);
         this.changeSitePos = this.changeSitePos.bind(this);
-        this.tooLong = props.data.sites && props.data.sites.length > 50;
+        this.tooLong = props.data.sites && props.data.sites.length > 100;
         this.batchSelect = false;
         var downloadEle = document.createElement('a');
         downloadEle.target = "_blank";
