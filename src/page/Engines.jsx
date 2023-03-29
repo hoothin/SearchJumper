@@ -1489,6 +1489,7 @@ export default function Engines() {
       createData('%T', window.i18n('param_T')),
       createData('%b', window.i18n('param_b')),
       createData('%B', window.i18n('param_B')),
+      createData('%n', window.i18n('param_n')),
       createData('%i', window.i18n('param_i')),
       createData('%e', window.i18n('param_e')),
       createData('%c', window.i18n('param_c')),
