@@ -88,6 +88,11 @@ export default function General() {
     if (!window.searchData.prefConfig.dragMeta) {
         window.searchData.prefConfig.dragMeta = false;
     }
+    if (window.searchData.prefConfig.minPopup === false) {
+        window.searchData.prefConfig.minPopup = 0;
+    } else if (window.searchData.prefConfig.minPopup === true) {
+        window.searchData.prefConfig.minPopup = 1;
+    }
     if (!window.searchData.prefConfig.suggestType) {
         window.searchData.prefConfig.suggestType = "google";
     }
@@ -1039,7 +1044,7 @@ export default function General() {
                                     saveConfigToScript();
                                 }}
                                 autoWidth
-                                label={window.i18n('suggestType')}
+                                label="Source"
                             >
                                 <MenuItem value='google'>Google</MenuItem>
                                 <MenuItem value='bing'>Bing</MenuItem>
@@ -1085,20 +1090,38 @@ export default function General() {
                             <Typography gutterBottom component="div">
                                 <h4>{window.i18n('minPopup')}</h4>
                             </Typography>
-                            <FormControl sx={{ m: 1, minWidth: 80 }}>
-                                <FormControlLabel
-                                    control={
-                                        <Switch checked={state.minPopup} onChange={handleCheckChange} name="minPopup" />
-                                    }
-                                    label={window.i18n('minPopupTips')}
-                                />
-                            </FormControl>
+                            <Box sx={{ flexGrow: 1, display: 'flex'}}>
+                                <FormControl sx={{ m: 1, minWidth: 80 }}>
+                                    <InputLabel>Action</InputLabel>
+                                    <Select
+                                        value={state.minPopup}
+                                        onChange={(event: SelectChangeEvent) => {
+                                            var newPref = {
+                                                ...state,
+                                                minPopup: event.target.value
+                                            };
+                                            setState(newPref);
+                                            window.searchData.prefConfig = newPref;
+                                            saveConfigToScript();
+                                        }}
+                                        autoWidth
+                                        label='Action'
+                                    >
+                                        <MenuItem value={0}>{window.i18n('minPopupDisable')}</MenuItem>
+                                        <MenuItem value={1}>{window.i18n('minPopupEnable')}</MenuItem>
+                                        <MenuItem value={2}>{window.i18n('minPopupInput')}</MenuItem>
+                                    </Select>
+                                </FormControl>
+                                <Typography gutterBottom component="div" sx={{ marginTop: '20px' }}>
+                                    {window.i18n('minPopupTips')}
+                                </Typography>
+                            </Box>
                         </Box>
                         <Box>
                             <Typography gutterBottom component="div">
                                 <h4>{window.i18n('hidePopup')}</h4>
                             </Typography>
-                            <FormControl sx={{ m: 1, minWidth: 80 }}>
+                            <FormControl sx={{ m: 1, minWidth: 80, marginTop: '13px'}}>
                                 <FormControlLabel
                                     control={
                                         <Switch checked={state.hidePopup} onChange={handleCheckChange} name="hidePopup" />
