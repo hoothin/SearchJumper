@@ -102,6 +102,9 @@ export default function General() {
     if (typeof window.searchData.prefConfig.expandTypeLength === "undefined") {
         window.searchData.prefConfig.expandTypeLength = 12;
     }
+    if (typeof window.searchData.prefConfig.lang === "undefined") {
+        window.searchData.prefConfig.lang = '0';
+    }
     const [state, setState] = React.useState(
         window.searchData.prefConfig
     );
@@ -129,6 +132,18 @@ export default function General() {
         window.searchData.prefConfig = newPref;
         saveConfigToScript();
     };
+    const handleLangSelectChange = (event: SelectChangeEvent) => {
+        var newPref = {
+            ...state,
+            lang: event.target.value
+        };
+        setState(newPref);
+        window.searchData.prefConfig = newPref;
+        saveConfigToScript();
+        setTimeout(() => {
+            window.location.reload();
+        }, 500);
+    };
     const handleCheckChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         var newPref = {
             ...state,
@@ -144,6 +159,26 @@ export default function General() {
                 <h2 style={{padding:'5px'}}>{window.i18n('general')}</h2>
             </Paper>
             <Paper elevation={5} sx={{ padding: '20px' }}>
+                <Typography gutterBottom  component="div">
+                    <h4>{window.i18n('setLang')}</h4>
+                </Typography>
+                    <FormControl sx={{ m: 1, minWidth: 80 }}>
+                        <InputLabel>{window.i18n('lang')}</InputLabel>
+                        <Select
+                          value={state.lang}
+                          name="lang"
+                          onChange={handleLangSelectChange}
+                          autoWidth
+                          label={window.i18n('lang')}
+                        >
+                            <MenuItem value={'0'}>Default</MenuItem>
+                            <MenuItem value={'en'}>English</MenuItem>
+                            <MenuItem value={'zh-CN'}>简体中文</MenuItem>
+                            <MenuItem value={'zh-TW'}>正體中文</MenuItem>
+                        </Select>
+                    </FormControl>
+            </Paper>
+            <Paper elevation={5} sx={{ padding: '20px', marginTop: '20px' }}>
                 <Typography gutterBottom  component="div">
                     <h4>{window.i18n('toolbarPosition')}</h4>
                 </Typography>
