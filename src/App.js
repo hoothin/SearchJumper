@@ -119,7 +119,7 @@ export default function App() {
       if (e.data.command === 'loadConfig') {
         window.searchData = e.data.searchData;
         window.version = e.data.version;
-        if (window.searchData.prefConfig.lang && window.searchData.prefConfig.lang != '0') {
+        if (window.searchData.prefConfig.lang && window.searchData.prefConfig.lang !== '0') {
           window.setLang(window.searchData.prefConfig.lang);
         }
         var receivedMessage = new Event('received');
