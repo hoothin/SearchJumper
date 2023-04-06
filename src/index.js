@@ -797,6 +797,10 @@ window.i18n = (name, param) => {
 }
 window.setLang(lang);
 
+setTimeout(() => {
+      if (!window.searchData) window.location.reload();
+}, 3000);
+
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
