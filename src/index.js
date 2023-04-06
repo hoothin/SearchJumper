@@ -799,7 +799,7 @@ window.setLang(lang);
 
 setTimeout(() => {
       if (!window.searchData) window.location.reload();
-}, 3000);
+}, 5000);
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
