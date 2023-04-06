@@ -105,6 +105,9 @@ export default function General() {
     if (typeof window.searchData.prefConfig.lang === "undefined") {
         window.searchData.prefConfig.lang = '0';
     }
+    if (typeof window.searchData.prefConfig.mouseLeaveToHide === "undefined") {
+        window.searchData.prefConfig.mouseLeaveToHide = true;
+    }
     const [state, setState] = React.useState(
         window.searchData.prefConfig
     );
@@ -764,6 +767,21 @@ export default function General() {
                           </RadioGroup>
                         </FormControl>
                     </Box>
+                </Box>
+            </Paper>
+            <Paper elevation={5} sx={{ padding: '20px', marginTop: '20px' }}>
+                <Box>
+                    <Typography gutterBottom component="div">
+                        <h4>{window.i18n('mouseLeaveToHide')}</h4>
+                    </Typography>
+                    <FormControl sx={{ m: 1, minWidth: 80 }}>
+                        <FormControlLabel
+                            control={
+                                <Switch checked={state.mouseLeaveToHide} onChange={handleCheckChange} name="mouseLeaveToHide" />
+                            }
+                            label={window.i18n('mouseLeaveToHideTips')}
+                        />
+                    </FormControl>
                 </Box>
             </Paper>
             <Paper elevation={5} sx={{ padding: '20px', marginTop: '20px' }}>
