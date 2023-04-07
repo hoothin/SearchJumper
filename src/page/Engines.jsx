@@ -1461,7 +1461,7 @@ function forwordToSite(inputWord) {
         if (filterGroup) return typeIndex;
         filterHighlightTimer = setInterval(() => {
             [].every.call(document.querySelectorAll(".site-icon"), icon => {
-                if (icon.childNodes[1].childNodes[1].data === filterEngineName) {
+                if (icon.childNodes[1].title === filterEngineName) {
                     icon.classList.add("filter");
                     icon.scrollIntoView({ behavior: "smooth", block: "nearest", inline: "nearest" });
                     clearTimeout(filterHighlightTimer);
@@ -1589,7 +1589,6 @@ export default function Engines() {
             if (e.data.status < 300) verifyItem.classList.add('okItem');
             verifyItem.onclick = ev => {
                 if (ev.target.tagName !== 'A') {
-                    forwordToSite(e.data.name);
                     let typeIndex = forwordToSite(e.data.name);
                     if (typeIndex !== false) {
                         setValue(typeIndex);
