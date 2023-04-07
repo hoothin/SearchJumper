@@ -108,6 +108,9 @@ export default function General() {
     if (typeof window.searchData.prefConfig.mouseLeaveToHide === "undefined") {
         window.searchData.prefConfig.mouseLeaveToHide = true;
     }
+    if (typeof window.searchData.prefConfig.currentTypeFirst === "undefined") {
+        window.searchData.prefConfig.currentTypeFirst = true;
+    }
     const [state, setState] = React.useState(
         window.searchData.prefConfig
     );
