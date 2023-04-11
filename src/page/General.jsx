@@ -749,19 +749,6 @@ export default function General() {
                 <Box sx={{ flexGrow: 1, display: 'flex'}}>
                     <Box>
                         <Typography gutterBottom component="div">
-                            <h4>{window.i18n('autoHide')}</h4>
-                        </Typography>
-                        <FormControl sx={{ m: 1, minWidth: 80 }}>
-                            <FormControlLabel
-                                control={
-                                    <Switch checked={state.autoHide} onChange={handleCheckChange} name="autoHide" />
-                                }
-                                label={window.i18n('autoHideTips')}
-                            />
-                        </FormControl>
-                    </Box>
-                    <Box>
-                        <Typography gutterBottom component="div">
                             <h4>{window.i18n('autoHideAll')}</h4>
                         </Typography>
                         <FormControl>
@@ -783,6 +770,19 @@ export default function General() {
                             <FormControlLabel value="autoHideAll" control={<Radio />} label={window.i18n('autoHideAllTips')} />
                             <FormControlLabel value="resizePage" control={<Radio />} label={window.i18n('resizePageTips')} />
                           </RadioGroup>
+                        </FormControl>
+                    </Box>
+                    <Box>
+                        <Typography gutterBottom component="div">
+                            <h4>{window.i18n('autoHide')}</h4>
+                        </Typography>
+                        <FormControl sx={{ m: 1, minWidth: 80 }}>
+                            <FormControlLabel
+                                control={
+                                    <Switch checked={state.autoHide} onChange={handleCheckChange} name="autoHide" />
+                                }
+                                label={window.i18n('autoHideTips')}
+                            />
                         </FormControl>
                     </Box>
                 </Box>
