@@ -1506,10 +1506,14 @@ export default function Engines() {
       createData('%element{}.replace()', window.i18n('param_elere')),
       createData('copy:', window.i18n('param_cp'))
     ];
-    let selectTxt = -1, selectImg = -1, selectLink = -1, selectPage = -1;
+    let selectTxt = -1, selectImg = -1, selectLink = -1, selectPage = -1, selectAll = -1;
     for (let i = 0; i < window.searchData.sitesConfig.length; i++) {
         let site = window.searchData.sitesConfig[i];
-        if (site.match || (site.selectTxt && site.selectImg && site.selectAudio && site.selectVideo && site.selectLink && site.selectPage)) continue;
+        if (site.match) continue;
+        if (selectAll === -1 && site.selectTxt && site.selectImg && site.selectAudio && site.selectVideo && site.selectLink && site.selectPage) {
+            selectAll = i;
+            continue;
+        }
 
         if (selectTxt === -1 && site.selectTxt) {
             selectTxt = i;
@@ -1524,6 +1528,12 @@ export default function Engines() {
             selectPage = i;
         }
         if (selectTxt !== -1 && selectImg !== -1 && selectLink !== -1 && selectPage !== -1) break;
+    }
+    if (selectAll !== -1) {
+        if (selectTxt === -1) selectTxt = selectAll;
+        if (selectImg === -1) selectImg = selectAll;
+        if (selectLink === -1) selectLink = selectAll;
+        if (selectPage === -1) selectPage = selectAll;
     }
     const [value, setValue] = React.useState(0);
 
