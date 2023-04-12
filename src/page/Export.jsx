@@ -36,29 +36,13 @@ import { createClient } from "webdav";
 import Snackbar from '@mui/material/Snackbar';
 import MuiAlert from '@mui/material/Alert';
 
-async function saveToWebdav() {
-    if (!window.searchData.webdavConfig) return;
-    const client = createClient(window.searchData.webdavConfig.host, {
-        username: window.searchData.webdavConfig.username,
-        password: window.searchData.webdavConfig.password
-    });
-    const path = "/SearchJumper";
-    if (await client.exists(path + "/") === false) {
-        await client.createDirectory(path);
-    }
-    await client.putFileContents(path + "/lastModified", "" + window.searchData.lastModified);
-    await client.putFileContents(path + "/sitesConfig.json", JSON.stringify(window.searchData.sitesConfig));
-    if (window.searchData.prefConfig.inPageRule) {
-        await client.putFileContents(path + "/inPageRule.json", JSON.stringify(window.searchData.prefConfig.inPageRule))
-    }
-}
 
-async function checkWebdav(host, username, password) {
+async function checkWebdav(host, username, password, pathname) {
     const client = createClient(host, {
         username: username,
         password: password
     });
-    const path = "/SearchJumper";
+    const path = ("/SearchJumper" + pathname).replace(/\/$/, "");
     if (await client.exists(path + "/") === false) {
         await client.createDirectory(path);
         await client.putFileContents(path + "/lastModified", "");
@@ -88,7 +72,8 @@ async function checkWebdav(host, username, password) {
     window.searchData.webdavConfig = {
         host: host,
         username: username,
-        password: password
+        password: password,
+        path: pathname
     };
     var saveMessage = new CustomEvent('saveConfig', {
         detail: {
@@ -108,7 +93,7 @@ function saveConfigToScript (notification) {
         }
     });
     document.dispatchEvent(saveMessage);
-    saveToWebdav();
+    window.saveToWebdav();
 }
 
 const presetCssList = [
@@ -308,20 +293,23 @@ function DefaultOpenSpeedDial(props) {
 }
 
 function SyncEdit(props) {
-    let _host = "", _username = "", _password = "";
+    let _host = "", _username = "", _password = "", _path = "/";
     if (window.searchData.webdavConfig) {
         _host = window.searchData.webdavConfig.host;
         _username = window.searchData.webdavConfig.username;
         _password = window.searchData.webdavConfig.password;
+        _path = window.searchData.webdavConfig.path || "/";
     }
     const [host, setHost] = React.useState(_host);
     const [username, setUsername] = React.useState(_username);
     const [password, setPassword] = React.useState(_password);
+    const [path, setPath] = React.useState(_path);
     const [showPassword, setShowPassword] = React.useState(false);
     React.useEffect(() => {
        setPassword(_host);
        setUsername(_username);
        setPassword(_password);
+       setPath(_path);
     }, [props.open]);
     return (
         <Dialog open={props.open} onClose={() => {props.close()}}>
@@ -379,6 +367,25 @@ function SyncEdit(props) {
                     label={window.i18n('password')}
                   />
                 </FormControl>
+                <FormControl fullWidth sx={{ mt: 1, mb: 1 }} variant="outlined">
+                  <InputLabel htmlFor="outlined-adornment-path">{window.i18n('path')}</InputLabel>
+                  <OutlinedInput
+                    fullWidth
+                    id="outlined-adornment-path"
+                    type='text'
+                    value={path}
+                    onChange={e => {
+                        setPath(e.target.value);
+                    }}
+                    onBlur={e => {
+                        let val = e.target.value.replace(/\/\//g, "/");
+                        if (val.indexOf("/") !== 0) val = "/" + val;
+                        if (val[val.length - 1] !== "/") val = val + "/";
+                        setPath(val);
+                    }}
+                    label={window.i18n('path')}
+                  />
+                </FormControl>
                 <DialogContentText sx={{textAlign: 'center'}}>
                     {window.i18n('syncTips')}
                 </DialogContentText>
@@ -392,7 +399,7 @@ function SyncEdit(props) {
                 <Button onClick={() => { props.close() }}>{window.i18n('cancel')}</Button>
                 <Button onClick={() => {
                     if (!host) return;
-                    checkWebdav(host, username, password).then(() => {
+                    checkWebdav(host, username, password, path).then(() => {
                         props.handleAlertOpen(window.i18n("success"), 3);
                         props.close();
                     }).catch(e => {

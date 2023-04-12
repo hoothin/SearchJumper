@@ -7,23 +7,7 @@ import Switch from '@mui/material/Switch';
 import Typography from '@mui/material/Typography';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
-import { createClient } from "webdav";
 
-async function saveToWebdav() {
-    window.searchData.lastModified = new Date().getTime();
-    if (!window.searchData.webdavConfig || !window.searchData.prefConfig.inPageRule) return;
-    const client = createClient(window.searchData.webdavConfig.host, {
-        username: window.searchData.webdavConfig.username,
-        password: window.searchData.webdavConfig.password
-    });
-    const path = "/SearchJumper";
-    if (await client.exists(path + "/") === false) {
-        await client.createDirectory(path);
-    }
-    await client.putFileContents(path + "/lastModified", "" + window.searchData.lastModified);
-    await client.putFileContents(path + "/sitesConfig.json", JSON.stringify(window.searchData.sitesConfig));
-    await client.putFileContents(path + "/inPageRule.json", JSON.stringify(window.searchData.prefConfig.inPageRule))
-}
 
 function saveConfigToScript (notification) {
     var saveMessage = new CustomEvent('saveConfig', {
@@ -114,7 +98,10 @@ function setInPageRule() {
     [].forEach.call(colors, (color, i) => {
         if (color.value) window.searchData.prefConfig.firstFiveWordsColor[i] = color.value;
     });
-    saveToWebdav();
+    if (window.searchData.prefConfig.inPageRule) {
+        window.searchData.lastModified = new Date().getTime();
+        window.saveToWebdav();
+    }
     saveConfigToScript(true);
 }
 
