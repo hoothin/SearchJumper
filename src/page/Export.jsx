@@ -44,7 +44,20 @@ async function checkWebdav(host, username, password, pathname) {
     });
     const path = ("/SearchJumper" + pathname).replace(/\/$/, "");
     if (await client.exists(path + "/") === false) {
-        await client.createDirectory(path);
+        let pathArr = path.split("/");
+        await pathArr.reduce(async (targetPath, curPath) => {
+          if (await targetPath !== "") {
+            if (await client.exists((await targetPath) + "/") === false) {
+              await client.createDirectory(await targetPath);
+            }
+          }
+          if (curPath !== "") {
+            return (await targetPath) + "/" + curPath;
+          } else return (await targetPath);
+        }, "");
+        if (await client.exists(path + "/") === false) {
+          await client.createDirectory(path);
+        }
         await client.putFileContents(path + "/lastModified", "");
     } else if (await client.exists(path + "/lastModified") === false) {
         await client.putFileContents(path + "/lastModified", "");
