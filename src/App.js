@@ -47,7 +47,7 @@ async function saveToWebdav() {
         username: window.searchData.webdavConfig.username,
         password: window.searchData.webdavConfig.password
     });
-    const path = ("/SearchJumper" + window.searchData.webdavConfig.path || "/").replace(/\/$/, "");
+    const path = ("/SearchJumper" + (window.searchData.webdavConfig.path || "")).replace(/\/$/, "");
     if (await client.exists(path + "/") === false) {
         await client.createDirectory(path);
     }
@@ -66,7 +66,7 @@ async function refreshByWebdav(callback) {
     username: window.searchData.webdavConfig.username,
     password: window.searchData.webdavConfig.password
   });
-  const path = "/SearchJumper";
+  const path = ("/SearchJumper" + (window.searchData.webdavConfig.path || "/")).replace(/\/$/, "");
   if (await client.exists(path + "/") === false) {
     await client.createDirectory(path);
     await client.putFileContents(path + "/lastModified", "");

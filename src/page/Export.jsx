@@ -42,7 +42,7 @@ async function checkWebdav(host, username, password, pathname) {
         username: username,
         password: password
     });
-    const path = ("/SearchJumper" + pathname).replace(/\/$/, "");
+    const path = ("/SearchJumper" + (pathname || "/")).replace(/\/$/, "");
     if (await client.exists(path + "/") === false) {
         let pathArr = path.split("/");
         await pathArr.reduce(async (targetPath, curPath) => {
