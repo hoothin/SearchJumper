@@ -875,6 +875,196 @@ export default function General() {
                     </Box>
                 </Box>
             </Paper>
+            <Paper elevation={5} sx={{ padding: '20px', marginTop: '20px' }}>
+                <Typography gutterBottom component="div">
+                    <h4>{window.i18n('switchSitesKey')}</h4>
+                </Typography>
+                <Box>
+                    <TextField
+                        sx={{ mr: '10px' }}
+                        label={window.i18n('switchSitesPreKey')}
+                        type="text"
+                        value={state.switchSitesPreKey}
+                        inputProps={{ readOnly: 'readonly' }}
+                        onKeyDown={(event) => {
+                            event.stopPropagation();
+                            event.preventDefault();
+                            let newValue = (event.key === 'Escape' || event.key === 'Backspace') ? '' : (event.code || event.key);
+                            var newPref = {
+                                ...state,
+                                switchSitesPreKey: newValue
+                            };
+                            setState(newPref);
+                            window.searchData.prefConfig = newPref;
+                            saveConfigToScript();
+                        }}
+                    />
+                    <TextField
+                        label={window.i18n('switchSitesNextKey')}
+                        type="text"
+                        value={state.switchSitesNextKey}
+                        inputProps={{ readOnly: 'readonly' }}
+                        onKeyDown={(event) => {
+                            event.stopPropagation();
+                            event.preventDefault();
+                            let newValue = (event.key === 'Escape' || event.key === 'Backspace') ? '' : (event.code || event.key);
+                            var newPref = {
+                                ...state,
+                                switchSitesNextKey: newValue
+                            };
+                            setState(newPref);
+                            window.searchData.prefConfig = newPref;
+                            saveConfigToScript();
+                        }}
+                    />
+                    <FormControl sx={{ m: 1, minWidth: 80 }}>
+                        <FormControlLabel
+                            control={
+                                <Switch checked={state.switchSitesCtrl} onChange={handleCheckChange} name="switchSitesCtrl" />
+                            }
+                            label={window.i18n('ctrlKey')}
+                        />
+                    </FormControl>
+                    <FormControl sx={{ m: 1, minWidth: 80 }}>
+                        <FormControlLabel
+                            control={
+                                <Switch checked={state.switchSitesAlt} onChange={handleCheckChange} name="switchSitesAlt" />
+                            }
+                            label={window.i18n('altKey')}
+                        />
+                    </FormControl>
+                    <FormControl sx={{ m: 1, minWidth: 80 }}>
+                        <FormControlLabel
+                            control={
+                                <Switch checked={state.switchSitesShift} onChange={handleCheckChange} name="switchSitesShift" />
+                            }
+                            label={window.i18n('shiftKey')}
+                        />
+                    </FormControl>
+                    <FormControl sx={{ m: 1, minWidth: 80 }}>
+                        <FormControlLabel
+                            control={
+                                <Switch checked={state.switchSitesMeta} onChange={handleCheckChange} name="switchSitesMeta" />
+                            }
+                            label={window.i18n('metaKey')}
+                        />
+                    </FormControl>
+                </Box>
+            </Paper>
+            <Paper elevation={5} sx={{ padding: '20px', marginTop: '20px' }}>
+                <Typography gutterBottom component="div">
+                    <h4>{window.i18n('callInputKey')}</h4>
+                </Typography>
+                <Box>
+                    <TextField
+                        label={window.i18n('shortcut')}
+                        type="text"
+                        value={state.shortcutKey}
+                        inputProps={{ readOnly: 'readonly' }}
+                        onKeyDown={(event) => {
+                            event.stopPropagation();
+                            event.preventDefault();
+                            let newValue = (event.key === 'Escape' || event.key === 'Backspace') ? '' : (event.code || event.key);
+                            var newPref = {
+                                ...state,
+                                shortcutKey: newValue
+                            };
+                            setState(newPref);
+                            window.searchData.prefConfig = newPref;
+                            saveConfigToScript();
+                        }}
+                    />
+                    <FormControl sx={{ m: 1, minWidth: 80 }}>
+                        <FormControlLabel
+                            control={
+                                <Switch checked={state.callBarCtrl} onChange={handleCheckChange} name="callBarCtrl" />
+                            }
+                            label={window.i18n('ctrlKey')}
+                        />
+                    </FormControl>
+                    <FormControl sx={{ m: 1, minWidth: 80 }}>
+                        <FormControlLabel
+                            control={
+                                <Switch checked={state.callBarAlt} onChange={handleCheckChange} name="callBarAlt" />
+                            }
+                            label={window.i18n('altKey')}
+                        />
+                    </FormControl>
+                    <FormControl sx={{ m: 1, minWidth: 80 }}>
+                        <FormControlLabel
+                            control={
+                                <Switch checked={state.callBarShift} onChange={handleCheckChange} name="callBarShift" />
+                            }
+                            label={window.i18n('shiftKey')}
+                        />
+                    </FormControl>
+                    <FormControl sx={{ m: 1, minWidth: 80 }}>
+                        <FormControlLabel
+                            control={
+                                <Switch checked={state.callBarMeta} onChange={handleCheckChange} name="callBarMeta" />
+                            }
+                            label={window.i18n('metaKey')}
+                        />
+                    </FormControl>
+                </Box>
+            </Paper>
+            <Paper elevation={5} sx={{ padding: '20px', marginTop: '20px' }}>
+                <Typography gutterBottom component="div">
+                    <h4>{window.i18n('showAllKey')}</h4>
+                </Typography>
+                <Box>
+                    <TextField
+                        label={window.i18n('shortcut')}
+                        type="text"
+                        value={state.showAllShortcutKey}
+                        inputProps={{ readOnly: 'readonly' }}
+                        onKeyDown={(event) => {
+                            event.stopPropagation();
+                            event.preventDefault();
+                            let newValue = (event.key === 'Escape' || event.key === 'Backspace') ? '' : (event.code || event.key);
+                            var newPref = {
+                                ...state,
+                                showAllShortcutKey: newValue
+                            };
+                            setState(newPref);
+                            window.searchData.prefConfig = newPref;
+                            saveConfigToScript();
+                        }}
+                    />
+                    <FormControl sx={{ m: 1, minWidth: 80 }}>
+                        <FormControlLabel
+                            control={
+                                <Switch checked={state.showAllCtrl} onChange={handleCheckChange} name="showAllCtrl" />
+                            }
+                            label={window.i18n('ctrlKey')}
+                        />
+                    </FormControl>
+                    <FormControl sx={{ m: 1, minWidth: 80 }}>
+                        <FormControlLabel
+                            control={
+                                <Switch checked={state.showAllAlt} onChange={handleCheckChange} name="showAllAlt" />
+                            }
+                            label={window.i18n('altKey')}
+                        />
+                    </FormControl>
+                    <FormControl sx={{ m: 1, minWidth: 80 }}>
+                        <FormControlLabel
+                            control={
+                                <Switch checked={state.showAllShift} onChange={handleCheckChange} name="showAllShift" />
+                            }
+                            label={window.i18n('shiftKey')}
+                        />
+                    </FormControl>
+                    <FormControl sx={{ m: 1, minWidth: 80 }}>
+                        <FormControlLabel
+                            control={
+                                <Switch checked={state.showAllMeta} onChange={handleCheckChange} name="showAllMeta" />
+                            }
+                            label={window.i18n('metaKey')}
+                        />
+                    </FormControl>
+                </Box>
+            </Paper>
             <Paper elevation={5} sx={{textAlign:'center', borderRadius:'10px', mt: 5}}>
                 <h2 style={{padding:'5px'}}>{window.i18n('customSearch')}</h2>
             </Paper>
@@ -952,116 +1142,7 @@ export default function General() {
                             />
                         </FormControl>
                     </Box>
-                    <Typography gutterBottom component="div">
-                        <h4>{window.i18n('callInputKey')}</h4>
-                    </Typography>
-                    <Box>
-                        <TextField
-                            label={window.i18n('shortcut')}
-                            type="text"
-                            value={state.shortcutKey}
-                            inputProps={{ readOnly: 'readonly' }}
-                            onKeyDown={(event) => {
-                                event.stopPropagation();
-                                event.preventDefault();
-                                let newValue = (event.key === 'Escape' || event.key === 'Backspace') ? '' : (event.code || event.key);
-                                var newPref = {
-                                    ...state,
-                                    shortcutKey: newValue
-                                };
-                                setState(newPref);
-                                window.searchData.prefConfig = newPref;
-                                saveConfigToScript();
-                            }}
-                        />
-                        <FormControl sx={{ m: 1, minWidth: 80 }}>
-                            <FormControlLabel
-                                control={
-                                    <Switch checked={state.callBarCtrl} onChange={handleCheckChange} name="callBarCtrl" />
-                                }
-                                label={window.i18n('ctrlKey')}
-                            />
-                        </FormControl>
-                        <FormControl sx={{ m: 1, minWidth: 80 }}>
-                            <FormControlLabel
-                                control={
-                                    <Switch checked={state.callBarAlt} onChange={handleCheckChange} name="callBarAlt" />
-                                }
-                                label={window.i18n('altKey')}
-                            />
-                        </FormControl>
-                        <FormControl sx={{ m: 1, minWidth: 80 }}>
-                            <FormControlLabel
-                                control={
-                                    <Switch checked={state.callBarShift} onChange={handleCheckChange} name="callBarShift" />
-                                }
-                                label={window.i18n('shiftKey')}
-                            />
-                        </FormControl>
-                        <FormControl sx={{ m: 1, minWidth: 80 }}>
-                            <FormControlLabel
-                                control={
-                                    <Switch checked={state.callBarMeta} onChange={handleCheckChange} name="callBarMeta" />
-                                }
-                                label={window.i18n('metaKey')}
-                            />
-                        </FormControl>
-                    </Box>
-                    <Typography gutterBottom component="div">
-                        <h4>{window.i18n('showAllKey')}</h4>
-                    </Typography>
-                    <Box>
-                        <TextField
-                            label={window.i18n('shortcut')}
-                            type="text"
-                            value={state.showAllShortcutKey}
-                            inputProps={{ readOnly: 'readonly' }}
-                            onKeyDown={(event) => {
-                                event.stopPropagation();
-                                event.preventDefault();
-                                let newValue = (event.key === 'Escape' || event.key === 'Backspace') ? '' : (event.code || event.key);
-                                var newPref = {
-                                    ...state,
-                                    showAllShortcutKey: newValue
-                                };
-                                setState(newPref);
-                                window.searchData.prefConfig = newPref;
-                                saveConfigToScript();
-                            }}
-                        />
-                        <FormControl sx={{ m: 1, minWidth: 80 }}>
-                            <FormControlLabel
-                                control={
-                                    <Switch checked={state.showAllCtrl} onChange={handleCheckChange} name="showAllCtrl" />
-                                }
-                                label={window.i18n('ctrlKey')}
-                            />
-                        </FormControl>
-                        <FormControl sx={{ m: 1, minWidth: 80 }}>
-                            <FormControlLabel
-                                control={
-                                    <Switch checked={state.showAllAlt} onChange={handleCheckChange} name="showAllAlt" />
-                                }
-                                label={window.i18n('altKey')}
-                            />
-                        </FormControl>
-                        <FormControl sx={{ m: 1, minWidth: 80 }}>
-                            <FormControlLabel
-                                control={
-                                    <Switch checked={state.showAllShift} onChange={handleCheckChange} name="showAllShift" />
-                                }
-                                label={window.i18n('shiftKey')}
-                            />
-                        </FormControl>
-                        <FormControl sx={{ m: 1, minWidth: 80 }}>
-                            <FormControlLabel
-                                control={
-                                    <Switch checked={state.showAllMeta} onChange={handleCheckChange} name="showAllMeta" />
-                                }
-                                label={window.i18n('metaKey')}
-                            />
-                        </FormControl>
-                    </Box>
+                    
                     <Typography gutterBottom component="div">
                         <h4>{window.i18n('enableRightMouse')}</h4>
                     </Typography>
