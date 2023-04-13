@@ -1,11 +1,11 @@
 self.__precacheManifest = [
   {
-    "revision": "41892ccbe482d1e6d4c8",
+    "revision": "8c62bf91c23d5201e655",
     "url": "./static/css/main.cddcf8b0.chunk.css"
   },
   {
-    "revision": "41892ccbe482d1e6d4c8",
-    "url": "./static/js/main.41892ccb.chunk.js"
+    "revision": "8c62bf91c23d5201e655",
+    "url": "./static/js/main.8c62bf91.chunk.js"
   },
   {
     "revision": "90eed11aa8e3c91ae2a0",
@@ -48,32 +48,32 @@ self.__precacheManifest = [
     "url": "./static/media/roboto-greek-300-normal.dcdaee37.woff2"
   },
   {
-    "revision": "716871ec15f054ec158445180fe280e1",
-    "url": "./static/media/roboto-latin-ext-300-normal.716871ec.woff2"
-  },
-  {
     "revision": "48c684d99330969e3ce90b9e9da2d698",
     "url": "./static/media/roboto-vietnamese-300-normal.48c684d9.woff2"
+  },
+  {
+    "revision": "716871ec15f054ec158445180fe280e1",
+    "url": "./static/media/roboto-latin-ext-300-normal.716871ec.woff2"
   },
   {
     "revision": "b9c29351c46f3e8c8631c4002457f48a",
     "url": "./static/media/roboto-latin-300-normal.b9c29351.woff2"
   },
   {
-    "revision": "62b936e168110e58e89e70ec82e22755",
-    "url": "./static/media/roboto-all-400-normal.62b936e1.woff"
-  },
-  {
     "revision": "c00467dc3792a8ab586955a3faefcac9",
     "url": "./static/media/roboto-cyrillic-ext-400-normal.c00467dc.woff2"
   },
   {
-    "revision": "35de3738b76d249ed060dd3d0f9286be",
-    "url": "./static/media/roboto-greek-ext-400-normal.35de3738.woff2"
+    "revision": "62b936e168110e58e89e70ec82e22755",
+    "url": "./static/media/roboto-all-400-normal.62b936e1.woff"
   },
   {
     "revision": "d9ac47c7e500fb7083b8d595eaf6fe12",
     "url": "./static/media/roboto-cyrillic-400-normal.d9ac47c7.woff2"
+  },
+  {
+    "revision": "35de3738b76d249ed060dd3d0f9286be",
+    "url": "./static/media/roboto-greek-ext-400-normal.35de3738.woff2"
   },
   {
     "revision": "28668857bef1b85c5748a482cf9b74af",
@@ -156,7 +156,7 @@ self.__precacheManifest = [
     "url": "./static/media/roboto-latin-700-normal.e9f5aaf5.woff2"
   },
   {
-    "revision": "cf5eee79f7737cb291e620916c0bf36f",
+    "revision": "1db9e7fc3c55b1348f59d41bc4fbfe97",
     "url": "./index.html"
   }
 ];
