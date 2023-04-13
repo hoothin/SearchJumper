@@ -111,6 +111,30 @@
 | `%element{}.replace()` | replace, same as above, like %element{.mainTitle}.prop(href).replace(/https/i,"") | 🗒️ 正則替換，例如 %element{.mainTitle}.prop(href).replace(/https/i,"") |
 | `c:` | put this at first then all words after will be copied to the clipboard | 🗒️ 在開頭使用"c:"可以複製之後的所有字串 |
 
+## Engine examples
++ Open link in the text, display only when a link is detected 打開文字中的鏈接，僅當檢測到鏈接時顯示
+``` json
+{
+  "name": "打開文字中的鏈接",
+  "url": "%sr.replace(/(点|。)/g,\".\").replace(/[^ \\w\\-_\\.~!\\*'\\(\\);:@&=\\+\\$,\\/\\?#\\[\\]%]/g,\"\").replace(/.*(1[a-z0-9]{22,}).*?\\b([a-z0-9]{4}\\b|$).*/i,\"https://pan.baidu.com/s/$1?pwd=$2\").replace(/ /g,\"\").replace(/^/,\"http://\").replace(/^http:\\/\\/(https?:)/,\"$1\")",
+  "kwFilter": "\\w.*[\\.点。].*\\w|1[a-zA-Z0-9]{22,}"
+}
+```
++ Currency conversion of various countries 各國貨幣轉換
+``` json
+{
+  "name": "貨幣轉換",
+  "url": "javascript:fetch(`https://api.exchangerate.host/convert?from=%input{From currency/US Dollar/Euro/Japanese Yen/China Yuan,USD/EUR/JPY/CNY}&to=%input{Target currency/US Dollar/Euro/Japanese Yen/China Yuan,USD/EUR/JPY/CNY}&amount=%sr.replace(/\\D/g,\"\")`).then(r=>r.json()).then(r=>prompt(`${r.date} Exchange rate by the European Central Bank\\n${r.query.amount.toLocaleString()} ${r.query.from} =`,`${r.result.toLocaleString()} ${r.query.to}`)).catch(alert);"
+}
+```
++ Automatically send target text to other device like mobile phone 自動發送選中文字到手機
+``` json
+{
+  "name": "發送到手機",
+  "url": "https://s.hoothin.com/#p{wait(x-peer)&call(document.querySelector('x-peer').dispatchEvent(new Event('contextmenu')))&#textInput=%s&click(#textInput+div>button)}"
+}
+```
+
 ## PopClip extension for SearchJumper
 ``` yaml
 #popclip extension for SearchJumper
