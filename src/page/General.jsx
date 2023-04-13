@@ -1214,9 +1214,6 @@ export default function General() {
                     </FormControl>
                 </Box>
             </Paper>
-            <Paper elevation={5} sx={{textAlign:'center', borderRadius:'10px', mt: 5}}>
-                <h2 style={{padding:'5px'}}>{window.i18n('customSearch')}</h2>
-            </Paper>
             <Paper elevation={5} sx={{ padding: '20px', marginTop: '20px' }}>
                 <Typography gutterBottom component="div">
                     <h4>{window.i18n('enableInPage')}</h4>
