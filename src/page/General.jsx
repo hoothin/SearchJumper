@@ -1007,6 +1007,56 @@ export default function General() {
                         />
                     </FormControl>
                 </Box>
+                <Typography gutterBottom component="div">
+                    <h4>{window.i18n('defaultFindTab')}</h4>
+                </Typography>
+                <FormControl sx={{ m: 1, minWidth: 80 }}>
+                    <FormControlLabel
+                        control={
+                            <Switch checked={state.defaultFindTab} onChange={handleCheckChange} name="defaultFindTab" />
+                        }
+                        label={window.i18n('defaultFindTabTips')}
+                    />
+                </FormControl>
+                <Typography gutterBottom component="div">
+                    <h4>{window.i18n('disableInputOnWords')}</h4>
+                </Typography>
+                <FormControl sx={{ m: 1, minWidth: 80 }}>
+                    <FormControlLabel
+                        control={
+                            <Switch checked={state.disableInputOnWords} onChange={handleCheckChange} name="disableInputOnWords" />
+                        }
+                        label={window.i18n('disableInputOnWordsTips')}
+                    />
+                </FormControl>
+                <Box sx={{ flexGrow: 1, display: 'flex'}}>
+                    <Box>
+                        <Typography gutterBottom component="div">
+                            <h4>{window.i18n('altToHighlight')}</h4>
+                        </Typography>
+                        <FormControl sx={{ m: 1, minWidth: 80 }}>
+                            <FormControlLabel
+                                control={
+                                    <Switch checked={state.altToHighlight} onChange={handleCheckChange} name="altToHighlight" />
+                                }
+                                label={window.i18n('altToHighlightTips')}
+                            />
+                        </FormControl>
+                    </Box>
+                    <Box>
+                        <Typography gutterBottom component="div">
+                            <h4>{window.i18n('defaultPicker')}</h4>
+                        </Typography>
+                        <FormControl sx={{ m: 1, minWidth: 80 }}>
+                            <FormControlLabel
+                                control={
+                                    <Switch checked={state.defaultPicker} onChange={handleCheckChange} name="defaultPicker" />
+                                }
+                                label={window.i18n('defaultPickerTips')}
+                            />
+                        </FormControl>
+                    </Box>
+                </Box>
             </Paper>
             <Paper elevation={5} sx={{ padding: '20px', marginTop: '20px' }}>
                 <Typography gutterBottom component="div">
@@ -1062,6 +1112,35 @@ export default function General() {
                             }
                             label={window.i18n('metaKey')}
                         />
+                    </FormControl>
+                </Box>
+            </Paper>
+            <Paper elevation={5} sx={{ padding: '20px', marginTop: '20px' }}>
+                <Typography gutterBottom component="div">
+                    <h4>{window.i18n('suggestType')}</h4>
+                </Typography>
+                <Box>
+                    <FormControl sx={{ m: 1, minWidth: 80 }}>
+                        <InputLabel>Source</InputLabel>
+                        <Select
+                            value={state.suggestType}
+                            onChange={(event: SelectChangeEvent) => {
+                                var newPref = {
+                                    ...state,
+                                    suggestType: event.target.value
+                                };
+                                setState(newPref);
+                                window.searchData.prefConfig = newPref;
+                                saveConfigToScript();
+                            }}
+                            autoWidth
+                            label="Source"
+                        >
+                            <MenuItem value='google'>Google</MenuItem>
+                            <MenuItem value='bing'>Bing</MenuItem>
+                            <MenuItem value='baidu'>Baidu</MenuItem>
+                            <MenuItem value='disable'>Disable</MenuItem>
+                        </Select>
                     </FormControl>
                 </Box>
             </Paper>
@@ -1179,33 +1258,6 @@ export default function General() {
                         </FormControl>
                     </Box>
                     <Typography gutterBottom component="div">
-                        <h4>{window.i18n('suggestType')}</h4>
-                    </Typography>
-                    <Box>
-                        <FormControl sx={{ m: 1, minWidth: 80 }}>
-                            <InputLabel>Source</InputLabel>
-                            <Select
-                                value={state.suggestType}
-                                onChange={(event: SelectChangeEvent) => {
-                                    var newPref = {
-                                        ...state,
-                                        suggestType: event.target.value
-                                    };
-                                    setState(newPref);
-                                    window.searchData.prefConfig = newPref;
-                                    saveConfigToScript();
-                                }}
-                                autoWidth
-                                label="Source"
-                            >
-                                <MenuItem value='google'>Google</MenuItem>
-                                <MenuItem value='bing'>Bing</MenuItem>
-                                <MenuItem value='baidu'>Baidu</MenuItem>
-                                <MenuItem value='disable'>Disable</MenuItem>
-                            </Select>
-                        </FormControl>
-                    </Box>
-                    <Typography gutterBottom component="div">
                         <h4>{window.i18n('limitPopupLen')}</h4>
                     </Typography>
                     <Box
@@ -1279,56 +1331,6 @@ export default function General() {
                                         <Switch checked={state.hidePopup} onChange={handleCheckChange} name="hidePopup" />
                                     }
                                     label={window.i18n('hidePopupTips')}
-                                />
-                            </FormControl>
-                        </Box>
-                    </Box>
-                    <Typography gutterBottom component="div">
-                        <h4>{window.i18n('defaultFindTab')}</h4>
-                    </Typography>
-                    <FormControl sx={{ m: 1, minWidth: 80 }}>
-                        <FormControlLabel
-                            control={
-                                <Switch checked={state.defaultFindTab} onChange={handleCheckChange} name="defaultFindTab" />
-                            }
-                            label={window.i18n('defaultFindTabTips')}
-                        />
-                    </FormControl>
-                    <Typography gutterBottom component="div">
-                        <h4>{window.i18n('disableInputOnWords')}</h4>
-                    </Typography>
-                    <FormControl sx={{ m: 1, minWidth: 80 }}>
-                        <FormControlLabel
-                            control={
-                                <Switch checked={state.disableInputOnWords} onChange={handleCheckChange} name="disableInputOnWords" />
-                            }
-                            label={window.i18n('disableInputOnWordsTips')}
-                        />
-                    </FormControl>
-                    <Box sx={{ flexGrow: 1, display: 'flex'}}>
-                        <Box>
-                            <Typography gutterBottom component="div">
-                                <h4>{window.i18n('altToHighlight')}</h4>
-                            </Typography>
-                            <FormControl sx={{ m: 1, minWidth: 80 }}>
-                                <FormControlLabel
-                                    control={
-                                        <Switch checked={state.altToHighlight} onChange={handleCheckChange} name="altToHighlight" />
-                                    }
-                                    label={window.i18n('altToHighlightTips')}
-                                />
-                            </FormControl>
-                        </Box>
-                        <Box>
-                            <Typography gutterBottom component="div">
-                                <h4>{window.i18n('defaultPicker')}</h4>
-                            </Typography>
-                            <FormControl sx={{ m: 1, minWidth: 80 }}>
-                                <FormControlLabel
-                                    control={
-                                        <Switch checked={state.defaultPicker} onChange={handleCheckChange} name="defaultPicker" />
-                                    }
-                                    label={window.i18n('defaultPickerTips')}
                                 />
                             </FormControl>
                         </Box>
