@@ -513,48 +513,52 @@ export default function General() {
                 </Box>
             </Paper>
             <Paper elevation={5} sx={{ padding: '20px', marginTop: '20px' }}>
-                <Typography gutterBottom component="div">
-                    <h4>{window.i18n('currentTypeFirst')}</h4>
-                </Typography>
-                <Box>
-                    <FormControl sx={{ m: 1, minWidth: 80 }}>
-                        <FormControlLabel
-                            control={
-                                <Switch checked={state.currentTypeFirst} onChange={handleCheckChange} name="currentTypeFirst" />
-                            }
-                            label={window.i18n('currentTypeFirstTips')}
-                        />
-                    </FormControl>
-                </Box>
-            </Paper>
-            <Paper elevation={5} sx={{ padding: '20px', marginTop: '20px' }}>
-                <Typography gutterBottom component="div">
-                    <h4>{window.i18n('shiftLastUsedType')}</h4>
-                </Typography>
-                <Box>
-                    <FormControl sx={{ m: 1, minWidth: 80 }}>
-                        <FormControlLabel
-                            control={
-                                <Switch checked={state.shiftLastUsedType} onChange={handleCheckChange} name="shiftLastUsedType" />
-                            }
-                            label={window.i18n('shiftLastUsedTypeTips')}
-                        />
-                    </FormControl>
-                </Box>
-            </Paper>
-            <Paper elevation={5} sx={{ padding: '20px', marginTop: '20px' }}>
-                <Typography gutterBottom component="div">
-                    <h4>{window.i18n('sortType')}</h4>
-                </Typography>
-                <Box>
-                    <FormControl sx={{ m: 1, minWidth: 80 }}>
-                        <FormControlLabel
-                            control={
-                                <Switch checked={state.sortType} onChange={handleCheckChange} name="sortType" />
-                            }
-                            label={window.i18n('sortTypeTips')}
-                        />
-                    </FormControl>
+                <Box sx={{ flexGrow: 1, display: 'flex', flexWrap: 'wrap'}}>
+                    <Box>
+                        <Typography gutterBottom component="div">
+                            <h4>{window.i18n('currentTypeFirst')}</h4>
+                        </Typography>
+                        <Box>
+                            <FormControl sx={{ m: 1, minWidth: 80 }}>
+                                <FormControlLabel
+                                    control={
+                                        <Switch checked={state.currentTypeFirst} onChange={handleCheckChange} name="currentTypeFirst" />
+                                    }
+                                    label={window.i18n('currentTypeFirstTips')}
+                                />
+                            </FormControl>
+                        </Box>
+                    </Box>
+                    <Box>
+                        <Typography gutterBottom component="div">
+                            <h4>{window.i18n('shiftLastUsedType')}</h4>
+                        </Typography>
+                        <Box>
+                            <FormControl sx={{ m: 1, minWidth: 80 }}>
+                                <FormControlLabel
+                                    control={
+                                        <Switch checked={state.shiftLastUsedType} onChange={handleCheckChange} name="shiftLastUsedType" />
+                                    }
+                                    label={window.i18n('shiftLastUsedTypeTips')}
+                                />
+                            </FormControl>
+                        </Box>
+                    </Box>
+                    <Box>
+                        <Typography gutterBottom component="div">
+                            <h4>{window.i18n('sortType')}</h4>
+                        </Typography>
+                        <Box>
+                            <FormControl sx={{ m: 1, minWidth: 80 }}>
+                                <FormControlLabel
+                                    control={
+                                        <Switch checked={state.sortType} onChange={handleCheckChange} name="sortType" />
+                                    }
+                                    label={window.i18n('sortTypeTips')}
+                                />
+                            </FormControl>
+                        </Box>
+                    </Box>
                 </Box>
             </Paper>
             <Paper elevation={5} sx={{ padding: '20px', marginTop: '20px' }}>
@@ -618,33 +622,37 @@ export default function General() {
                 </Box>
             </Paper>
             <Paper elevation={5} sx={{ padding: '20px', marginTop: '20px' }}>
-                <Typography gutterBottom component="div">
-                    <h4>{window.i18n('noIcons')}</h4>
-                </Typography>
-                <Box>
-                    <FormControl sx={{ m: 1, minWidth: 80 }}>
-                        <FormControlLabel
-                            control={
-                                <Switch checked={state.noIcons} onChange={handleCheckChange} name="noIcons" />
-                            }
-                            label={window.i18n('noIconsTips')}
-                        />
-                    </FormControl>
-                </Box>
-            </Paper>
-            <Paper elevation={5} sx={{ padding: '20px', marginTop: '20px' }}>
-                <Typography gutterBottom component="div">
-                    <h4>{window.i18n('noAni')}</h4>
-                </Typography>
-                <Box>
-                    <FormControl sx={{ m: 1, minWidth: 80 }}>
-                        <FormControlLabel
-                            control={
-                                <Switch checked={state.noAni} onChange={handleCheckChange} name="noAni" />
-                            }
-                            label={window.i18n('noAniTips')}
-                        />
-                    </FormControl>
+                <Box sx={{ flexGrow: 1, display: 'flex', flexWrap: 'wrap'}}>
+                    <Box>
+                        <Typography gutterBottom component="div">
+                            <h4>{window.i18n('noIcons')}</h4>
+                        </Typography>
+                        <Box>
+                            <FormControl sx={{ m: 1, minWidth: 80 }}>
+                                <FormControlLabel
+                                    control={
+                                        <Switch checked={state.noIcons} onChange={handleCheckChange} name="noIcons" />
+                                    }
+                                    label={window.i18n('noIconsTips')}
+                                />
+                            </FormControl>
+                        </Box>
+                    </Box>
+                    <Box>
+                        <Typography gutterBottom component="div">
+                            <h4>{window.i18n('noAni')}</h4>
+                        </Typography>
+                        <Box>
+                            <FormControl sx={{ m: 1, minWidth: 80 }}>
+                                <FormControlLabel
+                                    control={
+                                        <Switch checked={state.noAni} onChange={handleCheckChange} name="noAni" />
+                                    }
+                                    label={window.i18n('noAniTips')}
+                                />
+                            </FormControl>
+                        </Box>
+                    </Box>
                 </Box>
             </Paper>
             <Paper elevation={5} sx={{ padding: '20px', marginTop: '20px' }}>
@@ -1144,6 +1152,68 @@ export default function General() {
                     </FormControl>
                 </Box>
             </Paper>
+            <Paper elevation={5} sx={{ padding: '20px', marginTop: '20px' }}>
+                <Typography gutterBottom component="div">
+                    <h4>{window.i18n('dragToSearch')}</h4>
+                </Typography>
+                <Box>
+                    <FormControl sx={{ m: 1, minWidth: 80 }}>
+                        <FormControlLabel
+                            control={
+                                <Switch checked={state.dragToSearch} onChange={handleCheckChange} name="dragToSearch" />
+                            }
+                            label={window.i18n('dragToSearchTips')}
+                        />
+                    </FormControl>
+                    <Box>
+                        <FormControl sx={{ m: 1, minWidth: 80 }}>
+                            <FormControlLabel
+                                control={
+                                    <Switch checked={state.dragCtrl} onChange={handleCheckChange} name="dragCtrl" />
+                                }
+                                label={window.i18n('ctrlKey')}
+                            />
+                        </FormControl>
+                        <FormControl sx={{ m: 1, minWidth: 80 }}>
+                            <FormControlLabel
+                                control={
+                                    <Switch checked={state.dragAlt} onChange={handleCheckChange} name="dragAlt" />
+                                }
+                                label={window.i18n('altKey')}
+                            />
+                        </FormControl>
+                        <FormControl sx={{ m: 1, minWidth: 80 }}>
+                            <FormControlLabel
+                                control={
+                                    <Switch checked={state.dragShift} onChange={handleCheckChange} name="dragShift" />
+                                }
+                                label={window.i18n('shiftKey')}
+                            />
+                        </FormControl>
+                        <FormControl sx={{ m: 1, minWidth: 80 }}>
+                            <FormControlLabel
+                                control={
+                                    <Switch checked={state.dragMeta} onChange={handleCheckChange} name="dragMeta" />
+                                }
+                                label={window.i18n('metaKey')}
+                            />
+                        </FormControl>
+                    </Box>
+                </Box>
+                <Typography gutterBottom component="div">
+                    <h4>{window.i18n('hideDragHistory')}</h4>
+                </Typography>
+                <Box>
+                    <FormControl sx={{ m: 1, minWidth: 80 }}>
+                        <FormControlLabel
+                            control={
+                                <Switch checked={state.hideDragHistory} onChange={handleCheckChange} name="hideDragHistory" />
+                            }
+                            label={window.i18n('hideDragHistoryTips')}
+                        />
+                    </FormControl>
+                </Box>
+            </Paper>
             <Paper elevation={5} sx={{textAlign:'center', borderRadius:'10px', mt: 5}}>
                 <h2 style={{padding:'5px'}}>{window.i18n('customSearch')}</h2>
             </Paper>
@@ -1334,66 +1404,6 @@ export default function General() {
                                 />
                             </FormControl>
                         </Box>
-                    </Box>
-                    <Typography gutterBottom component="div">
-                        <h4>{window.i18n('dragToSearch')}</h4>
-                    </Typography>
-                    <Box>
-                        <FormControl sx={{ m: 1, minWidth: 80 }}>
-                            <FormControlLabel
-                                control={
-                                    <Switch checked={state.dragToSearch} onChange={handleCheckChange} name="dragToSearch" />
-                                }
-                                label={window.i18n('dragToSearchTips')}
-                            />
-                        </FormControl>
-                        <Box>
-                            <FormControl sx={{ m: 1, minWidth: 80 }}>
-                                <FormControlLabel
-                                    control={
-                                        <Switch checked={state.dragCtrl} onChange={handleCheckChange} name="dragCtrl" />
-                                    }
-                                    label={window.i18n('ctrlKey')}
-                                />
-                            </FormControl>
-                            <FormControl sx={{ m: 1, minWidth: 80 }}>
-                                <FormControlLabel
-                                    control={
-                                        <Switch checked={state.dragAlt} onChange={handleCheckChange} name="dragAlt" />
-                                    }
-                                    label={window.i18n('altKey')}
-                                />
-                            </FormControl>
-                            <FormControl sx={{ m: 1, minWidth: 80 }}>
-                                <FormControlLabel
-                                    control={
-                                        <Switch checked={state.dragShift} onChange={handleCheckChange} name="dragShift" />
-                                    }
-                                    label={window.i18n('shiftKey')}
-                                />
-                            </FormControl>
-                            <FormControl sx={{ m: 1, minWidth: 80 }}>
-                                <FormControlLabel
-                                    control={
-                                        <Switch checked={state.dragMeta} onChange={handleCheckChange} name="dragMeta" />
-                                    }
-                                    label={window.i18n('metaKey')}
-                                />
-                            </FormControl>
-                        </Box>
-                    </Box>
-                    <Typography gutterBottom component="div">
-                        <h4>{window.i18n('hideDragHistory')}</h4>
-                    </Typography>
-                    <Box>
-                        <FormControl sx={{ m: 1, minWidth: 80 }}>
-                            <FormControlLabel
-                                control={
-                                    <Switch checked={state.hideDragHistory} onChange={handleCheckChange} name="hideDragHistory" />
-                                }
-                                label={window.i18n('hideDragHistoryTips')}
-                            />
-                        </FormControl>
                     </Box>
                 </Box>
             </Paper>
