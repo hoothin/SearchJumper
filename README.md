@@ -22,9 +22,9 @@
 + Search for pictures, links, videos, audios, pages, etc. (**long press the right mouse** on the corresponding object)
   > 可以搜尋圖片、連結、視頻、音頻、頁面等（在相應對象上**長按右鍵**）
 + Support word search on any page (need to **long press the right mouse**, you can also change to swipe to call out immediately in the settings)
-  > 支持任意頁面劃詞搜尋（需要**長按右鍵**，亦可在設置中改為劃選立即調出）
+  > 支援任意頁面劃詞搜尋（需要**長按右鍵**，亦可在設置中改為劃選立即調出）
 + Support search by site
-  > 支持站內搜尋
+  > 支援站內搜尋
 + Shortcut keys (single key or key combination) to start search (such as alt+g Google search, which can be customized at will)
   > 可隨意使用快捷鍵（單個按鍵或者組合按鍵）開啟搜尋（比如 alt+g 谷歌搜尋，可隨意自定義）
 + Right-click the category icon to open the sites in batches
@@ -58,15 +58,15 @@
 + Support open with shortcut key, right click on the logo to close
   > 可隨意拖拽 小萌臉，並隨意選擇位置放置，例如上中，下中，左上，右上，上左，上右等
 + Support configuration export and quick sharing
-  > 支持配置導出與快捷分享
+  > 支援配置導出與快捷分享
 + Support middle button to open links in the background
-  > 支持中鍵後台打開連結
+  > 支援中鍵後台打開連結
 + Support custom css
-  > 支持自定義樣式
+  > 支援自定義樣式
 + Support full character encoding
-  > 支持全字符編碼
+  > 支援全字符編碼
 + Support Post, in-page post and non-jump post
-  > 支持 Post、頁內 post 以及無跳轉 post
+  > 支援 Post、頁內 post 以及無跳轉 post
 + Comprehensive customization
   > 全面的自定義功能，詳見最下方【搜尋參數】
 + No 3rd party dependencies
@@ -100,7 +100,7 @@
 | `%b` | target src without http | 🗒️ 指向對象 src 去頭 |
 | `%B` | %b with encodeURIComponent | 🗒️ 指向對象 src 去頭 的 URI 編碼 |
 | `%i` | base64 of target image | 🗒️ 指向圖片的 base64 |
-| `%s.replace` | replace keywords with regexp, like %sr.replace(/[^\d]/g, "").replace(/(\d)/g, "$1 ") means replace raw keywords to numbers and then join all numbers with space, support %s %sl %sr %su %t %u |🗒️ 用正則替換搜尋關鍵詞，例如 %sr.replace(/[^\d]/g, "").replace(/(\d)/g, "$1 ") 代表提取原始關鍵詞中所有數字，並以空格分隔，支持  %s %sl %sr %su %t %u |
+| `%s.replace` | replace keywords with regexp, like %sr.replace(/[^\d]/g, "").replace(/(\d)/g, "$1 ") means replace raw keywords to numbers and then join all numbers with space, support %s %sl %sr %su %t %u |🗒️ 用正則替換搜尋關鍵詞，例如 %sr.replace(/[^\d]/g, "").replace(/(\d)/g, "$1 ") 代表提取原始關鍵詞中所有數字，並以空格分隔，支援  %s %sl %sr %su %t %u |
 | `%p{params}` | post body, like %p{x=1&y=%s} | 🗒️ post 參數體，例如 %p{x=1&y=%s} |
 | `%P{params}` | post without navigation | 🗒️ post 但不跳轉 |
 | `%input{tips}` | input something, like %input{love who?,you} | 🗒️ 輸入占位，例如%input{請輸入您的三圍,90 55 90} |
@@ -160,7 +160,7 @@ Select the above text, PopClip will offer an "Install Extension" action. Click i
  <details>
 <summary><h2>Filter sites to search 站點篩選並搜尋</h></summary>
 
-+ Call by global shortcut key, Input keywords of site name to filter sites, support glob with "?/\*" 透過全局快捷鍵喚出，輸入站點名稱的關鍵詞來篩選，支持 “?/\*” 通配符
++ Call by global shortcut key, Input keywords of site name to filter sites, support glob with "? \*" 透過全局快捷鍵喚出，輸入站點名稱的關鍵詞來篩選，支援 “? \*” 通配符
 + Enter to lock filter and input words to search by click icon or another press of enter 回車鎖定篩選，輸入文字并且點擊站點圖標或者再次回車來進行搜尋
 
 ![i](filter.jpg)
@@ -237,6 +237,18 @@ document.dispatchEvent(searchJumperEvent);
 ![bilibili](https://s3.bmp.ovh/imgs/2022/09/25/543a696312baf85d.gif "B站VIDEO下載")
 
  <details>
+<summary>Step by step of One-click video download configuration</summary>
+
++ Download [Lux](https://github.com/iawia002/lux/releases)
++ Download [ffmpeg](https://www.gyan.dev/ffmpeg/builds/ffmpeg-git-essentials.7z)
++ Add site under group which "Effect on page" on your SearchJumper
++ Click "Call local application" under "Edit site"
++ Input command like `"D:\Program Files\lux\lux.exe" %u`, then submit.
++ Open and import the reg file.
++ Right click with ctrl key, click Lux.
+ </details>
+ 
+ <details>
 <summary>一鍵視頻下載配置方法（B站為例）</summary>
 
 + 下載[BBDown](https://github.com/nilaoda/BBDown)
@@ -278,7 +290,7 @@ Open the page of video and download with `lux://%u` 完畢之後即可新建站�
  <details>
 <summary><h2>Sync by webdav 透過 webdav 同步站點配置與高亮規則</h2></summary>
 
-+ webdav 伺服器需要支持自設 cors
++ webdav 伺服器需要支援自設 cors
 + 也可以自己架設 webdav 伺服器，方法如下
   - 下載 [webdav server](https://github.com/hacdias/webdav/releases)
   - 創建配置文件 `config.yml`，內容如下：
