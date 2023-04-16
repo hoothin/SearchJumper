@@ -191,7 +191,7 @@ const searchJumperEvent = new CustomEvent('searchJumper', {
 });
 document.dispatchEvent(searchJumperEvent);
 ```
-+ Search by second shown site button and open in new window 使用當前展開的第二個站點搜尋並在小窗打開結果
++ Search by second site of current type and open in new window 使用當前分組的第二個站點搜尋並在小窗打開結果
 ``` javascript
 const siteOrder = 2;
 let currentSite = document.querySelector(`.search-jumper-type:not(.search-jumper-hide)>a:nth-of-type(${siteOrder})`);
@@ -206,7 +206,7 @@ if (currentSite) {
   document.dispatchEvent(searchJumperEvent);
 }
 ```
-+ Search by site of current type in background tab 使用當前選中類別的站點搜尋並在後臺標籤頁打開結果
++ Search by site of current type in background tab 使用當前分組的站點搜尋並在後臺標籤頁打開結果
 ``` javascript
 const searchJumperEvent = new CustomEvent('searchJumper', {
   detail: {
@@ -216,7 +216,7 @@ const searchJumperEvent = new CustomEvent('searchJumper', {
 });
 document.dispatchEvent(searchJumperEvent);
 ```
-+ Search by second site of current type in incognito tab 使用當前選中類別的第二個站點搜尋並在隱身標籤頁打開結果
++ Search by second site of current type in incognito tab 使用當前分組的第二個站點搜尋並在隱身標籤頁打開結果
 ``` javascript
 const siteOrder = 2;
 const searchJumperEvent = new CustomEvent('searchJumper', {
