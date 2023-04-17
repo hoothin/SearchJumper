@@ -426,7 +426,7 @@ class ChildSiteIcons extends React.Component {
                     for (let j = 0; j < sites.length; j++) {
                         let _site = sites[j];
                         if (_site.url.indexOf('[') !== 0 && _site.name === siteNames[0]) {
-                            return _site.icon || _site.url.replace(new RegExp('(https?://[^/]*/).*$'), "$1favicon.ico");
+                            return _site.icon || _site.url.replace(new RegExp('(https?://[^/]*/)[\\s\\S]*$'), "$1favicon.ico");
                         }
                     }
                 }
@@ -435,7 +435,7 @@ class ChildSiteIcons extends React.Component {
         if (site.icon) {
             return site.icon;
         } else if (/^http/.test(site.url)) {
-            return site.url.replace(new RegExp('(https?://[^/]*/).*$'), "$1favicon.ico");
+            return site.url.replace(new RegExp('(https?://[^/]*/)[\\s\\S]*$'), "$1favicon.ico");
         }
         return "";
     }
