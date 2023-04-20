@@ -170,7 +170,7 @@ function TypeEdit(props) {
                 <DialogContentText>
                     {window.i18n('iconTips')}
                 </DialogContentText>
-                <Accordion>
+                <Accordion sx={{margin: '0 -16px!important'}}>
                     <AccordionSummary
                       sx={{background: '#d1d1d120', minHeight: '45px!important', maxHeight: '45px!important'}}
                       expandIcon={<ExpandMoreIcon />}>
@@ -934,7 +934,7 @@ class SitesList extends React.Component {
                         <DialogContentText>
                             {window.i18n('siteUrlTips')}
                         </DialogContentText>
-                        <Accordion>
+                        <Accordion sx={{margin: '0 -16px!important'}}>
                             <AccordionSummary
                               sx={{background: '#d1d1d120', minHeight: '45px!important', maxHeight: '45px!important'}}
                               expandIcon={<ExpandMoreIcon />}>
@@ -1004,12 +1004,12 @@ class SitesList extends React.Component {
                                                 </IconButton>
                                             </label>
                                           </InputAdornment>
-                                        )
-                                    }}
-                                    inputProps={{
-                                        style: {
-                                          resize: 'auto'
-                                        }
+                                        ),
+                                      inputProps: {
+                                          style: {
+                                              resize: 'auto'
+                                          }
+                                      }
                                     }}
                                 />
                                 <TextField
