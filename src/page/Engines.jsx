@@ -925,6 +925,11 @@ class SitesList extends React.Component {
                                 }));
                             }}
                             placeholder="https://www.google.com/search?q=%s"
+                            inputProps={{
+                                style: {
+                                  resize: 'auto'
+                                }
+                            }}
                         />
                         <DialogContentText>
                             {window.i18n('siteUrlTips')}
@@ -949,6 +954,11 @@ class SitesList extends React.Component {
                                         this.setState(prevState => ({
                                             currentSite: {...this.state.currentSite, description: e.target.value}
                                         }));
+                                    }}
+                                    inputProps={{
+                                        style: {
+                                          resize: 'auto'
+                                        }
                                     }}
                                 />
                                 <TextField
@@ -995,6 +1005,11 @@ class SitesList extends React.Component {
                                             </label>
                                           </InputAdornment>
                                         )
+                                    }}
+                                    inputProps={{
+                                        style: {
+                                          resize: 'auto'
+                                        }
                                     }}
                                 />
                                 <TextField
