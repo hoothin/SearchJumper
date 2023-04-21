@@ -163,7 +163,8 @@ function TypeEdit(props) {
                                 </IconButton>
                             </label>
                           </InputAdornment>
-                        )
+                        ),
+                      inputProps: { spellCheck: 'false' }
                     }}
                     
                 />
@@ -201,6 +202,7 @@ function TypeEdit(props) {
                             onChange={e => {
                                 setTypeData({ ...typeData, match:e.target.value });
                             }}
+                            inputProps={{ spellCheck: 'false' }}
                         />
                         <DialogContentText>
                             {window.i18n('typeMatchTips')}
@@ -928,7 +930,8 @@ class SitesList extends React.Component {
                             inputProps={{
                                 style: {
                                   resize: 'auto'
-                                }
+                                },
+                                spellCheck: 'false'
                             }}
                         />
                         <DialogContentText>
@@ -1008,7 +1011,8 @@ class SitesList extends React.Component {
                                       inputProps: {
                                           style: {
                                               resize: 'auto'
-                                          }
+                                          },
+                                          spellCheck: 'false'
                                       }
                                     }}
                                 />
@@ -1026,6 +1030,7 @@ class SitesList extends React.Component {
                                             currentSite: {...this.state.currentSite, keywords: e.target.value}
                                         }));
                                     }}
+                                    inputProps={{ spellCheck: 'false' }}
                                 />
                                 <DialogContentText>
                                     {window.i18n('keywordRegTips')}
@@ -1044,6 +1049,7 @@ class SitesList extends React.Component {
                                             currentSite: {...this.state.currentSite, kwFilter: e.target.value}
                                         }));
                                     }}
+                                    inputProps={{ spellCheck: 'false' }}
                                 />
                                 <DialogContentText>
                                     {window.i18n('kwFilterTips')}
@@ -1062,6 +1068,7 @@ class SitesList extends React.Component {
                                             currentSite: {...this.state.currentSite, match: e.target.value}
                                         }));
                                     }}
+                                    inputProps={{ spellCheck: 'false' }}
                                 />
                                 <Box sx={{ flexGrow: 1, display: 'flex'}}>
                                     <FormControl sx={{ m: 1, minWidth: 80 }}>
@@ -1245,6 +1252,7 @@ class SitesList extends React.Component {
                             fullWidth
                             variant="standard"
                             placeholder={'"C:\\Program Files\\MPV\\mpv.exe" --stream %u'}
+                            inputProps={{ spellCheck: 'false' }}
                         />
                         <TextField
                             margin="dense"
@@ -1254,6 +1262,7 @@ class SitesList extends React.Component {
                             fullWidth
                             inputProps={{ maxLength: 5 }} 
                             variant="standard"
+                            inputProps={{ spellCheck: 'false' }}
                         />
                     </DialogContent>
                     <DialogActions>
