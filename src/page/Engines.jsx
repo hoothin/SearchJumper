@@ -1260,9 +1260,8 @@ class SitesList extends React.Component {
                             label={window.i18n('localAppName')}
                             type="text"
                             fullWidth
-                            inputProps={{ maxLength: 5 }} 
+                            inputProps={{ maxLength: 5, spellCheck: 'false' }} 
                             variant="standard"
-                            inputProps={{ spellCheck: 'false' }}
                         />
                     </DialogContent>
                     <DialogActions>
