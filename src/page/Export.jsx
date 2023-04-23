@@ -424,6 +424,7 @@ function SyncEdit(props) {
     );
 }
 
+let longHoldState = 0;
 export default function Export() {
     const [presetCss, setPresetCss] = React.useState('');
     const [openSync, setOpenSync] = React.useState(false);
@@ -491,8 +492,15 @@ export default function Export() {
         let reader = new FileReader();
         reader.readAsText(event.target.files[0]);
         reader.onload = function() {
-            editor.set({json:JSON.parse(this.result)})
-            saveConfig();
+            let jsonData = JSON.parse(this.result);
+            if (jsonData.sitesConfig) {
+              editor.set({json: jsonData.sitesConfig});
+              window.searchData = jsonData;
+              saveConfigToScript(true);
+            } else {
+              editor.set({json: jsonData});
+              saveConfig();
+            }
         };
     }
 
@@ -569,8 +577,21 @@ export default function Export() {
     }
 
     function exportConfig() {
-        let blobStr = [(JSON.stringify(editor.get().json || window.searchData.sitesConfig, null, 4))];
-        let myBlob = new Blob(blobStr, { type: "application/json" });
+        let myBlob;
+        if (longHoldState === 0) {
+          return;
+        } else if (longHoldState === 2) {
+          let editJson = editor.get().json;
+          if (editJson) {
+            window.searchData.sitesConfig = editJson;
+          }
+          let blobStr = [(JSON.stringify(window.searchData, null, 4))];
+          myBlob = new Blob(blobStr, { type: "application/json" });
+        } else if (longHoldState === 1) {
+          let blobStr = [(JSON.stringify(editor.get().json || window.searchData.sitesConfig, null, 4))];
+          myBlob = new Blob(blobStr, { type: "application/json" });
+        }
+        longHoldState = 0;
         downloadEle.href = window.URL.createObjectURL(myBlob);
         downloadEle.click();
     }
@@ -651,8 +672,17 @@ export default function Export() {
                 <SpeedDialAction
                     key='Export'
                     icon=<FileDownloadIcon />
-                    tooltipTitle={window.i18n('export')}
+                    tooltipTitle={window.i18n('exportTitle')}
                     onClick = {exportConfig}
+                    onMouseDown = {e => {
+                      longHoldState = 1;
+                      setTimeout(() => {
+                        if (longHoldState === 1) { 
+                          longHoldState = 2;
+                          exportConfig();
+                        }
+                      }, 1500);
+                    }}
                 />
                 <UploadSpeedDialAction
                     key='Import'
