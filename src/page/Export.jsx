@@ -32,6 +32,7 @@ import InputAdornment from '@mui/material/InputAdornment';
 import OutlinedInput from '@mui/material/OutlinedInput';
 import IconButton from '@mui/material/IconButton';
 import DialogContentText from '@mui/material/DialogContentText';
+import ImageIcon from '@mui/icons-material/Image';
 import { createClient } from "webdav";
 import Snackbar from '@mui/material/Snackbar';
 import MuiAlert from '@mui/material/Alert';
@@ -493,7 +494,14 @@ export default function Export() {
         reader.readAsText(event.target.files[0]);
         reader.onload = function() {
             let jsonData = JSON.parse(this.result);
-            if (jsonData.sitesConfig) {
+            if (jsonData.cacheIcon) {
+              var saveMessage = new CustomEvent('importCache', {
+                  detail: {
+                      cacheData: jsonData
+                  }
+              });
+              document.dispatchEvent(saveMessage);
+            } else if (jsonData.sitesConfig) {
               editor.set({json: jsonData.sitesConfig});
               window.searchData = jsonData;
               saveConfigToScript(true);
@@ -596,6 +604,11 @@ export default function Export() {
         downloadEle.click();
     }
 
+    function exportCache() {
+      var exportMessage = new Event('downloadCache');
+      document.dispatchEvent(exportMessage);
+    }
+
     const handleChange = (event: SelectChangeEvent) => {
         setPresetCss(event.target.value);
         if (!cssText || window.confirm(window.i18n('replaceCss'))) {
@@ -669,6 +682,14 @@ export default function Export() {
                     tooltipTitle={window.i18n('copy')}
                     onClick = {copyConfig}
                 />
+                {window.searchData.prefConfig.cacheSwitch ?
+                <SpeedDialAction
+                    key='ExportCache'
+                    icon=<ImageIcon />
+                    tooltipTitle={window.i18n('exportCache')}
+                    onClick = {exportCache}
+                />
+                : ""}
                 <SpeedDialAction
                     key='Export'
                     icon=<FileDownloadIcon />
