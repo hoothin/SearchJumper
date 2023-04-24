@@ -596,6 +596,13 @@ class SitesList extends React.Component {
             let currentType = window.searchData.sitesConfig[this.index];
             if (!this.state.currentSite.name) return this.handleAlertOpen(window.i18n('needName'));
             if (!this.state.currentSite.url) return this.handleAlertOpen(window.i18n('needUrl'));
+            if (/^\[/.test(this.state.currentSite.url)) {
+                try {
+                    JSON.parse(this.state.currentSite.url);
+                } catch (e) {
+                    return this.handleAlertOpen(e.toString());
+                }
+            }
             let isClone = this.state.currentSite.url.indexOf('[') === 0;
             for (let i = 0; i < window.searchData.sitesConfig.length; i++) {
                 let typeData = window.searchData.sitesConfig[i];
