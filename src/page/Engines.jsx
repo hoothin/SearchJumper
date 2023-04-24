@@ -420,18 +420,22 @@ class ChildSiteIcons extends React.Component {
     getIcon(site){
         let isClone = site.url.indexOf('[') === 0;
         if (isClone) {
-            let siteNames = JSON.parse(site.url);
-            if (siteNames.length === 1) {
-                for (let i = 0; i < window.searchData.sitesConfig.length; i++) {
-                    let typeData = window.searchData.sitesConfig[i];
-                    let sites = typeData.sites;
-                    for (let j = 0; j < sites.length; j++) {
-                        let _site = sites[j];
-                        if (_site.url.indexOf('[') !== 0 && _site.name === siteNames[0]) {
-                            return _site.icon || _site.url.replace(new RegExp('(https?://[^/]*/)[\\s\\S]*$'), "$1favicon.ico");
+            try {
+                let siteNames = JSON.parse(site.url);
+                if (siteNames.length === 1) {
+                    for (let i = 0; i < window.searchData.sitesConfig.length; i++) {
+                        let typeData = window.searchData.sitesConfig[i];
+                        let sites = typeData.sites;
+                        for (let j = 0; j < sites.length; j++) {
+                            let _site = sites[j];
+                            if (_site.url.indexOf('[') !== 0 && _site.name === siteNames[0]) {
+                                return _site.icon || _site.url.replace(new RegExp('(https?://[^/]*/)[\\s\\S]*$'), "$1favicon.ico");
+                            }
                         }
                     }
                 }
+            } catch(e) {
+                console.log(e);
             }
         }
         if (site.icon) {
@@ -676,11 +680,15 @@ class SitesList extends React.Component {
             if (!/^\[/.test(this.editSite.url)){
                 returnData.sites = returnData.sites.map(site => {
                     if (/^\[/.test(site.url)) {
-                        let namesArr = JSON.parse(site.url);
-                        namesArr = namesArr.filter(n => {
-                            return (n !== this.editSite.name);
-                        });
-                        site.url = namesArr.length === 0 ? '' : JSON.stringify(namesArr);
+                        try {
+                            let namesArr = JSON.parse(site.url);
+                            namesArr = namesArr.filter(n => {
+                                return (n !== this.editSite.name);
+                            });
+                            site.url = namesArr.length === 0 ? '' : JSON.stringify(namesArr);
+                        } catch (e) {
+                            console.log(e);
+                        }
                     }
                     return site;
                 });
