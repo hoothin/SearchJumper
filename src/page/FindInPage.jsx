@@ -67,15 +67,14 @@ function setInPageRule() {
             let value = ruleObj[key];
             if (!value) return;
             if (!value.words || value.words.length === 0) return;
-            let pre = "", sep = value.sep || null;
-            if (!sep) sep = " ";
-            if (value.words.length > 1) {
-                if (sep === " ") pre = "";
-                else pre = "$c" + sep;
-            } else {
+            let pre = "", sep = value.sep || "";
+            if (sep) {
+                pre = "$c" + sep;
+            } else if (value.words.length === 1) {
+                sep = " ";
                 let onlyWord = value.words[0];
                 if (onlyWord.indexOf(" ") !== -1) {
-                    sep = null;
+                    sep = "";
                     pre = "$o";
                 }
             }
@@ -106,8 +105,44 @@ function setInPageRule() {
 }
 
 var ignoreWordsTimer;
-const ruleTips = '{\n\t"https://www.g??gle.com": {\t//site url\n\t\tsep: "$",\t\t\t\t\t//separator for words, set when your keyword has space inside\n\t\twords: [\t\t\t\t\t//words to find\n\t\t\t"word1$t{wow}",\t\t//find word1 and add tips "wow"\n\t\t\t"word2$s{red;}"\t\t//find word2 and change background to red\n\t\t]\n\t},\n\t"*bing.com": {\n\t\twords: [\n\t\t\t"ring"\n\t\t]\n\t}\n}';
-const ruleTitle = '{\n\t"https://www.g??gle.com": {\t//site url\n\t\tsep: "$",\t\t\t\t//separator for words, set when your keyword has space inside\n\t\twords: [\t\t\t\t//words to find\n\t\t\t"word1$t{wow}",\t  //find word1 and add tips "wow"\n\t\t\t"word2$s{red;}"\t    //find word2 and change background to red\n\t\t]\n\t},\n\t"*bing.com": {\n\t\twords: [\n\t\t\t"ring"\n\t\t]\n\t}\n}';
+const ruleTips = `{
+    "https://www.g??gle.com": {  //site url
+        sep: "@",                                //separator for words, set when your keyword has space inside
+        words: [                                //words to find
+            "word1$t{wow}",             //find word1 and add tips "wow"
+            "word2$s{red;}"               //find word2 and change background to red
+        ]
+    },
+    "*bing.com": {
+        words: [
+            "ring$p{0}"                        //find word and hide first parentNode of target
+        ]
+    },
+    "/.*youtube\\\\.com/i": {           //RegExp of site url, ignore case sensitivity
+        words: [
+            "/tv\\\\d+/$t{$popup}"      //find word like tv01,tv02 and popup panel while mouse over
+        ]
+    }
+}`;
+const ruleTitle = `{
+    "https://www.g??gle.com": {   //site url
+        sep: "@",                               //separator for words, set when your keyword has space inside
+        words: [                               //words to find
+            "word1$t{wow}",             //find word1 and add tips "wow"
+            "word2$s{red;}"               //find word2 and change background to red
+        ]
+    },
+    "*bing.com": {
+        words: [
+            "ring$p{0}"                      //find word and hide first parentNode of target
+        ]
+    },
+    "/.*youtube\\\\.com/i": {            //RegExp of site url, ignore case sensitivity
+        words: [
+            "/tv\\\\d+/$t{$popup}"      //find word like tv01,tv02 and popup panel while mouse over
+        ]
+    }
+}`;
 export default function FindInPage() {
     if (!window.searchData.prefConfig.showInSearchEngine) {
         window.searchData.prefConfig.showInSearchEngine = false;
