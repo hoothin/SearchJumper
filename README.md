@@ -111,7 +111,7 @@
 | `%element{}.replace()` | replace, same as above, like %element{.mainTitle}.prop(href).replace(/https/i,"") | 🗒️ 正則替換，例如 %element{.mainTitle}.prop(href).replace(/https/i,"") |
 | `c:` | put this at first then all words after will be copied to the clipboard | 🗒️ 在開頭使用"c:"可以複製之後的所有字串 |
 
-## Engine examples
+## Engine examples 搜尋引擎範例
 + Open link in the text, display only when a link is detected 打開文字中的鏈接，僅當檢測到鏈接時顯示
 ``` json
 {
@@ -134,6 +134,24 @@
   "url": "https://s.hoothin.com/#p{wait(x-peer)&call(document.querySelector('x-peer').dispatchEvent(new Event('contextmenu')))&#textInput=%s&click(#textInput+div>button)}"
 }
 ```
+
+## Highlight rule examples 高亮詞規則範例
+``` json
+{
+    "/^https://t66y\\.com/htm_data//i": {
+        "sep": "@",
+        "words": [
+            "/[0-9a-zA-Z]+\\-\\d+/$s{unset;border-bottom:5px dotted red;}$t{$popup}"
+        ]
+    }
+}
+```
++ Effect on the site matched RegExp `https://t66y\\.com/htm_data/` with case ignore
+ >匹配到草榴網址的正則 `https://t66y\\.com/htm_data/` 后生效，不區分大小寫
++ Split by "@" as there is space in the keyWords under
+ >以@分隔，因爲下面的關鍵詞中有空格
++ Search words according to the regular pattern at first, then add style "background:unset;border-bottom:5px dotted red;" to the highlighted words, finally add the feature of hovering the mouse to pop up the search box
+ >首先根據正則 "[0-9a-zA-Z]+\\-\\d+" 查找番號，然後為高亮詞添加 style "background:unset;border-bottom:5px dotted red;"，最後添加鼠標懸浮彈出搜索彈框的特性
 
 ## PopClip extension for SearchJumper
 ``` yaml
