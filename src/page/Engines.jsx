@@ -1910,6 +1910,16 @@ export default function Engines() {
                         filterDataListTimer = setTimeout(() => {
                             let list = e.target.list;
                             let inputWord = e.target.value, inputWordLc;
+                            [].find.call(list.children, option => {
+                                if(option.value === inputWord) {
+                                    let typeIndex = forwordToSite(inputWord);
+                                    if (typeIndex !== false) {
+                                        setValue(typeIndex);
+                                    }
+                                    return true;
+                                }
+                                return false;
+                            });
                             list.innerHTML = "";
                             if (inputWord) inputWordLc = inputWord.toLowerCase();
                             else return;
