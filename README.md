@@ -134,6 +134,22 @@
   "url": "https://s.hoothin.com/#p{wait(x-peer)&call(document.querySelector('x-peer').dispatchEvent(new Event('contextmenu')))&#textInput=%s&click(#textInput+div>button)}"
 }
 ```
++ Miles to kilometers and show in tips 英里轉公里並顯示為 tips
+``` json
+{
+  "name": "📏英里轉公里",
+  "url": "showTips:let s=\"%sr\".match(/(\\d+)(英里|英?哩|mi(le)?)/)[1];let km=(s*1.609344).toFixed(2);return `<i>${s} mi = ${km} km</i>`;",
+  "kwFilter": "\\d+\\s*(英里|英?哩|mi(le)?\\b)"
+}
+```
++ Split by line and paste into the current input box in order 按行分割後依次粘貼到當前輸入框
+``` json
+{
+  "name": "⌨️ 按行輸入",
+  "url": "#p{@=%s[]}",
+  "description": "按行分割後依次粘貼到當前輸入框"
+}
+```
 
 ## Highlight rule examples 高亮詞規則範例
 ``` json
