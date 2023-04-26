@@ -1515,6 +1515,7 @@ export default function Engines() {
       createData('%e', window.i18n('param_e')),
       createData('%c', window.i18n('param_c')),
       createData('%s.replace', window.i18n('param_sre')),
+      createData('%s[]', window.i18n('param_ssplit')),
       createData('%p{params}', window.i18n('param_p1')),
       createData('%P{params}', window.i18n('param_p2')),
       createData('#p{params}', window.i18n('param_p3')),
