@@ -154,8 +154,8 @@
 ``` json
 {
   "name": "💞 AV預覽",
-  "url": "showTips:let javbus='https://www.javbus.com';let avid='%sr';let avDatas=await storage.getItem(\"avDatas\");if(!avDatas)avDatas=[];let url=javbus+'/'+avid;let genehtml=(title,img)=>`${title}<br/><img src='${img}' referrerpolicy='no-referrer'/>`;let d=avDatas.find(avData=>avData.id==avid);if(d)return [genehtml(d.title,d.img),url];let doc=await fetch(url).then(r=>r.text()).then(r=>{let doc=document.implementation.createHTMLDocument('');doc.documentElement.innerHTML=r;return doc;}).catch(alert);let title=doc.title;let img=doc.querySelector('a.bigImage>img');if(!img)return;img=javbus+img.getAttribute('src');avDatas.push({id:avid,title:title,img:img});if(avDatas.length>20)avDatas.shift();storage.setItem(\"avDatas\",avDatas);return[`${genehtml(title,img)}`,url];",
-  "kwFilter": "^[0-9a-zA-Z]+[\\-_]\\d+$"
+  "url": "showTips:let javbus='https://www.javbus.com';let avid='%sr.replace(/^(\\w+?)[\\-_]?(\\d+)$/,\"$1-$2\")';let avDatas=await storage.getItem(\"avDatas\");if(!avDatas)avDatas=[];let url=javbus+'/'+avid;let genehtml=(title,img)=>`<span style='font-size:22px;line-height:1.2;'>${title}</span><br/><img src='${img}' referrerpolicy='no-referrer'/>`;let d=avDatas.find(avData=>avData.id==avid);if(d)return [genehtml(d.title,d.img),url];let doc=await fetch(url).then(r=>r.text()).then(r=>{let doc=document.implementation.createHTMLDocument('');doc.documentElement.innerHTML=r;return doc;}).catch(alert);let title=doc.title;let img=doc.querySelector('a.bigImage>img');if(!img)return;img=javbus+img.getAttribute('src');avDatas.push({id:avid,title:title,img:img});if(avDatas.length>20)avDatas.shift();storage.setItem(\"avDatas\",avDatas);return[`${genehtml(title,img)}`,url];",
+  "kwFilter": "^[0-9a-zA-Z]+[\\-_]?\\d+$"
 }
 ```
 
