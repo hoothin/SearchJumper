@@ -2119,7 +2119,10 @@ export default function Engines() {
                                     <TableCell component="th" scope="row">
                                       {row.param}
                                     </TableCell>
-                                    <TableCell>{row.info}</TableCell>
+                                    {row.param === "%ss" || row.param === "%st" ? 
+                                    <TableCell component="a" href="https://greasyfork.org/scripts/24300">{row.info}</TableCell>
+                                    :
+                                    <TableCell>{row.info}</TableCell>}
                                 </TableRow>
                             ))}
                             </TableBody>
