@@ -89,16 +89,9 @@
 | `%S` | cached search keyword |🗒️ 最近一次的搜尋關鍵詞 |
 | `%sl` | search keyword with lower case letters |🗒️ 小寫字母搜尋詞 |
 | `%su` | search keyword with upper case letters |🗒️ 大寫字母搜尋詞 |
-| `%sr` | search keyword without doing any encoding |🗒️ 未轉碼的搜尋關鍵詞 |
-| `%e` | charset | 🗒️ 編碼 |
-| `%c` | client pc,mobile | 🗒️ 客戶端 pc,mobile |
 | `%u` | current website url | 🗒️ 當前網站 url |
-| `%U` | url with encodeURIComponent | 🗒️ 當前網站 url 的 URI 編碼 |
 | `%h` | current website host | 🗒️ 當前網站 host |
 | `%t` | target src | 🗒️ 指向對象的 src |
-| `%T` | %t with encodeURIComponent | 🗒️ 指向對象的 src 的 URI 編碼 |
-| `%b` | target src without http | 🗒️ 指向對象 src 去頭 |
-| `%B` | %b with encodeURIComponent | 🗒️ 指向對象 src 去頭 的 URI 編碼 |
 | `%i` | base64 of target image | 🗒️ 指向圖片的 base64 |
 | `%s.replace` | replace keywords with regexp, like %sr.replace(/[^\d]/g, "").replace(/(\d)/g, "$1 ") means replace raw keywords to numbers and then join all numbers with space, support %s %sl %sr %su %t %u |🗒️ 用正則替換搜尋關鍵詞，例如 %sr.replace(/[^\d]/g, "").replace(/(\d)/g, "$1 ") 代表提取原始關鍵詞中所有數字，並以空格分隔，支援  %s %sl %sr %su %t %u |
 | `%p{params}` | post body, like %p{x=1&y=%s} | 🗒️ post 參數體，例如 %p{x=1&y=%s} |
