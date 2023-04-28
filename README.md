@@ -102,7 +102,6 @@
 | `%element{}` | query element for innerText from selector or xpath, like %element{.mainTitle} | 🗒️ 透過 css 選擇器或 xpath 抓取元素並返回文字内容，例如 %element{.mainTitle} |
 | `%element{}.prop()` | return prop value for queried element, like %element{.mainTitle}.prop(href) %element{.mainTitle}.prop(innerHTML) | 🗒️ 獲取抓取到元素的屬性值，例如 %element{.mainTitle}.prop(href) %element{.mainTitle}.prop(innerHTML) |
 | `%element{}.replace()` | replace, same as above, like %element{.mainTitle}.prop(href).replace(/https/i,"") | 🗒️ 正則替換，例如 %element{.mainTitle}.prop(href).replace(/https/i,"") |
-| `c:` | put this at first then all words after will be copied to the clipboard | 🗒️ 在開頭使用"c:"可以複製之後的所有字串 |
 
 ## Engine examples 搜尋引擎範例
 + Open link in the text, display only when a link is detected 打開文字中的鏈接，僅當檢測到鏈接時顯示
