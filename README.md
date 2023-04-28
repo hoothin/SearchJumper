@@ -89,16 +89,9 @@
 | `%S` | cached search keyword |🗒️ 最近一次的搜尋關鍵詞 |
 | `%sl` | search keyword with lower case letters |🗒️ 小寫字母搜尋詞 |
 | `%su` | search keyword with upper case letters |🗒️ 大寫字母搜尋詞 |
-| `%sr` | search keyword without doing any encoding |🗒️ 未轉碼的搜尋關鍵詞 |
-| `%e` | charset | 🗒️ 編碼 |
-| `%c` | client pc,mobile | 🗒️ 客戶端 pc,mobile |
 | `%u` | current website url | 🗒️ 當前網站 url |
-| `%U` | url with encodeURIComponent | 🗒️ 當前網站 url 的 URI 編碼 |
 | `%h` | current website host | 🗒️ 當前網站 host |
 | `%t` | target src | 🗒️ 指向對象的 src |
-| `%T` | %t with encodeURIComponent | 🗒️ 指向對象的 src 的 URI 編碼 |
-| `%b` | target src without http | 🗒️ 指向對象 src 去頭 |
-| `%B` | %b with encodeURIComponent | 🗒️ 指向對象 src 去頭 的 URI 編碼 |
 | `%i` | base64 of target image | 🗒️ 指向圖片的 base64 |
 | `%s.replace` | replace keywords with regexp, like %sr.replace(/[^\d]/g, "").replace(/(\d)/g, "$1 ") means replace raw keywords to numbers and then join all numbers with space, support %s %sl %sr %su %t %u |🗒️ 用正則替換搜尋關鍵詞，例如 %sr.replace(/[^\d]/g, "").replace(/(\d)/g, "$1 ") 代表提取原始關鍵詞中所有數字，並以空格分隔，支援  %s %sl %sr %su %t %u |
 | `%p{params}` | post body, like %p{x=1&y=%s} | 🗒️ post 參數體，例如 %p{x=1&y=%s} |
@@ -109,7 +102,6 @@
 | `%element{}` | query element for innerText from selector or xpath, like %element{.mainTitle} | 🗒️ 透過 css 選擇器或 xpath 抓取元素並返回文字内容，例如 %element{.mainTitle} |
 | `%element{}.prop()` | return prop value for queried element, like %element{.mainTitle}.prop(href) %element{.mainTitle}.prop(innerHTML) | 🗒️ 獲取抓取到元素的屬性值，例如 %element{.mainTitle}.prop(href) %element{.mainTitle}.prop(innerHTML) |
 | `%element{}.replace()` | replace, same as above, like %element{.mainTitle}.prop(href).replace(/https/i,"") | 🗒️ 正則替換，例如 %element{.mainTitle}.prop(href).replace(/https/i,"") |
-| `c:` | put this at first then all words after will be copied to the clipboard | 🗒️ 在開頭使用"c:"可以複製之後的所有字串 |
 
 ## Engine examples 搜尋引擎範例
 + Open link in the text, display only when a link is detected 打開文字中的鏈接，僅當檢測到鏈接時顯示
@@ -154,8 +146,8 @@
 ``` json
 {
   "name": "💞 AV預覽",
-  "url": "showTips:let javbus='https://www.javbus.com';let avid='%sr';let avDatas=await storage.getItem(\"avDatas\");if(!avDatas)avDatas=[];let url=javbus+'/'+avid;let genehtml=(title,img)=>`${title}<br/><img src='${img}' referrerpolicy='no-referrer'/>`;let d=avDatas.find(avData=>avData.id==avid);if(d)return [genehtml(d.title,d.img),url];let doc=await fetch(url).then(r=>r.text()).then(r=>{let doc=document.implementation.createHTMLDocument('');doc.documentElement.innerHTML=r;return doc;}).catch(alert);let title=doc.title;let img=doc.querySelector('a.bigImage>img');if(!img)return;img=javbus+img.getAttribute('src');avDatas.push({id:avid,title:title,img:img});if(avDatas.length>20)avDatas.shift();storage.setItem(\"avDatas\",avDatas);return[`${genehtml(title,img)}`,url];",
-  "kwFilter": "^[0-9a-zA-Z]+[\\-_]\\d+$"
+  "url": "showTips:let javbus='https://www.javbus.com';let avid='%sr.replace(/^(\\w+?)[\\-_]?(\\d+)$/,\"$1-$2\")';let avDatas=await storage.getItem(\"avDatas\");if(!avDatas)avDatas=[];let url=javbus+'/'+avid;let genehtml=(title,img)=>`<span style='font-size:22px;line-height:1.2;'>${title}</span><br/><img src='${img}' referrerpolicy='no-referrer'/>`;let d=avDatas.find(avData=>avData.id==avid);if(d)return [genehtml(d.title,d.img),url];let doc=await fetch(url).then(r=>r.text()).then(r=>{let doc=document.implementation.createHTMLDocument('');doc.documentElement.innerHTML=r;return doc;}).catch(alert);let title=doc.title;let img=doc.querySelector('a.bigImage>img');if(!img)return;img=javbus+img.getAttribute('src');avDatas.push({id:avid,title:title,img:img});if(avDatas.length>20)avDatas.shift();storage.setItem(\"avDatas\",avDatas);return[`${genehtml(title,img)}`,url];",
+  "kwFilter": "^[0-9a-zA-Z]+[\\-_]?\\d+$"
 }
 ```
 
