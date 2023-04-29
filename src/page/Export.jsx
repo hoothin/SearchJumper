@@ -36,6 +36,7 @@ import ImageIcon from '@mui/icons-material/Image';
 import { createClient } from "webdav";
 import Snackbar from '@mui/material/Snackbar';
 import MuiAlert from '@mui/material/Alert';
+import ContentPasteGoIcon from '@mui/icons-material/ContentPasteGo';
 
 
 async function checkWebdav(host, username, password, pathname) {
@@ -489,27 +490,50 @@ export default function Export() {
         document.dispatchEvent(copyMessage);
     }
 
+    function importData(data) {
+        if (!data) return;
+        if (data.cacheIcon) {
+          var saveMessage = new CustomEvent('importCache', {
+              detail: {
+                  cacheData: data
+              }
+          });
+          document.dispatchEvent(saveMessage);
+        } else if (data.sitesConfig) {
+          editor.set({json: data.sitesConfig});
+          window.searchData = data;
+          saveConfigToScript(true);
+        } else {
+          if (!data[0] || !data[0].type) {
+            handleAlertOpen("Not valid config");
+            return;
+          }
+          editor.set({json: data});
+          saveConfig();
+        }
+    }
+
     function importConfig(event) {
         let reader = new FileReader();
         reader.readAsText(event.target.files[0]);
         reader.onload = function() {
             let jsonData = JSON.parse(this.result);
-            if (jsonData.cacheIcon) {
-              var saveMessage = new CustomEvent('importCache', {
-                  detail: {
-                      cacheData: jsonData
-                  }
-              });
-              document.dispatchEvent(saveMessage);
-            } else if (jsonData.sitesConfig) {
-              editor.set({json: jsonData.sitesConfig});
-              window.searchData = jsonData;
-              saveConfigToScript(true);
-            } else {
-              editor.set({json: jsonData});
-              saveConfig();
-            }
+            importData(jsonData);
         };
+    }
+
+    async function ImportFromClipboard(event) {
+      let content = await navigator.clipboard.readText();
+      if (!content) {
+        handleAlertOpen("No content");
+        return;
+      }
+      try {
+        content = JSON.parse(content);
+        importData(content);
+      } catch (e) {
+        handleAlertOpen(e.toString());
+      }
     }
 
     function importBookmarks(event) {
@@ -710,6 +734,12 @@ export default function Export() {
                     icon=<FileUploadIcon />
                     tooltipTitle={window.i18n('import')}
                     onChange = {importConfig}
+                />
+                <SpeedDialAction
+                    key='ImportFromClipboard'
+                    icon=<ContentPasteGoIcon />
+                    tooltipTitle={window.i18n('ImportFromClipboard')}
+                    onClick = {ImportFromClipboard}
                 />
                 <UploadBookmarkAction
                     key='Bookmarks'
