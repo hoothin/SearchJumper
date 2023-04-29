@@ -738,7 +738,7 @@ export default function Export() {
                 <SpeedDialAction
                     key='ImportFromClipboard'
                     icon=<ContentPasteGoIcon />
-                    tooltipTitle={window.i18n('ImportFromClipboard')}
+                    tooltipTitle={window.i18n('importFromClipboard')}
                     onClick = {ImportFromClipboard}
                 />
                 <UploadBookmarkAction
