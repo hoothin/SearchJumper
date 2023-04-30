@@ -138,8 +138,7 @@
 ``` json
 {
   "name": "⌨️ 按行輸入",
-  "url": "#p{@=%s[]}",
-  "description": "按行分割後依次粘貼到當前輸入框"
+  "url": "#p{@=%s[]}"
 }
 ```
 + Preview Japan AV 框選番號預覽AV
