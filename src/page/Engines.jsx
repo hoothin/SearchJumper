@@ -1962,7 +1962,7 @@ export default function Engines() {
                     }}
                 />
                 <SearchIcon/>
-                <Button variant="contained" endIcon={<DomainVerificationIcon/>}
+                <Button variant="contained" id="verifyBtn" title={window.i18n('verifyBtn')} endIcon={<DomainVerificationIcon sx={{mr: '-4px', mt: '-2px'}}/>}
                     onClick={() => {
                         verifyArray = [];
                         let verifyResultList = document.getElementById('verifyResultList');
@@ -1984,7 +1984,7 @@ export default function Engines() {
                             sendVerifyRequest();
                         }
                     }}
-                >{window.i18n('verifyBtn')}</Button>
+                ></Button>
                 <datalist id="filterlist"></datalist>
             </Box>
             <Paper sx={{ mt:2, pt: 1, pb: 2, boxShadow: 'unset', textAlign:'center', borderRadius:'3px', overflow: 'auto', whiteSpace: 'nowrap' }}>

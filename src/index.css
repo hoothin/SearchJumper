@@ -207,6 +207,21 @@ input.filterEngine+svg {
   border-spacing: 0;
   table-layout: fixed;
 }
+#verifyBtn {
+  width: 35px;
+  height: 38px;
+  overflow: hidden;
+  min-width: 35px;
+  opacity: 0.8;
+  justify-content: flex-end;
+  background-color: #a9a9a9;
+  transition: all 0.3s ease;
+  margin-top: -2px;
+}
+#verifyBtn:hover {
+  opacity: 1;
+  background-color: #1976d2;
+}
 #verifyResultList > tr > td {
   max-width: 100%;
   font-family: "Roboto","Helvetica","Arial",sans-serif;
