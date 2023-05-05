@@ -18,7 +18,7 @@
 <img src='demo1.gif' height='221px'><img src='demo3.gif' height='221px'><img src='demo2.gif' height='221px'>
 
 ## Install from greasyfork
-[![](https://img.shields.io/greasyfork/dt/445274)](https://greasyfork.org/scripts/445274)
+[![Install from greasyfork](https://img.shields.io/greasyfork/dt/445274)](https://greasyfork.org/scripts/445274)
 
 ## Features:
 + Fully open source without any privacy collection, spam or third-party libraries.
