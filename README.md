@@ -6,7 +6,7 @@
 ![license](https://img.shields.io/badge/License-GPL3.0-red.svg)
 ![FontAwesome](https://img.shields.io/badge/FontAwesome-6.0-yellow.svg)
 ![support](https://img.shields.io/badge/Support-Chrome|Firefox|Edge-989898.svg)
-> *A user script to assist in switching search engines*
+> *Just a personal work, maybe not suit you and won't provide support.*
 
 [![i](https://socialify.git.ci/hoothin/searchjumper/image?description=1&font=Inter&forks=1&issues=1&language=1&owner=1&pattern=Circuit%20Board&stargazers=1&theme=Dark)](https://greasyfork.org/scripts/445274-searchjumper)
 
@@ -19,6 +19,8 @@
 
 
 ## Features：
++ Fully open source without any privacy collection, spam or third-party libraries.
+  > 完全開源，沒有任何隱私收集、廣告或者亂七八糟的第三方庫
 + Search for pictures, links, videos, audios, pages, etc. (**long press the right mouse** on the corresponding object)
   > 可以搜尋圖片、連結、視頻、音頻、頁面等（在相應對象上**長按右鍵**）
 + Support word search on any page (need to **long press the right mouse**, you can also change to swipe to call out immediately in the settings)
