@@ -276,7 +276,7 @@ window.setLang = (_lang) => {
                   param_elep: '获取抓取到元素的属性值，例如 %element{.mainTitle}.prop(href) %element{.mainTitle}.prop(innerHTML)',
                   param_elere: '正则替换，例如 %element{.mainTitle}.prop(href).replace(/https/i,"")',
                   param_cp: '在开头使用"copy:"可以复制之后的所有字串',
-                  param_showTips: '在鼠标悬浮时立即在 tips 内显示所获取的 html 代码，如果返回数组则第二项为点击后复制的内容，第二项返回链接则点击后打开。可使用 fetch 跨域，使用 storage.getItem/storage.setItem 操作持久数据',
+                  param_showTips: '在鼠标悬浮时立即在 tips 内显示所获取的 html 代码，如果返回数组则第二项为点击后复制的内容，第二项返回链接则点击后打开。可使用 fetch 跨域，使用 storage.getItem/storage.setItem 操作持久数据。也可以直接传入链接与模板，例如 showTips:https://api.xxx.xxx/xxx <i>{json.result*%s} USD = %s RMB</i>，代表抓取 api.xxx.xxx 的数据，以 json 格式解析，并将 json.result 放入 <i> 模板后返回 tips。再例如 showTips:https://xxx.com/%sr <span>{title}</span><p>{.genre a|<mark>()</mark>}</p><img src="https://xxx.com{a.bigImage>img|src}"/> 代表抓取 xxx.com，获取页面标题、遍历所有 .genre a 元素的内容并分别创建 mark 元素、获取 a.bigImage>img 图片的 src 并创建 img 元素',
                   param_date1: '当前时间戳（ms）',
                   param_date2: '对当前时间戳进行简单运算，例如%date{/1000 +604800}，代表一星期之后以秒计算的时间戳',
                   aboutContent: '平时工作中搜索引擎跳转功能用得很频繁，但尝试了相关的扩展，发现大多夹有私货。特别是国内公司做的插件，基本都有购物返链和隐私数据收集。\n\n而这只是一个简单功能，所以不如自己写一个啦。\n\n结果写配置页面耗费的精力数倍于脚本本身……🤦‍\n\n这个搜索引擎跳转支持自己拖拽定义位置，同时也支持站内搜索，多语言编码设置（例如shift-jis），划词搜索，以及配置导入导出。'
