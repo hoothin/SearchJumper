@@ -21,7 +21,7 @@ export default function About() {
             <Typography gutterBottom  component="div" style={{textAlign: 'center', display: 'flex', flexDirection: 'column', alignItems: 'center'}}>
                 <GitHubIcon/> <Link href='https://github.com/hoothin/SearchJumper/issues?q=label%3A%22Sites+Rule%22' style={{verticalAlign: 'top'}} target="_blank">{window.i18n('rulesStore')} [Github]</Link><br/>
                 <InstallDesktopIcon/> <Link href='https://greasyfork.org/scripts/445274-searchjumper' style={{verticalAlign: 'top'}} target="_blank">Install [Greasyfork]</Link><br/>
-                <AllInclusiveIcon/> <Link href='https://hoothin.github.io/SearchJumper/all.html' style={{verticalAlign: 'top'}} target="_blank">All engines page</Link><br/>
+                <AllInclusiveIcon/> <Link href='https://hoothin.github.io/SearchJumper/all.html' style={{verticalAlign: 'top'}} target="_blank">Tab page of all engines</Link><br/>
                 <EmailIcon/> <Link href='mailto:rixixi@gmail.com' style={{verticalAlign: 'top'}} target="_blank">rixixi@gmail.com</Link><br/>
                 Build with React.js<br/>
                 UI: <Link href='https://mui.com' style={{verticalAlign: 'top'}} target="_blank">Material-UI</Link><br/>
