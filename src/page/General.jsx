@@ -179,8 +179,8 @@ export default function General() {
                         >
                             <MenuItem value={'0'}>Default</MenuItem>
                             <MenuItem value={'en'}>English</MenuItem>
-                            <MenuItem value={'zh-CN'}>简体中文</MenuItem>
-                            <MenuItem value={'zh-TW'}>正體中文</MenuItem>
+                            <MenuItem value={'zh-CN'}>简体</MenuItem>
+                            <MenuItem value={'zh-TW'}>正體</MenuItem>
                         </Select>
                     </FormControl>
             </Paper>
