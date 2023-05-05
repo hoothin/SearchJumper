@@ -145,6 +145,14 @@
   "url": "#p{@=%s[]}"
 }
 ```
++ USD to RMB, show tips when the mouse is hovering
+``` json
+{
+  "name": "💲USD to RMB",
+  "url": "showTips:https://api.exchangerate.host/convert?from=USD&to=CNY&amount=1 <i>%s USD = {json.result*%s} RMB</i>",
+  "kwFilter": "\\d\\$|\\$\\d"
+}
+```
 + Preview Japan AV 框選番號預覽AV
 ``` json
 {
