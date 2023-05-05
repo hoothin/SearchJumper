@@ -88,6 +88,9 @@ export default function General() {
     if (!window.searchData.prefConfig.dragMeta) {
         window.searchData.prefConfig.dragMeta = false;
     }
+    if (!window.searchData.prefConfig.showEngineWords) {
+        window.searchData.prefConfig.showEngineWords = false;
+    }
     if (window.searchData.prefConfig.minPopup === false) {
         window.searchData.prefConfig.minPopup = 0;
     } else if (window.searchData.prefConfig.minPopup === true) {
@@ -623,6 +626,21 @@ export default function General() {
             </Paper>
             <Paper elevation={5} sx={{ padding: '20px', marginTop: '20px' }}>
                 <Box sx={{ flexGrow: 1, display: 'flex', flexWrap: 'wrap'}}>
+                    <Box>
+                        <Typography gutterBottom component="div">
+                            <h4>{window.i18n('showEngineWords')}</h4>
+                        </Typography>
+                        <Box>
+                            <FormControl sx={{ m: 1, minWidth: 80 }}>
+                                <FormControlLabel
+                                    control={
+                                        <Switch checked={state.showEngineWords} onChange={handleCheckChange} name="showEngineWords" />
+                                    }
+                                    label={window.i18n('showEngineWordsTips')}
+                                />
+                            </FormControl>
+                        </Box>
+                    </Box>
                     <Box>
                         <Typography gutterBottom component="div">
                             <h4>{window.i18n('noIcons')}</h4>
