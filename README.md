@@ -153,7 +153,7 @@
   "kwFilter": "\\d\\$|\\$\\d"
 }
 ```
-+ Preview Japan AV 框選番號預覽AV
++ Preview Japan AV 框選番號預覽AV such as ABW-345
 ``` json
 {
   "name": "💞 AV預覽",
