@@ -149,7 +149,7 @@
 ``` json
 {
   "name": "💲USD to RMB",
-  "url": "showTips:https://api.exchangerate.host/convert?from=USD&to=CNY&amount=1 <i>%s USD = {json.result*%s} RMB</i>",
+  "url": "showTips:https://api.exchangerate.host/convert?from=USD&to=CNY&amount=1 <i>%s USD = {json.result*%s.replace(/\\D/,'')} RMB</i>",
   "kwFilter": "\\d\\$|\\$\\d"
 }
 ```
