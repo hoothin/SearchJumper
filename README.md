@@ -133,7 +133,7 @@
 + Miles to kilometers and show in tips 英里轉公里並顯示為 tips
 ``` json
 {
-  "name": "📏英里轉公里",
+  "name": "📏 英里轉公里",
   "url": "showTips:let s=\"%sr\".match(/(\\d+)(英里|英?哩|mi(le)?)/)[1];let km=(s*1.609344).toFixed(2);return `<i>${s} mi = ${km} km</i>`;",
   "kwFilter": "\\d+\\s*(英里|英?哩|mi(le)?\\b)"
 }
@@ -149,11 +149,11 @@
 ``` json
 {
   "name": "💲USD to RMB",
-  "url": "showTips:https://api.exchangerate.host/convert?from=USD&to=CNY&amount=1 <i>%s USD = {json.result*%s} RMB</i>",
+  "url": "showTips:https://api.exchangerate.host/convert?from=USD&to=CNY&amount=1 <i>%s USD = {json.result*%s.replace(/\\D/,'')} RMB</i>",
   "kwFilter": "\\d\\$|\\$\\d"
 }
 ```
-+ Preview Japan AV 框選番號預覽AV
++ Preview Japan AV 框選番號預覽AV such as ABW-345
 ``` json
 {
   "name": "💞 AV預覽",
