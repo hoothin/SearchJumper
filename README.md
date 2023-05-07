@@ -20,6 +20,9 @@
 ## Install from greasyfork
 [![Install from greasyfork](https://img.shields.io/greasyfork/dt/445274)](https://greasyfork.org/scripts/445274)
 
+## Config page
+[hoothin.github.io](https://hoothin.github.io/SearchJumper/)
+
 ## Features:
 + Fully open source without any privacy collection, spam or third-party libraries.
   > 完全開源，沒有任何隱私收集、廣告或者亂七八糟的第三方庫
