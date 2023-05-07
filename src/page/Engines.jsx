@@ -596,6 +596,7 @@ class SitesList extends React.Component {
             let currentType = window.searchData.sitesConfig[this.index];
             if (!this.state.currentSite.name) return this.handleAlertOpen(window.i18n('needName'));
             if (!this.state.currentSite.url) return this.handleAlertOpen(window.i18n('needUrl'));
+            if (this.state.currentSite.icon && !/^(https?|ftp|data):/.test(this.state.currentSite.icon)) return this.handleAlertOpen(window.i18n('wrongImg'));
             if (/^\[/.test(this.state.currentSite.url)) {
                 try {
                     JSON.parse(this.state.currentSite.url);
@@ -1653,9 +1654,7 @@ export default function Engines() {
         if (typeData.type) {
             minType.type = typeData.type;
         }
-        if (typeData.icon) {
-            minType.icon = typeData.icon;
-        }
+        minType.icon = typeData.icon || '';
         if (typeData.match) {
             minType.match = typeData.match;
         }
@@ -2116,10 +2115,7 @@ export default function Engines() {
                                     <TableCell component="th" scope="row">
                                       {row.param}
                                     </TableCell>
-                                    {row.param === "%ss" || row.param === "%st" ? 
-                                    <TableCell component="a" href="https://greasyfork.org/scripts/24300">{row.info}</TableCell>
-                                    :
-                                    <TableCell>{row.info}</TableCell>}
+                                    <TableCell>{row.info}</TableCell>
                                 </TableRow>
                             ))}
                             </TableBody>
