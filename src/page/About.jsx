@@ -19,18 +19,38 @@ export default function About() {
             </Paper>
             <Paper elevation={5} sx={{ padding: '20px' }}>
             <Typography gutterBottom  component="div" style={{textAlign: 'center', display: 'flex', flexDirection: 'column', alignItems: 'center'}}>
-                <GitHubIcon/> <Link href='https://github.com/hoothin/SearchJumper/issues?q=label%3A%22Sites+Rule%22' style={{verticalAlign: 'top'}} target="_blank">{window.i18n('rulesStore')} [Github]</Link><br/>
-                <InstallDesktopIcon/> <Link href='https://greasyfork.org/scripts/445274-searchjumper' style={{verticalAlign: 'top'}} target="_blank">Install [Greasyfork]</Link><br/>
-                <AllInclusiveIcon/> <Link href='https://hoothin.github.io/SearchJumper/all.html' style={{verticalAlign: 'top'}} target="_blank">Tab page of all engines</Link><br/>
-                <EmailIcon/> <Link href='mailto:rixixi@gmail.com' style={{verticalAlign: 'top'}} target="_blank">rixixi@gmail.com</Link><br/>
-                Build with React.js<br/>
-                UI: <Link href='https://mui.com' style={{verticalAlign: 'top'}} target="_blank">Material-UI</Link><br/>
-                Icons: <Link href='https://fontawesome.com/' style={{verticalAlign: 'top'}} target="_blank">FontAwesome</Link><br/>
-                {window.i18n("donate")}<br/>
-                <VolunteerActivismIcon/> <Link href='https://buymeacoffee.com/hoothin' style={{verticalAlign: 'top'}} target="_blank">[Buy Me A Coffee]</Link>  <Link href='https://paypal.me/hoothin' style={{verticalAlign: 'top'}} target="_blank">[Paypal.Me]</Link><br/>
-                <br/>
+                <Box style={{textAlign: 'center', display: 'flex', flexWrap: 'wrap'}}>
+                    <Box sx={{m: 1}}>
+                        <GitHubIcon/> <Link href='https://github.com/hoothin/SearchJumper/issues?q=label%3A%22Sites+Rule%22' style={{verticalAlign: 'top'}} target="_blank">{window.i18n('rulesStore')} [Github]</Link>
+                    </Box>
+                    <Box sx={{m: 1}}>
+                        <InstallDesktopIcon/> <Link href='https://greasyfork.org/scripts/445274-searchjumper' style={{verticalAlign: 'top'}} target="_blank">Install [Greasyfork]</Link>
+                    </Box>
+                    <Box sx={{m: 1}}>
+                        <AllInclusiveIcon/> <Link href='https://hoothin.github.io/SearchJumper/all.html' style={{verticalAlign: 'top'}} target="_blank">Tab page of all engines</Link>
+                    </Box>
+                    <Box sx={{m: 1}}>
+                        <EmailIcon/> <Link href='mailto:rixixi@gmail.com' style={{verticalAlign: 'top'}} target="_blank">rixixi@gmail.com</Link>
+                    </Box>
+                </Box>
+                <Box style={{textAlign: 'center', display: 'flex', flexWrap: 'wrap'}}>
+                    <Box sx={{m: 1}}>
+                        Build with React.js<br/>
+                    </Box>
+                    <Box sx={{m: 1}}>
+                        UI: <Link href='https://mui.com' target="_blank">Material-UI</Link>
+                    </Box>
+                    <Box sx={{m: 1}}>
+                        Icons: <Link href='https://fontawesome.com/' target="_blank">FontAwesome</Link>
+                    </Box>
+                </Box>
+                <Card component="pre" style={{padding: '20px', fontSize: '1.2rem', lineHeight: 2, width: '90%', whiteSpace: 'pre-wrap', textAlign: 'left', marginBottom: '10px'}}>
+                    <img align='left' style={{width: '250px', maxWidth: '50%', borderRadius: '20px', boxShadow: 'rgb(0 0 0) 0px 0px 15px', marginRight: '20px', height: 'fit-content'}} src='avatar.jpg' alt='donate' loading="lazy"/>{window.i18n("donate")}
+                </Card>
+                <VolunteerActivismIcon/> <Link href='https://buymeacoffee.com/hoothin' style={{verticalAlign: 'top'}} target="_blank">[Buy Me A Coffee]</Link>  <Link href='https://paypal.me/hoothin' style={{verticalAlign: 'top'}} target="_blank">[Paypal.Me]</Link>
+                <img style={{maxWidth: '100%', borderRadius: '20px', boxShadow: 'rgb(0 0 0) 0px 0px 15px', margin: '10px'}} src='donate.jpg' alt='donate' loading="lazy"/>
                 <Box sx={{borderTop: 1, borderColor: 'divider'}}>
-                <Card sx={{maxWidth: 800, margin: '10px auto', textAlign: 'left'}}>
+                <Card sx={{width: '100%', margin: '10px auto', textAlign: 'left', boxShadow: 'unset'}}>
                     <CardContent>
                         <pre style={{whiteSpace: 'pre-wrap'}}>
                             {window.i18n('aboutContent')}
@@ -38,7 +58,6 @@ export default function About() {
                     </CardContent>
                 </Card>
                 </Box>
-                <img style={{maxWidth: '100%', borderRadius: '20px', boxShadow: 'rgb(0 0 0) 0px 0px 15px'}} src='donate.jpg' alt='donate' loading="lazy"/>
             </Typography>
             </Paper>
         </Box>
