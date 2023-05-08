@@ -1,11 +1,11 @@
 self.__precacheManifest = [
   {
-    "revision": "514d9f5ced9cfc0adb18",
+    "revision": "2ac9c754099a497a7c58",
     "url": "./static/css/main.69483ee6.chunk.css"
   },
   {
-    "revision": "514d9f5ced9cfc0adb18",
-    "url": "./static/js/main.514d9f5c.chunk.js"
+    "revision": "2ac9c754099a497a7c58",
+    "url": "./static/js/main.2ac9c754.chunk.js"
   },
   {
     "revision": "3a354c580f07f251fff3",
@@ -156,7 +156,7 @@ self.__precacheManifest = [
     "url": "./static/media/roboto-latin-700-normal.e9f5aaf5.woff2"
   },
   {
-    "revision": "77db7281ac2d61835e4e41686767c08a",
+    "revision": "52cd4b855b4142c9f21c99cad83baed0",
     "url": "./index.html"
   }
 ];
