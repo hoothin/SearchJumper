@@ -21,7 +21,7 @@ export default function About() {
             <Typography gutterBottom  component="div" style={{textAlign: 'center', display: 'flex', flexDirection: 'column', alignItems: 'center'}}>
                 <Box style={{textAlign: 'center', display: 'flex', flexWrap: 'wrap'}}>
                     <Box sx={{m: 1}}>
-                        <GitHubIcon/> <Link href='https://github.com/hoothin/SearchJumper/issues?q=label%3A%22Sites+Rule%22' style={{verticalAlign: 'top'}} target="_blank">{window.i18n('rulesStore')} [Github]</Link>
+                        <GitHubIcon/> <Link href='https://github.com/hoothin/SearchJumper/discussions/categories/search-engines?discussions_q=' style={{verticalAlign: 'top'}} target="_blank">{window.i18n('rulesStore')} [Github]</Link>
                     </Box>
                     <Box sx={{m: 1}}>
                         <InstallDesktopIcon/> <Link href='https://greasyfork.org/scripts/445274-searchjumper' style={{verticalAlign: 'top'}} target="_blank">Install [Greasyfork]</Link>
