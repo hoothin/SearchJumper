@@ -1,5 +1,7 @@
 # [SearchJumper](https://greasyfork.org/scripts/445274-searchjumper "Install from greasyfork 搜尋引擎輔助增強瀏覽器插件，一键切换搜尋引擎，支援拖拽搜尋/劃詞搜尋/快捷鍵等。検索機能強化。検索ちゃん")  [💞Share your search engines](https://github.com/hoothin/SearchJumper/issues?q=label%3A%22Sites+Rule%22)
 
+[![i](logo.jpg)](https://greasyfork.org/scripts/445274-searchjumper)
+
 ![star](https://img.shields.io/github/stars/hoothin/SearchJumper)
 ![react-version](https://img.shields.io/badge/React.js-lastest-green.svg)
 ![materialUI-version](https://img.shields.io/badge/MaterialUI-lastest-blue.svg)
@@ -7,9 +9,6 @@
 ![FontAwesome](https://img.shields.io/badge/FontAwesome-6.0-yellow.svg)
 ![support](https://img.shields.io/badge/Support-Chrome|Firefox|Edge-989898.svg)
 > *Just a personal work, maybe not suit you and won't provide support.*
-
-[![i](https://socialify.git.ci/hoothin/searchjumper/image?description=1&font=Inter&forks=1&issues=1&language=1&owner=1&pattern=Circuit%20Board&stargazers=1&theme=Dark)](https://greasyfork.org/scripts/445274-searchjumper)
-
 
 + Build with React.js
 + UI: [Material-UI](https://mui.com/)
