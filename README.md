@@ -3,11 +3,11 @@
 [![i](logo.jpg)](https://greasyfork.org/scripts/445274-searchjumper)
 
 ![star](https://img.shields.io/github/stars/hoothin/SearchJumper)
-![react-version](https://img.shields.io/badge/React.js-lastest-green.svg)
-![materialUI-version](https://img.shields.io/badge/MaterialUI-lastest-yellow.svg)
-![license](https://img.shields.io/badge/License-GPL3.0-red.svg)
-![FontAwesome](https://img.shields.io/badge/FontAwesome-6.0-blue.svg)
-![support](https://img.shields.io/badge/Support-Chrome|Firefox|Edge-green.svg)
+![react-version](https://img.shields.io/badge/React.js-lastest-yellow.svg)
+![materialUI-version](https://img.shields.io/badge/MaterialUI-lastest-indigo.svg)
+![license](https://img.shields.io/badge/License-GPL3.0-orange.svg)
+![FontAwesome](https://img.shields.io/badge/FontAwesome-6.0-green.svg)
+![support](https://img.shields.io/badge/Support-Chrome|Firefox|Edge-red.svg)
 > *Just a personal work, maybe not suit you and won't provide support.*
 
 + Build with React.js
