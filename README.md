@@ -4,10 +4,10 @@
 
 ![star](https://img.shields.io/github/stars/hoothin/SearchJumper)
 ![react-version](https://img.shields.io/badge/React.js-lastest-green.svg)
-![materialUI-version](https://img.shields.io/badge/MaterialUI-lastest-blue.svg)
+![materialUI-version](https://img.shields.io/badge/MaterialUI-lastest-yellow.svg)
 ![license](https://img.shields.io/badge/License-GPL3.0-red.svg)
-![FontAwesome](https://img.shields.io/badge/FontAwesome-6.0-yellow.svg)
-![support](https://img.shields.io/badge/Support-Chrome|Firefox|Edge-989898.svg)
+![FontAwesome](https://img.shields.io/badge/FontAwesome-6.0-blue.svg)
+![support](https://img.shields.io/badge/Support-Chrome|Firefox|Edge-green.svg)
 > *Just a personal work, maybe not suit you and won't provide support.*
 
 + Build with React.js
