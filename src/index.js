@@ -813,7 +813,7 @@ window.setLang = (_lang) => {
                   param_h: 'Current website host',
                   param_t: 'The address of target link or image. %T: with encodeURIComponent',
                   param_b: 'Target address without http. %B: with encodeURIComponent',
-                  param_n: 'Title or alt of target or title of current site',
+                  param_n: 'Title or alt of target or title of current page',
                   param_i: 'Base64 of target image',
                   param_sre: 'Replace keywords/url/src with regexp, like %sr.replace(/[^\\d]/g, "").replace(/(\\d)/g, "$1 ") means replace raw keywords to numbers and then join all numbers with space, support %s %sl %sr %su %t %u',
                   param_ssplit: 'Multi-line search parameters, %s[] means to select the next item in sequence after being separated by newline or space, %s[-1] means to get the next item in reverse order, %s[0] means to specify the first item, %s[1|@] means separated by @ and specifies the second item. Supports replace, for example %s[].replace(/(\\d)/,"a$1"). Will read keywords from clipboard if there is no one',
