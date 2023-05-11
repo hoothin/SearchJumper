@@ -10,6 +10,7 @@ import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import InstallDesktopIcon from '@mui/icons-material/InstallDesktop';
 import AllInclusiveIcon from '@mui/icons-material/AllInclusive';
+import FiberPinIcon from '@mui/icons-material/FiberPin';
 
 export default function About() {
     return (
@@ -28,6 +29,9 @@ export default function About() {
                     </Box>
                     <Box sx={{m: 1}}>
                         <AllInclusiveIcon/> <Link href='https://hoothin.github.io/SearchJumper/all.html' style={{verticalAlign: 'top'}} target="_blank">Tab page of all engines</Link>
+                    </Box>
+                    <Box sx={{m: 1}}>
+                        <FiberPinIcon/> <Link href='https://greasyfork.org/scripts/465994' style={{verticalAlign: 'top'}} target="_blank">Pinyin addon</Link>
                     </Box>
                     <Box sx={{m: 1}}>
                         <EmailIcon/> <Link href='mailto:rixixi@gmail.com' style={{verticalAlign: 'top'}} target="_blank">rixixi@gmail.com</Link>
