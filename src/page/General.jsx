@@ -91,6 +91,9 @@ export default function General() {
     if (!window.searchData.prefConfig.showEngineWords) {
         window.searchData.prefConfig.showEngineWords = false;
     }
+    if (!window.searchData.prefConfig.globalSearchNow) {
+        window.searchData.prefConfig.globalSearchNow = false;
+    }
     if (window.searchData.prefConfig.minPopup === false) {
         window.searchData.prefConfig.minPopup = 0;
     } else if (window.searchData.prefConfig.minPopup === true) {
@@ -1042,6 +1045,17 @@ export default function General() {
                             <Switch checked={state.defaultFindTab} onChange={handleCheckChange} name="defaultFindTab" />
                         }
                         label={window.i18n('defaultFindTabTips')}
+                    />
+                </FormControl>
+                <Typography gutterBottom component="div">
+                    <h4>{window.i18n('globalSearchNow')}</h4>
+                </Typography>
+                <FormControl sx={{ m: 1, minWidth: 80 }}>
+                    <FormControlLabel
+                        control={
+                            <Switch checked={state.globalSearchNow} onChange={handleCheckChange} name="globalSearchNow" />
+                        }
+                        label={window.i18n('globalSearchNowTips')}
                     />
                 </FormControl>
                 <Typography gutterBottom component="div">
