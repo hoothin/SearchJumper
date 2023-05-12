@@ -115,7 +115,7 @@
 {
   "name": "打開文字中的鏈接",
   "url": "%sr.replace(/(点|。)/g,\".\").replace(/[^ \\w\\-_\\.~!\\*'\\(\\);:@&=\\+\\$,\\/\\?#\\[\\]%]/g,\"\").replace(/.*([ :：]|^)(1[a-z0-9]{22,}).*?\\b([a-z0-9]{4}\\b|$).*/i,\"https://pan.baidu.com/s/$1?pwd=$2\").replace(/ /g,\"\").replace(/^/,\"http://\").replace(/^http:\\/\\/(https?:)/,\"$1\")",
-  "kwFilter": "\\w.*[\\.点。].*\\w|1[a-zA-Z0-9]{22,}",
+  "kwFilter": "\\w.*[\\.点。].*\\w|1[a-zA-Z0-9]{22,}"
 }
 ```
 + Currency conversion of various countries 各國貨幣轉換
