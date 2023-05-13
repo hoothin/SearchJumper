@@ -143,7 +143,7 @@ span.selectPage {
   background: aliceblue;
 }
 input.filterEngine {
-  width: 115px;
+  width: 135px;
   height: 37.5px;
   margin: 2px 10px;
   border: none;
@@ -208,7 +208,7 @@ input.filterEngine+svg {
   table-layout: fixed;
 }
 #verifyBtn {
-  width: 35px;
+  width: 36px;
   height: 38px;
   overflow: hidden;
   min-width: 35px;
@@ -247,4 +247,19 @@ input.filterEngine+svg {
 }
 #verifyResultList.finished .okItem {
   display: none;
+}
+.keyboardBtn > .MuiFormControlLabel-label {
+  font-family: Arial;
+  font-weight: bold;
+  border-radius: 8px;
+  background-color: #efefef;
+  border: 1px outset #c9c9c9;
+  font-size: 9pt;
+  color: #505050;
+  padding: 3px 4px;
+  min-width: 50px;
+  min-height: 12px;
+  display: inline-block;
+  text-align: center;
+  box-shadow: 1px 1px 3px #6e6e6e, inset -2px -2px 3px #e3e3e3, inset 2px 2px 3px #c9c9c9;
 }

@@ -315,7 +315,7 @@ function TypeEdit(props) {
                             />
                             <Box sx={{flexGrow: 1, display: 'flex', flexWrap: 'wrap'}}>
                                 <FormControl sx={{ minWidth: 60 }}>
-                                    <FormControlLabel
+                                    <FormControlLabel className="keyboardBtn"
                                         control={
                                             <Switch 
                                                 checked={typeData.ctrl} 
@@ -330,7 +330,7 @@ function TypeEdit(props) {
                                     />
                                 </FormControl>
                                 <FormControl sx={{ minWidth: 60 }}>
-                                    <FormControlLabel
+                                    <FormControlLabel className="keyboardBtn"
                                         control={
                                             <Switch 
                                                 checked={typeData.alt} 
@@ -345,7 +345,7 @@ function TypeEdit(props) {
                                     />
                                 </FormControl>
                                 <FormControl sx={{ minWidth: 60 }}>
-                                    <FormControlLabel
+                                    <FormControlLabel className="keyboardBtn"
                                         control={
                                             <Switch 
                                                 checked={typeData.shift} 
@@ -360,7 +360,7 @@ function TypeEdit(props) {
                                     />
                                 </FormControl>
                                 <FormControl sx={{ minWidth: 60 }}>
-                                    <FormControlLabel
+                                    <FormControlLabel className="keyboardBtn"
                                         control={
                                             <Switch 
                                                 checked={typeData.meta} 
@@ -1138,7 +1138,7 @@ class SitesList extends React.Component {
                                     />
                                     <Box sx={{flexGrow: 1, display: 'flex', flexWrap: 'wrap'}}>
                                         <FormControl sx={{ minWidth: 60 }}>
-                                            <FormControlLabel
+                                            <FormControlLabel className="keyboardBtn"
                                                 control={
                                                     <Switch 
                                                         checked={this.state.currentSite.ctrl} 
@@ -1155,7 +1155,7 @@ class SitesList extends React.Component {
                                             />
                                         </FormControl>
                                         <FormControl sx={{ minWidth: 60 }}>
-                                            <FormControlLabel
+                                            <FormControlLabel className="keyboardBtn"
                                                 control={
                                                     <Switch 
                                                         checked={this.state.currentSite.alt} 
@@ -1172,7 +1172,7 @@ class SitesList extends React.Component {
                                             />
                                         </FormControl>
                                         <FormControl sx={{ minWidth: 60 }}>
-                                            <FormControlLabel
+                                            <FormControlLabel className="keyboardBtn"
                                                 control={
                                                     <Switch 
                                                         checked={this.state.currentSite.shift} 
@@ -1189,7 +1189,7 @@ class SitesList extends React.Component {
                                             />
                                         </FormControl>
                                         <FormControl sx={{ minWidth: 60 }}>
-                                            <FormControlLabel
+                                            <FormControlLabel className="keyboardBtn"
                                                 control={
                                                     <Switch 
                                                         checked={this.state.currentSite.meta} 
@@ -1505,6 +1505,7 @@ export default function Engines() {
       createData('%sr', window.i18n('param_sr')),
       createData('%ss', window.i18n('param_ss')),
       createData('%st', window.i18n('param_st')),
+      createData('%se', window.i18n('param_se')),
       createData('%S', window.i18n('param_S')),
       createData('%u', window.i18n('param_u')),
       createData('%h', window.i18n('param_h')),

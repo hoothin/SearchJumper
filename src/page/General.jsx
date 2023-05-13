@@ -947,7 +947,7 @@ export default function General() {
                         }}
                     />
                     <FormControl sx={{ m: 1, minWidth: 80 }}>
-                        <FormControlLabel
+                        <FormControlLabel className="keyboardBtn"
                             control={
                                 <Switch checked={state.switchSitesCtrl} onChange={handleCheckChange} name="switchSitesCtrl" />
                             }
@@ -955,7 +955,7 @@ export default function General() {
                         />
                     </FormControl>
                     <FormControl sx={{ m: 1, minWidth: 80 }}>
-                        <FormControlLabel
+                        <FormControlLabel className="keyboardBtn"
                             control={
                                 <Switch checked={state.switchSitesAlt} onChange={handleCheckChange} name="switchSitesAlt" />
                             }
@@ -963,7 +963,7 @@ export default function General() {
                         />
                     </FormControl>
                     <FormControl sx={{ m: 1, minWidth: 80 }}>
-                        <FormControlLabel
+                        <FormControlLabel className="keyboardBtn"
                             control={
                                 <Switch checked={state.switchSitesShift} onChange={handleCheckChange} name="switchSitesShift" />
                             }
@@ -971,7 +971,7 @@ export default function General() {
                         />
                     </FormControl>
                     <FormControl sx={{ m: 1, minWidth: 80 }}>
-                        <FormControlLabel
+                        <FormControlLabel className="keyboardBtn"
                             control={
                                 <Switch checked={state.switchSitesMeta} onChange={handleCheckChange} name="switchSitesMeta" />
                             }
@@ -1004,7 +1004,7 @@ export default function General() {
                         }}
                     />
                     <FormControl sx={{ m: 1, minWidth: 80 }}>
-                        <FormControlLabel
+                        <FormControlLabel className="keyboardBtn"
                             control={
                                 <Switch checked={state.callBarCtrl} onChange={handleCheckChange} name="callBarCtrl" />
                             }
@@ -1012,7 +1012,7 @@ export default function General() {
                         />
                     </FormControl>
                     <FormControl sx={{ m: 1, minWidth: 80 }}>
-                        <FormControlLabel
+                        <FormControlLabel className="keyboardBtn"
                             control={
                                 <Switch checked={state.callBarAlt} onChange={handleCheckChange} name="callBarAlt" />
                             }
@@ -1020,7 +1020,7 @@ export default function General() {
                         />
                     </FormControl>
                     <FormControl sx={{ m: 1, minWidth: 80 }}>
-                        <FormControlLabel
+                        <FormControlLabel className="keyboardBtn"
                             control={
                                 <Switch checked={state.callBarShift} onChange={handleCheckChange} name="callBarShift" />
                             }
@@ -1028,7 +1028,7 @@ export default function General() {
                         />
                     </FormControl>
                     <FormControl sx={{ m: 1, minWidth: 80 }}>
-                        <FormControlLabel
+                        <FormControlLabel className="keyboardBtn"
                             control={
                                 <Switch checked={state.callBarMeta} onChange={handleCheckChange} name="callBarMeta" />
                             }
@@ -1122,7 +1122,7 @@ export default function General() {
                         }}
                     />
                     <FormControl sx={{ m: 1, minWidth: 80 }}>
-                        <FormControlLabel
+                        <FormControlLabel className="keyboardBtn"
                             control={
                                 <Switch checked={state.showAllCtrl} onChange={handleCheckChange} name="showAllCtrl" />
                             }
@@ -1130,7 +1130,7 @@ export default function General() {
                         />
                     </FormControl>
                     <FormControl sx={{ m: 1, minWidth: 80 }}>
-                        <FormControlLabel
+                        <FormControlLabel className="keyboardBtn"
                             control={
                                 <Switch checked={state.showAllAlt} onChange={handleCheckChange} name="showAllAlt" />
                             }
@@ -1138,7 +1138,7 @@ export default function General() {
                         />
                     </FormControl>
                     <FormControl sx={{ m: 1, minWidth: 80 }}>
-                        <FormControlLabel
+                        <FormControlLabel className="keyboardBtn"
                             control={
                                 <Switch checked={state.showAllShift} onChange={handleCheckChange} name="showAllShift" />
                             }
@@ -1146,7 +1146,7 @@ export default function General() {
                         />
                     </FormControl>
                     <FormControl sx={{ m: 1, minWidth: 80 }}>
-                        <FormControlLabel
+                        <FormControlLabel className="keyboardBtn"
                             control={
                                 <Switch checked={state.showAllMeta} onChange={handleCheckChange} name="showAllMeta" />
                             }
@@ -1199,7 +1199,7 @@ export default function General() {
                     </FormControl>
                     <Box>
                         <FormControl sx={{ m: 1, minWidth: 80 }}>
-                            <FormControlLabel
+                            <FormControlLabel className="keyboardBtn"
                                 control={
                                     <Switch checked={state.dragCtrl} onChange={handleCheckChange} name="dragCtrl" />
                                 }
@@ -1207,7 +1207,7 @@ export default function General() {
                             />
                         </FormControl>
                         <FormControl sx={{ m: 1, minWidth: 80 }}>
-                            <FormControlLabel
+                            <FormControlLabel className="keyboardBtn"
                                 control={
                                     <Switch checked={state.dragAlt} onChange={handleCheckChange} name="dragAlt" />
                                 }
@@ -1215,7 +1215,7 @@ export default function General() {
                             />
                         </FormControl>
                         <FormControl sx={{ m: 1, minWidth: 80 }}>
-                            <FormControlLabel
+                            <FormControlLabel className="keyboardBtn"
                                 control={
                                     <Switch checked={state.dragShift} onChange={handleCheckChange} name="dragShift" />
                                 }
@@ -1223,7 +1223,7 @@ export default function General() {
                             />
                         </FormControl>
                         <FormControl sx={{ m: 1, minWidth: 80 }}>
-                            <FormControlLabel
+                            <FormControlLabel className="keyboardBtn"
                                 control={
                                     <Switch checked={state.dragMeta} onChange={handleCheckChange} name="dragMeta" />
                                 }
@@ -1288,7 +1288,7 @@ export default function General() {
                     </Typography>
                     <Box>
                         <FormControl sx={{ m: 1, minWidth: 80 }}>
-                            <FormControlLabel
+                            <FormControlLabel className="keyboardBtn"
                                 control={
                                     <Switch checked={state.ctrlKey} onChange={handleCheckChange} name="ctrlKey" />
                                 }
@@ -1296,7 +1296,7 @@ export default function General() {
                             />
                         </FormControl>
                         <FormControl sx={{ m: 1, minWidth: 80 }}>
-                            <FormControlLabel
+                            <FormControlLabel className="keyboardBtn"
                                 control={
                                     <Switch checked={state.altKey} onChange={handleCheckChange} name="altKey" />
                                 }
@@ -1304,7 +1304,7 @@ export default function General() {
                             />
                         </FormControl>
                         <FormControl sx={{ m: 1, minWidth: 80 }}>
-                            <FormControlLabel
+                            <FormControlLabel className="keyboardBtn"
                                 control={
                                     <Switch checked={state.shiftKey} onChange={handleCheckChange} name="shiftKey" />
                                 }
@@ -1312,7 +1312,7 @@ export default function General() {
                             />
                         </FormControl>
                         <FormControl sx={{ m: 1, minWidth: 80 }}>
-                            <FormControlLabel
+                            <FormControlLabel className="keyboardBtn"
                                 control={
                                     <Switch checked={state.metaKey} onChange={handleCheckChange} name="metaKey" />
                                 }
