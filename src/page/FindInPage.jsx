@@ -29,6 +29,10 @@ function getFormatRule() {
     keys.forEach(key => {
         let value = inPageRule[key];
         if (!value) return;
+        if (key.indexOf("@") === 0) {
+            formarObj[key] = value;
+            return;
+        }
         let splitSep = null;
         if (value.indexOf("$c") === 0 && value.length > 2) {
             splitSep = value.substr(2, 1);
@@ -66,16 +70,22 @@ function setInPageRule() {
         keys.forEach(key => {
             let value = ruleObj[key];
             if (!value) return;
+            if (key.indexOf("@") === 0) {
+                storeObj[key] = value;
+                return;
+            }
             if (!value.words || value.words.length === 0) return;
             let pre = "", sep = value.sep || "";
             if (sep) {
                 pre = "$c" + sep;
-            } else if (value.words.length === 1) {
+            } else {
                 sep = " ";
-                let onlyWord = value.words[0];
-                if (onlyWord.indexOf(" ") !== -1) {
-                    sep = "";
-                    pre = "$o";
+                if (value.words.length === 1) {
+                    let onlyWord = value.words[0];
+                    if (onlyWord.indexOf(" ") !== -1) {
+                        sep = "";
+                        pre = "$o";
+                    }
                 }
             }
             storeObj[key] = pre + value.words.join(sep);
