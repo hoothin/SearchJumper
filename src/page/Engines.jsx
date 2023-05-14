@@ -149,7 +149,7 @@ function TypeEdit(props) {
                                 onChange={event => {
                                     let file = event.target.files && event.target.files[0];
                                     if (!file) return;
-                                    if (file.size > 102400 && !confirm(i18n('imgTooBig'))) {
+                                    if (file.size > 102400 && !window.confirm(i18n('imgTooBig'))) {
                                         event.target.value = "";
                                         event.target.files = [];
                                         return;
@@ -1014,7 +1014,7 @@ class SitesList extends React.Component {
                                                     let self = this;
                                                     let file = event.target.files && event.target.files[0];
                                                     if (!file) return;
-                                                    if (file.size > 102400 && !confirm(i18n('imgTooBig'))) {
+                                                    if (file.size > 102400 && !window.confirm(i18n('imgTooBig'))) {
                                                         event.target.value = "";
                                                         event.target.files = [];
                                                         return;
