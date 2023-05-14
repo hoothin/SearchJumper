@@ -446,7 +446,7 @@ class ChildSiteIcons extends React.Component {
         }
         if (site.icon) {
             return site.icon;
-        } else if (/^http/.test(site.url)) {
+        } else if (/^(showTips:)?https?:/.test(site.url)) {
             return site.url.replace(new RegExp('^(showTips:)?(https?://[^/]*/)[\\s\\S]*$'), "$2favicon.ico");
         }
         return "";
