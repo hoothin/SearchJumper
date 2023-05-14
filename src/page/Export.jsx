@@ -499,9 +499,19 @@ export default function Export() {
               }
           });
           document.dispatchEvent(saveMessage);
-        } else if (data.sitesConfig) {
+        } else if (data.sitesConfig && data.prefConfig) {
           editor.set({json: data.sitesConfig});
           window.searchData = data;
+          saveConfigToScript(true);
+        } else if (data.sitesConfig && !data.prefConfig) {
+          editor.set({json: data.sitesConfig});
+          window.searchData.sitesConfig = data.sitesConfig;
+          saveConfigToScript(true);
+        } else if (!data.sitesConfig && data.prefConfig) {
+          Object.keys(data.prefConfig).forEach(key => {
+            let v = data.prefConfig[key];
+            if (key && v) window.searchData.prefConfig[key] = v;
+          });
           saveConfigToScript(true);
         } else {
           if (!data[0] || !data[0].type) {
