@@ -147,8 +147,15 @@ function TypeEdit(props) {
                                 id="upload-type-icon"
                                 type="file"
                                 onChange={event => {
+                                    let file = event.target.files && event.target.files[0];
+                                    if (!file) return;
+                                    if (file.size > 102400 && !confirm(i18n('imgTooBig'))) {
+                                        event.target.value = "";
+                                        event.target.files = [];
+                                        return;
+                                    }
                                     let reader = new FileReader();
-                                    reader.readAsDataURL(event.target.files[0]);
+                                    reader.readAsDataURL(file);
                                     reader.onload = function() {
                                         setTypeData({ ...typeData, icon:reader.result });
                                     };
@@ -1005,8 +1012,15 @@ class SitesList extends React.Component {
                                                 type="file"
                                                 onChange={event => {
                                                     let self = this;
+                                                    let file = event.target.files && event.target.files[0];
+                                                    if (!file) return;
+                                                    if (file.size > 102400 && !confirm(i18n('imgTooBig'))) {
+                                                        event.target.value = "";
+                                                        event.target.files = [];
+                                                        return;
+                                                    }
                                                     let reader = new FileReader();
-                                                    reader.readAsDataURL(event.target.files[0]);
+                                                    reader.readAsDataURL(file);
                                                     reader.onload = function() {
                                                         self.setState(prevState => ({
                                                             currentSite: {...self.state.currentSite, icon: reader.result}
