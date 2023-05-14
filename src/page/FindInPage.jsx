@@ -116,8 +116,10 @@ function setInPageRule() {
 
 var ignoreWordsTimer;
 const ruleTips = `{
+    "@wordsTemplate1": "/sunshine|boringMan|adam smasher/i",   //template of some user name of boring man, ignore case
+    "@wordsTemplate2": "/24712|74812|312456/l",                             //template of some user id of boring man, effect on link
     "https://www.g??gle.com": {  //site url
-        sep: "@",                                //separator for words, set when your keyword has space inside
+        sep: "|",                                //separator for words, set when your keyword has space inside
         words: [                                //words to find
             "word1$t{wow}",             //find word1 and add tips "wow"
             "word2$s{red;}"               //find word2 and change background to red
@@ -125,7 +127,7 @@ const ruleTips = `{
     },
     "*bing.com": {
         words: [
-            "ring$p{0}"                        //find word and hide first parentNode of target
+            "@wordsTemplate1$p{0}"                        //find words with wordsTemplate1 and hide first parentNode of target
         ]
     },
     "/.*youtube\\\\.com/i": {           //RegExp of site url, ignore case sensitivity
@@ -135,6 +137,8 @@ const ruleTips = `{
     }
 }`;
 const ruleTitle = `{
+    "@wordsTemplate1": "/sunshine|boringMan|adam smasher/i",   //template of some user name of boring man, ignore case
+    "@wordsTemplate2": "/24712|74812|312456/l",                           //template of some user id of boring man, effect on link
     "https://www.g??gle.com": {   //site url
         sep: "@",                               //separator for words, set when your keyword has space inside
         words: [                               //words to find
@@ -144,7 +148,7 @@ const ruleTitle = `{
     },
     "*bing.com": {
         words: [
-            "ring$p{0}"                      //find word and hide first parentNode of target
+            "@wordsTemplate1$p{0}"                        //find words with wordsTemplate1 and hide first parentNode of target
         ]
     },
     "/.*youtube\\\\.com/i": {            //RegExp of site url, ignore case sensitivity
