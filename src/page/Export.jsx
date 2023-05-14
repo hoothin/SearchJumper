@@ -514,12 +514,20 @@ export default function Export() {
           });
           saveConfigToScript(true);
         } else {
-          if (!data[0] || !data[0].type) {
-            handleAlertOpen("Not valid config");
-            return;
+          if (Array && Array.isArray && Array.isArray(data)) {
+            if (!data[0] || !data[0].type) {
+              handleAlertOpen("Not valid config");
+              return;
+            }
+            editor.set({json: data});
+            saveConfig();
+          } else {
+            Object.keys(data).forEach(key => {
+              let v = data[key];
+              if (key && v) window.searchData.prefConfig[key] = v;
+            });
+            saveConfigToScript(true);
           }
-          editor.set({json: data});
-          saveConfig();
         }
     }
 
