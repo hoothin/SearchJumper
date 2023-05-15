@@ -114,6 +114,34 @@ function setInPageRule() {
     saveConfigToScript(true);
 }
 
+function addInPageGroup() {
+    let groupName = window.prompt(window.i18n("presetGroupName"), "groupName");
+    if (!groupName) return;
+    let groupValue = window.prompt(window.i18n("presetGroupValue"), "jack|rose");
+    if (!window.searchData.prefConfig.inPageRule) {
+        window.searchData.prefConfig.inPageRule = {};
+    }
+    window.searchData.prefConfig.inPageRule["@" + groupName] = groupValue;
+    document.querySelector("#inPageRule").value = getFormatRule();
+}
+var downloadEle = document.createElement('a');
+    downloadEle.download = "searchJumperHighlight.json";
+    downloadEle.target = "_blank";
+function exportInPageRule() {
+    let blobStr = [JSON.stringify(window.searchData.prefConfig.inPageRule || {}, null, 4)];
+    let myBlob = new Blob(blobStr, { type: "application/json" });
+    downloadEle.href = window.URL.createObjectURL(myBlob);
+    downloadEle.click();
+}
+function importInPageRule(event) {
+    let reader = new FileReader();
+    reader.readAsText(event.target.files[0]);
+    reader.onload = function() {
+        let jsonData = JSON.parse(this.result);
+        window.searchData.prefConfig.inPageRule = jsonData;
+        document.querySelector("#inPageRule").value = getFormatRule();
+    };
+}
 var ignoreWordsTimer;
 const ruleTips = `{
     "@wordsTemplate1": "/sunshine|boringMan|adam smasher/i",   //template of some user name of boring man, ignore case
@@ -311,6 +339,13 @@ export default function FindInPage() {
                     title={ruleTitle}
                     placeholder={ruleTips}
                 />
+                <Box sx={{display: 'flex', mb: 1}}>
+                    <Button fullWidth variant="outlined" color="primary" onClick={addInPageGroup}>{window.i18n('addGroup')}</Button>
+                    <Button fullWidth variant="outlined" color="primary" onClick={exportInPageRule}>{window.i18n('exportConfig')}</Button>
+                    <Button fullWidth variant="outlined" color="primary" component="label">{window.i18n('import')}
+                        <input type="file" accept=".txt, .json" hidden onChange={importInPageRule}/>
+                    </Button>
+                </Box>
                 <Button fullWidth variant="outlined" color="primary" onClick={setInPageRule}>{window.i18n('save')}</Button>
             </Paper>
         </Box>
