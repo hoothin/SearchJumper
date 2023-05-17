@@ -211,6 +211,9 @@ url: https://hoothin.github.io/SearchJumper/all.html#***
 ```
 Select the above text, PopClip will offer an "Install Extension" action. Click it.
 
++ `https://hoothin.github.io/SearchJumper/all.html#keywords&someengine` means search keywords with search engine named someengine and open in new tab.
++ `https://hoothin.github.io/SearchJumper/all.html#keywords&someengine&1` means search keywords with search engine named someengine and open in current tab.
+
 ---
  <details>
 <summary><h2>Add search engines quickly 快速添加搜尋引擎</h></summary>
