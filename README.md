@@ -165,6 +165,7 @@
 ```
 
 ## Highlight rule examples 高亮詞規則範例
+Highlight all avID on t66y 在草榴上高亮番號
 ``` json
 {
     "/^https://t66y\\.com/htm_data//i": {
@@ -182,6 +183,7 @@
 + Search words according to the regular pattern at first, then add style "background:unset;border-bottom:5px dotted red;" to the highlighted words, finally add the feature of hovering the mouse to pop up the search box
  >首先根據正則 "[0-9a-zA-Z]+\\-\\d+" 查找番號，然後為高亮詞添加 style "background:unset;border-bottom:5px dotted red;"，最後添加鼠標懸浮彈出搜索彈框的特性
 
+Hide user by target id on xxxx.com 在某個網站上根據給定的用戶名或者用戶 ID 屏蔽元素
 ``` json
 {
     "@someUserID": "/12345|54321/l",
