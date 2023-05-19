@@ -56,7 +56,7 @@ export default function About() {
                 <Box sx={{borderTop: 1, borderColor: 'divider'}}>
                 <Card sx={{width: '100%', margin: '10px auto', textAlign: 'left', boxShadow: 'unset'}}>
                     <CardContent>
-                        <pre style={{whiteSpace: 'pre-wrap'}}>
+                        <pre style={{whiteSpace: 'pre-wrap', lineHeight: 1}}>
                             {window.i18n('aboutContent')}
                         </pre>
                     </CardContent>
