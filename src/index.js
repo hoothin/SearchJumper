@@ -205,7 +205,7 @@ window.setLang = (_lang) => {
                   cloneConfirm: '你确定要将这些站点克隆至 【#t#】?',
                   cloneAction: '你想要将它们克隆成一个集合吗?',
                   groupName: '集合名',
-                  donate: '💞Hi，我是 SearchJumper 的作者 Hoothin。 \nSearchJumper 是完全免费的，尽管它已经花费了我大量的时间来开发。 \n如果您发现 SearchJumper 给您提供了帮助，那么请考虑通过以下方式之一夸夸我，以勉励我继续维护',
+                  donate: '💞Hi，我是 SearchJumper 的作者 Hoothin。 \nSearchJumper 是完全免费的，尽管它已经花费了我大量的时间来开发。 \n如果您发现 SearchJumper 给您提供了帮助，那么请考虑通过以下方式之一夸夸我。',
                   importBookmarks: '导入浏览器书签',
                   sync: 'Webdav 同步',
                   host: '服务器地址',
@@ -289,7 +289,7 @@ window.setLang = (_lang) => {
                   param_findadd: '添加目标关键词到指定页内高亮预置分组，例如 find.addto(reddit):%t.replace(/.*user/,"") 代表获取指定链接之后提取链接中 user 后参数添加进入 reddit 分组',
                   param_date1: '当前时间戳（ms）',
                   param_date2: '对当前时间戳进行简单运算，例如%date{/1000 +604800}，代表一星期之后以秒计算的时间戳',
-                  aboutContent: '平时工作中搜索引擎跳转功能用得很频繁，但尝试了相关的扩展，发现大多夹有私货。特别是国内公司做的插件，基本都有购物返链和隐私数据收集。\n\n而这只是一个简单功能，所以不如自己写一个啦。\n\n结果写配置页面耗费的精力数倍于脚本本身……🤦‍\n\n这个搜索引擎跳转支持自己拖拽定义位置，同时也支持站内搜索，多语言编码设置（例如shift-jis），划词搜索，以及配置导入导出。'
+                  aboutContent: '平时工作中搜索引擎跳转功能用得很频繁，但尝试了相关的扩展，发现大多夹有私货。特别是国内公司做的插件，基本都有购物返链和隐私数据收集。\n而这只是一个简单功能，所以不如自己写一个啦。\n结果写配置页面耗费的精力数倍于脚本本身……🤦‍\n这个搜索引擎跳转支持自己拖拽定义位置，同时也支持站内搜索，多语言编码设置（例如shift-jis），划词搜索，以及配置导入导出。'
               }
               break;
           case 'zh-TW':
@@ -489,7 +489,7 @@ window.setLang = (_lang) => {
                   cloneConfirm: '你確定要將這些站點克隆至 【#t#】?',
                   cloneAction: '你想要將它們克隆成一個集合嗎?',
                   groupName: '集合名',
-                  donate: '💞Hi，我是 SearchJumper 的作者 Hoothin。 \nSearchJumper 是完全免費的，儘管它已經花費了我大量的時間來開發。\n如果您發現 SearchJumper 給您提供了幫助，那麼請考慮通過以下方式之一誇誇我，以勉勵我繼續維護',
+                  donate: '💞Hi，我是 SearchJumper 的作者 Hoothin。 \nSearchJumper 是完全免費的，儘管它已經花費了我大量的時間來開發。\n如果您發現 SearchJumper 給您提供了幫助，那麼請考慮通過以下方式之一誇誇我，以勉勵我繼續維護。',
                   importBookmarks: '導入瀏覽器書簽',
                   sync: 'Webdav 同步',
                   host: '伺服器地址',
@@ -570,9 +570,10 @@ window.setLang = (_lang) => {
                   param_cp: '在開頭使用"copy:"可以複製之後的所有字串',
                   param_showTips: '在鼠標懸浮時立即在 tips 內顯示所獲取的 html 代碼，如果返回陣列則第二項為點擊後復制的內容，第二項返回連結則點擊后打開。可使用 fetch 跨域，使用 storage.getItem/storage.setItem 操作持久數據，name 獲取引擎名。也可以使用簡化模式，直接傳入鏈接與模板，例如 showTips:https://api.xxx.xxx/xxx <i>{json.result|*%s} USD = %s RMB</i>，代表抓取 api.xxx.xxx 的數據，以 json 格式解析，並將 json.result 放入 <i> 模板後返回 tips。再例如 showTips:https://xxx.com/%sr <span>{title}</span><p>{.genre a|<mark>()</mark>}</p><img src="https://xxx.com{a.bigImage>img|src}"/> 代表抓取 xxx.com，獲取頁面標題、遍歷所有 .genre a 元素的內容並分別創建 mark 元素、獲取 a.bigImage>img 圖片的 src 並創建 img 元素',
                   param_find: '頁內查找高亮，例如 find:%s',
-                  param_findadd: '添加目標關鍵詞到指定頁內高亮預置分組，例如 find.addto(reddit):%t.replace(/.*user/,"") 代表獲取指定鏈接之後提取鏈接中 user 後參數添加進入 reddit 分組',param_date1: '當前時間戳（ms）',
+                  param_findadd: '添加目標關鍵詞到指定頁內高亮預置分組，例如 find.addto(reddit):%t.replace(/.*user/,"") 代表獲取指定鏈接之後提取鏈接中 user 後參數添加進入 reddit 分組',
+                  param_date1: '當前時間戳（ms）',
                   param_date2: '對當前時間戳進行簡單運算，例如%date{/1000 +604800}，代表一星期之後以秒計算的時間戳',
-                  aboutContent: '平時工作中搜尋引擎跳轉功能用得很頻繁，但嘗試了相關的擴展，發現大多夾有私貨。\n\n而這只是一個簡單功能，所以不如自己寫一個啦。\n\n結果寫配置頁面耗費的精力數倍於腳本本身……🤦‍\n\n這個搜尋引擎跳轉支持自己拖拽定義位置，同時也支持站內搜尋，多語言編碼設置（例如shift-jis），劃詞搜尋，以及配置導入導出。'
+                  aboutContent: '平時工作中搜尋引擎跳轉功能用得很頻繁，但嘗試了相關的擴展，發現大多夾有私貨。\n而這只是一個簡單功能，所以不如自己寫一個啦。\n結果寫配置頁面耗費的精力數倍於腳本本身……🤦‍\n這個搜尋引擎跳轉支持自己拖拽定義位置，同時也支持站內搜尋，多語言編碼設置（例如shift-jis），劃詞搜尋，以及配置導入導出。'
               }
               break;
           default:
@@ -855,7 +856,7 @@ window.setLang = (_lang) => {
                   param_findadd: 'Add the target keyword to the highlighted preset group, for example, find.addto(reddit):%t.replace(/.*user/,"") means to extract the parameters after the "user" in the specified link and add into "@reddit" group',
                   param_date1: 'Current timestamp(ms)',
                   param_date2: 'Perform simple calculations on the current timestamp, such as %date{/1000 +604800}, which represents a timestamp calculated in seconds after one week',
-                  aboutContent: "I use the search engine jump function very frequently in my work, but I found that most of them contain trojans after tried many related extensions. \n\nThis is just a simple function, so why not write one by myself? \n\nThe result is that writing the configuration page takes several times more energy than the script itself... 🤦‍\n\nThis search engine jump supports dragging and dropping with defined location, and also supports in-site search, word-marking search, and configuration import and export."
+                  aboutContent: "I use the search engine jump function very frequently in my work, but I found that most of them contain trojans after tried many related extensions. \nThis is just a simple function, so why not write one by myself? \nThe result is that writing the configuration page takes several times more energy than the script itself... 🤦‍\nThis search engine jump supports dragging and dropping with defined location, and also supports in-site search, word-marking search, and configuration import and export."
               }
               break;
       }

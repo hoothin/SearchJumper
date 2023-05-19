@@ -48,7 +48,7 @@ export default function About() {
                         Icons: <Link href='https://fontawesome.com/' target="_blank">FontAwesome</Link>
                     </Box>
                 </Box>
-                <Card component="pre" style={{padding: '20px', lineHeight: 2, width: '90%', whiteSpace: 'pre-wrap', textAlign: 'left', marginBottom: '10px'}}>
+                <Card component="pre" style={{padding: '20px', lineHeight: 1.5, width: '90%', whiteSpace: 'pre-wrap', textAlign: 'left', marginBottom: '10px'}}>
                     <img align='left' style={{width: '150px', maxWidth: '50%', boxShadow: 'rgb(0 0 0) 0px 0px 15px', marginRight: '20px', height: 'fit-content'}} src='avatar.jpg' alt='donate' loading="lazy"/>{window.i18n("donate")}
                 </Card>
                 <VolunteerActivismIcon/> <Link href='https://buymeacoffee.com/hoothin' style={{verticalAlign: 'top'}} target="_blank">[Buy Me A Coffee]</Link>  <Link href='https://paypal.me/hoothin' style={{verticalAlign: 'top'}} target="_blank">[Paypal.Me]</Link>
@@ -56,7 +56,7 @@ export default function About() {
                 <Box sx={{borderTop: 1, borderColor: 'divider'}}>
                 <Card sx={{width: '100%', margin: '10px auto', textAlign: 'left', boxShadow: 'unset'}}>
                     <CardContent>
-                        <pre style={{whiteSpace: 'pre-wrap', lineHeight: 1}}>
+                        <pre style={{whiteSpace: 'pre-wrap', lineHeight: 1.5}}>
                             {window.i18n('aboutContent')}
                         </pre>
                     </CardContent>
