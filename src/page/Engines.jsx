@@ -602,7 +602,7 @@ class SitesList extends React.Component {
             let currentType = window.searchData.sitesConfig[this.index];
             if (!this.state.currentSite.name) return this.handleAlertOpen(window.i18n('needName'));
             if (!this.state.currentSite.url) return this.handleAlertOpen(window.i18n('needUrl'));
-            if (this.state.currentSite.icon && !/^(https?|ftp|data):/.test(this.state.currentSite.icon)) return this.handleAlertOpen(window.i18n('wrongImg'));
+            if (this.state.currentSite.icon && !/^(https?|ftp|data):|^0$/.test(this.state.currentSite.icon)) return this.handleAlertOpen(window.i18n('wrongImg'));
             if (/^\[/.test(this.state.currentSite.url)) {
                 try {
                     JSON.parse(this.state.currentSite.url);
