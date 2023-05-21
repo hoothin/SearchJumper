@@ -20,11 +20,15 @@
 [![Install from greasyfork](https://img.shields.io/greasyfork/dt/445274)](https://greasyfork.org/scripts/445274)
 
 ## Config page
-[hoothin.github.io](https://hoothin.github.io/SearchJumper/)
+[**hoothin.github.io**](https://hoothin.github.io/SearchJumper/)
+
+> You can also download the source code, double-click start.cmd to compile, then enter the config page through localhost:3000
+> 
+> 亦可下載源碼到本地后雙擊 start.cmd ，透過 npm 編譯后訪問 localhost:3000 進入配置
 
 ## Features:
 + Fully open source without any privacy collection, spam or third-party libraries.
-  > 完全開源，沒有任何隱私收集、廣告或者亂七八糟的第三方庫
+  > 完全開源，無任何隱私收集、廣告或者亂七八糟的第三方庫，所有數據均在本地，無任何服務器交互
 + Search for pictures, links, videos, audios, pages, etc. (**long press the right mouse** on the corresponding object)
   > 可以搜尋圖片、連結、視頻、音頻、頁面等（在相應對象上**長按右鍵**）
 + Support word search on any page (need to **long press the right mouse**, you can also change to swipe to call out immediately in the settings)
