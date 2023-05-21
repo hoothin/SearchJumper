@@ -20,7 +20,7 @@
 [![Install from greasyfork](https://img.shields.io/greasyfork/dt/445274)](https://greasyfork.org/scripts/445274)
 
 ## Config page
-[hoothin.github.io](https://hoothin.github.io/SearchJumper/)
+[**hoothin.github.io**](https://hoothin.github.io/SearchJumper/)
 
 > You can also download the source code, double-click start.cmd to compile, then enter the config page through localhost:3000
 > 
