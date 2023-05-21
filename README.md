@@ -24,7 +24,7 @@
 
 > You can also download the source code, double-click start.cmd to compile, then enter the config page through localhost:3000
 > 
-> 亦可下載源碼到本地后雙擊 start.cmd ，編譯后通過 localhost:3000 進入配置頁面
+> 亦可下載源碼到本地后雙擊 start.cmd ，透過 npm 編譯后訪問 localhost:3000 進入配置
 
 ## Features:
 + Fully open source without any privacy collection, spam or third-party libraries.
