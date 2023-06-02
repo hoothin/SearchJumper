@@ -212,7 +212,7 @@ window.setLang = (_lang) => {
                   username: '用户名',
                   password: '密码',
                   path: '路径',
-                  syncTips: 'Webdav 服务器需要支持自设 cors，添加 allowed_hosts: https://hoothin.github.io',
+                  syncTips: 'Webdav 服务器需要支持自设 cors（不支持坚果云等），自行添加 allowed_hosts: https://hoothin.github.io',
                   expandType: '展开分组',
                   expandTypeTips: '展开分组，不隐藏同一分组中超出12个之外的引擎',
                   expandTypeLength: '显示引擎数',
