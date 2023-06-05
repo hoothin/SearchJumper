@@ -58,6 +58,9 @@ export default function General() {
     if (!window.searchData.prefConfig.sortType) {
         window.searchData.prefConfig.sortType = false;
     }
+    if (!window.searchData.prefConfig.sortSite) {
+        window.searchData.prefConfig.sortSite = false;
+    }
     if (!window.searchData.prefConfig.altToHighlight) {
         window.searchData.prefConfig.altToHighlight = false;
     }
@@ -565,6 +568,21 @@ export default function General() {
                             </FormControl>
                         </Box>
                     </Box>
+                    <Box>
+                        <Typography gutterBottom component="div">
+                            <h4>{window.i18n('sortSite')}</h4>
+                        </Typography>
+                        <Box>
+                            <FormControl sx={{ m: 1, minWidth: 80 }}>
+                                <FormControlLabel
+                                    control={
+                                        <Switch checked={state.sortSite} onChange={handleCheckChange} name="sortSite" />
+                                    }
+                                    label={window.i18n('sortSiteTips')}
+                                />
+                            </FormControl>
+                        </Box>
+                    </Box>
                 </Box>
             </Paper>
             <Paper elevation={5} sx={{ padding: '20px', marginTop: '20px' }}>
@@ -982,6 +1000,35 @@ export default function General() {
             </Paper>
             <Paper elevation={5} sx={{ padding: '20px', marginTop: '20px' }}>
                 <Typography gutterBottom component="div">
+                    <h4>{window.i18n('suggestType')}</h4>
+                </Typography>
+                <Box>
+                    <FormControl sx={{ m: 1, minWidth: 80 }}>
+                        <InputLabel>Source</InputLabel>
+                        <Select
+                            value={state.suggestType}
+                            onChange={(event: SelectChangeEvent) => {
+                                var newPref = {
+                                    ...state,
+                                    suggestType: event.target.value
+                                };
+                                setState(newPref);
+                                window.searchData.prefConfig = newPref;
+                                saveConfigToScript();
+                            }}
+                            autoWidth
+                            label="Source"
+                        >
+                            <MenuItem value='google'>Google</MenuItem>
+                            <MenuItem value='bing'>Bing</MenuItem>
+                            <MenuItem value='baidu'>Baidu</MenuItem>
+                            <MenuItem value='disable'>Disable</MenuItem>
+                        </Select>
+                    </FormControl>
+                </Box>
+            </Paper>
+            <Paper elevation={5} sx={{ padding: '20px', marginTop: '20px' }}>
+                <Typography gutterBottom component="div">
                     <h4>{window.i18n('callInputKey')}</h4>
                 </Typography>
                 <Box>
@@ -1152,35 +1199,6 @@ export default function General() {
                             }
                             label={window.i18n('metaKey')}
                         />
-                    </FormControl>
-                </Box>
-            </Paper>
-            <Paper elevation={5} sx={{ padding: '20px', marginTop: '20px' }}>
-                <Typography gutterBottom component="div">
-                    <h4>{window.i18n('suggestType')}</h4>
-                </Typography>
-                <Box>
-                    <FormControl sx={{ m: 1, minWidth: 80 }}>
-                        <InputLabel>Source</InputLabel>
-                        <Select
-                            value={state.suggestType}
-                            onChange={(event: SelectChangeEvent) => {
-                                var newPref = {
-                                    ...state,
-                                    suggestType: event.target.value
-                                };
-                                setState(newPref);
-                                window.searchData.prefConfig = newPref;
-                                saveConfigToScript();
-                            }}
-                            autoWidth
-                            label="Source"
-                        >
-                            <MenuItem value='google'>Google</MenuItem>
-                            <MenuItem value='bing'>Bing</MenuItem>
-                            <MenuItem value='baidu'>Baidu</MenuItem>
-                            <MenuItem value='disable'>Disable</MenuItem>
-                        </Select>
                     </FormControl>
                 </Box>
             </Paper>
