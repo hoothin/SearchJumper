@@ -88,9 +88,12 @@
 + Drag to search with current category
   > 拖拽搜尋當前分類（文字/圖片/鏈接），内圈為當前分類前6個站點，外圈為最近使用的10個站點，可透過編輯第一個（文字/圖片/鏈接）分類來自定義内容
 
+ <details>
+<summary><h2>Screenshots</h2></summary>
 ![config](config.jpg)
 ![findInPage](findInPage.jpg)
 ![etc](etc.jpg)
+ </details>
 
 ## Search params
 | param | details | 詳述 |
@@ -222,7 +225,7 @@ Select the above text, PopClip will offer an "Install Extension" action. Click i
 
 ---
  <details>
-<summary><h2>Add search engines quickly 快速添加搜尋引擎</h></summary>
+<summary><h2>Add search engines quickly 快速添加搜尋引擎</h2></summary>
 
 + Add with shortcut key on current page 透過快捷鍵快速在當前頁面添加
 > Click search input box with `ctrl + shift` 按住 `ctrl + shift` 點擊當前頁面中的搜尋輸入框即可
@@ -234,7 +237,7 @@ Select the above text, PopClip will offer an "Install Extension" action. Click i
 
 ---
  <details>
-<summary><h2>Filter sites to search 站點篩選並搜尋</h></summary>
+<summary><h2>Filter sites to search 站點篩選並搜尋</h2></summary>
 
 + Call by global shortcut key, Input keywords of site name to filter sites, support glob with "? \*" 透過全局快捷鍵喚出，輸入站點名稱的關鍵詞來篩選，支援 “? \*” 通配符
 + Enter to lock filter and input words to search by click icon or another press of enter 回車鎖定篩選，輸入文字并且點擊站點圖標或者再次回車來進行搜尋
@@ -244,7 +247,7 @@ Select the above text, PopClip will offer an "Install Extension" action. Click i
 
 ---
  <details>
-<summary><h2>Call by event 透過鼠標手勢調用</h></summary>
+<summary><h2>Call by event 透過鼠標手勢調用</h2></summary>
 
 + Search by site name 以站點名調用搜尋
 ``` javascript
@@ -308,7 +311,7 @@ document.dispatchEvent(searchJumperEvent);
 
 ---
  <details>
-<summary><h2>Download all video with lux 使用 LUX 下載全網視頻</h></summary>
+<summary><h2>Download all video with lux 使用 LUX 下載全網視頻</h2></summary>
 
 ![bilibili](https://s3.bmp.ovh/imgs/2022/09/25/543a696312baf85d.gif "B站VIDEO下載")
 
@@ -396,7 +399,7 @@ users:
  
 ---
  <details>
-<summary><h2>Batch open modes 多種批量打開方式</h></summary>
+<summary><h2>Batch open modes 多種批量打開方式</h2></summary>
   
 + **`shift`** + click category icon
 ![i](batchOpen1.jpg)
