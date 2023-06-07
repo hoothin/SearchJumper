@@ -90,9 +90,11 @@
 
  <details>
 <summary><h2>Screenshots</h2></summary>
+  
 ![config](config.jpg)
 ![findInPage](findInPage.jpg)
 ![etc](etc.jpg)
+
  </details>
 
 ## Search params
