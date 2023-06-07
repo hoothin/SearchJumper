@@ -118,7 +118,9 @@
 | `%element{}.prop()` | return prop value for queried element, like %element{.mainTitle}.prop(href) %element{.mainTitle}.prop(innerHTML) | 🗒️ 獲取抓取到元素的屬性值，例如 %element{.mainTitle}.prop(href) %element{.mainTitle}.prop(innerHTML) |
 | `%element{}.replace()` | replace, same as above, like %element{.mainTitle}.prop(href).replace(/https/i,"") | 🗒️ 正則替換，例如 %element{.mainTitle}.prop(href).replace(/https/i,"") |
 
-## Engine examples 搜尋引擎範例
+ <details>
+<summary><h2>Engine examples 搜尋引擎範例</h2></summary>
+
 + Open link in the text, display only when a link is detected 打開文字中的鏈接，僅當檢測到鏈接時顯示
 ``` json
 {
@@ -173,7 +175,11 @@
 }
 ```
 
-## Highlight rule examples 高亮詞規則範例
+ </details>
+
+ <details>
+<summary><h2>Highlight rule examples 高亮詞規則範例</h2></summary>
+
 Highlight all avID on t66y 在草榴上高亮番號
 ``` json
 {
@@ -212,6 +218,8 @@ Hide user by target id on xxxx.com 在某個網站上根據給定的用戶名或
  >以|分隔
 + Search links by @someUserID to hide (l after RegExp means link), and search words by @someUserName to hide. 
  >查找設定在模板 @someUserID 中的用戶 ID （正則后的 l 代表篩選連結），然後隱藏連結中含有此 ID 的元素，同時查找設定在模板 @someUserName 中的用戶名並隱藏元素
+
+ </details>
 
 ## PopClip extension for SearchJumper
 ``` yaml
