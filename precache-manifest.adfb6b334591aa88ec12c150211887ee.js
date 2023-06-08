@@ -76,12 +76,12 @@ self.__precacheManifest = [
     "url": "./static/media/roboto-greek-ext-400-normal.35de3738.woff2"
   },
   {
-    "revision": "ca3b09b62fda648a4511700413313fd0",
-    "url": "./static/media/roboto-vietnamese-400-normal.ca3b09b6.woff2"
-  },
-  {
     "revision": "28668857bef1b85c5748a482cf9b74af",
     "url": "./static/media/roboto-greek-400-normal.28668857.woff2"
+  },
+  {
+    "revision": "ca3b09b62fda648a4511700413313fd0",
+    "url": "./static/media/roboto-vietnamese-400-normal.ca3b09b6.woff2"
   },
   {
     "revision": "87ace20058325aa069320aa4af875dff",
