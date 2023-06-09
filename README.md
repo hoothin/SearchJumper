@@ -20,7 +20,7 @@
 [![Install from greasyfork](https://img.shields.io/greasyfork/dt/445274)](https://greasyfork.org/scripts/445274)
 
 ## Config page
-[**hoothin.github.io**](https://hoothin.github.io/SearchJumper/)
+[🔗**hoothin.github.io**](https://hoothin.github.io/SearchJumper/)
 
 > You can also download the source code, double-click start.cmd to compile, then enter the config page through localhost:3000
 > 
@@ -88,9 +88,14 @@
 + Drag to search with current category
   > 拖拽搜尋當前分類（文字/圖片/鏈接），内圈為當前分類前6個站點，外圈為最近使用的10個站點，可透過編輯第一個（文字/圖片/鏈接）分類來自定義内容
 
+ <details>
+<summary><h2>Screenshots</h2></summary>
+  
 ![config](config.jpg)
 ![findInPage](findInPage.jpg)
 ![etc](etc.jpg)
+
+ </details>
 
 ## Search params
 | param | details | 詳述 |
@@ -113,7 +118,9 @@
 | `%element{}.prop()` | return prop value for queried element, like %element{.mainTitle}.prop(href) %element{.mainTitle}.prop(innerHTML) | 🗒️ 獲取抓取到元素的屬性值，例如 %element{.mainTitle}.prop(href) %element{.mainTitle}.prop(innerHTML) |
 | `%element{}.replace()` | replace, same as above, like %element{.mainTitle}.prop(href).replace(/https/i,"") | 🗒️ 正則替換，例如 %element{.mainTitle}.prop(href).replace(/https/i,"") |
 
-## Engine examples 搜尋引擎範例
+ <details>
+<summary><h2>Engine examples 搜尋引擎範例</h2></summary>
+
 + Open link in the text, display only when a link is detected 打開文字中的鏈接，僅當檢測到鏈接時顯示
 ``` json
 {
@@ -168,7 +175,11 @@
 }
 ```
 
-## Highlight rule examples 高亮詞規則範例
+ </details>
+
+ <details>
+<summary><h2>Highlight rule examples 高亮詞規則範例</h2></summary>
+
 Highlight all avID on t66y 在草榴上高亮番號
 ``` json
 {
@@ -208,6 +219,8 @@ Hide user by target id on xxxx.com 在某個網站上根據給定的用戶名或
 + Search links by @someUserID to hide (l after RegExp means link), and search words by @someUserName to hide. 
  >查找設定在模板 @someUserID 中的用戶 ID （正則后的 l 代表篩選連結），然後隱藏連結中含有此 ID 的元素，同時查找設定在模板 @someUserName 中的用戶名並隱藏元素
 
+ </details>
+
 ## PopClip extension for SearchJumper
 ``` yaml
 #popclip extension for SearchJumper
@@ -222,7 +235,7 @@ Select the above text, PopClip will offer an "Install Extension" action. Click i
 
 ---
  <details>
-<summary><h2>Add search engines quickly 快速添加搜尋引擎</h></summary>
+<summary><h2>Add search engines quickly 快速添加搜尋引擎</h2></summary>
 
 + Add with shortcut key on current page 透過快捷鍵快速在當前頁面添加
 > Click search input box with `ctrl + shift` 按住 `ctrl + shift` 點擊當前頁面中的搜尋輸入框即可
@@ -234,7 +247,7 @@ Select the above text, PopClip will offer an "Install Extension" action. Click i
 
 ---
  <details>
-<summary><h2>Filter sites to search 站點篩選並搜尋</h></summary>
+<summary><h2>Filter sites to search 站點篩選並搜尋</h2></summary>
 
 + Call by global shortcut key, Input keywords of site name to filter sites, support glob with "? \*" 透過全局快捷鍵喚出，輸入站點名稱的關鍵詞來篩選，支援 “? \*” 通配符
 + Enter to lock filter and input words to search by click icon or another press of enter 回車鎖定篩選，輸入文字并且點擊站點圖標或者再次回車來進行搜尋
@@ -244,7 +257,7 @@ Select the above text, PopClip will offer an "Install Extension" action. Click i
 
 ---
  <details>
-<summary><h2>Call by event 透過鼠標手勢調用</h></summary>
+<summary><h2>Call by event 透過鼠標手勢調用</h2></summary>
 
 + Search by site name 以站點名調用搜尋
 ``` javascript
@@ -308,7 +321,7 @@ document.dispatchEvent(searchJumperEvent);
 
 ---
  <details>
-<summary><h2>Download all video with lux 使用 LUX 下載全網視頻</h></summary>
+<summary><h2>Download all video with lux 使用 LUX 下載全網視頻</h2></summary>
 
 ![bilibili](https://s3.bmp.ovh/imgs/2022/09/25/543a696312baf85d.gif "B站VIDEO下載")
 
@@ -396,7 +409,7 @@ users:
  
 ---
  <details>
-<summary><h2>Batch open modes 多種批量打開方式</h></summary>
+<summary><h2>Batch open modes 多種批量打開方式</h2></summary>
   
 + **`shift`** + click category icon
 ![i](batchOpen1.jpg)
