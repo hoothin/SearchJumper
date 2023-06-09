@@ -931,14 +931,21 @@ export default function General() {
                         sx={{ mr: '10px' }}
                         label={window.i18n('switchSitesPreKey')}
                         type="text"
-                        value={state.switchSitesPreKey}
+                        value={(state.switchSitesPreKey || "").replace(/Key|Digit/, "").replace(/Backquote/, "`").replace(/Minus/, "-").replace(/Equal/, "=").replace(/ArrowUp/, "↑").replace(/ArrowDown/, "↓").replace(/ArrowLeft/, "←").replace(/ArrowRight/, "→")}
                         inputProps={{ readOnly: 'readonly' }}
                         onKeyDown={(event) => {
                             event.stopPropagation();
                             event.preventDefault();
+                            if (/^(Control|Alt|Meta|Shift)/.test(event.key)) {
+                                return;
+                            }
                             let newValue = (event.key === 'Escape' || event.key === 'Backspace') ? '' : (event.code || event.key);
                             var newPref = {
                                 ...state,
+                                switchSitesCtrl: event.ctrlKey,
+                                switchSitesAlt: event.altKey,
+                                switchSitesShift: event.shiftKey,
+                                switchSitesMeta: event.metaKey,
                                 switchSitesPreKey: newValue
                             };
                             setState(newPref);
@@ -949,14 +956,21 @@ export default function General() {
                     <TextField
                         label={window.i18n('switchSitesNextKey')}
                         type="text"
-                        value={state.switchSitesNextKey}
+                        value={(state.switchSitesNextKey || "").replace(/Key|Digit/, "").replace(/Backquote/, "`").replace(/Minus/, "-").replace(/Equal/, "=").replace(/ArrowUp/, "↑").replace(/ArrowDown/, "↓").replace(/ArrowLeft/, "←").replace(/ArrowRight/, "→")}
                         inputProps={{ readOnly: 'readonly' }}
                         onKeyDown={(event) => {
                             event.stopPropagation();
                             event.preventDefault();
+                            if (/^(Control|Alt|Meta|Shift)/.test(event.key)) {
+                                return;
+                            }
                             let newValue = (event.key === 'Escape' || event.key === 'Backspace') ? '' : (event.code || event.key);
                             var newPref = {
                                 ...state,
+                                switchSitesCtrl: event.ctrlKey,
+                                switchSitesAlt: event.altKey,
+                                switchSitesShift: event.shiftKey,
+                                switchSitesMeta: event.metaKey,
                                 switchSitesNextKey: newValue
                             };
                             setState(newPref);
@@ -1035,14 +1049,21 @@ export default function General() {
                     <TextField
                         label={window.i18n('shortcut')}
                         type="text"
-                        value={state.shortcutKey}
+                        value={(state.shortcutKey || "").replace(/Key|Digit/, "").replace(/Backquote/, "`").replace(/Minus/, "-").replace(/Equal/, "=").replace(/ArrowUp/, "↑").replace(/ArrowDown/, "↓").replace(/ArrowLeft/, "←").replace(/ArrowRight/, "→")}
                         inputProps={{ readOnly: 'readonly' }}
                         onKeyDown={(event) => {
                             event.stopPropagation();
                             event.preventDefault();
+                            if (/^(Control|Alt|Meta|Shift)/.test(event.key)) {
+                                return;
+                            }
                             let newValue = (event.key === 'Escape' || event.key === 'Backspace') ? '' : (event.code || event.key);
                             var newPref = {
                                 ...state,
+                                callBarCtrl: event.ctrlKey,
+                                callBarAlt: event.altKey,
+                                callBarShift: event.shiftKey,
+                                callBarMeta: event.metaKey,
                                 shortcutKey: newValue
                             };
                             setState(newPref);
@@ -1153,14 +1174,21 @@ export default function General() {
                     <TextField
                         label={window.i18n('shortcut')}
                         type="text"
-                        value={state.showAllShortcutKey}
+                        value={(state.showAllShortcutKey || "").replace(/Key|Digit/, "").replace(/Backquote/, "`").replace(/Minus/, "-").replace(/Equal/, "=").replace(/ArrowUp/, "↑").replace(/ArrowDown/, "↓").replace(/ArrowLeft/, "←").replace(/ArrowRight/, "→")}
                         inputProps={{ readOnly: 'readonly' }}
                         onKeyDown={(event) => {
                             event.stopPropagation();
                             event.preventDefault();
+                            if (/^(Control|Alt|Meta|Shift)/.test(event.key)) {
+                                return;
+                            }
                             let newValue = (event.key === 'Escape' || event.key === 'Backspace') ? '' : (event.code || event.key);
                             var newPref = {
                                 ...state,
+                                showAllCtrl: event.ctrlKey,
+                                showAllAlt: event.altKey,
+                                showAllShift: event.shiftKey,
+                                showAllMeta: event.metaKey,
                                 showAllShortcutKey: newValue
                             };
                             setState(newPref);

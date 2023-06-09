@@ -313,10 +313,20 @@ function TypeEdit(props) {
                                 label={window.i18n('typeShotcut')}
                                 type="text"
                                 variant="outlined"
-                                value={typeData.shortcut}
+                                value={(typeData.shortcut || "").replace(/Key|Digit/, "").replace(/Backquote/, "`").replace(/Minus/, "-").replace(/Equal/, "=").replace(/ArrowUp/, "↑").replace(/ArrowDown/, "↓").replace(/ArrowLeft/, "←").replace(/ArrowRight/, "→")}
                                 inputProps={{ readOnly: 'readonly' }}
                                 onKeyDown={e => {
-                                    setTypeData({...typeData, shortcut: (e.key === 'Escape' || e.key === 'Backspace') ? '' : (e.code || e.key)});
+                                    if (/^(Control|Alt|Meta|Shift)/.test(e.key)) {
+                                        return;
+                                    }
+                                    setTypeData({
+                                        ...typeData,
+                                        ctrl: e.ctrlKey,
+                                        alt: e.altKey,
+                                        shift: e.shiftKey,
+                                        meta: e.metaKey,
+                                        shortcut: (e.key === 'Escape' || e.key === 'Backspace') ? '' : (e.code || e.key)
+                                    });
                                 }}
                             />
                             <Box sx={{flexGrow: 1, display: 'flex', flexWrap: 'wrap'}}>
@@ -1140,11 +1150,21 @@ class SitesList extends React.Component {
                                         label={window.i18n('siteShotcut')}
                                         type="text"
                                         variant="outlined"
-                                        value={this.state.currentSite.shortcut}
+                                        value={(this.state.currentSite.shortcut || "").replace(/Key|Digit/, "").replace(/Backquote/, "`").replace(/Minus/, "-").replace(/Equal/, "=").replace(/ArrowUp/, "↑").replace(/ArrowDown/, "↓").replace(/ArrowLeft/, "←").replace(/ArrowRight/, "→")}
                                         inputProps={{ readOnly: 'readonly' }}
                                         onKeyDown={e => {
+                                            if (/^(Control|Alt|Meta|Shift)/.test(e.key)) {
+                                                return;
+                                            }
                                             this.setState(prevState => ({
-                                                currentSite: {...this.state.currentSite, shortcut: (e.key === 'Escape' || e.key === 'Backspace') ? '' : (e.code || e.key)}
+                                                currentSite: {
+                                                    ...this.state.currentSite,
+                                                    ctrl: e.ctrlKey,
+                                                    alt: e.altKey,
+                                                    shift: e.shiftKey,
+                                                    meta: e.metaKey,
+                                                    shortcut: (e.key === 'Escape' || e.key === 'Backspace') ? '' : (e.code || e.key)
+                                                }
                                             }));
                                         }}
                                     />
