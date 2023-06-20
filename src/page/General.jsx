@@ -643,6 +643,20 @@ export default function General() {
                             />
                         </FormControl>
                     </Box>
+                    <Box>
+                        <Typography gutterBottom component="div">
+                            <h4>{window.i18n('disableTypeOpen')}</h4>
+                        </Typography>
+                    
+                        <FormControl sx={{ m: 1, minWidth: 80 }}>
+                            <FormControlLabel
+                                control={
+                                    <Switch checked={state.disableTypeOpen} onChange={handleCheckChange} name="disableTypeOpen" />
+                                }
+                                label={window.i18n('disableTypeOpenTips')}
+                            />
+                        </FormControl>
+                    </Box>
                 </Box>
             </Paper>
             <Paper elevation={5} sx={{ padding: '20px', marginTop: '20px' }}>
