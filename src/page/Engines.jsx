@@ -1351,7 +1351,7 @@ Windows Registry Editor Version 5.00
 [HKEY_CLASSES_ROOT\\${n}\\shell\\open]
 
 [HKEY_CLASSES_ROOT\\${n}\\shell\\open\\command]
-@="cmd /c set m=%1 & call set m=%%m:${n}://=%% & ${match[3]} & cd \\"${match[2]}\\" & call ${match[4]} ${match[5].replace(match[6], '%%m%%')} & pause"
+@="cmd /c set m=%1 & call set m=%%m:${n}://=%% & ${match[3]} & cd \\"${match[2]}\\" & call ${match[4]} ${match[5].replace(match[6], '%%m%%')}"
 `.trim()];
                             let myBlob = new Blob(blobStr, { type: "application/text" });
                             this.downloadEle.download = `${n}.reg`;
