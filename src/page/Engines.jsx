@@ -744,7 +744,7 @@ class SitesList extends React.Component {
         let newSites = this.state.data.sites.filter(site => {
             return (site.url !== dragSite.url);
         })
-        for (let i in newSites) {
+        for (let i = 0; i < newSites.length; i++) {
             if (newSites[i].url === targetSite.url) {
                 newSites.splice(parseInt(i) + (isRight ? 1 : 0), 0, dragSite);
                 break;
@@ -1836,7 +1836,7 @@ export default function Engines() {
         let newTypes = window.searchData.sitesConfig.filter(typeData => {
             return (typeData.type !== dragType.type);
         })
-        for (let i in newTypes) {
+        for (let i = 0; i < newTypes.length; i++) {
             if (newTypes[i].type === targetType.type) {
                 newTypes.splice((isRight ? i + 1 : i), 0, dragType);
                 break;
