@@ -118,6 +118,19 @@
 | `%element{}.prop()` | return prop value for queried element, like %element{.mainTitle}.prop(href) %element{.mainTitle}.prop(innerHTML) | 🗒️ 獲取抓取到元素的屬性值，例如 %element{.mainTitle}.prop(href) %element{.mainTitle}.prop(innerHTML) |
 | `%element{}.replace()` | replace, same as above, like %element{.mainTitle}.prop(href).replace(/https/i,"") | 🗒️ 正則替換，例如 %element{.mainTitle}.prop(href).replace(/https/i,"") |
 
+## PopClip extension for SearchJumper
+``` yaml
+#popclip extension for SearchJumper
+name: SearchJumper
+icon: search filled S
+url: https://hoothin.github.io/SearchJumper/all.html#***
+```
+Select the above text, PopClip will offer an "Install Extension" action. Click it.
+
++ `https://hoothin.github.io/SearchJumper/all.html?kw=keywords&engine=someengine` means search keywords with search engine named someengine and open in new tab.
++ `https://hoothin.github.io/SearchJumper/all.html?kw=keywords&engine=someengine&self=1` means search keywords with search engine named someengine and open in current tab.
+
+---
  <details>
 <summary><h2>Engine examples 搜尋引擎範例</h2></summary>
 
@@ -177,6 +190,7 @@
 
  </details>
 
+---
  <details>
 <summary><h2>Highlight rule examples 高亮詞規則範例</h2></summary>
 
@@ -220,18 +234,6 @@ Hide user by target id on xxxx.com 在某個網站上根據給定的用戶名或
  >查找設定在模板 @someUserID 中的用戶 ID （正則后的 l 代表篩選連結），然後隱藏連結中含有此 ID 的元素，同時查找設定在模板 @someUserName 中的用戶名並隱藏元素
 
  </details>
-
-## PopClip extension for SearchJumper
-``` yaml
-#popclip extension for SearchJumper
-name: SearchJumper
-icon: search filled S
-url: https://hoothin.github.io/SearchJumper/all.html#***
-```
-Select the above text, PopClip will offer an "Install Extension" action. Click it.
-
-+ `https://hoothin.github.io/SearchJumper/all.html?kw=keywords&engine=someengine` means search keywords with search engine named someengine and open in new tab.
-+ `https://hoothin.github.io/SearchJumper/all.html?kw=keywords&engine=someengine&self=1` means search keywords with search engine named someengine and open in current tab.
 
 ---
  <details>
