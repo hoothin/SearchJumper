@@ -340,7 +340,7 @@ export default function FindInPage() {
                     placeholder={ruleTips}
                 />
                 <Box sx={{display: 'flex', mb: 1}}>
-                    <Button fullWidth variant="outlined" color="primary" onClick={addInPageGroup}>{window.i18n('addGroup')}</Button>
+                    <Button fullWidth variant="outlined" color="primary" onClick={addInPageGroup} title={window.i18n('addGroupTips')}>{window.i18n('addGroup')}</Button>
                     <Button fullWidth variant="outlined" color="primary" onClick={exportInPageRule}>{window.i18n('exportConfig')}</Button>
                     <Button fullWidth variant="outlined" color="primary" component="label">{window.i18n('import')}
                         <input type="file" accept=".txt, .json" hidden onChange={importInPageRule}/>
