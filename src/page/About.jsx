@@ -52,9 +52,22 @@ export default function About() {
                     <img align='left' style={{width: '150px', maxWidth: '50%', boxShadow: 'rgb(0 0 0) 0px 0px 15px', marginRight: '20px', height: 'fit-content'}} src='avatar.jpg' alt='donate' loading="lazy"/>{window.i18n("donate")}
                 </Card>
                 <VolunteerActivismIcon/> 
-                <Link href='https://buymeacoffee.com/hoothin' style={{verticalAlign: 'top'}} target="_blank">[Buy Me A Coffee]</Link>  
-                <Link href='https://paypal.me/hoothin' style={{verticalAlign: 'top'}} target="_blank">[Paypal.Me]</Link>
-                <Link href='https://afdian.net/@hoothin' style={{verticalAlign: 'top'}} target="_blank">[愛發電]</Link>
+                <Box>
+                    <Link href='https://ko-fi.com/hoothin' style={{verticalAlign: 'top'}} target="_blank">
+                        <img style={{verticalAlign: 'bottom', marginRight: "5px"}} src='kofi.png' alt='kofi' loading="lazy"/>
+                        [Ko-fi]
+                    </Link> 
+                    <span style={{margin: "0 10px"}}>|</span> 
+                    <Link href='https://paypal.me/hoothin' style={{verticalAlign: 'top'}} target="_blank">
+                        <img style={{verticalAlign: 'bottom', marginRight: "5px"}} src='paypal.png' alt='paypal' loading="lazy"/>
+                        [Paypal.Me]
+                    </Link>
+                    <span style={{margin: "0 10px"}}>|</span> 
+                    <Link href='https://afdian.net/@hoothin' style={{verticalAlign: 'top'}} target="_blank">
+                        <img style={{verticalAlign: 'bottom', marginRight: "5px"}} src='afd.png' alt='afd' loading="lazy"/>
+                        [愛發電]
+                    </Link>
+                </Box>
                 <img style={{maxWidth: '100%', borderRadius: '20px', boxShadow: 'rgb(0 0 0) 0px 0px 15px', margin: '10px'}} src='donate.jpg' alt='donate' loading="lazy"/>
                 <Box sx={{borderTop: 1, borderColor: 'divider'}}>
                 <Card sx={{width: '100%', margin: '10px auto', textAlign: 'left', boxShadow: 'unset'}}>
