@@ -1653,7 +1653,7 @@ export default function Engines() {
                 default:
                     break;
             }
-            verifyItem.innerHTML = `<td>${e.data.name}</td><td><a href='${e.data.url}'>${e.data.url}</a></td><td><span title='${statusStr}'>${e.data.status}</span></td>`;
+            verifyItem.innerHTML = `<td>🖱${e.data.name}</td><td><a href='${e.data.url}'>${e.data.url}</a></td><td><span ${e.data.status < 300 ? '' : 'style = "color: red"'} title='${statusStr}'>${e.data.status}</span></td>`;
             if (e.data.status < 300) verifyItem.classList.add('okItem');
             verifyItem.onclick = ev => {
                 if (ev.target.tagName !== 'A') {
