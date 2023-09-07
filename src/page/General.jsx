@@ -61,9 +61,6 @@ export default function General() {
     if (!window.searchData.prefConfig.sortSite) {
         window.searchData.prefConfig.sortSite = false;
     }
-    if (!window.searchData.prefConfig.altToHighlight) {
-        window.searchData.prefConfig.altToHighlight = false;
-    }
     if (!window.searchData.prefConfig.defaultPicker) {
         window.searchData.prefConfig.defaultPicker = false;
     }
@@ -93,9 +90,6 @@ export default function General() {
     }
     if (!window.searchData.prefConfig.showEngineWords) {
         window.searchData.prefConfig.showEngineWords = false;
-    }
-    if (!window.searchData.prefConfig.globalSearchNow) {
-        window.searchData.prefConfig.globalSearchNow = false;
     }
     if (window.searchData.prefConfig.minPopup === false) {
         window.searchData.prefConfig.minPopup = 0;
@@ -1130,17 +1124,6 @@ export default function General() {
                     />
                 </FormControl>
                 <Typography gutterBottom component="div">
-                    <h4>{window.i18n('globalSearchNow')}</h4>
-                </Typography>
-                <FormControl sx={{ m: 1, minWidth: 80 }}>
-                    <FormControlLabel
-                        control={
-                            <Switch checked={state.globalSearchNow} onChange={handleCheckChange} name="globalSearchNow" />
-                        }
-                        label={window.i18n('globalSearchNowTips')}
-                    />
-                </FormControl>
-                <Typography gutterBottom component="div">
                     <h4>{window.i18n('disableInputOnWords')}</h4>
                 </Typography>
                 <FormControl sx={{ m: 1, minWidth: 80 }}>
@@ -1151,34 +1134,17 @@ export default function General() {
                         label={window.i18n('disableInputOnWordsTips')}
                     />
                 </FormControl>
-                <Box sx={{ flexGrow: 1, display: 'flex'}}>
-                    <Box>
-                        <Typography gutterBottom component="div">
-                            <h4>{window.i18n('altToHighlight')}</h4>
-                        </Typography>
-                        <FormControl sx={{ m: 1, minWidth: 80 }}>
-                            <FormControlLabel
-                                control={
-                                    <Switch checked={state.altToHighlight} onChange={handleCheckChange} name="altToHighlight" />
-                                }
-                                label={window.i18n('altToHighlightTips')}
-                            />
-                        </FormControl>
-                    </Box>
-                    <Box>
-                        <Typography gutterBottom component="div">
-                            <h4>{window.i18n('defaultPicker')}</h4>
-                        </Typography>
-                        <FormControl sx={{ m: 1, minWidth: 80 }}>
-                            <FormControlLabel
-                                control={
-                                    <Switch checked={state.defaultPicker} onChange={handleCheckChange} name="defaultPicker" />
-                                }
-                                label={window.i18n('defaultPickerTips')}
-                            />
-                        </FormControl>
-                    </Box>
-                </Box>
+                <Typography gutterBottom component="div">
+                    <h4>{window.i18n('defaultPicker')}</h4>
+                </Typography>
+                <FormControl sx={{ m: 1, minWidth: 80 }}>
+                    <FormControlLabel
+                        control={
+                            <Switch checked={state.defaultPicker} onChange={handleCheckChange} name="defaultPicker" />
+                        }
+                        label={window.i18n('defaultPickerTips')}
+                    />
+                </FormControl>
             </Paper>
             <Paper elevation={5} sx={{ padding: '20px', marginTop: '20px' }}>
                 <Typography gutterBottom component="div">

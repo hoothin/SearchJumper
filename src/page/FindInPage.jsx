@@ -207,6 +207,12 @@ export default function FindInPage() {
     if (!window.searchData.prefConfig.inPageWordsStyles) {
         window.searchData.prefConfig.inPageWordsStyles = [];
     }
+    if (!window.searchData.prefConfig.globalSearchNow) {
+        window.searchData.prefConfig.globalSearchNow = false;
+    }
+    if (!window.searchData.prefConfig.altToHighlight) {
+        window.searchData.prefConfig.altToHighlight = false;
+    }
     const [state, setState] = React.useState(
         window.searchData.prefConfig
     );
@@ -252,6 +258,29 @@ export default function FindInPage() {
                         />
                     </FormControl>
                 </Box>
+
+                <Typography gutterBottom component="div">
+                    <h4>{window.i18n('globalSearchNow')}</h4>
+                </Typography>
+                <FormControl sx={{ m: 1, minWidth: 80 }}>
+                    <FormControlLabel
+                        control={
+                            <Switch checked={state.globalSearchNow} onChange={handleCheckChange} name="globalSearchNow" />
+                        }
+                        label={window.i18n('globalSearchNowTips')}
+                    />
+                </FormControl>
+                <Typography gutterBottom component="div">
+                    <h4>{window.i18n('altToHighlight')}</h4>
+                </Typography>
+                <FormControl sx={{ m: 1, minWidth: 80 }}>
+                    <FormControlLabel
+                        control={
+                            <Switch checked={state.altToHighlight} onChange={handleCheckChange} name="altToHighlight" />
+                        }
+                        label={window.i18n('altToHighlightTips')}
+                    />
+                </FormControl>
 
                 <Typography gutterBottom component="div">
                     <h4>{window.i18n('limitInPageLen')}</h4>
