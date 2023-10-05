@@ -132,7 +132,7 @@ Select the above text, PopClip will offer an "Install Extension" action. Click i
 
 ---
  <details>
-<summary><h2>Engine examples 搜尋引擎範例</h2></summary>
+<summary><h2>Search engine examples 搜尋引擎規則範例</h2></summary>
 
 + Open link in the text, display only when a link is detected 打開文字中的鏈接，僅當檢測到鏈接時顯示
 ``` json
@@ -192,7 +192,7 @@ Select the above text, PopClip will offer an "Install Extension" action. Click i
 
 ---
  <details>
-<summary><h2>Highlight rule examples 高亮詞規則範例</h2></summary>
+<summary><h2>Auto highlight rule examples 自動高亮詞規則範例</h2></summary>
 
 Highlight all avID on t66y 在草榴上高亮番號
 ``` json
@@ -249,7 +249,7 @@ Hide user by target id on xxxx.com 在某個網站上根據給定的用戶名或
 
 ---
  <details>
-<summary><h2>Filter sites to search 站點篩選並搜尋</h2></summary>
+<summary><h2>Filter sites to search 篩選引擎並搜尋</h2></summary>
 
 + Call by global shortcut key, Input keywords of site name to filter sites, support glob with "? \*" 透過全局快捷鍵喚出，輸入站點名稱的關鍵詞來篩選，支援 “? \*” 通配符
 + Enter to lock filter and input words to search by click icon or another press of enter 回車鎖定篩選，輸入文字并且點擊站點圖標或者再次回車來進行搜尋
@@ -259,7 +259,7 @@ Hide user by target id on xxxx.com 在某個網站上根據給定的用戶名或
 
 ---
  <details>
-<summary><h2>Call by event 透過鼠標手勢調用</h2></summary>
+<summary><h2>Call SearchJumper by event 透過鼠標手勢調用搜尋醬</h2></summary>
 
 + Search by site name 以站點名調用搜尋
 ``` javascript
@@ -379,7 +379,7 @@ Open the page of video and download with `lux://%u` 完畢之後即可新建站�
 
 ---
  <details>
-<summary><h2>Sync by webdav 透過 webdav 同步站點配置與高亮規則</h2></summary>
+<summary><h2>Sync by webdav 透過 webdav 同步引擎配置與高亮規則</h2></summary>
 
 + webdav 伺服器需要支援自設 cors
 + 也可以自己架設 webdav 伺服器，方法如下
