@@ -249,7 +249,7 @@ Hide user by target id on xxxx.com 在某個網站上根據給定的用戶名或
 
 ---
  <details>
-<summary><h2>Filter sites to search 篩選引擎並搜尋</h2></summary>
+<summary><h2>Filter engines to search 篩選引擎並搜尋</h2></summary>
 
 + Call by global shortcut key, Input keywords of site name to filter sites, support glob with "? \*" 透過全局快捷鍵喚出，輸入站點名稱的關鍵詞來篩選，支援 “? \*” 通配符
 + Enter to lock filter and input words to search by click icon or another press of enter 回車鎖定篩選，輸入文字并且點擊站點圖標或者再次回車來進行搜尋
