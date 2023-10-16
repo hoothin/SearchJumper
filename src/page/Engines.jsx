@@ -1563,7 +1563,7 @@ export default function Engines() {
       createData('showTips:', window.i18n('param_showTips')),
       createData('find:', window.i18n('param_find')),
       createData('find.addto():', window.i18n('param_findadd')),
-      createData('javascript:', window.i18n('javascript'))
+      createData('javascript', window.i18n('javascript'))
     ];
     let selectTxt = -1, selectImg = -1, selectLink = -1, selectPage = -1, selectAll = -1;
     for (let i = 0; i < window.searchData.sitesConfig.length; i++) {

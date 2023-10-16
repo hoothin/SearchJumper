@@ -37,6 +37,12 @@ import { createClient } from "webdav";
 import Snackbar from '@mui/material/Snackbar';
 import MuiAlert from '@mui/material/Alert';
 import ContentPasteGoIcon from '@mui/icons-material/ContentPasteGo';
+import Accordion from '@mui/material/Accordion';
+import AccordionSummary from '@mui/material/AccordionSummary';
+import AccordionDetails from '@mui/material/AccordionDetails';
+import Typography from '@mui/material/Typography';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 
 
 async function checkWebdav(host, username, password, pathname) {
@@ -430,9 +436,14 @@ let longHoldState = 0;
 export default function Export() {
     const [presetCss, setPresetCss] = React.useState('');
     const [openSync, setOpenSync] = React.useState(false);
-    const [cssText, setCssText] = React.useState(window.searchData.prefConfig.cssText||'');
+    const [cssText, setCssText] = React.useState(window.searchData.prefConfig.cssText || '');
+    const [templateData, setTemplateData] = React.useState(window.searchData.prefConfig.templateData || {});
     const [fontAwesomeCss, setFontAwesomeCss] = React.useState(window.searchData.prefConfig.fontAwesomeCss);
 
+    const [refresh, setRefresh] = React.useState(false);
+    React.useEffect(() => {
+        refresh && setTimeout(() => setRefresh(false), 0)
+    }, [refresh]);
     const [alertBody, setAlert] = React.useState({openAlert: false, alertContent: '', alertType: 'error'});
     const handleAlertOpen = (content, type) => {
         switch (type) {
@@ -468,6 +479,7 @@ export default function Export() {
     var downloadEle = document.createElement('a');
     downloadEle.download = "searchJumper.json";
     downloadEle.target = "_blank";
+    var inputingTimer;
     function saveConfig() {
         try {
             if (editor) {
@@ -669,6 +681,65 @@ export default function Export() {
                     validator={createAjvValidator(schema)}
                 />
             </Box>
+            <Accordion defaultExpanded={true} sx={{ maxHeight: '30vh', overflow: 'auto' }}>
+                <AccordionSummary
+                  sx={{background: '#f9f9f9', position: 'sticky', top: 0, minHeight: '45px!important', maxHeight: '45px!important'}}
+                  expandIcon={<ExpandMoreIcon />}
+                  id="template-header"
+                >
+                    <Typography sx={{display: 'block', width: '100%', textAlign: 'center', fontSize: '1.3em', fontWeight: 'bold'}}>{window.i18n("templateTitle")}</Typography>
+                    <IconButton sx={{fontSize: '30px', position: "absolute", color: "rgba(0, 0, 0, 0.54)"}} key='addTemplate' 
+                        onClick={e => {
+                            e.preventDefault();
+                            e.stopPropagation();
+                            let templateName = prompt(window.i18n("templateName"));
+                            if (!templateName) return;
+                            let templateValue = prompt(window.i18n("templateValue"));
+                            if (!templateValue) return;
+                            templateData[templateName] = templateValue;
+                            setTemplateData(templateData);
+                            setRefresh(true);
+                            window.searchData.prefConfig.templateData = templateData;
+                            saveConfigToScript();
+                        }}
+                    >
+                    <AddCircleOutlineIcon />
+                    </IconButton>
+                </AccordionSummary>
+                <AccordionDetails>
+                {Object.keys(templateData).map((key, index) =>
+                    <Box sx={{ flexGrow: 1, display: 'flex'}} key={index}>
+                        <TextField
+                            id={"template" + index}
+                            label={key}
+                            fullWidth
+                            sx={{mb : 1}}
+                            value={templateData[key]}
+                            onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
+                                var newData = {...templateData, [key]: event.target.value};
+                                setTemplateData(newData);
+                                clearTimeout(inputingTimer);
+                                inputingTimer = setTimeout(() => {
+                                    window.searchData.prefConfig.templateData = newData;
+                                    saveConfigToScript();
+                                }, 500);
+                            }}
+                        />
+                        <Button variant="outlined" color="error" sx={{ textWrap: "nowrap", margin: "0 0 8px 8px"}} startIcon={<DeleteIcon />} 
+                            onClick={()=>{
+                                delete templateData[key];
+                                setTemplateData(templateData);
+                                setRefresh(true);
+                                window.searchData.prefConfig.templateData = templateData;
+                                saveConfigToScript();
+                            }}
+                        >
+                            {window.i18n('delete')}
+                        </Button>
+                    </Box>
+                )}
+                </AccordionDetails>
+            </Accordion>
             <FormControl fullWidth sx={{ mt: 1 }}>
                 <InputLabel>{window.i18n('presetCss')}</InputLabel>
                 <Select
