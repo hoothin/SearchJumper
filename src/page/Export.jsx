@@ -687,8 +687,8 @@ export default function Export() {
                   expandIcon={<ExpandMoreIcon />}
                   id="template-header"
                 >
-                    <Typography sx={{display: 'block', width: '100%', textAlign: 'center', fontSize: '1.3em', fontWeight: 'bold'}}>{window.i18n("templateTitle")}</Typography>
-                    <IconButton sx={{fontSize: '30px', position: "absolute", color: "rgba(0, 0, 0, 0.54)"}} key='addTemplate' 
+                    <Typography sx={{display: 'block', width: '100%', textAlign: 'center', fontWeight: 'bold', fontSize: '1.1em'}}>{window.i18n("templateTitle")}</Typography>
+                    <IconButton sx={{fontSize: '30px', height: '24px', position: "absolute", color: "rgba(0, 0, 0, 0.54)"}} key='addTemplate' 
                         onClick={e => {
                             e.preventDefault();
                             e.stopPropagation();
