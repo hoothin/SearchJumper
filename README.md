@@ -10,6 +10,8 @@
 ![support](https://img.shields.io/badge/Support-Chrome|Firefox|Edge-red.svg)
 > *Just a personal work, maybe not suit you and won't provide support.*
 
+[**📧Mail Me**](mailto:rixixi@gmail.com)
+
 + Build with React.js
 + UI: [Material-UI](https://mui.com/)
 + Icons: [FontAwesome](https://fontawesome.com/)
