@@ -1,11 +1,11 @@
 self.__precacheManifest = [
   {
-    "revision": "84234293fa0040f52b67",
-    "url": "./static/css/main.c4b81078.chunk.css"
+    "revision": "1caffc45696911d7b57d",
+    "url": "./static/css/main.2a360e85.chunk.css"
   },
   {
-    "revision": "84234293fa0040f52b67",
-    "url": "./static/js/main.84234293.chunk.js"
+    "revision": "1caffc45696911d7b57d",
+    "url": "./static/js/main.1caffc45.chunk.js"
   },
   {
     "revision": "fcf7f494625332a4348f",
@@ -84,12 +84,12 @@ self.__precacheManifest = [
     "url": "./static/media/roboto-vietnamese-400-normal.ca3b09b6.woff2"
   },
   {
-    "revision": "15d9f621c3bd1599f0169dcf0bd5e63e",
-    "url": "./static/media/roboto-latin-400-normal.15d9f621.woff2"
-  },
-  {
     "revision": "87ace20058325aa069320aa4af875dff",
     "url": "./static/media/roboto-latin-ext-400-normal.87ace200.woff2"
+  },
+  {
+    "revision": "15d9f621c3bd1599f0169dcf0bd5e63e",
+    "url": "./static/media/roboto-latin-400-normal.15d9f621.woff2"
   },
   {
     "revision": "2742d81afb69e902e4513dc7cdda0a7f",
@@ -128,12 +128,12 @@ self.__precacheManifest = [
     "url": "./static/media/roboto-cyrillic-ext-700-normal.e0bc9313.woff2"
   },
   {
-    "revision": "6f112ec2b932ee12379442c42853244e",
-    "url": "./static/media/roboto-cyrillic-700-normal.6f112ec2.woff2"
-  },
-  {
     "revision": "aa462125b8faf7600001e1fe9b47e216",
     "url": "./static/media/roboto-all-700-normal.aa462125.woff"
+  },
+  {
+    "revision": "6f112ec2b932ee12379442c42853244e",
+    "url": "./static/media/roboto-cyrillic-700-normal.6f112ec2.woff2"
   },
   {
     "revision": "2953af0021626d3c3078b17590118908",
@@ -144,19 +144,19 @@ self.__precacheManifest = [
     "url": "./static/media/roboto-greek-700-normal.3f8b2aa4.woff2"
   },
   {
-    "revision": "deb26e9b1a25438118e5d39d741ae6b6",
-    "url": "./static/media/roboto-latin-ext-700-normal.deb26e9b.woff2"
-  },
-  {
     "revision": "cdaab83619fcacd4027a77c99dd51e69",
     "url": "./static/media/roboto-vietnamese-700-normal.cdaab836.woff2"
+  },
+  {
+    "revision": "deb26e9b1a25438118e5d39d741ae6b6",
+    "url": "./static/media/roboto-latin-ext-700-normal.deb26e9b.woff2"
   },
   {
     "revision": "e9f5aaf547f165386cd313b995dddd8e",
     "url": "./static/media/roboto-latin-700-normal.e9f5aaf5.woff2"
   },
   {
-    "revision": "4485888e2dc1a5375a69bc099ba2cc9f",
+    "revision": "5ff13f30c1be1cded3a44041d326a8ac",
     "url": "./index.html"
   }
 ];
