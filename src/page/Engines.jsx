@@ -2090,6 +2090,7 @@ export default function Engines() {
                             onClick={e => {
                                 e.preventDefault();
                                 e.stopPropagation();
+                                if (!window.confirm(window.i18n('deleteConfirm'))) return;
                                 let waitForDel = document.body.querySelectorAll("#verifyResultList>tr:not(.okItem) input:checked");
                                 if (waitForDel.length) {
                                     [].forEach.call(waitForDel, input => {
