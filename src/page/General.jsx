@@ -158,6 +158,11 @@ export default function General() {
             ...state,
             [event.target.name]: event.target.checked
         };
+        if (event.target.name === "defaultPicker") {
+            newPref["defaultFindTab"] = !event.target.checked;
+        } else if (event.target.name === "defaultFindTab") {
+            newPref["defaultPicker"] = !event.target.checked;
+        }
         setState(newPref);
         window.searchData.prefConfig = newPref;
         saveConfigToScript();

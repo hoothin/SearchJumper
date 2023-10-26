@@ -214,6 +214,7 @@ input.filterEngine+svg {
   border-collapse: collapse;
   border-spacing: 0;
   table-layout: fixed;
+  white-space: nowrap;
 }
 #verifyBtn {
   width: 36px;
@@ -245,16 +246,31 @@ input.filterEngine+svg {
   color: rgba(0, 0, 0, 0.87);
   word-wrap: break-word;
   cursor: pointer;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 #verifyResultList > tr > td:nth-child(1),
 #verifyResultList > tr > td:nth-child(3) {
   width: 10%;
+}
+#verifyResultList input[type="checkbox"] {
+  float: right;
+  display: none;
+}
+#verifyResultList.finished input[type="checkbox"] {
+  display: block;
 }
 #verifyPanel {
   display: none;
 }
 #verifyResultList.finished .okItem {
   display: none;
+}
+#verifyDelBtn {
+  display: none;
+}
+#verifyDelBtn.finished {
+  display: inline;
 }
 .keyboardBtn > .MuiFormControlLabel-label {
   font-family: Arial;

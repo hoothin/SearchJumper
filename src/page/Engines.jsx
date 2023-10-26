@@ -1469,6 +1469,8 @@ function sendVerifyRequest() {
     if (!verifyArray || !verifyArray.length) {
         let verifyResultList = document.getElementById('verifyResultList');
         if (verifyResultList) verifyResultList.classList.add('finished');
+        let verifyDelBtn = document.getElementById('verifyDelBtn');
+        if (verifyDelBtn) verifyDelBtn.classList.add('finished');
         let verifyStatus = document.getElementById('verifyStatus');
         if (verifyStatus) verifyStatus.innerText = window.i18n('verifyFinish');
         return;
@@ -1654,7 +1656,7 @@ export default function Engines() {
                 default:
                     break;
             }
-            verifyItem.innerHTML = `<td>🖱${e.data.name}</td><td><a target="_blank" href='${e.data.url}'>${e.data.url}</a></td><td><span ${e.data.status < 300 ? '' : 'style = "color: red"'} title='${statusStr}'>${e.data.status}</span></td>`;
+            verifyItem.innerHTML = `<td>🖱${e.data.name}</td><td><a target="_blank" href='${e.data.url}'>${e.data.url}</a></td><td><span ${e.data.status < 300 ? '' : 'style = "color: red"'} title='${statusStr}'>${e.data.status}<input type="checkbox" data-name="${e.data.name}" checked/></span></td>`;
             if (e.data.status < 300) verifyItem.classList.add('okItem');
             verifyItem.onclick = ev => {
                 if (ev.target.tagName !== 'A') {
@@ -2006,6 +2008,8 @@ export default function Engines() {
                         if (!verifyResultList || !verifyPanel || !verifyStatus || !window.searchData || !window.searchData.sitesConfig) return;
                         verifyPanel.style.display = 'block';
                         verifyResultList.classList.remove('finished');
+                        let verifyDelBtn = document.getElementById('verifyDelBtn');
+                        if (verifyDelBtn) verifyDelBtn.classList.remove('finished');
                         verifyResultList.innerHTML = '';
                         verifyStatus.innerText = window.i18n('verifying');
                         window.searchData.sitesConfig.forEach(data => {
@@ -2079,7 +2083,65 @@ export default function Engines() {
                   aria-controls="panel1a-content"
                   id="panel1a-header"
                 >
-                  <Typography sx={{display: 'block', width: '100%', textAlign: 'center', fontSize: '1.3em', fontWeight: 'bold'}}>{window.i18n("verifyResult")}<span style={{marginLeft: '10px'}} id='verifyStatus'></span></Typography>
+                    <Typography sx={{display: 'block', width: '100%', textAlign: 'center', fontSize: '1.3em', fontWeight: 'bold'}}>
+                        {window.i18n("verifyResult")}
+                        <span style={{marginLeft: '10px'}} id='verifyStatus'></span>
+                        <Button sx={{position: "absolute", right: "50px", marginTop: "-2px"}} variant="contained" color="error" id="verifyDelBtn"
+                            onClick={e => {
+                                e.preventDefault();
+                                e.stopPropagation();
+                                let waitForDel = document.body.querySelectorAll("#verifyResultList>tr:not(.okItem) input:checked");
+                                if (waitForDel.length) {
+                                    [].forEach.call(waitForDel, input => {
+                                        let siteName = input.dataset.name;
+                                        if (!siteName) return;
+                                        let typeIndex = window.searchData.sitesConfig.findIndex((data, index) => {
+                                            return data.sites.findIndex((site, i) => {
+                                                if (site.name === siteName) {
+                                                    return true;
+                                                }
+                                                return false;
+                                            }) > -1;
+                                        });
+                                        if (typeIndex < 0) return;
+                                        let currentType = window.searchData.sitesConfig[typeIndex];
+                                        let newSites = currentType.sites.filter(site => {
+                                            return (site.name !== siteName);
+                                        });
+                                        let newType = {...currentType, sites: newSites};
+                                        window.searchData.sitesConfig = window.searchData.sitesConfig.map(data =>{
+                                            let returnData = data;
+                                            if (currentType.type === data.type) {
+                                                returnData = newType;
+                                            }
+                                            returnData.sites = returnData.sites.map(site => {
+                                                if (/^\[/.test(site.url)) {
+                                                    try {
+                                                        let namesArr = JSON.parse(site.url);
+                                                        namesArr = namesArr.filter(n => {
+                                                            return (n !== siteName);
+                                                        });
+                                                        site.url = namesArr.length === 0 ? '' : JSON.stringify(namesArr);
+                                                    } catch (e) {
+                                                        console.log(e);
+                                                    }
+                                                }
+                                                return site;
+                                            });
+                                            returnData.sites = returnData.sites.filter(site => {
+                                                return site.url !== '';
+                                            });
+                                            return returnData;
+                                        });
+                                        input.parentNode.parentNode.parentNode.parentNode.removeChild(input.parentNode.parentNode.parentNode);
+                                    });
+                                    saveConfigToScript();
+                                    setRefresh(true);
+                                    handleAlertOpen(window.i18n('deleteOk'));
+                                }
+                            }}
+                        >{window.i18n("delete")}</Button>
+                    </Typography>
                 </AccordionSummary>
                 <AccordionDetails>
                     <table><tbody id='verifyResultList'></tbody></table>
