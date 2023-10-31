@@ -163,6 +163,12 @@ export default function General() {
         } else if (event.target.name === "defaultFindTab") {
             newPref["defaultPicker"] = !event.target.checked;
         }
+        if (event.target.name === "disableTypeOpen" && event.target.checked) {
+            newPref["disableAutoOpen"] = true;
+        }
+        if (event.target.name === "disableAutoOpen" && !event.target.checked) {
+            newPref["disableTypeOpen"] = false;
+        }
         setState(newPref);
         window.searchData.prefConfig = newPref;
         saveConfigToScript();
@@ -642,6 +648,8 @@ export default function General() {
                             />
                         </FormControl>
                     </Box>
+                </Box>
+                <Box sx={{ flexGrow: 1, display: 'flex'}}>
                     <Box>
                         <Typography gutterBottom component="div">
                             <h4>{window.i18n('disableTypeOpen')}</h4>
@@ -653,6 +661,19 @@ export default function General() {
                                     <Switch checked={state.disableTypeOpen} onChange={handleCheckChange} name="disableTypeOpen" />
                                 }
                                 label={window.i18n('disableTypeOpenTips')}
+                            />
+                        </FormControl>
+                    </Box>
+                    <Box>
+                        <Typography gutterBottom component="div">
+                            <h4>{window.i18n('disableAutoOpen')}</h4>
+                        </Typography>
+                        <FormControl sx={{ m: 1, minWidth: 80 }}>
+                            <FormControlLabel
+                                control={
+                                    <Switch checked={state.disableAutoOpen} onChange={handleCheckChange} name="disableAutoOpen" />
+                                }
+                                label={window.i18n('disableAutoOpenTips')}
                             />
                         </FormControl>
                     </Box>
@@ -864,19 +885,6 @@ export default function General() {
             </Paper>
             <Paper elevation={5} sx={{ padding: '20px', marginTop: '20px' }}>
                 <Box sx={{ flexGrow: 1, display: 'flex'}}>
-                    <Box>
-                        <Typography gutterBottom component="div">
-                            <h4>{window.i18n('disableAutoOpen')}</h4>
-                        </Typography>
-                        <FormControl sx={{ m: 1, minWidth: 80 }}>
-                            <FormControlLabel
-                                control={
-                                    <Switch checked={state.disableAutoOpen} onChange={handleCheckChange} name="disableAutoOpen" />
-                                }
-                                label={window.i18n('disableAutoOpenTips')}
-                            />
-                        </FormControl>
-                    </Box>
                     <Box>
                         <Typography gutterBottom component="div">
                             <h4>{window.i18n('hideOnSearchEngine')}</h4>
