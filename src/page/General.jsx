@@ -28,6 +28,9 @@ export default function General() {
     if (!window.searchData.prefConfig.customSize) {
         window.searchData.prefConfig.customSize = 100;
     }
+    if (!window.searchData.prefConfig.zoomDrag) {
+        window.searchData.prefConfig.zoomDrag = 100;
+    }
     if (!window.searchData.prefConfig.longPressTime) {
         window.searchData.prefConfig.longPressTime = 500;
     }
@@ -113,6 +116,9 @@ export default function General() {
     }
     if (typeof window.searchData.prefConfig.currentTypeFirst === "undefined") {
         window.searchData.prefConfig.currentTypeFirst = true;
+    }
+    if (typeof window.searchData.prefConfig.numPerLine === "undefined") {
+        window.searchData.prefConfig.numPerLine = 7;
     }
     const [state, setState] = React.useState(
         window.searchData.prefConfig
@@ -321,6 +327,76 @@ export default function General() {
                             var newPref = {
                                 ...state,
                                 customSize: newValue
+                            };
+                            setState(newPref);
+                            window.searchData.prefConfig = newPref;
+                            saveConfigToScript();
+                        }}
+                    />
+                </Box>
+                <Typography gutterBottom  component="div">
+                    <h4>{window.i18n('zoomDrag')}: {state.zoomDrag}%</h4>
+                </Typography>
+                <Box
+                  sx={{ flexGrow: 1, bgcolor: 'background.paper', display: 'flex', width: '100%', flexWrap: 'wrap' }}
+                >
+                    <Box sx={{ width: "75%", ml: "10px", mr: "20px", mt: "15px"}}>
+                        <Slider
+                            value={state.zoomDrag}
+                            onChange={(event: Event, newValue: number | number[]) => {
+                                if (newValue > 500) {
+                                    newValue = 500;
+                                } else if (newValue < 50) {
+                                    newValue = 50;
+                                }
+                                var newPref = {
+                                    ...state,
+                                    zoomDrag: newValue
+                                };
+                                setState(newPref);
+                                window.searchData.prefConfig = newPref;
+                                saveConfigToScript();
+                            }}
+                            sx={{mt:"-8px"}}
+                            aria-labelledby="input-slider"
+                            min={50}
+                            max={500}
+                            step={10}
+                            valueLabelDisplay="auto"
+                            marks={[{
+                                value: 100,
+                                label: '100%',
+                            },{
+                                value: 500,
+                                label: '500%',
+                            }]}
+                        />
+                    </Box>
+                    <TextField
+                        sx={{ m: 1, minWidth: 100, width: "15%"}}
+                        label={window.i18n('zoomDrag')}
+                        InputProps={{
+                            inputMode: 'numeric', type:'number', pattern: '[0-9]*',
+                            endAdornment: <InputAdornment position="end">%</InputAdornment>
+                        }}
+                        value={state.zoomDrag}
+                        onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
+                            var newPref = {
+                                ...state,
+                                zoomDrag: event.target.value
+                            };
+                            setState(newPref);
+                        }}
+                        onBlur={e => {
+                            let newValue = parseInt(e.target.value);
+                            if (newValue > 500) {
+                                newValue = 500;
+                            } else if (newValue < 50) {
+                                newValue = 50;
+                            }
+                            var newPref = {
+                                ...state,
+                                zoomDrag: newValue
                             };
                             setState(newPref);
                             window.searchData.prefConfig = newPref;
@@ -1425,6 +1501,38 @@ export default function General() {
                         />
                         <Typography gutterBottom component="div" sx={{ marginTop: '20px' }}>
                             {window.i18n('limitPopupLenTips')}
+                        </Typography>
+                    </Box>
+                    <Typography gutterBottom component="div">
+                        <h4>{window.i18n('numPerLine')}</h4>
+                    </Typography>
+                    <Box
+                        sx={{ flexGrow: 1, display: 'flex', width: '100%', flexWrap: 'wrap' }}
+                    >
+                        <TextField
+                            sx={{ width: 70, margin: '8px' }}
+                            label={"Length"}
+                            inputProps={{ inputMode: 'numeric', type:'number', pattern: '[0-9]*' }}
+                            value={state.numPerLine}
+                            onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
+                                let newValue = parseInt(event.target.value);
+                                if (newValue < 1) {
+                                    newValue = 1;
+                                }
+                                if (newValue > 50) {
+                                    newValue = 50;
+                                }
+                                var newPref = {
+                                    ...state,
+                                    numPerLine: newValue
+                                };
+                                setState(newPref);
+                                window.searchData.prefConfig = newPref;
+                                saveConfigToScript();
+                            }}
+                        />
+                        <Typography gutterBottom component="div" sx={{ marginTop: '20px' }}>
+                            {window.i18n('numPerLineTips')}
                         </Typography>
                     </Box>
                     <Box sx={{ flexGrow: 1, display: 'flex'}}>
