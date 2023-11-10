@@ -52,7 +52,7 @@ export default function About() {
                     <img align='left' style={{width: '150px', maxWidth: '50%', boxShadow: 'rgb(0 0 0) 0px 0px 15px', marginRight: '20px', height: 'fit-content'}} src='avatar.jpg' alt='donate' loading="lazy"/>{window.i18n("donate")}
                 </Card>
                 <VolunteerActivismIcon/> 
-                <Box sx={{ margin: '10px', boxShadow: 'rgb(0 0 0 / 50%) 3px 3px 15px', borderRadius: '3px' }}>
+                <Box sx={{ margin: '10px', boxShadow: 'rgb(0 0 0 / 30%) 3px 3px 15px', borderRadius: '3px', padding: '3px' }}>
                     <Link href='https://ko-fi.com/hoothin' style={{verticalAlign: 'top'}} target="_blank">
                         <img style={{verticalAlign: 'bottom', marginRight: "5px"}} src='kofi.png' alt='kofi' loading="lazy"/>
                         [Ko-fi]
