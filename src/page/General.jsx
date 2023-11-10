@@ -126,6 +126,9 @@ export default function General() {
     if (typeof window.searchData.prefConfig.numPerLine === "undefined") {
         window.searchData.prefConfig.numPerLine = 7;
     }
+    if (typeof window.searchData.prefConfig.emptyAfterCloseInput === "undefined") {
+        window.searchData.prefConfig.emptyAfterCloseInput = false;
+    }
     const [state, setState] = React.useState(
         window.searchData.prefConfig
     );
@@ -1394,6 +1397,17 @@ export default function General() {
                             <Switch checked={state.defaultPicker} onChange={handleCheckChange} name="defaultPicker" />
                         }
                         label={window.i18n('defaultPickerTips')}
+                    />
+                </FormControl>
+                <Typography gutterBottom component="div">
+                    <h4>{window.i18n('emptyAfterCloseInput')}</h4>
+                </Typography>
+                <FormControl sx={{ m: 1, minWidth: 80 }}>
+                    <FormControlLabel
+                        control={
+                            <Switch checked={state.emptyAfterCloseInput} onChange={handleCheckChange} name="emptyAfterCloseInput" />
+                        }
+                        label={window.i18n('emptyAfterCloseInputTips')}
                     />
                 </FormControl>
             </Paper>
