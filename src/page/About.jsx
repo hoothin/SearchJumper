@@ -11,6 +11,7 @@ import CardContent from '@mui/material/CardContent';
 import InstallDesktopIcon from '@mui/icons-material/InstallDesktop';
 import AllInclusiveIcon from '@mui/icons-material/AllInclusive';
 import FiberPinIcon from '@mui/icons-material/FiberPin';
+import SpellcheckIcon from '@mui/icons-material/Spellcheck';
 
 export default function About() {
     return (
@@ -32,6 +33,9 @@ export default function About() {
                     </Box>
                     <Box sx={{m: 1}}>
                         <FiberPinIcon/> <Link href='https://greasyfork.org/scripts/465994' style={{verticalAlign: 'top'}} target="_blank">Pinyin addon</Link>
+                    </Box>
+                    <Box sx={{m: 1}}>
+                        <SpellcheckIcon/> <Link href='https://greasyfork.org/scripts/479610' style={{verticalAlign: 'top'}} target="_blank">Spell addon</Link>
                     </Box>
                     <Box sx={{m: 1}}>
                         <EmailIcon/> <Link href='mailto:rixixi@gmail.com' style={{verticalAlign: 'top'}} target="_blank">rixixi@gmail.com</Link>
