@@ -56,7 +56,7 @@ export default function About() {
                     <img align='left' style={{width: '150px', maxWidth: '50%', boxShadow: 'rgb(0 0 0) 0px 0px 15px', marginRight: '20px', height: 'fit-content'}} src='avatar.jpg' alt='donate' loading="lazy"/>{window.i18n("donate")}
                 </Card>
                 <VolunteerActivismIcon/> 
-                <Box sx={{ margin: '10px', boxShadow: 'rgb(0 0 0 / 30%) 3px 3px 15px', borderRadius: '3px', padding: '3px' }}>
+                <Box className='donateLinks' sx={{ margin: '15px', boxShadow: 'rgb(0 0 0 / 30%) 3px 3px 15px', borderRadius: '3px', padding: '3px' }}>
                     <Link href='https://ko-fi.com/hoothin' style={{verticalAlign: 'top'}} target="_blank">
                         <img style={{verticalAlign: 'bottom', marginRight: "5px"}} src='kofi.png' alt='kofi' loading="lazy"/>
                         [Ko-fi]
@@ -72,7 +72,7 @@ export default function About() {
                         [愛發電]
                     </Link>
                 </Box>
-                <img style={{maxWidth: '100%', borderRadius: '20px', boxShadow: 'rgb(0 0 0) 0px 0px 15px', margin: '10px'}} src='donate.jpg' alt='donate' loading="lazy"/>
+                <img style={{borderRadius: '20px', boxShadow: 'rgb(0 0 0) 0px 0px 15px', margin: '10px 10px 20px 10px'}} src='donate.jpg' className='donate' alt='donate' loading="lazy"/>
                 <Box sx={{borderTop: 1, borderColor: 'divider'}}>
                 <Card sx={{width: '100%', margin: '10px auto', textAlign: 'left', boxShadow: 'unset'}}>
                     <CardContent>

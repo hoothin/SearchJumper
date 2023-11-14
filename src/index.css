@@ -33,6 +33,19 @@ code {
 .site-list-box.batch-edit .site-icon>span {
   display: inline-flex;
 }
+.donate {
+  max-width: 30%;
+  transition: max-width 0.5s ease;
+}
+.donate:hover {
+  max-width: 100%;
+}
+.donateLinks {
+  transition: box-shadow 0.3s ease;
+}
+.donateLinks:hover {
+  box-shadow: rgb(0 0 0 / 60%) 3px 3px 15px;
+}
 @media screen and (max-width: 600px) {
   #root>.MuiBox-root {
     margin-left: 0px;
@@ -55,6 +68,9 @@ code {
   }
   #root>.MuiBox-root>.MuiList-root:not(.hide):hover a {
     pointer-events: none;
+  }
+  .donate {
+    max-width: 100%;
   }
 }
 .selectTxt>i,span.selectTxt {
