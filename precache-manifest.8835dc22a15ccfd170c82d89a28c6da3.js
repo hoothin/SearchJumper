@@ -1,11 +1,11 @@
 self.__precacheManifest = [
   {
-    "revision": "6be78c9a4432659b6bbd",
+    "revision": "4576a3e4a4336549b2d0",
     "url": "./static/css/main.876f4ee2.chunk.css"
   },
   {
-    "revision": "6be78c9a4432659b6bbd",
-    "url": "./static/js/main.6be78c9a.chunk.js"
+    "revision": "4576a3e4a4336549b2d0",
+    "url": "./static/js/main.4576a3e4.chunk.js"
   },
   {
     "revision": "5545d045c0f52ce03c57",
@@ -92,12 +92,12 @@ self.__precacheManifest = [
     "url": "./static/media/roboto-latin-400-normal.15d9f621.woff2"
   },
   {
-    "revision": "2742d81afb69e902e4513dc7cdda0a7f",
-    "url": "./static/media/roboto-cyrillic-ext-500-normal.2742d81a.woff2"
-  },
-  {
     "revision": "68d75d959b2a0e9958b11d781338c8f7",
     "url": "./static/media/roboto-all-500-normal.68d75d95.woff"
+  },
+  {
+    "revision": "2742d81afb69e902e4513dc7cdda0a7f",
+    "url": "./static/media/roboto-cyrillic-ext-500-normal.2742d81a.woff2"
   },
   {
     "revision": "7b08b9e11fc6b8a8a1398b357e874144",
@@ -128,6 +128,10 @@ self.__precacheManifest = [
     "url": "./static/media/roboto-cyrillic-ext-700-normal.e0bc9313.woff2"
   },
   {
+    "revision": "aa462125b8faf7600001e1fe9b47e216",
+    "url": "./static/media/roboto-all-700-normal.aa462125.woff"
+  },
+  {
     "revision": "6f112ec2b932ee12379442c42853244e",
     "url": "./static/media/roboto-cyrillic-700-normal.6f112ec2.woff2"
   },
@@ -136,12 +140,12 @@ self.__precacheManifest = [
     "url": "./static/media/roboto-greek-ext-700-normal.2953af00.woff2"
   },
   {
-    "revision": "aa462125b8faf7600001e1fe9b47e216",
-    "url": "./static/media/roboto-all-700-normal.aa462125.woff"
-  },
-  {
     "revision": "cdaab83619fcacd4027a77c99dd51e69",
     "url": "./static/media/roboto-vietnamese-700-normal.cdaab836.woff2"
+  },
+  {
+    "revision": "3f8b2aa43c439ca2c8930c198320c231",
+    "url": "./static/media/roboto-greek-700-normal.3f8b2aa4.woff2"
   },
   {
     "revision": "deb26e9b1a25438118e5d39d741ae6b6",
@@ -152,11 +156,7 @@ self.__precacheManifest = [
     "url": "./static/media/roboto-latin-700-normal.e9f5aaf5.woff2"
   },
   {
-    "revision": "3f8b2aa43c439ca2c8930c198320c231",
-    "url": "./static/media/roboto-greek-700-normal.3f8b2aa4.woff2"
-  },
-  {
-    "revision": "e7b403322e43d0ae8fffb0e4a6c0d919",
+    "revision": "4da9ac832c928fb586baf7967c9ae69b",
     "url": "./index.html"
   }
 ];
