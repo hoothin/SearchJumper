@@ -213,6 +213,28 @@ export default function General() {
                         </Select>
                     </FormControl>
             </Paper>
+            <Paper elevation={5} sx={{ padding: '20px', marginTop: '20px', display: state.configPage === window.location.href ? 'none' : '' }}>
+                <Typography gutterBottom component="div">
+                    <h4>{window.i18n('configPage')}</h4>
+                </Typography>
+                <FormControl sx={{ m: 1, minWidth: 80, width: '100%', mb: '20px' }}>
+                    <FormControlLabel
+                        control={
+                            <Switch checked={false} onChange={e => {
+                                var newPref = {
+                                    ...state,
+                                    configPage: window.location.href
+                                };
+                                setState(newPref);
+                                window.searchData.prefConfig = newPref;
+                                saveConfigToScript();
+                            }} name="configPage" />
+                        }
+                        label={window.i18n('configPageTips')}
+                        labelPlacement="end"
+                    />
+                </FormControl>
+            </Paper>
             <Paper elevation={5} sx={{ padding: '20px', marginTop: '20px' }}>
                 <Typography gutterBottom  component="div">
                     <h4>{window.i18n('toolbarPosition')}</h4>
