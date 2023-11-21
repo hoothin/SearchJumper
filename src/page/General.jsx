@@ -1657,6 +1657,17 @@ export default function General() {
                         />
                     </FormControl>
                     <Typography gutterBottom component="div">
+                        <h4>{window.i18n('enableMiddleMouse')}</h4>
+                    </Typography>
+                    <FormControl sx={{ m: 1, minWidth: 80 }}>
+                        <FormControlLabel
+                            control={
+                                <Switch checked={state.middleMouse} onChange={handleCheckChange} name="middleMouse" />
+                            }
+                            label={window.i18n('enableMiddleMouseTips')}
+                        />
+                    </FormControl>
+                    <Typography gutterBottom component="div">
                         <h4>{window.i18n('selectToShow')}</h4>
                     </Typography>
                     <Box>
