@@ -24,6 +24,8 @@
 ## Config page
 [🔗**hoothin.github.io**](https://hoothin.github.io/SearchJumper/)
 
+[🔗**SearchJumper.hoothin.com**](https://searchjumper.hoothin.com/)
+
 > You can also download the source code, double-click start.cmd to compile, then enter the config page through localhost:3000
 > 
 > 亦可下載源碼到本地后雙擊 start.cmd ，透過 npm 編譯后訪問 localhost:3000 進入配置
