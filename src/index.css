@@ -43,7 +43,7 @@ code {
   box-shadow: rgb(0 0 0 / 60%) 0px 0px 15px;
 }
 .donateLinks {
-  box-shadow: rgb(0 0 0 / 10%) 3px 3px 15px
+  box-shadow: rgb(0 0 0 / 10%) 3px 3px 15px;
   transition: box-shadow 0.3s ease;
 }
 .donateLinks:hover {
