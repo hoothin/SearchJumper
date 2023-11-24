@@ -1,11 +1,11 @@
 self.__precacheManifest = [
   {
-    "revision": "8cb9fb8c0ba91c6eebfc",
+    "revision": "48ba8eb4ac5b113abc93",
     "url": "./static/css/main.856d066f.chunk.css"
   },
   {
-    "revision": "8cb9fb8c0ba91c6eebfc",
-    "url": "./static/js/main.8cb9fb8c.chunk.js"
+    "revision": "48ba8eb4ac5b113abc93",
+    "url": "./static/js/main.48ba8eb4.chunk.js"
   },
   {
     "revision": "5545d045c0f52ce03c57",
@@ -44,12 +44,12 @@ self.__precacheManifest = [
     "url": "./static/media/roboto-greek-ext-300-normal.c2be5367.woff2"
   },
   {
-    "revision": "dcdaee374d5bbeab0a5ed5c8cf39a6cd",
-    "url": "./static/media/roboto-greek-300-normal.dcdaee37.woff2"
-  },
-  {
     "revision": "48c684d99330969e3ce90b9e9da2d698",
     "url": "./static/media/roboto-vietnamese-300-normal.48c684d9.woff2"
+  },
+  {
+    "revision": "dcdaee374d5bbeab0a5ed5c8cf39a6cd",
+    "url": "./static/media/roboto-greek-300-normal.dcdaee37.woff2"
   },
   {
     "revision": "716871ec15f054ec158445180fe280e1",
@@ -60,16 +60,16 @@ self.__precacheManifest = [
     "url": "./static/media/roboto-latin-300-normal.b9c29351.woff2"
   },
   {
-    "revision": "c00467dc3792a8ab586955a3faefcac9",
-    "url": "./static/media/roboto-cyrillic-ext-400-normal.c00467dc.woff2"
+    "revision": "d9ac47c7e500fb7083b8d595eaf6fe12",
+    "url": "./static/media/roboto-cyrillic-400-normal.d9ac47c7.woff2"
   },
   {
     "revision": "62b936e168110e58e89e70ec82e22755",
     "url": "./static/media/roboto-all-400-normal.62b936e1.woff"
   },
   {
-    "revision": "d9ac47c7e500fb7083b8d595eaf6fe12",
-    "url": "./static/media/roboto-cyrillic-400-normal.d9ac47c7.woff2"
+    "revision": "c00467dc3792a8ab586955a3faefcac9",
+    "url": "./static/media/roboto-cyrillic-ext-400-normal.c00467dc.woff2"
   },
   {
     "revision": "35de3738b76d249ed060dd3d0f9286be",
@@ -96,14 +96,6 @@ self.__precacheManifest = [
     "url": "./static/media/roboto-cyrillic-ext-500-normal.2742d81a.woff2"
   },
   {
-    "revision": "68d75d959b2a0e9958b11d781338c8f7",
-    "url": "./static/media/roboto-all-500-normal.68d75d95.woff"
-  },
-  {
-    "revision": "53f395eb854a40e978706b1082570e42",
-    "url": "./static/media/roboto-greek-500-normal.53f395eb.woff2"
-  },
-  {
     "revision": "7b08b9e11fc6b8a8a1398b357e874144",
     "url": "./static/media/roboto-cyrillic-500-normal.7b08b9e1.woff2"
   },
@@ -112,28 +104,36 @@ self.__precacheManifest = [
     "url": "./static/media/roboto-greek-ext-500-normal.e7b7001d.woff2"
   },
   {
-    "revision": "7cda2cfee99d697daf8c14819d9004eb",
-    "url": "./static/media/roboto-vietnamese-500-normal.7cda2cfe.woff2"
+    "revision": "68d75d959b2a0e9958b11d781338c8f7",
+    "url": "./static/media/roboto-all-500-normal.68d75d95.woff"
   },
   {
-    "revision": "3a44e06eb954b96aa043227f3534189d",
-    "url": "./static/media/roboto-latin-500-normal.3a44e06e.woff2"
+    "revision": "53f395eb854a40e978706b1082570e42",
+    "url": "./static/media/roboto-greek-500-normal.53f395eb.woff2"
   },
   {
     "revision": "e36fccd06262bef92e7a9841e2202225",
     "url": "./static/media/roboto-latin-ext-500-normal.e36fccd0.woff2"
   },
   {
+    "revision": "3a44e06eb954b96aa043227f3534189d",
+    "url": "./static/media/roboto-latin-500-normal.3a44e06e.woff2"
+  },
+  {
+    "revision": "7cda2cfee99d697daf8c14819d9004eb",
+    "url": "./static/media/roboto-vietnamese-500-normal.7cda2cfe.woff2"
+  },
+  {
     "revision": "e0bc9313fdde7851c88c901baf3c2b5c",
     "url": "./static/media/roboto-cyrillic-ext-700-normal.e0bc9313.woff2"
   },
   {
-    "revision": "6f112ec2b932ee12379442c42853244e",
-    "url": "./static/media/roboto-cyrillic-700-normal.6f112ec2.woff2"
-  },
-  {
     "revision": "aa462125b8faf7600001e1fe9b47e216",
     "url": "./static/media/roboto-all-700-normal.aa462125.woff"
+  },
+  {
+    "revision": "6f112ec2b932ee12379442c42853244e",
+    "url": "./static/media/roboto-cyrillic-700-normal.6f112ec2.woff2"
   },
   {
     "revision": "2953af0021626d3c3078b17590118908",
@@ -156,7 +156,7 @@ self.__precacheManifest = [
     "url": "./static/media/roboto-latin-700-normal.e9f5aaf5.woff2"
   },
   {
-    "revision": "7e5fd60e6e0b7f2ba0b39a5c8a3cbf9f",
+    "revision": "c18ae9e9528fa90bff10e12f5319a963",
     "url": "./index.html"
   }
 ];
