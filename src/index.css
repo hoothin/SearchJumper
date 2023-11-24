@@ -34,13 +34,16 @@ code {
   display: inline-flex;
 }
 .donate {
-  max-width: 30%;
-  transition: max-width 0.5s ease;
+  max-width: 350px;
+  box-shadow: rgb(0 0 0 / 10%) 0px 0px 15px
+  transition: all 0.5s ease;
 }
 .donate:hover {
   max-width: 100%;
+  box-shadow: rgb(0 0 0 / 60%) 0px 0px 15px;
 }
 .donateLinks {
+  box-shadow: rgb(0 0 0 / 10%) 3px 3px 15px
   transition: box-shadow 0.3s ease;
 }
 .donateLinks:hover {
