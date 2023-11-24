@@ -35,7 +35,7 @@ code {
 }
 .donate {
   max-width: 350px;
-  box-shadow: rgb(0 0 0 / 10%) 0px 0px 15px
+  box-shadow: rgb(0 0 0 / 10%) 0px 0px 15px;
   transition: all 0.5s ease;
 }
 .donate:hover {
