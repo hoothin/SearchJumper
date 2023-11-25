@@ -1,6 +1,6 @@
 {
   "main.css": "./static/css/main.856d066f.chunk.css",
-  "main.js": "./static/js/main.d29bd71a.chunk.js",
+  "main.js": "./static/js/main.cdee7951.chunk.js",
   "static/js/1.5545d045.chunk.js": "./static/js/1.5545d045.chunk.js",
   "static/css/2.1c795120.chunk.css": "./static/css/2.1c795120.chunk.css",
   "static/js/2.b79e55f4.chunk.js": "./static/js/2.b79e55f4.chunk.js",
@@ -9,8 +9,8 @@
   "static/media/300.css": "./static/media/roboto-latin-300-normal.b9c29351.woff2",
   "static/media/400.css": "./static/media/roboto-latin-400-normal.15d9f621.woff2",
   "static/media/500.css": "./static/media/roboto-latin-500-normal.3a44e06e.woff2",
-  "static/media/700.css": "./static/media/roboto-latin-700-normal.e9f5aaf5.woff2",
+  "static/media/700.css": "./static/media/roboto-vietnamese-700-normal.cdaab836.woff2",
   "index.html": "./index.html",
-  "precache-manifest.b4fd67e7b844b53958272a7c2c34de8a.js": "./precache-manifest.b4fd67e7b844b53958272a7c2c34de8a.js",
+  "precache-manifest.d1bbda5c510a38aa1abe73d0a3d82b3c.js": "./precache-manifest.d1bbda5c510a38aa1abe73d0a3d82b3c.js",
   "service-worker.js": "./service-worker.js"
 }
