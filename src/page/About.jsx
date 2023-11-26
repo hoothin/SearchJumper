@@ -12,6 +12,7 @@ import InstallDesktopIcon from '@mui/icons-material/InstallDesktop';
 import AllInclusiveIcon from '@mui/icons-material/AllInclusive';
 import FiberPinIcon from '@mui/icons-material/FiberPin';
 import SpellcheckIcon from '@mui/icons-material/Spellcheck';
+import ForumIcon from '@mui/icons-material/Forum';
 
 export default function About() {
     return (
@@ -37,6 +38,11 @@ export default function About() {
                     <Box sx={{m: 1}}>
                         <SpellcheckIcon/> <Link href='https://greasyfork.org/scripts/479610' style={{verticalAlign: 'top'}} target="_blank">Spell addon</Link>
                     </Box>
+                </Box>
+                <Box style={{textAlign: 'center', display: 'flex', flexWrap: 'wrap'}}>
+                    <Box sx={{m: 1}}>
+                        <ForumIcon/> <Link href='https://discord.gg/keqypXC6wD' style={{verticalAlign: 'top'}} target="_blank">Discord</Link>
+                    </Box>
                     <Box sx={{m: 1}}>
                         <EmailIcon/> <Link href='mailto:rixixi@gmail.com' style={{verticalAlign: 'top'}} target="_blank">rixixi@gmail.com</Link>
                     </Box>
@@ -53,7 +59,7 @@ export default function About() {
                     </Box>
                 </Box>
                 <Card component="pre" style={{padding: '20px', lineHeight: 1.5, width: '90%', whiteSpace: 'pre-wrap', textAlign: 'left', marginBottom: '10px'}}>
-                    <img align='left' style={{width: '150px', maxWidth: '50%', boxShadow: 'rgb(0 0 0) 0px 0px 15px', marginRight: '20px', height: 'fit-content'}} src='avatar.jpg' alt='donate' loading="lazy"/>{window.i18n("donate")}
+                    <img align='left' style={{width: '100px', maxWidth: '50%', boxShadow: 'rgb(0 0 0) 0px 0px 15px', marginRight: '20px', height: 'fit-content'}} src='avatar.jpg' alt='donate' loading="lazy"/>{window.i18n("donate")}
                 </Card>
                 <VolunteerActivismIcon/> 
                 <Box className='donateLinks' sx={{ margin: '15px', borderRadius: '3px', padding: '3px' }}>

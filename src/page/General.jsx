@@ -126,9 +126,6 @@ export default function General() {
     if (typeof window.searchData.prefConfig.numPerLine === "undefined") {
         window.searchData.prefConfig.numPerLine = 7;
     }
-    if (typeof window.searchData.prefConfig.emptyAfterCloseInput === "undefined") {
-        window.searchData.prefConfig.emptyAfterCloseInput = false;
-    }
     const [state, setState] = React.useState(
         window.searchData.prefConfig
     );
@@ -183,6 +180,12 @@ export default function General() {
         }
         if (event.target.name === "disableAutoOpen" && !event.target.checked) {
             newPref["disableTypeOpen"] = false;
+        }
+        if (event.target.name === "reuseDragHistory" && event.target.checked) {
+            newPref["hideDragHistory"] = false;
+        }
+        if (event.target.name === "hideDragHistory" && event.target.checked) {
+            newPref["reuseDragHistory"] = false;
         }
         setState(newPref);
         window.searchData.prefConfig = newPref;
@@ -1389,17 +1392,6 @@ export default function General() {
                     </FormControl>
                 </Box>
                 <Typography gutterBottom component="div">
-                    <h4>{window.i18n('defaultFindTab')}</h4>
-                </Typography>
-                <FormControl sx={{ m: 1, minWidth: 80 }}>
-                    <FormControlLabel
-                        control={
-                            <Switch checked={state.defaultFindTab} onChange={handleCheckChange} name="defaultFindTab" />
-                        }
-                        label={window.i18n('defaultFindTabTips')}
-                    />
-                </FormControl>
-                <Typography gutterBottom component="div">
                     <h4>{window.i18n('disableInputOnWords')}</h4>
                 </Typography>
                 <FormControl sx={{ m: 1, minWidth: 80 }}>
@@ -1422,14 +1414,14 @@ export default function General() {
                     />
                 </FormControl>
                 <Typography gutterBottom component="div">
-                    <h4>{window.i18n('emptyAfterCloseInput')}</h4>
+                    <h4>{window.i18n('defaultFindTab')}</h4>
                 </Typography>
                 <FormControl sx={{ m: 1, minWidth: 80 }}>
                     <FormControlLabel
                         control={
-                            <Switch checked={state.emptyAfterCloseInput} onChange={handleCheckChange} name="emptyAfterCloseInput" />
+                            <Switch checked={state.defaultFindTab} onChange={handleCheckChange} name="defaultFindTab" />
                         }
-                        label={window.i18n('emptyAfterCloseInputTips')}
+                        label={window.i18n('defaultFindTabTips')}
                     />
                 </FormControl>
             </Paper>
@@ -1546,7 +1538,7 @@ export default function General() {
                     </Box>
                 </Box>
                 <Typography gutterBottom component="div">
-                    <h4>{window.i18n('hideDragHistory')}</h4>
+                    <h4>{window.i18n('dragHistory')}</h4>
                 </Typography>
                 <Box>
                     <FormControl sx={{ m: 1, minWidth: 80 }}>
@@ -1555,6 +1547,14 @@ export default function General() {
                                 <Switch checked={state.hideDragHistory} onChange={handleCheckChange} name="hideDragHistory" />
                             }
                             label={window.i18n('hideDragHistoryTips')}
+                        />
+                    </FormControl>
+                    <FormControl sx={{ m: 1, minWidth: 80 }}>
+                        <FormControlLabel
+                            control={
+                                <Switch checked={state.reuseDragHistory} onChange={handleCheckChange} name="reuseDragHistory" />
+                            }
+                            label={window.i18n('reuseDragHistoryTips')}
                         />
                     </FormControl>
                 </Box>

@@ -213,6 +213,9 @@ export default function FindInPage() {
     if (!window.searchData.prefConfig.altToHighlight) {
         window.searchData.prefConfig.altToHighlight = false;
     }
+    if (!window.searchData.prefConfig.emptyAfterCloseInput) {
+        window.searchData.prefConfig.emptyAfterCloseInput = false;
+    }
     const [state, setState] = React.useState(
         window.searchData.prefConfig
     );
@@ -279,6 +282,17 @@ export default function FindInPage() {
                             <Switch checked={state.altToHighlight} onChange={handleCheckChange} name="altToHighlight" />
                         }
                         label={window.i18n('altToHighlightTips')}
+                    />
+                </FormControl>
+                <Typography gutterBottom component="div">
+                    <h4>{window.i18n('emptyAfterCloseInput')}</h4>
+                </Typography>
+                <FormControl sx={{ m: 1, minWidth: 80 }}>
+                    <FormControlLabel
+                        control={
+                            <Switch checked={state.emptyAfterCloseInput} onChange={handleCheckChange} name="emptyAfterCloseInput" />
+                        }
+                        label={window.i18n('emptyAfterCloseInputTips')}
                     />
                 </FormControl>
 
