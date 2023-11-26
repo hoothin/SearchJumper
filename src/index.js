@@ -866,6 +866,7 @@ window.setLang = (_lang) => {
                   targetPage: 'Current page',
                   dragHistory: 'Outer ring of the drag wheel',
                   hideDragHistoryTips: 'Hide the outer ring of the drag wheel which storing the last 10 historically visited sites',
+                  reuseDragHistoryTips: 'Continues to display engines beyond 6 of current group in the outer ring of the drag wheel',
                   disableAutoOpen: 'Disable category auto-expansion',
                   disableAutoOpenTips: 'After enabling, when Search Bar is called up, Category will no longer be expanded automatically',
                   minPopup: 'Minimize the search popup',
