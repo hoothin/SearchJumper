@@ -1,11 +1,11 @@
 self.__precacheManifest = [
   {
-    "revision": "8933d6c9ad166fccebf8",
+    "revision": "faea5bc267758f846265",
     "url": "./static/css/main.736a2a73.chunk.css"
   },
   {
-    "revision": "8933d6c9ad166fccebf8",
-    "url": "./static/js/main.8933d6c9.chunk.js"
+    "revision": "faea5bc267758f846265",
+    "url": "./static/js/main.faea5bc2.chunk.js"
   },
   {
     "revision": "b52039d63cce126fc3b2",
@@ -36,16 +36,16 @@ self.__precacheManifest = [
     "url": "./static/media/roboto-cyrillic-300-normal.9b9ec295.woff2"
   },
   {
+    "revision": "2323284ef85bfeaca074c668b72109c6",
+    "url": "./static/media/roboto-all-300-normal.2323284e.woff"
+  },
+  {
     "revision": "c2be5367fbf0e1066261fd78eb103f4a",
     "url": "./static/media/roboto-greek-ext-300-normal.c2be5367.woff2"
   },
   {
     "revision": "dcdaee374d5bbeab0a5ed5c8cf39a6cd",
     "url": "./static/media/roboto-greek-300-normal.dcdaee37.woff2"
-  },
-  {
-    "revision": "2323284ef85bfeaca074c668b72109c6",
-    "url": "./static/media/roboto-all-300-normal.2323284e.woff"
   },
   {
     "revision": "48c684d99330969e3ce90b9e9da2d698",
@@ -64,12 +64,16 @@ self.__precacheManifest = [
     "url": "./static/media/roboto-cyrillic-ext-400-normal.c00467dc.woff2"
   },
   {
-    "revision": "62b936e168110e58e89e70ec82e22755",
-    "url": "./static/media/roboto-all-400-normal.62b936e1.woff"
+    "revision": "d9ac47c7e500fb7083b8d595eaf6fe12",
+    "url": "./static/media/roboto-cyrillic-400-normal.d9ac47c7.woff2"
   },
   {
     "revision": "35de3738b76d249ed060dd3d0f9286be",
     "url": "./static/media/roboto-greek-ext-400-normal.35de3738.woff2"
+  },
+  {
+    "revision": "62b936e168110e58e89e70ec82e22755",
+    "url": "./static/media/roboto-all-400-normal.62b936e1.woff"
   },
   {
     "revision": "28668857bef1b85c5748a482cf9b74af",
@@ -80,20 +84,12 @@ self.__precacheManifest = [
     "url": "./static/media/roboto-vietnamese-400-normal.ca3b09b6.woff2"
   },
   {
-    "revision": "d9ac47c7e500fb7083b8d595eaf6fe12",
-    "url": "./static/media/roboto-cyrillic-400-normal.d9ac47c7.woff2"
-  },
-  {
     "revision": "87ace20058325aa069320aa4af875dff",
     "url": "./static/media/roboto-latin-ext-400-normal.87ace200.woff2"
   },
   {
     "revision": "15d9f621c3bd1599f0169dcf0bd5e63e",
     "url": "./static/media/roboto-latin-400-normal.15d9f621.woff2"
-  },
-  {
-    "revision": "2742d81afb69e902e4513dc7cdda0a7f",
-    "url": "./static/media/roboto-cyrillic-ext-500-normal.2742d81a.woff2"
   },
   {
     "revision": "68d75d959b2a0e9958b11d781338c8f7",
@@ -106,6 +102,10 @@ self.__precacheManifest = [
   {
     "revision": "e7b7001dff6c14165abdc0fefdecae06",
     "url": "./static/media/roboto-greek-ext-500-normal.e7b7001d.woff2"
+  },
+  {
+    "revision": "2742d81afb69e902e4513dc7cdda0a7f",
+    "url": "./static/media/roboto-cyrillic-ext-500-normal.2742d81a.woff2"
   },
   {
     "revision": "53f395eb854a40e978706b1082570e42",
@@ -132,16 +132,12 @@ self.__precacheManifest = [
     "url": "./static/media/roboto-cyrillic-700-normal.6f112ec2.woff2"
   },
   {
-    "revision": "aa462125b8faf7600001e1fe9b47e216",
-    "url": "./static/media/roboto-all-700-normal.aa462125.woff"
-  },
-  {
     "revision": "2953af0021626d3c3078b17590118908",
     "url": "./static/media/roboto-greek-ext-700-normal.2953af00.woff2"
   },
   {
-    "revision": "3f8b2aa43c439ca2c8930c198320c231",
-    "url": "./static/media/roboto-greek-700-normal.3f8b2aa4.woff2"
+    "revision": "aa462125b8faf7600001e1fe9b47e216",
+    "url": "./static/media/roboto-all-700-normal.aa462125.woff"
   },
   {
     "revision": "cdaab83619fcacd4027a77c99dd51e69",
@@ -152,11 +148,15 @@ self.__precacheManifest = [
     "url": "./static/media/roboto-latin-ext-700-normal.deb26e9b.woff2"
   },
   {
+    "revision": "3f8b2aa43c439ca2c8930c198320c231",
+    "url": "./static/media/roboto-greek-700-normal.3f8b2aa4.woff2"
+  },
+  {
     "revision": "e9f5aaf547f165386cd313b995dddd8e",
     "url": "./static/media/roboto-latin-700-normal.e9f5aaf5.woff2"
   },
   {
-    "revision": "d51f69e1fa5c2515e68afbe9947c60e3",
+    "revision": "73b9bc7c63a298017f024584987d5cbf",
     "url": "./index.html"
   }
 ];
