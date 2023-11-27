@@ -687,7 +687,7 @@ export default function Export() {
                   expandIcon={<ExpandMoreIcon />}
                   id="template-header"
                 >
-                    <Typography sx={{display: 'block', width: '100%', textAlign: 'center', fontWeight: 'bold', fontSize: '1.1em'}}>{window.i18n("templateTitle")}</Typography>
+                    <Typography sx={{display: 'block', width: '100%', textAlign: 'center', fontWeight: 'bold', fontSize: '1.1em'}} title={window.i18n("templateTips")}>{window.i18n("templateTitle")}</Typography>
                     <IconButton sx={{fontSize: '30px', height: '24px', position: "absolute", color: "rgba(0, 0, 0, 0.54)"}} key='addTemplate' 
                         onClick={e => {
                             e.preventDefault();
@@ -713,6 +713,7 @@ export default function Export() {
                             id={"template" + index}
                             label={key}
                             fullWidth
+                            type="password"
                             sx={{mb : 1}}
                             value={templateData[key]}
                             onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
@@ -723,6 +724,12 @@ export default function Export() {
                                     window.searchData.prefConfig.templateData = newData;
                                     saveConfigToScript();
                                 }, 500);
+                            }}
+                            onFocus={e => {
+                                e.target.type = "text";
+                            }}
+                            onBlur={e => {
+                                e.target.type = "password";
                             }}
                         />
                         <Button variant="outlined" color="error" sx={{ textWrap: "nowrap", margin: "0 0 8px 8px"}} startIcon={<DeleteIcon />} 

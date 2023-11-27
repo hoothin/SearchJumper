@@ -369,6 +369,8 @@ export default function FindInPage() {
                         }
                     />
                 </Box>
+            </Paper>
+            <Paper elevation={5} sx={{ padding: '20px', marginTop: '20px' }}>
                 <Typography gutterBottom component="div">
                     <h4>{window.i18n('inPageRule')}</h4>
                 </Typography>
@@ -378,7 +380,7 @@ export default function FindInPage() {
                     sx={{mb : 1}}
                     defaultValue={getFormatRule()}
                     multiline
-                    rows={10}
+                    rows={20}
                     title={ruleTitle}
                     placeholder={ruleTips}
                 />

@@ -2026,7 +2026,7 @@ export default function Engines() {
                 ></Button>
                 <datalist id="filterlist"></datalist>
             </Box>
-            <Paper sx={{ mt:2, pt: 1, pb: 2, boxShadow: 'unset', textAlign:'center', borderRadius:'3px', overflow: 'auto', whiteSpace: 'nowrap' }}>
+            <Paper sx={{ pt: 1, pb: 2, boxShadow: 'unset', textAlign:'center', borderRadius:'3px', overflow: 'auto', whiteSpace: 'nowrap' }}>
                 <span
                     className={'selectTxt'}
                     onClick={() => {
@@ -2148,7 +2148,7 @@ export default function Engines() {
                     <table><tbody id='verifyResultList'></tbody></table>
                 </AccordionDetails>
             </Accordion>
-            <Accordion defaultExpanded={true} sx={{ boxShadow: 5, maxHeight: '60vh', overflow: 'auto' }}>
+            <Accordion defaultExpanded={false} sx={{ boxShadow: 3, maxHeight: '60vh', overflow: 'auto' }}>
                 <AccordionSummary
                   sx={{background: '#f9f9f9', position: 'sticky', top: 0, minHeight: '45px!important', maxHeight: '45px!important'}}
                   expandIcon={<ExpandMoreIcon />}

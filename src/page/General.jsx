@@ -296,8 +296,6 @@ export default function General() {
                         }}
                     />
                 </Box>
-            </Paper>
-            <Paper elevation={5} sx={{ padding: '20px', marginTop: '20px' }}>
                 <Box
                     sx={{ flexGrow: 1, display: 'flex', width: '100%', flexWrap: 'wrap' }}
                 >
@@ -594,8 +592,6 @@ export default function General() {
                         </Box>
                     </Box>
                 </Box>
-            </Paper>
-            <Paper elevation={5} sx={{ padding: '20px', marginTop: '20px' }}>
                 <Box
                     sx={{ flexGrow: 1, display: 'flex', width: '100%', flexWrap: 'wrap' }}
                 >
@@ -1091,8 +1087,6 @@ export default function General() {
                         }}
                     />
                 </Box>
-            </Paper>
-            <Paper elevation={5} sx={{ padding: '20px', marginTop: '20px' }}>
                 <Box sx={{ flexGrow: 1, display: 'flex'}}>
                     <Box>
                         <Typography gutterBottom component="div">
@@ -1133,8 +1127,6 @@ export default function General() {
                         </FormControl>
                     </Box>
                 </Box>
-            </Paper>
-            <Paper elevation={5} sx={{ padding: '20px', marginTop: '20px' }}>
                 <Box>
                     <Typography gutterBottom component="div">
                         <h4>{window.i18n('mouseLeaveToHide')}</h4>
@@ -1148,8 +1140,6 @@ export default function General() {
                         />
                     </FormControl>
                 </Box>
-            </Paper>
-            <Paper elevation={5} sx={{ padding: '20px', marginTop: '20px' }}>
                 <Box sx={{ flexGrow: 1, display: 'flex'}}>
                     <Box>
                         <Typography gutterBottom component="div">
@@ -1208,8 +1198,6 @@ export default function General() {
                         </FormControl>
                     </Box>
                 </Box>
-            </Paper>
-            <Paper elevation={5} sx={{ padding: '20px', marginTop: '20px' }}>
                 <Typography gutterBottom component="div">
                     <h4>{window.i18n('switchSitesKey')}</h4>
                 </Typography>
@@ -1298,37 +1286,6 @@ export default function General() {
                         />
                     </FormControl>
                 </Box>
-            </Paper>
-            <Paper elevation={5} sx={{ padding: '20px', marginTop: '20px' }}>
-                <Typography gutterBottom component="div">
-                    <h4>{window.i18n('suggestType')}</h4>
-                </Typography>
-                <Box>
-                    <FormControl sx={{ m: 1, minWidth: 80 }}>
-                        <InputLabel>Source</InputLabel>
-                        <Select
-                            value={state.suggestType}
-                            onChange={(event: SelectChangeEvent) => {
-                                var newPref = {
-                                    ...state,
-                                    suggestType: event.target.value
-                                };
-                                setState(newPref);
-                                window.searchData.prefConfig = newPref;
-                                saveConfigToScript();
-                            }}
-                            autoWidth
-                            label="Source"
-                        >
-                            <MenuItem value='google'>Google</MenuItem>
-                            <MenuItem value='bing'>Bing</MenuItem>
-                            <MenuItem value='baidu'>Baidu</MenuItem>
-                            <MenuItem value='disable'>Disable</MenuItem>
-                        </Select>
-                    </FormControl>
-                </Box>
-            </Paper>
-            <Paper elevation={5} sx={{ padding: '20px', marginTop: '20px' }}>
                 <Typography gutterBottom component="div">
                     <h4>{window.i18n('callInputKey')}</h4>
                 </Typography>
@@ -1424,8 +1381,6 @@ export default function General() {
                         label={window.i18n('defaultFindTabTips')}
                     />
                 </FormControl>
-            </Paper>
-            <Paper elevation={5} sx={{ padding: '20px', marginTop: '20px' }}>
                 <Typography gutterBottom component="div">
                     <h4>{window.i18n('showAllKey')}</h4>
                 </Typography>
@@ -1486,6 +1441,35 @@ export default function General() {
                             }
                             label={window.i18n('metaKey')}
                         />
+                    </FormControl>
+                </Box>
+            </Paper>
+            <Paper elevation={5} sx={{ padding: '20px', marginTop: '20px' }}>
+                <Typography gutterBottom component="div">
+                    <h4>{window.i18n('suggestType')}</h4>
+                </Typography>
+                <Box>
+                    <FormControl sx={{ m: 1, minWidth: 80 }}>
+                        <InputLabel>Source</InputLabel>
+                        <Select
+                            value={state.suggestType}
+                            onChange={(event: SelectChangeEvent) => {
+                                var newPref = {
+                                    ...state,
+                                    suggestType: event.target.value
+                                };
+                                setState(newPref);
+                                window.searchData.prefConfig = newPref;
+                                saveConfigToScript();
+                            }}
+                            autoWidth
+                            label="Source"
+                        >
+                            <MenuItem value='google'>Google</MenuItem>
+                            <MenuItem value='bing'>Bing</MenuItem>
+                            <MenuItem value='baidu'>Baidu</MenuItem>
+                            <MenuItem value='disable'>Disable</MenuItem>
+                        </Select>
                     </FormControl>
                 </Box>
             </Paper>
