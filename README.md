@@ -204,7 +204,7 @@ Highlight all avID on t66y 在草榴上高亮番號
     "/^https://t66y\\.com/htm_data//i": {
         "sep": "@",
         "words": [
-            "/[0-9a-zA-Z]+\\-\\d+/$s{unset;border-bottom:5px dotted red;}$t{$popup}"
+            "/([a-z]\\w+|\\d{5,})\\-\\d{2,}/i$s{unset;border-radius:unset;border-bottom:5px dotted red;}$t{$popup}"
         ]
     }
 }
