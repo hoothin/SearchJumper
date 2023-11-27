@@ -707,6 +707,34 @@ export default function General() {
             </Paper>
             <Paper elevation={5} sx={{ padding: '20px', marginTop: '20px' }}>
                 <Typography gutterBottom component="div">
+                    <h4>{window.i18n('batchOpenConfirm')}</h4>
+                </Typography>
+                <Box>
+                    <FormControl sx={{ m: 1, minWidth: 80 }}>
+                        <InputLabel>{window.i18n('batchOpenConfirm')}</InputLabel>
+                        <Select
+                            value={state.batchOpenConfirm}
+                            onChange={(event: SelectChangeEvent) => {
+                                var newPref = {
+                                    ...state,
+                                    batchOpenConfirm: event.target.value
+                                };
+                                setState(newPref);
+                                window.searchData.prefConfig = newPref;
+                                saveConfigToScript();
+                            }}
+                            autoWidth
+                            label={window.i18n('batchOpenConfirm')}
+                        >
+                            <MenuItem value={0}>{window.i18n("batchOpenConfirmDefault")}</MenuItem>
+                            <MenuItem value={1}>{window.i18n("batchOpenConfirmAlways")}</MenuItem>
+                            <MenuItem value={2}>{window.i18n("batchOpenConfirmNo")}</MenuItem>
+                        </Select>
+                    </FormControl>
+                </Box>
+            </Paper>
+            <Paper elevation={5} sx={{ padding: '20px', marginTop: '20px' }}>
+                <Typography gutterBottom component="div">
                     <h4>{window.i18n('overOpen')}</h4>
                 </Typography>
                 <Box>
@@ -850,34 +878,6 @@ export default function General() {
                             </FormControl>
                         </Box>
                     </Box>
-                </Box>
-            </Paper>
-            <Paper elevation={5} sx={{ padding: '20px', marginTop: '20px' }}>
-                <Typography gutterBottom component="div">
-                    <h4>{window.i18n('batchOpenConfirm')}</h4>
-                </Typography>
-                <Box>
-                    <FormControl sx={{ m: 1, minWidth: 80 }}>
-                        <InputLabel>{window.i18n('batchOpenConfirm')}</InputLabel>
-                        <Select
-                            value={state.batchOpenConfirm}
-                            onChange={(event: SelectChangeEvent) => {
-                                var newPref = {
-                                    ...state,
-                                    batchOpenConfirm: event.target.value
-                                };
-                                setState(newPref);
-                                window.searchData.prefConfig = newPref;
-                                saveConfigToScript();
-                            }}
-                            autoWidth
-                            label={window.i18n('batchOpenConfirm')}
-                        >
-                            <MenuItem value={0}>{window.i18n("batchOpenConfirmDefault")}</MenuItem>
-                            <MenuItem value={1}>{window.i18n("batchOpenConfirmAlways")}</MenuItem>
-                            <MenuItem value={2}>{window.i18n("batchOpenConfirmNo")}</MenuItem>
-                        </Select>
-                    </FormControl>
                 </Box>
             </Paper>
             <Paper elevation={5} sx={{ padding: '20px', marginTop: '20px' }}>
