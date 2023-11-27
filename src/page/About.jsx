@@ -41,14 +41,6 @@ export default function About() {
                 </Box>
                 <Box style={{textAlign: 'center', display: 'flex', flexWrap: 'wrap'}}>
                     <Box sx={{m: 1}}>
-                        <ForumIcon/> <Link href='https://discord.gg/keqypXC6wD' style={{verticalAlign: 'top'}} target="_blank">Discord</Link>
-                    </Box>
-                    <Box sx={{m: 1}}>
-                        <EmailIcon/> <Link href='mailto:rixixi@gmail.com' style={{verticalAlign: 'top'}} target="_blank">rixixi@gmail.com</Link>
-                    </Box>
-                </Box>
-                <Box style={{textAlign: 'center', display: 'flex', flexWrap: 'wrap'}}>
-                    <Box sx={{m: 1}}>
                         Build with React.js<br/>
                     </Box>
                     <Box sx={{m: 1}}>
@@ -56,6 +48,14 @@ export default function About() {
                     </Box>
                     <Box sx={{m: 1}}>
                         Icons: <Link href='https://fontawesome.com/' target="_blank">FontAwesome</Link>
+                    </Box>
+                </Box>
+                <Box style={{textAlign: 'center', display: 'flex', flexWrap: 'wrap'}}>
+                    <Box sx={{m: 1}}>
+                        <ForumIcon/> <Link href='https://discord.gg/keqypXC6wD' style={{verticalAlign: 'top'}} target="_blank">Discord</Link>
+                    </Box>
+                    <Box sx={{m: 1}}>
+                        <EmailIcon/> <Link href='mailto:rixixi@gmail.com' style={{verticalAlign: 'top'}} target="_blank">rixixi@gmail.com</Link>
                     </Box>
                 </Box>
                 <Card component="pre" style={{padding: '20px', lineHeight: 1.5, width: '90%', whiteSpace: 'pre-wrap', textAlign: 'left', marginBottom: '10px'}}>
