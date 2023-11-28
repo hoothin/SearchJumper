@@ -130,6 +130,7 @@ export default function App() {
 
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
     setValue(newValue);
+    document.documentElement.scrollTop = 0;
   };
   React.useEffect(() => {
     if (window.isListen) return;

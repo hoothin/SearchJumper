@@ -1561,10 +1561,10 @@ export default function Engines() {
       createData('%date{}', window.i18n('param_date2')),
       createData('%element{}.prop()', window.i18n('param_elep')),
       createData('%element{}.replace()', window.i18n('param_elere')),
-      createData('copy:', window.i18n('param_cp')),
-      createData('showTips:', window.i18n('param_showTips')),
-      createData('find:', window.i18n('param_find')),
-      createData('find.addto():', window.i18n('param_findadd')),
+      createData('copy', window.i18n('param_cp')),
+      createData('showTips', window.i18n('param_showTips')),
+      createData('find', window.i18n('param_find')),
+      createData('find.addto()', window.i18n('param_findadd')),
       createData('javascript', window.i18n('javascript'))
     ];
     let selectTxt = -1, selectImg = -1, selectLink = -1, selectPage = -1, selectAll = -1;
@@ -2148,7 +2148,7 @@ export default function Engines() {
                     <table><tbody id='verifyResultList'></tbody></table>
                 </AccordionDetails>
             </Accordion>
-            <Accordion defaultExpanded={false} sx={{ boxShadow: 3, maxHeight: '60vh', overflow: 'auto' }}>
+            <Accordion defaultExpanded={true} sx={{ boxShadow: 3, maxHeight: '60vh', overflow: 'auto' }}>
                 <AccordionSummary
                   sx={{background: '#f9f9f9', position: 'sticky', top: 0, minHeight: '45px!important', maxHeight: '45px!important'}}
                   expandIcon={<ExpandMoreIcon />}
