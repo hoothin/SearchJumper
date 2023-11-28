@@ -202,17 +202,17 @@ Highlight all avID on t66y 在草榴上高亮番號
 ``` json
 {
     "/^https://t66y\\.com/htm_data//i": {
-        "sep": "@",
+        "sep": "#",
         "words": [
-            "/([a-z]\\w+|\\d{5,})\\-\\d{2,}/i$s{unset;border-radius:unset;border-bottom:5px dotted red;}$t{$popup}"
+            "/([a-z]\\w+|\\d{5,})\\-\\d{2,}/i$s{unset;border-radius:unset;border-bottom:5px dotted red;}$t{@popup}"
         ]
     }
 }
 ```
 + Effect on the site matched RegExp `^https://t66y\\.com/htm_data/` with case ignore
  >匹配到草榴網址的正則 `^https://t66y\\.com/htm_data/` 后生效，不區分大小寫
-+ Split by "@" as there is space in the keyWords under
- >以@分隔，因爲下面的關鍵詞中有空格
++ Split by "#" as there is space in the keyWords under
+ >以#分隔，因爲下面的關鍵詞中有空格
 + Search words according to the regular pattern at first, then add style "background:unset;border-bottom:5px dotted red;" to the highlighted words, finally add the feature of hovering the mouse to pop up the search box
  >首先根據正則 "[0-9a-zA-Z]+\\-\\d+" 查找番號，然後為高亮詞添加 style "background:unset;border-bottom:5px dotted red;"，最後添加鼠標懸浮彈出搜索彈框的特性
 
