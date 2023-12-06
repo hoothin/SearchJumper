@@ -12,7 +12,7 @@ import InstallDesktopIcon from '@mui/icons-material/InstallDesktop';
 import AllInclusiveIcon from '@mui/icons-material/AllInclusive';
 import FiberPinIcon from '@mui/icons-material/FiberPin';
 import SpellcheckIcon from '@mui/icons-material/Spellcheck';
-import ForumIcon from '@mui/icons-material/Forum';
+import MarkUnreadChatAltIcon from '@mui/icons-material/MarkUnreadChatAlt';
 
 export default function About() {
     return (
@@ -24,19 +24,19 @@ export default function About() {
             <Typography gutterBottom  component="div" style={{textAlign: 'center', display: 'flex', flexDirection: 'column', alignItems: 'center'}}>
                 <Box style={{textAlign: 'center', display: 'flex', flexWrap: 'wrap'}}>
                     <Box sx={{m: 1}}>
-                        <InstallDesktopIcon/> <Link href='https://greasyfork.org/scripts/445274-searchjumper' style={{verticalAlign: 'top'}} target="_blank">Install [Greasyfork]</Link>
+                        <InstallDesktopIcon/> <Link href='https://greasyfork.org/scripts/445274-searchjumper' style={{verticalAlign: 'top'}} target="_blank">{window.i18n('install')} [Greasyfork]</Link>
                     </Box>
                     <Box sx={{m: 1}}>
                         <GitHubIcon/> <Link href='https://github.com/hoothin/SearchJumper/discussions/categories/search-engines?discussions_q=' style={{verticalAlign: 'top'}} target="_blank">{window.i18n('rulesStore')} [Github]</Link>
                     </Box>
                     <Box sx={{m: 1}}>
-                        <AllInclusiveIcon/> <Link href='https://hoothin.github.io/SearchJumper/all.html' style={{verticalAlign: 'top'}} target="_blank">Tab page of all engines</Link>
+                        <AllInclusiveIcon/> <Link href='https://hoothin.github.io/SearchJumper/all.html' style={{verticalAlign: 'top'}} target="_blank">{window.i18n('allPage')}</Link>
                     </Box>
                     <Box sx={{m: 1}}>
-                        <FiberPinIcon/> <Link href='https://greasyfork.org/scripts/465994' style={{verticalAlign: 'top'}} target="_blank">Pinyin addon</Link>
+                        <FiberPinIcon/> <Link href='https://greasyfork.org/scripts/465994' style={{verticalAlign: 'top'}} target="_blank">{window.i18n('pinyinAddon')}</Link>
                     </Box>
                     <Box sx={{m: 1}}>
-                        <SpellcheckIcon/> <Link href='https://greasyfork.org/scripts/479610' style={{verticalAlign: 'top'}} target="_blank">Spell addon</Link>
+                        <SpellcheckIcon/> <Link href='https://greasyfork.org/scripts/479610' style={{verticalAlign: 'top'}} target="_blank">{window.i18n('spellAddon')}</Link>
                     </Box>
                 </Box>
                 <Box style={{textAlign: 'center', display: 'flex', flexWrap: 'wrap'}}>
@@ -52,7 +52,7 @@ export default function About() {
                 </Box>
                 <Box style={{textAlign: 'center', display: 'flex', flexWrap: 'wrap'}}>
                     <Box sx={{m: 1}}>
-                        <ForumIcon/> <Link href='https://discord.gg/keqypXC6wD' style={{verticalAlign: 'top'}} target="_blank">Discord</Link>
+                        <MarkUnreadChatAltIcon/> <Link href='https://discord.gg/keqypXC6wD' style={{verticalAlign: 'top'}} target="_blank">{window.i18n('discord')}</Link>
                     </Box>
                     <Box sx={{m: 1}}>
                         <EmailIcon/> <Link href='mailto:rixixi@gmail.com' style={{verticalAlign: 'top'}} target="_blank">rixixi@gmail.com</Link>
