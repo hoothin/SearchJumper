@@ -125,7 +125,7 @@ function a11yProps(index: number) {
 }
 
 export default function App() {
-  const [value, setValue] = React.useState(0);
+  const [value, setValue] = React.useState(4);
   const [inited, setInited] = React.useState(false);
 
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {

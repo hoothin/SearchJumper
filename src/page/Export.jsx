@@ -331,7 +331,7 @@ function SyncEdit(props) {
        setUsername(_username);
        setPassword(_password);
        setPath(_path);
-    }, [props.open]);
+    }, [props.open, _host, _username, _password, _path]);
     return (
         <Dialog open={props.open} onClose={() => {props.close()}}>
             <DialogTitle>{window.i18n('sync')}</DialogTitle>

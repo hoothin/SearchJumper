@@ -475,6 +475,24 @@ class ChildSiteIcons extends React.Component {
         }
     }
 
+    getSliceText(text, maxLen = 10) {
+        if (!text) return text;
+        let result = "", len = 0;
+        text = Array.from(text);
+        for (let i = 0; i < text.length; i++) {
+            let curChar = text[i];
+            result += curChar;
+            let charCode = curChar.charCodeAt(0);
+            if (charCode >= 0 && charCode <= 128) {
+                len++;
+            } else {
+                len = len + 2;
+            }
+            if (len >= maxLen) break;
+        }
+        return result;
+    }
+
     render() {
         this.checkeds = [...this.props.checkeds];
         return (
@@ -488,7 +506,7 @@ class ChildSiteIcons extends React.Component {
                             checked={this.props.checkeds[i]}
                         />
                         <IconButton className={(site.match === '0' ? 'hideIcon' : '')} sx={{fontSize: '1rem', flexDirection: 'column'}} draggable='true' onDragLeave={e => {hideDragLine()}} onDrop={e => {hideDragLine();this.props.changeSitePos(site, e);}} onDragStart={e => {e.dataTransfer.setData("data", JSON.stringify(site));}} onDragOver={e => this.dragOver(e)} key={site.name} title={site.description || site.name}  onClick={() => { this.props.openSiteEdit(site) }}>
-                            <Avatar sx={{m:1}} alt={site.name} src={(!this.props.tooLong && this.getIcon(site)) || ''} >{this.props.tooLong || !site.name ? '🌐' : (/^[\s\w]{2}/.test(site.name) ? site.name.slice(0, 2) : Array.from(site.name)[0])}</Avatar>{this.props.tooLong && site.name ? site.name.slice(0, 5) : (site.name && site.name.length > 10 ? site.name.slice(0, 10) : site.name)}
+                            <Avatar sx={{m:1}} alt={site.name} src={(!this.props.tooLong && this.getIcon(site)) || ''} >{this.props.tooLong || !site.name ? '🌐' : (/^[\s\w]{2}/.test(site.name) ? site.name.slice(0, 2) : Array.from(site.name)[0])}</Avatar>{this.getSliceText(site.name)}
                         </IconButton>
                     </Box>
                 ))}
