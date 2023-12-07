@@ -126,6 +126,9 @@ export default function General() {
     if (typeof window.searchData.prefConfig.numPerLine === "undefined") {
         window.searchData.prefConfig.numPerLine = 7;
     }
+    if (typeof window.searchData.prefConfig.tileOffset === "undefined") {
+        window.searchData.prefConfig.tileOffset = 0;
+    }
     const [state, setState] = React.useState(
         window.searchData.prefConfig
     );
@@ -1726,6 +1729,38 @@ export default function General() {
                         />
                         <Typography gutterBottom component="div" sx={{ marginTop: '20px' }}>
                             {window.i18n('numPerLineTips')}
+                        </Typography>
+                    </Box>
+                    <Typography gutterBottom component="div">
+                        <h4>{window.i18n('tileOffset')}</h4>
+                    </Typography>
+                    <Box
+                        sx={{ flexGrow: 1, display: 'flex', width: '100%', flexWrap: 'wrap' }}
+                    >
+                        <TextField
+                            sx={{ width: 70, margin: '8px' }}
+                            label={"Px"}
+                            inputProps={{ inputMode: 'numeric', type:'number', pattern: '[\\-0-9]*' }}
+                            value={state.tileOffset}
+                            onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
+                                let newValue = parseInt(event.target.value);
+                                if (newValue < -100) {
+                                    newValue = -100;
+                                }
+                                if (newValue > 500) {
+                                    newValue = 500;
+                                }
+                                var newPref = {
+                                    ...state,
+                                    tileOffset: newValue
+                                };
+                                setState(newPref);
+                                window.searchData.prefConfig = newPref;
+                                saveConfigToScript();
+                            }}
+                        />
+                        <Typography gutterBottom component="div" sx={{ marginTop: '20px' }}>
+                            {window.i18n('tileOffsetTips')}
                         </Typography>
                     </Box>
                     <Box sx={{ flexGrow: 1, display: 'flex'}}>
