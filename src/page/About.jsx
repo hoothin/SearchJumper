@@ -45,6 +45,12 @@ export default function About() {
                 </Box>
                 <Box style={{textAlign: 'center', display: 'flex', flexWrap: 'wrap'}}>
                     <Box sx={{m: 1}}>
+                        <MarkUnreadChatAltIcon/> <Link href='https://discord.gg/keqypXC6wD' style={{verticalAlign: 'top'}} target="_blank">{window.i18n('discord')}</Link>
+                    </Box>
+                    <Box sx={{m: 1}}>
+                        <EmailIcon/> <Link href='mailto:rixixi@gmail.com' style={{verticalAlign: 'top'}} target="_blank">rixixi@gmail.com</Link>
+                    </Box>
+                    <Box sx={{m: 1}}>
                         Build with React.js<br/>
                     </Box>
                     <Box sx={{m: 1}}>
@@ -55,18 +61,12 @@ export default function About() {
                     </Box>
                 </Box>
                 <Box style={{textAlign: 'center', display: 'flex', flexWrap: 'wrap'}}>
-                    <Box sx={{m: 1}}>
-                        <MarkUnreadChatAltIcon/> <Link href='https://discord.gg/keqypXC6wD' style={{verticalAlign: 'top'}} target="_blank">{window.i18n('discord')}</Link>
-                    </Box>
-                    <Box sx={{m: 1}}>
-                        <EmailIcon/> <Link href='mailto:rixixi@gmail.com' style={{verticalAlign: 'top'}} target="_blank">rixixi@gmail.com</Link>
-                    </Box>
                 </Box>
-                <Card component="pre" style={{padding: '20px', lineHeight: 1.5, width: '90%', whiteSpace: 'pre-wrap', textAlign: 'left', marginBottom: '10px'}}>
+                <Card component="pre" style={{padding: '15px', lineHeight: 1.5, width: '90%', whiteSpace: 'pre-wrap', textAlign: 'left', marginTop: '0px', marginBottom: '10px'}}>
                     <img align='left' style={{width: '100px', maxWidth: '50%', boxShadow: 'rgb(0 0 0) 0px 0px 15px', marginRight: '20px', height: 'fit-content'}} src='avatar.jpg' alt='donate' loading="lazy"/>{window.i18n("donate")}
                 </Card>
                 <VolunteerActivismIcon/> 
-                <Box className='donateLinks' sx={{ margin: '15px', borderRadius: '3px', padding: '3px' }}>
+                <Box className='donateLinks' sx={{ margin: '5px', borderRadius: '3px', padding: '3px' }}>
                     <Link href='https://ko-fi.com/hoothin' style={{verticalAlign: 'top'}} target="_blank">
                         <img style={{verticalAlign: 'bottom', marginRight: "5px"}} src='kofi.png' alt='kofi' loading="lazy"/>
                         [Ko-fi]
@@ -82,7 +82,7 @@ export default function About() {
                         [愛發電]
                     </Link>
                 </Box>
-                <img style={{borderRadius: '20px', margin: '10px 10px 20px 10px'}} src='donate.jpg' className='donate' alt='donate' loading="lazy"/>
+                <img style={{borderRadius: '20px', margin: '5px 10px 20px 10px'}} src='donate.jpg' className='donate' alt='donate' loading="lazy"/>
                 <Box sx={{borderTop: 1, borderColor: 'divider'}}>
                 <Card sx={{width: '100%', margin: '10px auto', textAlign: 'left', boxShadow: 'unset'}}>
                     <CardContent>
