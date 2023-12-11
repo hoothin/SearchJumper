@@ -787,7 +787,7 @@ export default function Export() {
             />
             <DefaultOpenSpeedDial
                 ariaLabel="SpeedDial"
-                sx={{ position: 'fixed', bottom: '20%', right: 16 }}
+                sx={{ position: 'fixed', bottom: '5%', right: 16 }}
                 icon={<SpeedDialIcon />}
             >
                 <SpeedDialAction
