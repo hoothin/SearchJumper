@@ -13,6 +13,7 @@ import AllInclusiveIcon from '@mui/icons-material/AllInclusive';
 import FiberPinIcon from '@mui/icons-material/FiberPin';
 import SpellcheckIcon from '@mui/icons-material/Spellcheck';
 import MarkUnreadChatAltIcon from '@mui/icons-material/MarkUnreadChatAlt';
+import ShareIcon from '@mui/icons-material/Share';
 
 export default function About() {
     return (
@@ -23,6 +24,9 @@ export default function About() {
             <Paper elevation={5} sx={{ padding: '20px' }}>
             <Typography gutterBottom  component="div" style={{textAlign: 'center', display: 'flex', flexDirection: 'column', alignItems: 'center'}}>
                 <Box style={{textAlign: 'center', display: 'flex', flexWrap: 'wrap'}}>
+                    <Box sx={{m: 1}}>
+                        <ShareIcon/> <Link href='https://search.hoothin.com' style={{verticalAlign: 'top'}} target="_blank">{window.i18n('share')}</Link>
+                    </Box>
                     <Box sx={{m: 1}}>
                         <InstallDesktopIcon/> <Link href='https://greasyfork.org/scripts/445274-searchjumper' style={{verticalAlign: 'top'}} target="_blank">{window.i18n('install')} [Greasyfork]</Link>
                     </Box>
