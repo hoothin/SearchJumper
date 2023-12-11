@@ -1620,6 +1620,20 @@ export default function General() {
                     </Box>
                     
                     <Typography gutterBottom component="div">
+                        <h4>{window.i18n('selectToShow')}</h4>
+                    </Typography>
+                    <Box>
+                        <FormControl sx={{ m: 1, minWidth: 80 }}>
+                            <FormControlLabel
+                                control={
+                                    <Switch checked={state.selectToShow} onChange={handleCheckChange} name="selectToShow" />
+                                }
+                                label={window.i18n('selectToShowTips')}
+                            />
+                        </FormControl>
+                    </Box>
+                    
+                    <Typography gutterBottom component="div">
                         <h4>{window.i18n('enableRightMouse')}</h4>
                     </Typography>
                     <FormControl sx={{ m: 1, minWidth: 80 }}>
@@ -1652,19 +1666,6 @@ export default function General() {
                             label={window.i18n('enableMiddleMouseTips')}
                         />
                     </FormControl>
-                    <Typography gutterBottom component="div">
-                        <h4>{window.i18n('selectToShow')}</h4>
-                    </Typography>
-                    <Box>
-                        <FormControl sx={{ m: 1, minWidth: 80 }}>
-                            <FormControlLabel
-                                control={
-                                    <Switch checked={state.selectToShow} onChange={handleCheckChange} name="selectToShow" />
-                                }
-                                label={window.i18n('selectToShowTips')}
-                            />
-                        </FormControl>
-                    </Box>
                     <Typography gutterBottom component="div">
                         <h4>{window.i18n('limitPopupLen')}</h4>
                     </Typography>
