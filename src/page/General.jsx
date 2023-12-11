@@ -626,6 +626,19 @@ export default function General() {
                             />
                         </FormControl>
                     </Box>
+                    <Box>
+                        <Typography gutterBottom component="div">
+                            <h4>{window.i18n('hideOnSearchEngine')}</h4>
+                        </Typography>
+                        <FormControl sx={{ m: 1, minWidth: 80, width: '100%', mb: '20px' }}>
+                            <FormControlLabel
+                                control={
+                                    <Switch checked={state.hideOnSearchEngine} onChange={handleCheckChange} name="hideOnSearchEngine" />
+                                }
+                                label={window.i18n('hideOnSearchEngineTips')}
+                            />
+                        </FormControl>
+                    </Box>
                 </Box>
             </Paper>
             <Paper elevation={5} sx={{ padding: '20px', marginTop: '20px' }}>
@@ -1142,21 +1155,6 @@ export default function General() {
                             label={window.i18n('mouseLeaveToHideTips')}
                         />
                     </FormControl>
-                </Box>
-                <Box sx={{ flexGrow: 1, display: 'flex'}}>
-                    <Box>
-                        <Typography gutterBottom component="div">
-                            <h4>{window.i18n('hideOnSearchEngine')}</h4>
-                        </Typography>
-                        <FormControl sx={{ m: 1, minWidth: 80 }}>
-                            <FormControlLabel
-                                control={
-                                    <Switch checked={state.hideOnSearchEngine} onChange={handleCheckChange} name="hideOnSearchEngine" />
-                                }
-                                label={window.i18n('hideOnSearchEngineTips')}
-                            />
-                        </FormControl>
-                    </Box>
                 </Box>
             </Paper>
             <Paper elevation={5} sx={{ padding: '20px', marginTop: '20px' }}>
