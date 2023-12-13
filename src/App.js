@@ -196,7 +196,7 @@ export default function App() {
             } : {})}/>
         </ListItem>
         <Divider component="li" variant="inset" sx={{marginRight: 3}}/>
-        <ListItem sx={{flexFlow: 'column'}}>
+        <ListItem sx={{flexFlow: 'column', height: 'calc(100% - 75px)', overflowY: 'auto', overflowX: 'hidden'}}>
           <Tabs
             orientation="vertical"
             variant="scrollable"
@@ -205,7 +205,7 @@ export default function App() {
             onChange={handleChange}
             onClick={()=>{document.querySelector('#tabs').classList.add('hide')}}
             aria-label="Vertical tabs example"
-            sx={{ borderRight: 1, borderColor: 'divider', width: '100%' }}
+            sx={{ borderRight: 1, borderColor: 'divider', width: '100%', flexShrink: 0 }}
           >
             <Tab label={window.i18n('general')} {...a11yProps(0)} />
             <Tab label={window.i18n('searchEngines')} {...a11yProps(1)} />

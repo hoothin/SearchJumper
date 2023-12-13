@@ -281,9 +281,16 @@ window.setLang = (_lang) => {
                   spellAddon: '拼写扩展',
                   discord: 'Discord 讨论群组',
                   templateTitle: '模板文本',
-                  templateTips: '模板文本，用 $template{模板名} 调用',
+                  templateTips: '模板文本，用 $template{模板名} 调用，适用于存放密钥',
                   templateName: '模板名',
                   templateValue: '模板内容',
+                  freeWebdav: '免费 WebDAV',
+                  freeWebDavShare: '分享引擎列表',
+                  freeWebdavConfirm: '是否申请免费账号使用 WebDav 同步功能？请注意，该功能为随性分享，不能保证稳定可用，请勿用于非法用途。如需稳定可控，请自行搭建 WebDav 服务器。',
+                  requestAccount: '申请账号中，请耐心等待服务器下发',
+                  shareText: '我的搜索酱合集： https://search.hoothin.com/#t# 访问密码：#t#',
+                  shareTips: '当前分享页面：https://search.hoothin.com/#t#',
+                  sharePassword: '分享密码',
                   paramTitle: '搜索参数',
                   param: '参数',
                   details: '详述',
@@ -596,9 +603,16 @@ window.setLang = (_lang) => {
                   spellAddon: '單詞擴充',
                   discord: 'Discord 討論群組',
                   templateTitle: '模板文本',
-                  templateTips: '模板文本，用 $template{模板名} 調用',
+                  templateTips: '模板文本，用 $template{模板名} 調用，適用於存放密鑰',
                   templateName: '模板名',
                   templateValue: '模板内容',
+                  freeWebdav: '免費 WebDAV',
+                  freeWebDavShare: '分享引擎清單',
+                  freeWebdavConfirm: '申請免費帳號使用 WebDav 同步功能？ 請注意，此功能為隨性分享，無法保證穩定可用，請勿用於非法用途。 如需穩定可控，請自行建置 WebDav 伺服器。 ',
+                  requestAccount: '申請帳號中，請耐心等待伺服器下發',
+                  shareText: '我的搜尋醬合集： https://search.hoothin.com/#t# 訪問密碼：#t#',
+                  shareTips: '目前分享頁面：https://search.hoothin.com/#t#',
+                  sharePassword: '分享密碼',
                   paramTitle: '搜尋參數',
                   param: '參數',
                   details: '詳述',
@@ -857,7 +871,7 @@ window.setLang = (_lang) => {
                   username: 'Username',
                   password: 'Password',
                   path: 'Path',
-                  syncTips: 'Webdav server need to support custom cors, add allowed_hosts: https://hoothin.github.io',
+                  syncTips: 'Webdav server need to support custom cors, add allowed_hosts: https://hoothin.github.io.',
                   expandType: 'Expand group',
                   expandTypeTips: 'Expand group, Do not collapse engines in one group',
                   expandTypeLength: 'Show engines number',
@@ -910,9 +924,16 @@ window.setLang = (_lang) => {
                   spellAddon: 'Spelling addon',
                   discord: 'Discord group',
                   templateTitle: 'Template text',
-                  templateTips: 'Template text, call by $template{template name}',
+                  templateTips: 'Template text, call by $template{template name}, can be used with tokens',
                   templateName: 'Template Name',
                   templateValue: 'Template Value',
+                  freeWebdav: 'Free WebDAV',
+                  freeWebDavShare: 'Share engine list',
+                  freeWebdavConfirm: 'Do you want to apply for a free account to use the WebDav synchronization? Please note that this function is for casual sharing and cannot be guaranteed to be stable and available. Please do not use it for illegal purposes. If you want stability and controllability, please build your own WebDav server. ',
+                  requestAccount: 'Applying for an account, please wait patiently for the server to issue',
+                  shareText: 'My SearchJumper engines: https://search.hoothin.com/#t# password: #t#',
+                  shareTips: 'Current sharing page: https://search.hoothin.com/#t#',
+                  sharePassword: 'share password',
                   paramTitle: 'Search params',
                   param: 'Param',
                   details: 'Details',
@@ -955,7 +976,16 @@ window.setLang = (_lang) => {
       }
 }
 window.i18n = (name, param) => {
-      return config[name]?config[name].replace("#t#",param):name;
+      if (!config[name]) return name;
+      if (Array.isArray(param)) {
+        let result = config[name];
+        param.forEach(p => {
+          result = result.replace("#t#",p);
+        });
+        return result;
+      } else {
+        return config[name].replace("#t#",param);
+      }
 }
 window.setLang(lang);
 

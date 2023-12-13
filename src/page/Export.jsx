@@ -43,8 +43,10 @@ import AccordionDetails from '@mui/material/AccordionDetails';
 import Typography from '@mui/material/Typography';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
+import RedeemIcon from '@mui/icons-material/Redeem';
 
-
+const apiUrl = 'https://search.hoothin.com/api.php';
+const myWebDavUrl = 'https://webdav.hoothin.com';
 async function checkWebdav(host, username, password, pathname) {
     const client = createClient(host, {
         username: username,
@@ -103,6 +105,36 @@ async function checkWebdav(host, username, password, pathname) {
         }
     });
     document.dispatchEvent(saveMessage);
+}
+
+var sharePass = '';
+async function loadSharePass(cb) {
+    if (!window.searchData.webdavConfig || window.searchData.webdavConfig.host !== myWebDavUrl) return;
+    let {host, username, password, path} = window.searchData.webdavConfig;
+    const client = createClient(host, {
+        username: username,
+        password: password
+    });
+    const _path = "/SearchJumper" + (path || "").replace(/^\/*/, "/").replace(/\/+$/, "");
+    if (await client.exists(_path + "/sharePass") === false) {
+        return '';
+    }
+    sharePass = await client.getFileContents(_path + "/sharePass", { format: "text" });
+    cb();
+    return sharePass;
+}
+
+
+async function saveSharePass(_sharePass) {
+    if (!window.searchData.webdavConfig || window.searchData.webdavConfig.host !== myWebDavUrl) return;
+    sharePass = _sharePass;
+    let {host, username, password, path} = window.searchData.webdavConfig;
+    const client = createClient(host, {
+        username: username,
+        password: password
+    });
+    const _path = "/SearchJumper" + (path || "").replace(/^\/*/, "/").replace(/\/+$/, "");
+    await client.putFileContents(_path + "/sharePass", _sharePass);
 }
 
 function saveConfigToScript (notification) {
@@ -313,6 +345,53 @@ function DefaultOpenSpeedDial(props) {
     );
 }
 
+function FreeWebDav(props) {
+    if (sharePass === "") loadSharePass(() => {
+        setSharePass(sharePass);
+    });
+    const [_sharePass, setSharePass] = React.useState(sharePass);
+    if (!window.searchData.webdavConfig) return;
+    return (
+        <Dialog open={props.open} onClose={() => {props.close()}}>
+            <DialogTitle>{window.i18n('freeWebDavShare')}</DialogTitle>
+            <DialogContent>
+                <FormControl fullWidth sx={{ mt: 1, mb: 1 }} variant="outlined">
+                  <InputLabel htmlFor="outlined-adornment-password">{window.i18n('sharePassword')}</InputLabel>
+                  <OutlinedInput
+                    fullWidth
+                    inputProps={{maxLength:"20"}}
+                    value={_sharePass}
+                    onChange={e => {
+                        setSharePass(e.target.value);
+                    }}
+                    label={window.i18n('sharePassword')}
+                  />
+                </FormControl>
+                <DialogContentText sx={{textAlign: 'center'}}>
+                    {window.i18n('shareTips', window.searchData.webdavConfig.username.replace('user_', ''))}
+                </DialogContentText>
+            </DialogContent>
+            <DialogActions>
+                <Button variant="contained" color="success" sx={{position: 'absolute', top: '15px', right: '23px'}} startIcon={<FileCopyIcon />} onClick={() => {
+                    navigator.clipboard.writeText(window.i18n('shareText', [window.searchData.webdavConfig.username.replace('user_', ''), _sharePass || 'none']))
+                        .then(() => {
+                        props.handleAlertOpen('Share text copied to clipboard', 3);
+                    })
+                        .catch((error) => {
+                        props.handleAlertOpen('Failed to copy text: ', error);
+                    });
+                    props.close();
+                }}>{window.i18n('copy')}</Button>
+                <Button onClick={() => { props.close() }}>{window.i18n('cancel')}</Button>
+                <Button onClick={() => {
+                    saveSharePass(_sharePass);
+                    props.close();
+                }}>{window.i18n('save')}</Button>
+            </DialogActions>
+        </Dialog>
+    );
+}
+
 function SyncEdit(props) {
     let _host = "", _username = "", _password = "", _path = "/";
     if (window.searchData.webdavConfig) {
@@ -327,7 +406,7 @@ function SyncEdit(props) {
     const [path, setPath] = React.useState(_path);
     const [showPassword, setShowPassword] = React.useState(false);
     React.useEffect(() => {
-       setPassword(_host);
+       setHost(_host);
        setUsername(_username);
        setPassword(_password);
        setPath(_path);
@@ -336,6 +415,10 @@ function SyncEdit(props) {
         <Dialog open={props.open} onClose={() => {props.close()}}>
             <DialogTitle>{window.i18n('sync')}</DialogTitle>
             <DialogContent>
+                <Button variant="contained" color="success" sx={{position: 'absolute', top: '15px', right: '23px'}} startIcon={<RedeemIcon />} onClick={() => {
+                    props.requestAccount();
+                    props.close();
+                }}>{window.i18n('freeWebdav')}</Button>
                 <FormControl fullWidth sx={{ mt: 1, mb: 1 }} variant="outlined">
                   <InputLabel htmlFor="outlined-adornment-host">{window.i18n('host')}</InputLabel>
                   <OutlinedInput
@@ -392,6 +475,7 @@ function SyncEdit(props) {
                   <InputLabel htmlFor="outlined-adornment-path">{window.i18n('path')}</InputLabel>
                   <OutlinedInput
                     fullWidth
+                    inputProps={{maxLength:"20"}}
                     id="outlined-adornment-path"
                     type='text'
                     value={path}
@@ -436,6 +520,7 @@ let longHoldState = 0;
 export default function Export() {
     const [presetCss, setPresetCss] = React.useState('');
     const [openSync, setOpenSync] = React.useState(false);
+    const [openFreeWebDav, setFreeWebDav] = React.useState(false);
     const [cssText, setCssText] = React.useState(window.searchData.prefConfig.cssText || '');
     const [templateData, setTemplateData] = React.useState(window.searchData.prefConfig.templateData || {});
     const [fontAwesomeCss, setFontAwesomeCss] = React.useState(window.searchData.prefConfig.fontAwesomeCss);
@@ -636,6 +721,41 @@ export default function Export() {
 
     function webdavSync() {
         setOpenSync(true);
+    }
+
+    var requesting = false;
+    function requestAccount() {
+        if (window.searchData.webdavConfig && window.searchData.webdavConfig.host === myWebDavUrl) {
+            setFreeWebDav(true);
+            return;
+        }
+        if (requesting) return;
+        if (!window.confirm(window.i18n('freeWebdavConfirm'))) return;
+        requesting = true;
+        handleAlertOpen(window.i18n('requestAccount'));
+        fetch(apiUrl, {
+            method: 'POST',
+            mode: "cors",
+            headers: {
+              'Content-Type': 'application/x-www-form-urlencoded'
+            },
+            body: 'action=getUser'
+        })
+        .then(response => response.json())
+        .then(json => {
+            requesting = false;
+            if (json.result === 1) {
+                checkWebdav(myWebDavUrl, json.username, json.password, '/').then(() => {
+                    handleAlertOpen(window.i18n("success"), 3);
+                    setFreeWebDav(true);
+                }).catch(e => {
+                    handleAlertOpen(e.toString());
+                });
+            } else {
+                handleAlertOpen(json.message);
+            }
+        })
+        .catch(error => handleAlertOpen(String(error)));
     }
 
     function exportConfig() {
@@ -849,11 +969,26 @@ export default function Export() {
                     tooltipTitle={window.i18n('sync')}
                     onClick = {webdavSync}
                 />
+                <SpeedDialAction
+                    sx={{color: 'darkorange', transform: 'scale(1.3)'}}
+                    key='Redeem'
+                    icon=<RedeemIcon />
+                    tooltipTitle={window.i18n('freeWebdav')}
+                    onClick = {() => {
+                        requestAccount();
+                    }}
+                />
             </DefaultOpenSpeedDial>
             <SyncEdit
+                requestAccount={requestAccount}
                 handleAlertOpen={handleAlertOpen}
                 open={openSync}
                 close={() => {setOpenSync(false)}}
+            />
+            <FreeWebDav
+                handleAlertOpen={handleAlertOpen}
+                open={openFreeWebDav}
+                close={() => {setFreeWebDav(false)}}
             />
             <Snackbar open={alertBody.openAlert} autoHideDuration={2000} anchorOrigin={{vertical: 'top', horizontal: 'center'}} onClose={handleAlertClose}>
                 <MuiAlert elevation={6} variant="filled" onClose={handleAlertClose} severity={alertBody.alertType} sx={{ width: '100%' }} >
