@@ -34,7 +34,7 @@ export default function About() {
                         <GitHubIcon/> <Link href='https://github.com/hoothin/SearchJumper/discussions/categories/search-engines?discussions_q=' style={{verticalAlign: 'top'}} target="_blank">{window.i18n('rulesStore')} [Github]</Link>
                     </Box>
                     <Box sx={{m: 1}}>
-                        <AllInclusiveIcon/> <Link href='https://hoothin.github.io/SearchJumper/all.html' style={{verticalAlign: 'top'}} target="_blank">{window.i18n('allPage')}</Link>
+                        <AllInclusiveIcon/> <Link href='https://search.hoothin.com/all' style={{verticalAlign: 'top'}} target="_blank">{window.i18n('allPage')}</Link>
                     </Box>
                     <Box sx={{m: 1}}>
                         <FiberPinIcon/> <Link href='https://greasyfork.org/scripts/465994' style={{verticalAlign: 'top'}} target="_blank">{window.i18n('pinyinAddon')}</Link>
