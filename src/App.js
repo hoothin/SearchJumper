@@ -185,7 +185,7 @@ export default function App() {
           </ListItemAvatar>
           <ListItemText 
             primary={window.i18n('name')} 
-            secondary={window.version ? ("Ver " + window.version) : "Not installed"} 
+            secondary={window.version ? ("Ver " + window.version) : (window.version === 0 ? "" : "Not installed")} 
             sx={{cursor: 'pointer'}}
             onClick={e => {inited && window.version !== version && window.open("https://greasyfork.org/scripts/445274-searchjumper/code/SearchJumper.user.js")}}
             secondaryTypographyProps={inited && window.version !== version ? {
