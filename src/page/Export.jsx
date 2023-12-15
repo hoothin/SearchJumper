@@ -279,7 +279,7 @@ const schema = {
         },
         required: ['type', 'sites']
     }
-}
+};
 var editor;
 
 function SvelteJSONEditor(props) {
@@ -798,7 +798,7 @@ export default function Export() {
             <Box sx={{ maxHeight: '80vh',overflow: 'auto'}}>
                 <SvelteJSONEditor
                     content={{json:window.searchData.sitesConfig}}
-                    validator={createAjvValidator(schema)}
+                    validator={window.location.protocol === "chrome-extension:" ? null : createAjvValidator(schema)}
                 />
             </Box>
             <Accordion defaultExpanded={true} sx={{ maxHeight: '30vh', overflow: 'auto' }}>

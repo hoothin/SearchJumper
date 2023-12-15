@@ -1,0 +1,60 @@
+{
+    "title": "Types List",
+    "description": "List of the data of types",
+    "type": "array",
+    "items": {
+        "type": "object",
+        "properties": {
+            "type": {
+                "title": "Type Name",
+                "description": "The name of type.",
+                "examples": [
+                    "Search"
+                ],
+                "type": "string"
+            },
+            "icon": {
+                "title": "Type icon",
+                "description": "The icon of type.",
+                "examples": [
+                    "image"
+                ],
+                "type": "string"
+            },
+            "sites": {
+                "title": "Sites List",
+                "description": "List of the data of sites",
+                "type": "array",
+                "items": {
+                    "type": "object",
+                    "properties": {
+                        "name": {
+                            "title": "Site Name",
+                            "description": "The name of site.",
+                            "examples": [
+                                "Google"
+                            ],
+                            "type": "string"
+                        },
+                        "url": {
+                            "title": "Site Url",
+                            "description": "The url of site.",
+                            "examples": [
+                                "https://www.google.com/search?q=%s"
+                            ],
+                            "type": "string"
+                        }
+                    },
+                    "required": [
+                        "name",
+                        "url"
+                    ]
+                }
+            }
+        },
+        "required": [
+            "type",
+            "sites"
+        ]
+    }
+}

@@ -27,7 +27,7 @@ export default function About() {
                     <Box sx={{m: 1}}>
                         <ShareIcon/> <Link href='https://search.hoothin.com' style={{verticalAlign: 'top', color: 'darkorange', fontWeight: 'bold'}} target="_blank">{window.i18n('share')}</Link>
                     </Box>
-                    <Box sx={{m: 1}}>
+                    <Box sx={{m: 1, display: window.location.protocol === "chrome-extension:" ? "none" : ""}}>
                         <InstallDesktopIcon/> <Link href='https://greasyfork.org/scripts/445274-searchjumper' style={{verticalAlign: 'top'}} target="_blank">{window.i18n('install')} [Greasyfork]</Link>
                     </Box>
                     <Box sx={{m: 1}}>
