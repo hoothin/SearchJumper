@@ -732,7 +732,7 @@ export default function Export() {
         if (requesting) return;
         if (!window.confirm(window.i18n('freeWebdavConfirm'))) return;
         requesting = true;
-        handleAlertOpen(window.i18n('requestAccount'));
+        handleAlertOpen(window.i18n('requestAccount'), 1);
         fetch(apiUrl, {
             method: 'POST',
             mode: "cors",
@@ -912,6 +912,7 @@ export default function Export() {
             >
                 <SpeedDialAction
                     key='Save'
+                    sx={{ backgroundColor: 'rgb(25, 118, 210)', color: 'white', transform: 'scale(1.1)' }}
                     icon=<SaveIcon />
                     tooltipTitle={window.i18n('save')}
                     onClick = {saveConfig}
@@ -990,7 +991,7 @@ export default function Export() {
                 open={openFreeWebDav}
                 close={() => {setFreeWebDav(false)}}
             />
-            <Snackbar open={alertBody.openAlert} autoHideDuration={2000} anchorOrigin={{vertical: 'top', horizontal: 'center'}} onClose={handleAlertClose}>
+            <Snackbar open={alertBody.openAlert} autoHideDuration={5000} anchorOrigin={{vertical: 'top', horizontal: 'center'}} onClose={handleAlertClose}>
                 <MuiAlert elevation={6} variant="filled" onClose={handleAlertClose} severity={alertBody.alertType} sx={{ width: '100%' }} >
                   {alertBody.alertContent}
                 </MuiAlert>
