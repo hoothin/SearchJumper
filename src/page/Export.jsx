@@ -971,7 +971,7 @@ export default function Export() {
                     onClick = {webdavSync}
                 />
                 <SpeedDialAction
-                    sx={{color: 'darkorange', transform: 'scale(1.1)'}}
+                    sx={{backgroundColor: 'darkorange', color: 'white', transform: 'scale(1.1)'}}
                     key='Redeem'
                     icon=<RedeemIcon />
                     tooltipTitle={window.i18n('freeWebdav')}
