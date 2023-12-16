@@ -368,7 +368,8 @@ function FreeWebDav(props) {
                   />
                 </FormControl>
                 <DialogContentText sx={{textAlign: 'center'}}>
-                    {window.i18n('shareTips', window.searchData.webdavConfig.username.replace('user_', ''))}
+                    {window.i18n('shareTips')}
+                    <a target="_blank" rel="noreferrer" href={`https://search.hoothin.com/${window.searchData.webdavConfig.username.replace('user_', '')}`}>{`https://search.hoothin.com/${window.searchData.webdavConfig.username.replace('user_', '')}`}</a>
                 </DialogContentText>
             </DialogContent>
             <DialogActions>
