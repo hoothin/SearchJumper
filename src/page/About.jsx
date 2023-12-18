@@ -36,10 +36,10 @@ export default function About() {
                     <Box sx={{m: 1}}>
                         <AllInclusiveIcon/> <Link href='https://search.hoothin.com/all' style={{verticalAlign: 'top'}} target="_blank">{window.i18n('allPage')}</Link>
                     </Box>
-                    <Box sx={{m: 1}}>
+                    <Box sx={{m: 1, display: window.location.protocol === "chrome-extension:" ? "none" : ""}}>
                         <FiberPinIcon/> <Link href='https://greasyfork.org/scripts/465994' style={{verticalAlign: 'top'}} target="_blank">{window.i18n('pinyinAddon')}</Link>
                     </Box>
-                    <Box sx={{m: 1}}>
+                    <Box sx={{m: 1, display: window.location.protocol === "chrome-extension:" ? "none" : ""}}>
                         <SpellcheckIcon/> <Link href='https://greasyfork.org/scripts/479610' style={{verticalAlign: 'top'}} target="_blank">{window.i18n('spellAddon')}</Link>
                     </Box>
                 </Box>
