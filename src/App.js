@@ -213,7 +213,7 @@ export default function App() {
             <Tab label={window.i18n('exportConfig')} {...a11yProps(3)} />
             <Tab label={window.i18n('about')} {...a11yProps(4)} />
           </Tabs>
-          {window.location.protocol !== "chrome-extension:" ? <embed style={{colorScheme: 'auto', width: '100%', transition: 'width 0.3s ease'}} wmode="transparent" src="https://search.hoothin.com/sjsponsors.svg"/> : ""}
+          {window.location.protocol !== "chrome-extension:" ? <embed className="sponsors" wmode="transparent" src="https://search.hoothin.com/sjsponsors.svg"/> : ""}
         </ListItem>
       </List>
       <TabPanel value={value} index={0} sx={{width:1}}>

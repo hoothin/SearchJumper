@@ -105,6 +105,16 @@ code {
 .hideIcon>i,.hideIcon>div {
   opacity: 0.3;
 }
+.sponsors {
+  opacity: 0.5;
+  margin-top: 20px;
+  colorScheme: auto;
+  width: 100%;
+  transition: all 0.3s ease;
+}
+.sponsors:hover {
+  opacity: 1;
+}
 
 span.selectTxt,
 span.selectImg,
