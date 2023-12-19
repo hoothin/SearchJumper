@@ -14,6 +14,7 @@ import FiberPinIcon from '@mui/icons-material/FiberPin';
 import SpellcheckIcon from '@mui/icons-material/Spellcheck';
 import MarkUnreadChatAltIcon from '@mui/icons-material/MarkUnreadChatAlt';
 import ShareIcon from '@mui/icons-material/Share';
+import GoogleIcon from '@mui/icons-material/Google';
 
 export default function About() {
     return (
@@ -28,7 +29,10 @@ export default function About() {
                         <ShareIcon/> <Link href='https://search.hoothin.com' style={{verticalAlign: 'top', color: 'darkorange', fontWeight: 'bold'}} target="_blank">{window.i18n('share')}</Link>
                     </Box>
                     <Box sx={{m: 1, display: window.location.protocol === "chrome-extension:" ? "none" : ""}}>
-                        <InstallDesktopIcon/> <Link href='https://greasyfork.org/scripts/445274-searchjumper' style={{verticalAlign: 'top'}} target="_blank">{window.i18n('install')} [Greasyfork]</Link>
+                        <InstallDesktopIcon/> <Link href='https://greasyfork.org/scripts/445274-searchjumper' style={{verticalAlign: 'top'}} target="_blank">Greasyfork</Link> 
+                    </Box>
+                    <Box sx={{m: 1, display: window.location.protocol === "chrome-extension:" ? "none" : ""}}>
+                        <GoogleIcon/> <Link href='https://chrome.google.com/webstore/detail/hgepmblbgodbilmfdjkalkgofdcipkhh' style={{verticalAlign: 'top'}} target="_blank">Chrome store</Link>
                     </Box>
                     <Box sx={{m: 1}}>
                         <GitHubIcon/> <Link href='https://github.com/hoothin/SearchJumper/discussions/categories/search-engines?discussions_q=' style={{verticalAlign: 'top'}} target="_blank">{window.i18n('rulesStore')} [Github]</Link>
