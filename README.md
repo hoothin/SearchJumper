@@ -1,6 +1,6 @@
-# [SearchJumper](https://greasyfork.org/scripts/445274-searchjumper "Install from greasyfork 搜尋引擎輔助增強瀏覽器插件，一键切换搜尋引擎，支援拖拽搜尋/劃詞搜尋/快捷鍵等。検索機能強化。検索ちゃん")  [💞Share your search engines](https://github.com/hoothin/SearchJumper/discussions/categories/search-engines?discussions_q=)
+# [SearchJumper](https://chromewebstore.google.com/detail/hgepmblbgodbilmfdjkalkgofdcipkhh "Install from Chrome web store 搜尋引擎輔助增強瀏覽器插件，一键切换搜尋引擎，支援拖拽搜尋/劃詞搜尋/快捷鍵等。検索機能強化。検索ちゃん")  [💞Share your search engines](https://github.com/hoothin/SearchJumper/discussions/categories/search-engines?discussions_q=)
 
-[![i](logo.jpg)](https://greasyfork.org/scripts/445274-searchjumper)
+[![i](logo.jpg)](https://search.hoothin.com/)
 
 ![star](https://img.shields.io/github/stars/hoothin/SearchJumper)
 ![react-version](https://img.shields.io/badge/React.js-lastest-yellow.svg)
