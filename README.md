@@ -18,8 +18,9 @@
 
 <img src='demo1.gif' height='221px'><img src='demo3.gif' height='221px'><img src='demo2.gif' height='221px'>
 
-## Install from greasyfork
-[![Install from greasyfork](https://img.shields.io/greasyfork/dt/445274)](https://greasyfork.org/scripts/445274)
+## Install
++ Install via [Greasyfork![](https://img.shields.io/greasyfork/dt/445274)](https://greasyfork.org/scripts/445274)
++ Install via [Chrome web store![](https://img.shields.io/chrome-web-store/users/hgepmblbgodbilmfdjkalkgofdcipkhh)](https://chromewebstore.google.com/detail/hgepmblbgodbilmfdjkalkgofdcipkhh)
 
 ## Config page
 [🔗**hoothin.github.io**](https://hoothin.github.io/SearchJumper/)
