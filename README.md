@@ -128,12 +128,12 @@
 #popclip extension for SearchJumper
 name: SearchJumper
 icon: search filled S
-url: https://hoothin.github.io/SearchJumper/all.html#***
+url: https://search.hoothin.com/all#***
 ```
 Select the above text, PopClip will offer an "Install Extension" action. Click it.
 
-+ `https://hoothin.github.io/SearchJumper/all.html?kw=keywords&engine=someengine` means search keywords with search engine named someengine and open in new tab.
-+ `https://hoothin.github.io/SearchJumper/all.html?kw=keywords&engine=someengine&self=1` means search keywords with search engine named someengine and open in current tab.
++ `https://search.hoothin.com/all?kw=keywords&engine=someengine` means search keywords with search engine named someengine and open in new tab.
++ `https://search.hoothin.com/all?kw=keywords&engine=someengine&self=1` means search keywords with search engine named someengine and open in current tab.
 
 ---
  <details>
