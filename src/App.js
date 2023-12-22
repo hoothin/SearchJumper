@@ -123,7 +123,6 @@ function a11yProps(index: number) {
     'aria-controls': `vertical-tabpanel-${index}`,
   };
 }
-
 export default function App() {
   const [value, setValue] = React.useState(4);
   const [inited, setInited] = React.useState(false);
@@ -135,6 +134,11 @@ export default function App() {
   React.useEffect(() => {
     if (window.isListen) return;
     window.isListen = true;
+    if (window.location.protocol === "chrome-extension:") {
+      fetch("https://search.hoothin.com/sjsponsors.svg").then(res => res.text()).then(text => {
+        document.getElementById("sponsors").innerHTML = text;
+      });
+    }
     window.addEventListener('message',function(e){
       if (e.data.command === 'loadConfig') {
         window.searchData = e.data.searchData;
@@ -213,7 +217,7 @@ export default function App() {
             <Tab label={window.i18n('exportConfig')} {...a11yProps(3)} />
             <Tab label={window.i18n('about')} {...a11yProps(4)} />
           </Tabs>
-          {window.location.protocol !== "chrome-extension:" ? <embed className="sponsors" wmode="transparent" src="https://search.hoothin.com/sjsponsors.svg"/> : ""}
+          {window.location.protocol !== "chrome-extension:" ? <embed className="sponsors" wmode="transparent" src="https://search.hoothin.com/sjsponsors.svg"/> : <div id="sponsors" className="sponsors"></div>}
         </ListItem>
       </List>
       <TabPanel value={value} index={0} sx={{width:1}}>

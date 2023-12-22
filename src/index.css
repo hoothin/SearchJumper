@@ -37,10 +37,14 @@ code {
   max-width: 350px;
   box-shadow: rgb(0 0 0 / 10%) 0px 0px 15px;
   transition: all 0.5s ease;
+  filter: grayscale(1);
+  opacity: .5;
 }
 .donate:hover {
   max-width: 100%;
   box-shadow: rgb(0 0 0 / 60%) 0px 0px 15px;
+  filter: none;
+  opacity: 1;
 }
 .donateLinks {
   box-shadow: rgb(0 0 0 / 10%) 3px 3px 15px;
