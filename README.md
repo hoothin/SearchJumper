@@ -147,7 +147,7 @@ Select the above text, PopClip will offer an "Install Extension" action. Click i
   "kwFilter": "\\w.*[\\.点。].*\\w|1[a-zA-Z0-9]{22,}"
 }
 ```
-+ Currency conversion of various countries 各國貨幣轉換
++ Currency conversion of various countries 各國貨幣轉換 **javascript is effective only at userscript**
 ``` json
 {
   "name": "貨幣轉換",
