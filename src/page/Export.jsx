@@ -799,7 +799,7 @@ export default function Export() {
             <Box sx={{ maxHeight: '80vh',overflow: 'auto'}}>
                 <SvelteJSONEditor
                     content={{json:window.searchData.sitesConfig}}
-                    validator={window.location.protocol === "chrome-extension:" ? null : createAjvValidator(schema)}
+                    validator={/^(http|ftp)/i.test(window.location.protocol) ? createAjvValidator(schema) : null}
                 />
             </Box>
             <Accordion defaultExpanded={true} sx={{ maxHeight: '30vh', overflow: 'auto' }}>

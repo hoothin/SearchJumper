@@ -134,7 +134,7 @@ export default function App() {
   React.useEffect(() => {
     if (window.isListen) return;
     window.isListen = true;
-    if (window.location.protocol === "chrome-extension:") {
+    if (!/^(http|ftp)/i.test(window.location.protocol)) {
       fetch("https://search.hoothin.com/sjsponsors.svg").then(res => res.text()).then(text => {
         document.getElementById("sponsors").innerHTML = text;
       });
@@ -217,7 +217,7 @@ export default function App() {
             <Tab label={window.i18n('exportConfig')} {...a11yProps(3)} />
             <Tab label={window.i18n('about')} {...a11yProps(4)} />
           </Tabs>
-          {window.location.protocol !== "chrome-extension:" ? <embed className="sponsors" wmode="transparent" src="https://search.hoothin.com/sjsponsors.svg"/> : <div id="sponsors" className="sponsors"></div>}
+          {/^(http|ftp)/i.test(window.location.protocol) ? <embed className="sponsors" wmode="transparent" src="https://search.hoothin.com/sjsponsors.svg"/> : <div id="sponsors" className="sponsors"></div>}
         </ListItem>
       </List>
       <TabPanel value={value} index={0} sx={{width:1}}>
