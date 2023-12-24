@@ -518,6 +518,7 @@ function SyncEdit(props) {
 }
 
 let longHoldState = 0;
+let inputingTimer;
 export default function Export() {
     const [presetCss, setPresetCss] = React.useState('');
     const [openSync, setOpenSync] = React.useState(false);
@@ -562,10 +563,16 @@ export default function Export() {
             alertContent: ''
         });
     };
-    var downloadEle = document.createElement('a');
-    downloadEle.download = "searchJumper.json";
-    downloadEle.target = "_blank";
-    var inputingTimer;
+    const downloadEle = React.useMemo(
+        () => {
+            let ele = document.createElement('a');
+            ele.download = "searchJumper.json";
+            ele.target = "_blank";
+            return ele;
+        },
+        []
+    );
+   
     function saveConfig() {
         try {
             if (editor) {

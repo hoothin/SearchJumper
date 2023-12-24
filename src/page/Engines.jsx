@@ -498,17 +498,18 @@ class ChildSiteIcons extends React.Component {
         return (
             <Box sx={{flexGrow: 1, display: 'flex', flexWrap: 'wrap'}}>
                 {this.props.sites.map((site, i) => (
-                    <Box className="site-icon" key={i}>
-                        <Checkbox
-                            onChange={e => {
-                                this.props.checkChange(e, i);
-                            }}
-                            checked={this.props.checkeds[i]}
-                        />
-                        <IconButton className={(site.match === '0' ? 'hideIcon' : '')} sx={{fontSize: '1rem', flexDirection: 'column'}} draggable='true' onDragLeave={e => {hideDragLine()}} onDrop={e => {hideDragLine();this.props.changeSitePos(site, e);}} onDragStart={e => {e.dataTransfer.setData("data", JSON.stringify(site));}} onDragOver={e => this.dragOver(e)} key={site.name} title={site.description || site.name}  onClick={() => { this.props.openSiteEdit(site) }}>
-                            <Avatar sx={{m:1}} alt={site.name} src={(!this.props.tooLong && this.getIcon(site)) || ''} >{this.props.tooLong || !site.name ? '🌐' : (/^[\s\w]{2}/.test(site.name) ? site.name.slice(0, 2) : Array.from(site.name)[0])}</Avatar>{this.getSliceText(site.name)}
-                        </IconButton>
-                    </Box>
+                    <SiteIcon {...this.props} checked={this.props.checkeds[i]} site={site} i={i} getIcon={this.getIcon} getSliceText={this.getSliceText} dragOver={this.dragOver} />
+                    // <Box className="site-icon" key={i}>
+                    //     <Checkbox
+                    //         onChange={e => {
+                    //             this.props.checkChange(e, i);
+                    //         }}
+                    //         checked={this.props.checkeds[i]}
+                    //     />
+                    //     <IconButton className={(site.match === '0' ? 'hideIcon' : '')} sx={{fontSize: '1rem', flexDirection: 'column'}} draggable='true' onDragLeave={e => {hideDragLine()}} onDrop={e => {hideDragLine();this.props.changeSitePos(site, e);}} onDragStart={e => {e.dataTransfer.setData("data", JSON.stringify(site));}} onDragOver={e => this.dragOver(e)} key={site.name} title={site.description || site.name}  onClick={() => { this.props.openSiteEdit(site) }}>
+                    //         <Avatar sx={{m:1}} alt={site.name} src={(!this.props.tooLong && this.getIcon(site)) || ''} >{this.props.tooLong || !site.name ? '🌐' : (/^[\s\w]{2}/.test(site.name) ? site.name.slice(0, 2) : Array.from(site.name)[0])}</Avatar>{this.getSliceText(site.name)}
+                    //     </IconButton>
+                    // </Box>
                 ))}
                 <div id="dragTargetLine"/>
                 <IconButton color="primary" key='addType' onClick={() => { this.props.openSiteEdit(false); }}>
@@ -518,6 +519,28 @@ class ChildSiteIcons extends React.Component {
         );
     }
 }
+
+const SiteIcon = React.memo(function SiteIcon(props) {
+    return (
+        <Box className="site-icon" key={props.i}>
+            <Checkbox
+                onChange={e => {
+                    props.checkChange(e, props.i);
+                }}
+                checked={props.checked}
+            />
+            <IconButton className={(props.site.match === '0' ? 'hideIcon' : '')} sx={{fontSize: '1rem', flexDirection: 'column'}} draggable='true' onDragLeave={e => {hideDragLine()}} onDrop={e => {hideDragLine();props.changeSitePos(props.site, e);}} onDragStart={e => {e.dataTransfer.setData("data", JSON.stringify(props.site));}} onDragOver={e => props.dragOver(e)} key={props.site.name} title={props.site.description || props.site.name}  onClick={() => { props.openSiteEdit(props.site) }}>
+                <Avatar sx={{m:1}} alt={props.site.name} src={(!props.tooLong && props.getIcon(props.site)) || ''} >{props.tooLong || !props.site.name ? '🌐' : (/^[\s\w]{2}/.test(props.site.name) ? props.site.name.slice(0, 2) : Array.from(props.site.name)[0])}</Avatar>{props.getSliceText(props.site.name)}
+            </IconButton>
+        </Box>
+    );
+}, (oldProps, newProps) => {
+  return (
+    oldProps.site === newProps.site &&
+    oldProps.i === newProps.i &&
+    oldProps.checked === newProps.checked
+  );
+});
 // function ChildSiteIcon({sites, changeSitePos, tooLong, checkChange, checked, openSiteEdit}) {
 //     console.log("sitesIconRender");
 //     return (
