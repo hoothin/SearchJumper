@@ -524,6 +524,7 @@ export default function Export() {
     const [openSync, setOpenSync] = React.useState(false);
     const [openFreeWebDav, setFreeWebDav] = React.useState(false);
     const [cssText, setCssText] = React.useState(window.searchData.prefConfig.cssText || '');
+    const [blacklist, setBlacklist] = React.useState(window.searchData.prefConfig.blacklist && window.searchData.prefConfig.blacklist.join ? window.searchData.prefConfig.blacklist.join("\n") : "");
     const [templateData, setTemplateData] = React.useState(window.searchData.prefConfig.templateData || {});
     const [fontAwesomeCss, setFontAwesomeCss] = React.useState(window.searchData.prefConfig.fontAwesomeCss);
 
@@ -583,6 +584,7 @@ export default function Export() {
                 }
             }
             window.searchData.prefConfig.cssText = cssText;
+            window.searchData.prefConfig.blacklist = blacklist ? blacklist.trim().split("\n") : false;
             window.searchData.prefConfig.fontAwesomeCss = fontAwesomeCss;
             saveConfigToScript(true);
         } catch (e) {
@@ -895,12 +897,25 @@ export default function Export() {
                 label={window.i18n('customCss')}
                 multiline
                 fullWidth
-                sx={{mb : 1}}
+                sx={{mb: 1, mt: 1}}
                 rows={10}
                 value={cssText}
                 onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
                     setCssText(event.target.value);
                 }}
+            />
+            <TextField
+                id="blacklist"
+                label={window.i18n('blacklist')}
+                multiline
+                fullWidth
+                sx={{mb : 1}}
+                rows={10}
+                value={blacklist}
+                onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
+                    setBlacklist(event.target.value);
+                }}
+                placeholder={"http://*.xxx.com/*/y\n/^https?://.*\\.xxx\\.com/i \t\t<= Regexp\n//http://*.aaa.com/ \t\t\t<= Disable\n/*http://*.bbb.com\nhttp://*.ccc.com*/ \t\t\t<= Block comment"}
             />
             <TextField
                 id="fontAwesomeCss"
