@@ -31,14 +31,14 @@ export default function About() {
                     <Box sx={{m: 1}} title={window.i18n('allPageTips')}>
                         <AllInclusiveIcon/> <Link href='https://search.hoothin.com/all' style={{verticalAlign: 'top'}} target="_blank">{window.i18n('allPage')}</Link>
                     </Box>
-                    <Box sx={{m: 1, display: /^(http|ftp)/i.test(window.location.protocol) ? "" : "none"}}>
-                        <InstallDesktopIcon/> <Link href='https://greasyfork.org/scripts/445274-searchjumper' style={{verticalAlign: 'top'}} target="_blank">Greasyfork</Link> 
+                    <Box sx={{m: 1}}>
+                        <GitHubIcon/> <Link href='https://github.com/hoothin/SearchJumper/discussions/categories/search-engines?discussions_q=' style={{verticalAlign: 'top'}} target="_blank">{window.i18n('rulesStore')} [Github]</Link>
                     </Box>
                     <Box sx={{m: 1, display: /^(http|ftp)/i.test(window.location.protocol) ? "" : "none"}}>
                         <GoogleIcon/> <Link href='https://chrome.google.com/webstore/detail/hgepmblbgodbilmfdjkalkgofdcipkhh' style={{verticalAlign: 'top'}} target="_blank">Chrome store</Link>
                     </Box>
-                    <Box sx={{m: 1}}>
-                        <GitHubIcon/> <Link href='https://github.com/hoothin/SearchJumper/discussions/categories/search-engines?discussions_q=' style={{verticalAlign: 'top'}} target="_blank">{window.i18n('rulesStore')} [Github]</Link>
+                    <Box sx={{m: 1, display: /^(http|ftp)/i.test(window.location.protocol) ? "" : "none"}}>
+                        <InstallDesktopIcon/> <Link href='https://greasyfork.org/scripts/445274-searchjumper' style={{verticalAlign: 'top'}} target="_blank">Greasyfork</Link> 
                     </Box>
                     <Box sx={{m: 1, display: /^(http|ftp)/i.test(window.location.protocol) ? "" : "none"}}>
                         <FiberPinIcon/> <Link href='https://greasyfork.org/scripts/465994' style={{verticalAlign: 'top'}} target="_blank">{window.i18n('pinyinAddon')}</Link>
