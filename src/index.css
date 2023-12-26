@@ -57,6 +57,9 @@ code {
   #root>.MuiBox-root {
     margin-left: 0px;
   }
+  #tabs>li:last-child {
+    display: none;
+  }
   #root>.MuiBox-root>.MuiList-root {
     height: 64px;
     z-index: 9;
@@ -75,6 +78,12 @@ code {
   }
   #root>.MuiBox-root>.MuiList-root:not(.hide):hover a {
     pointer-events: none;
+  }
+  #root>.MuiBox-root>.MuiList-root:not(.hide):hover>li:last-child {
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
   }
   .donate {
     max-width: 100%;
