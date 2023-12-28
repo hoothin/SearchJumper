@@ -69,7 +69,7 @@ export default function About() {
                 <Card component="pre" style={{padding: '15px', lineHeight: 1.5, width: '90%', whiteSpace: 'pre-wrap', textAlign: 'left', marginTop: '0px', marginBottom: '10px'}}>
                     <img align='left' style={{width: '100px', maxWidth: '50%', boxShadow: 'rgb(0 0 0) 0px 0px 15px', marginRight: '20px', height: 'fit-content'}} src='avatar.jpg' alt='donate' loading="lazy"/>{window.i18n("donate")}
                 </Card>
-                <VolunteerActivismIcon/> 
+                <VolunteerActivismIcon fontSize="large" /> 
                 <Box className='donateLinks' sx={{ margin: '5px', borderRadius: '3px', padding: '3px' }}>
                     <Link href='https://ko-fi.com/hoothin' style={{verticalAlign: 'top'}} target="_blank">
                         <img style={{verticalAlign: 'bottom', marginRight: "5px"}} src='kofi.png' alt='kofi' loading="lazy"/>
