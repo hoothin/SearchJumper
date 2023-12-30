@@ -1,6 +1,6 @@
 # [SearchJumper](https://chromewebstore.google.com/detail/hgepmblbgodbilmfdjkalkgofdcipkhh "Install from Chrome web store 搜尋引擎輔助增強瀏覽器插件，一键切换搜尋引擎，支援拖拽搜尋/劃詞搜尋/快捷鍵等。検索機能強化。検索ちゃん")  [💞Share your search engines](https://github.com/hoothin/SearchJumper/discussions/categories/search-engines?discussions_q=)
 
-[![i](logo.jpg)](https://search.hoothin.com/)
+[![i](assets/logo.jpg)](https://search.hoothin.com/)
 
 ![star](https://img.shields.io/github/stars/hoothin/SearchJumper)
 ![react-version](https://img.shields.io/badge/React.js-lastest-yellow.svg)
@@ -16,7 +16,7 @@
 + UI: [Material-UI](https://mui.com/)
 + Icons: [FontAwesome](https://fontawesome.com/)
 
-<img src='demo1.gif' height='221px'><img src='demo3.gif' height='221px'><img src='demo2.gif' height='221px'>
+<img src='assets/demo1.gif' height='221px'><img src='assets/demo3.gif' height='221px'><img src='assets/demo2.gif' height='221px'>
 
 ## Install
 + Install via [Greasyfork![](https://img.shields.io/greasyfork/dt/445274)](https://greasyfork.org/scripts/445274)
@@ -97,9 +97,9 @@
  <details>
 <summary><h2>Screenshots</h2></summary>
   
-![config](config.jpg)
-![findInPage](findInPage.jpg)
-![etc](etc.jpg)
+![config](assets/config.jpg)
+![findInPage](assets/findInPage.jpg)
+![etc](assets/etc.jpg)
 
  </details>
 
@@ -260,7 +260,7 @@ Hide user by target id on xxxx.com 在某個網站上根據給定的用戶名或
 + Call by global shortcut key, Input keywords of site name to filter sites, support glob with "? \*" 透過全局快捷鍵喚出，輸入站點名稱的關鍵詞來篩選，支援 “? \*” 通配符
 + Enter to lock filter and input words to search by click icon or another press of enter 回車鎖定篩選，輸入文字并且點擊站點圖標或者再次回車來進行搜尋
 
-![i](filter.jpg)
+![i](assets/filter.jpg)
  </details>
 
 ---
@@ -420,12 +420,12 @@ users:
 <summary><h2>Batch open modes 多種批量打開方式</h2></summary>
   
 + **`shift`** + click category icon
-![i](batchOpen1.jpg)
+![i](assets/batchOpen1.jpg)
   
 + **`alt + shift`** + click category icon
-![i](batchOpen2.jpg)
+![i](assets/batchOpen2.jpg)
   
 + **`alt`** + click category icon
-![i](batchOpen3.jpg)
+![i](assets/batchOpen3.jpg)
 
  </details>
