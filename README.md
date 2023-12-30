@@ -21,6 +21,7 @@
 ## Install
 + Install via [Greasyfork![](https://img.shields.io/greasyfork/dt/445274)](https://greasyfork.org/scripts/445274)
 + Install via [Chrome web store![](https://img.shields.io/chrome-web-store/users/hgepmblbgodbilmfdjkalkgofdcipkhh)](https://chromewebstore.google.com/detail/hgepmblbgodbilmfdjkalkgofdcipkhh)
++ Install via [Firefox addons![](https://img.shields.io/amo/dw/searchjumper)](https://addons.mozilla.org/firefox/addon/searchjumper/)
 
 ## Config page
 [🔗**hoothin.github.io**](https://hoothin.github.io/SearchJumper/)
