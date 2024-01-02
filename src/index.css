@@ -38,7 +38,7 @@ code {
   box-shadow: rgb(0 0 0 / 10%) 0px 0px 15px;
   transition: all 0.5s ease;
   filter: grayscale(1);
-  opacity: .5;
+  opacity: .1;
 }
 .donate:hover {
   max-width: 100%;
@@ -119,7 +119,7 @@ code {
   opacity: 0.3;
 }
 .sponsors {
-  opacity: 0.2;
+  opacity: 0.1;
   margin-top: 20px;
   colorScheme: auto;
   width: 100%;

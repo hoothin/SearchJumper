@@ -13,7 +13,7 @@ import AllInclusiveIcon from '@mui/icons-material/AllInclusive';
 import FiberPinIcon from '@mui/icons-material/FiberPin';
 import SpellcheckIcon from '@mui/icons-material/Spellcheck';
 import MarkUnreadChatAltIcon from '@mui/icons-material/MarkUnreadChatAlt';
-import ShareIcon from '@mui/icons-material/Share';
+import MenuBookIcon from '@mui/icons-material/MenuBook';
 import GoogleIcon from '@mui/icons-material/Google';
 
 export default function About() {
@@ -26,7 +26,7 @@ export default function About() {
             <Typography gutterBottom  component="div" style={{textAlign: 'center', display: 'flex', flexDirection: 'column', alignItems: 'center'}}>
                 <Box style={{textAlign: 'center', display: 'flex', flexWrap: 'wrap'}}>
                     <Box sx={{m: 1}}>
-                        <ShareIcon/> <Link href='https://search.hoothin.com' style={{verticalAlign: 'top', color: 'darkorange', fontWeight: 'bold'}} target="_blank">{window.i18n('share')}</Link>
+                        <MenuBookIcon /> <Link href='https://search.hoothin.com' style={{verticalAlign: 'top', color: 'darkorange', fontWeight: 'bold'}} target="_blank">{window.i18n('share')}</Link>
                     </Box>
                     <Box sx={{m: 1}} title={window.i18n('allPageTips')}>
                         <AllInclusiveIcon/> <Link href='https://search.hoothin.com/all' style={{verticalAlign: 'top'}} target="_blank">{window.i18n('allPage')}</Link>
