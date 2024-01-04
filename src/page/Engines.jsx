@@ -1940,7 +1940,7 @@ export default function Engines() {
                         )
                     }
                 </Tabs>
-                <Box>
+                <Box sx={{ flexDirection: 'column', display: 'flex' }}>
                     <IconButton color="primary" sx={{mt: '8px'}} onClick={() => {openTypeEdit(false)}}>
                         <AddCircleOutlineIcon sx={{fontSize: '30px'}}/>
                     </IconButton>
