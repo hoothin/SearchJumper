@@ -8,9 +8,7 @@
 ![license](https://img.shields.io/badge/License-GPL3.0-orange.svg)
 ![FontAwesome](https://img.shields.io/badge/FontAwesome-6.0-green.svg)
 ![support](https://img.shields.io/badge/Support-Chrome|Firefox|Edge-red.svg)
-> *Just a personal work, maybe not suit you and won't provide support.*
-
-[**📧Mail Me**](mailto:rixixi@gmail.com)
+> *Just a personal work, maybe not suit you.*
 
 + Build with React.js
 + UI: [Material-UI](https://mui.com/)
@@ -19,9 +17,9 @@
 <img src='assets/demo1.gif' height='221px'><img src='assets/demo3.gif' height='221px'><img src='assets/demo2.gif' height='221px'>
 
 ## Install
-+ Install via [Greasyfork![](https://img.shields.io/greasyfork/dt/445274)](https://greasyfork.org/scripts/445274)
-+ Install via [Chrome web store![](https://img.shields.io/chrome-web-store/users/hgepmblbgodbilmfdjkalkgofdcipkhh)](https://chromewebstore.google.com/detail/hgepmblbgodbilmfdjkalkgofdcipkhh)
-+ Install via [Firefox addons![](https://img.shields.io/amo/dw/searchjumper)](https://addons.mozilla.org/firefox/addon/searchjumper/)
+| Install via [Greasyfork](https://greasyfork.org/scripts/445274) | Install via [Chrome web store](https://chromewebstore.google.com/detail/hgepmblbgodbilmfdjkalkgofdcipkhh) | Install via [Firefox addons](https://addons.mozilla.org/firefox/addon/searchjumper/) |
+|---|---|---|
+| ![](https://img.shields.io/greasyfork/dt/445274)                | ![](https://img.shields.io/chrome-web-store/users/hgepmblbgodbilmfdjkalkgofdcipkhh)                       | ![](https://img.shields.io/amo/users/searchjumper)                                      |
 
 ## Config page
 [🔗**hoothin.github.io**](https://hoothin.github.io/SearchJumper/)
