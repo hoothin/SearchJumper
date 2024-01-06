@@ -24,7 +24,7 @@
 ## Config page
 [🔗**hoothin.github.io**](https://hoothin.github.io/SearchJumper/)
 
-[🔗**SearchJumper.hoothin.com**](https://searchjumper.hoothin.com/)
+[🔗**search.hoothin.com**](https://search.hoothin.com/config/)
 
 > You can also download the source code, double-click start.cmd to compile, then enter the config page through localhost:3000
 > 
