@@ -11,8 +11,8 @@
 > *Just a personal work, maybe not suit you.*
 
 + Build with React.js
-+ UI: [Material-UI](https://mui.com/)
-+ Icons: [FontAwesome](https://fontawesome.com/)
++ UI: Material-UI
++ Icons: FontAwesome
 
 <img src='assets/demo1.gif' height='221px'><img src='assets/demo3.gif' height='221px'><img src='assets/demo2.gif' height='221px'>
 
