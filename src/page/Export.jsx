@@ -593,14 +593,14 @@ export default function Export() {
     }
 
     function copyConfig() {
-        var copyMessage = new Event('copyConfig');
+        let copyMessage = new Event('copyConfig');
         document.dispatchEvent(copyMessage);
     }
 
     function importData(data) {
         if (!data) return;
         if (data.cacheIcon) {
-          var saveMessage = new CustomEvent('importCache', {
+          let saveMessage = new CustomEvent('importCache', {
               detail: {
                   cacheData: data
               }
@@ -630,7 +630,7 @@ export default function Export() {
                 editor.set({json: data});
                 saveConfig();
             } else {
-                var addMessage = new CustomEvent('showSiteAdd', {
+                let addMessage = new CustomEvent('showSiteAdd', {
                   detail: {
                       site: data
                   }
@@ -638,7 +638,7 @@ export default function Export() {
                 document.dispatchEvent(addMessage);
             }
           } else if (data.url) {
-            var addMessage = new CustomEvent('showSiteAdd', {
+            let addMessage = new CustomEvent('showSiteAdd', {
               detail: {
                   site: data
               }
