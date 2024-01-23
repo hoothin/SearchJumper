@@ -626,8 +626,24 @@ export default function Export() {
               handleAlertOpen("Not valid config");
               return;
             }
-            editor.set({json: data});
-            saveConfig();
+            if (window.confirm(window.i18n('override'))) {
+                editor.set({json: data});
+                saveConfig();
+            } else {
+                var addMessage = new CustomEvent('showSiteAdd', {
+                  detail: {
+                      site: data
+                  }
+                });
+                document.dispatchEvent(addMessage);
+            }
+          } else if (data.url) {
+            var addMessage = new CustomEvent('showSiteAdd', {
+              detail: {
+                  site: data
+              }
+            });
+            document.dispatchEvent(addMessage);
           } else {
             Object.keys(data).forEach(key => {
               let v = data[key];
