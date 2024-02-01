@@ -83,7 +83,7 @@ export default function About() {
                     <span style={{margin: "0 10px"}}>|</span> 
                     <Link href='https://afdian.net/@hoothin' style={{verticalAlign: 'top'}} target="_blank">
                         <img style={{verticalAlign: 'bottom', marginRight: "5px"}} src='afd.png' alt='afd' loading="lazy"/>
-                        [愛發電]
+                        [Afdian]
                     </Link>
                 </Box>
                 <img style={{borderRadius: '20px', margin: '5px 10px 20px 10px'}} src='donate.jpg' className='donate' alt='donate' loading="lazy"/>

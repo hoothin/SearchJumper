@@ -22,6 +22,8 @@ import About from './page/About.jsx';
 import Export from './page/Export.jsx';
 import FindInPage from './page/FindInPage.jsx';
 import Link from '@mui/material/Link';
+import Snackbar from '@mui/material/Snackbar';
+import MuiAlert from '@mui/material/Alert';
 import { createClient } from "webdav";
 import { version } from './Version.js';
 
@@ -68,10 +70,23 @@ async function refreshByWebdav(callback) {
   });
   const path = "/SearchJumper" + (window.searchData.webdavConfig.path || "").replace(/^\/*/, "/").replace(/\/+$/, "");
   if (await client.exists(path + "/") === false) {
-    await client.createDirectory(path);
-    await client.putFileContents(path + "/lastModified", "");
+      let pathArr = path.split("/");
+      await pathArr.reduce(async (targetPath, curPath) => {
+        if (await targetPath !== "") {
+          if (await client.exists((await targetPath) + "/") === false) {
+            await client.createDirectory(await targetPath);
+          }
+        }
+        if (curPath !== "") {
+          return (await targetPath) + "/" + curPath;
+        } else return (await targetPath);
+      }, "");
+      if (await client.exists(path + "/") === false) {
+        await client.createDirectory(path);
+      }
+      await client.putFileContents(path + "/lastModified", "");
   } else if (await client.exists(path + "/lastModified") === false) {
-    await client.putFileContents(path + "/lastModified", "");
+      await client.putFileContents(path + "/lastModified", "");
   }
   let lastModified = await client.getFileContents(path + "/lastModified", { format: "text" });
   lastModified = parseFloat(lastModified) || 0;
@@ -131,6 +146,38 @@ export default function App() {
     setValue(newValue);
     document.documentElement.scrollTop = 0;
   };
+  const [alertBody, setAlert] = React.useState({openAlert: false, alertContent: '', alertType: 'error'});
+  const handleAlertOpen = (content, type) => {
+      switch (type) {
+          case 0:
+              type = "error";
+          break;
+          case 1:
+              type = "warning";
+          break;
+          case 2:
+              type = "info";
+          break;
+          case 3:
+              type = "success";
+          break;
+          default:
+              type = "error";
+          break;
+      }
+      setAlert({
+          openAlert: true,
+          alertContent: content,
+          alertType: type
+      });
+  };
+  const handleAlertClose = () => {
+      setAlert({
+          openAlert: false,
+          alertContent: '',
+          alertType: alertBody.alertType
+      });
+  };
   React.useEffect(() => {
     if (window.isListen) return;
     window.isListen = true;
@@ -154,6 +201,9 @@ export default function App() {
           window.postMessage({
               command: 'refresh'
           }, '*');
+        }).catch(e => {
+            handleAlertOpen(window.i18n('webdavDisabled') + '\n' + e.toString());
+            window.webdavDisabled = true;
         });
       }
       return true;
@@ -235,6 +285,11 @@ export default function App() {
       <TabPanel value={value} index={4}>
         <About/>
       </TabPanel>
+      <Snackbar open={alertBody.openAlert} autoHideDuration={5000} anchorOrigin={{vertical: 'top', horizontal: 'center'}} onClose={handleAlertClose}>
+          <MuiAlert elevation={6} variant="filled" onClose={handleAlertClose} severity={alertBody.alertType} sx={{ width: '100%' }} >
+            {alertBody.alertContent}
+          </MuiAlert>
+      </Snackbar>
     </Box>
   );
 }

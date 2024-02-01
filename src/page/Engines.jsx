@@ -403,9 +403,11 @@ function TypeEdit(props) {
                                 autoWidth
                                 label={window.i18n('openSelect')}
                             >
-                                <MenuItem value={'-1'}>{window.i18n("openInDefaultOption")}</MenuItem>
-                                <MenuItem value={true}>{window.i18n("openInNewTabOption")}</MenuItem>
-                                <MenuItem value={false}>{window.i18n("openInCurrentOption")}</MenuItem>
+                                <MenuItem value={-1}>{window.i18n("openInDefaultOption")}</MenuItem>
+                                <MenuItem value={1}>{window.i18n("openInNewTabOption")}</MenuItem>
+                                <MenuItem value={0}>{window.i18n("openInCurrentOption")}</MenuItem>
+                                <MenuItem value={2}>{window.i18n("openInIncognitoOption")}</MenuItem>
+                                <MenuItem value={3}>{window.i18n("openInMinWindowOption")}</MenuItem>
                             </Select>
                         </FormControl>
                     </AccordionDetails>
@@ -498,7 +500,7 @@ class ChildSiteIcons extends React.Component {
         return (
             <Box sx={{flexGrow: 1, display: 'flex', flexWrap: 'wrap'}}>
                 {this.props.sites.map((site, i) => (
-                    <SiteIcon {...this.props} checked={this.props.checkeds[i]} site={site} i={i} getIcon={this.getIcon} getSliceText={this.getSliceText} dragOver={this.dragOver} />
+                    <SiteIcon {...this.props} checked={this.props.checkeds[i]} site={site} key={i} i={i} getIcon={this.getIcon} getSliceText={this.getSliceText} dragOver={this.dragOver} />
                     // <Box className="site-icon" key={i}>
                     //     <Checkbox
                     //         onChange={e => {
@@ -633,7 +635,7 @@ class SitesList extends React.Component {
         if (siteData.hideNotMatch) {
             obj.hideNotMatch = siteData.hideNotMatch;
         }
-        if (siteData.openInNewTab !== '-1') {
+        if (siteData.openInNewTab !== -1) {
             obj.openInNewTab = siteData.openInNewTab;
         }
         return obj;
@@ -1294,9 +1296,11 @@ class SitesList extends React.Component {
                                             autoWidth
                                             label={window.i18n('openSelect')}
                                         >
-                                            <MenuItem value={'-1'}>{window.i18n("openInDefaultOption")}</MenuItem>
-                                            <MenuItem value={true}>{window.i18n("openInNewTabOption")}</MenuItem>
-                                            <MenuItem value={false}>{window.i18n("openInCurrentOption")}</MenuItem>
+                                            <MenuItem value={-1}>{window.i18n("openInDefaultOption")}</MenuItem>
+                                            <MenuItem value={1}>{window.i18n("openInNewTabOption")}</MenuItem>
+                                            <MenuItem value={0}>{window.i18n("openInCurrentOption")}</MenuItem>
+                                            <MenuItem value={2}>{window.i18n("openInIncognitoOption")}</MenuItem>
+                                            <MenuItem value={3}>{window.i18n("openInMinWindowOption")}</MenuItem>
                                         </Select>
                                     </FormControl>
                                     <Autocomplete
@@ -1424,6 +1428,17 @@ function a11yProps(index: number) {
 
 function typeObject(obj) {
     obj = obj || {};
+    let openInNewTab = "";
+    if (typeof obj.openInNewTab === 'undefined') {
+        openInNewTab = -1;
+    } else {
+        openInNewTab = obj.openInNewTab;
+        if (openInNewTab === true) {
+            openInNewTab = 1;
+        } else if (openInNewTab === false) {
+            openInNewTab = 0;
+        }
+    }
     return {
         type: obj.type || '',
         icon: obj.icon || '',
@@ -1435,7 +1450,7 @@ function typeObject(obj) {
         selectVideo: obj.selectVideo || false,
         selectLink: obj.selectLink || false,
         selectPage: obj.selectPage || false,
-        openInNewTab: typeof obj.openInNewTab === 'undefined' ? '-1' : obj.openInNewTab,
+        openInNewTab: openInNewTab,
         shortcut: obj.shortcut || '',
         ctrl: obj.ctrl || false,
         alt: obj.alt || false,
@@ -1446,6 +1461,17 @@ function typeObject(obj) {
 
 function siteObject(obj) {
     obj = obj || {};
+    let openInNewTab = "";
+    if (typeof obj.openInNewTab === 'undefined') {
+        openInNewTab = -1;
+    } else {
+        openInNewTab = obj.openInNewTab;
+        if (openInNewTab === true) {
+            openInNewTab = 1;
+        } else if (openInNewTab === false) {
+            openInNewTab = 0;
+        }
+    }
     return {
         name: obj.name || '',
         url: obj.url || '',
@@ -1461,7 +1487,7 @@ function siteObject(obj) {
         shift: obj.shift || false,
         meta: obj.meta || false,
         nobatch: obj.nobatch || false,
-        openInNewTab: typeof obj.openInNewTab === 'undefined' ? '-1' : obj.openInNewTab,
+        openInNewTab: openInNewTab,
         hideNotMatch: obj.hideNotMatch || false
     };
 }
@@ -1603,6 +1629,7 @@ export default function Engines() {
       createData('%element{}.prop()', window.i18n('param_elep')),
       createData('%element{}.replace()', window.i18n('param_elere')),
       createData('copy', window.i18n('param_cp')),
+      createData('paste', window.i18n('param_paste')),
       createData('showTips', window.i18n('param_showTips')),
       createData('find', window.i18n('param_find')),
       createData('find.addto()', window.i18n('param_findadd')),
@@ -1758,7 +1785,7 @@ export default function Engines() {
         if (typeData.selectPage) {
             minType.selectPage = typeData.selectPage;
         }
-        if (typeData.openInNewTab !== '-1') {
+        if (typeData.openInNewTab !== -1) {
             minType.openInNewTab = typeData.openInNewTab;
         }
         if (typeData.shortcut) {
@@ -1842,7 +1869,7 @@ export default function Engines() {
         setAlert({
             openAlert: false,
             alertContent: '',
-            alertType: 'error'
+            alertType: alertBody.alertType
         });
     };
 
