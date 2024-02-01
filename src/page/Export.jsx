@@ -46,7 +46,7 @@ import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 import RedeemIcon from '@mui/icons-material/Redeem';
 import ErrorIcon from '@mui/icons-material/Error';
 
-const apiUrl = 'https://search.hoothin.com/apitest.php';
+const apiUrl = 'https://search.hoothin.com/api.php';
 const myWebDavUrl = 'https://webdav.hoothin.com';
 async function checkWebdav(host, username, password, pathname) {
     const client = createClient(host, {
