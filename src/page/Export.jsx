@@ -349,31 +349,31 @@ function DefaultOpenSpeedDial(props) {
 
 let requesting = false;
 function FreeWebDav(props) {
-    if (sharePass === null) {
-        sharePass = "";
-        loadWebdavParam("sharePass", res => {
-            setSharePass(res);
-            sharePass = res;
-        }).catch(e => {
-            setSharePass("");
+    React.useEffect(() => {
+        if (sharePass === null) {
             sharePass = "";
-        });
-    }
-    const [_sharePass, setSharePass] = React.useState(sharePass);
-    if (shareTitle === null) {
-        shareTitle = "";
-        loadWebdavParam("shareTitle", res => {
-            setShareTitle(res);
-            shareTitle = res;
-        }).catch(e => {
-            setShareTitle("");
+            loadWebdavParam("sharePass", res => {
+                setSharePass(res);
+                sharePass = res;
+            }).catch(e => {
+                setSharePass("");
+                sharePass = "";
+            });
+        }
+        if (shareTitle === null) {
             shareTitle = "";
-        });
-    }
+            loadWebdavParam("shareTitle", res => {
+                setShareTitle(res);
+                shareTitle = res;
+            }).catch(e => {
+                setShareTitle("");
+                shareTitle = "";
+            });
+        }
+    }, []);
+    const [_sharePass, setSharePass] = React.useState(sharePass);
     const [_shareTitle, setShareTitle] = React.useState(shareTitle);
     const [webdavDisabled, setWebdavDisabled] = React.useState(!!window.webdavDisabled);
-    if (_sharePass !== sharePass) setSharePass(sharePass);
-    if (_shareTitle !== shareTitle) setShareTitle(shareTitle);
     if (!window.searchData.webdavConfig) return;
     function queryError() {
         if (!window.searchData.webdavConfig || window.searchData.webdavConfig.host !== myWebDavUrl) {
