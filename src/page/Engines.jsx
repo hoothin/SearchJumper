@@ -406,6 +406,7 @@ function TypeEdit(props) {
                                 <MenuItem value={-1}>{window.i18n("openInDefaultOption")}</MenuItem>
                                 <MenuItem value={1}>{window.i18n("openInNewTabOption")}</MenuItem>
                                 <MenuItem value={0}>{window.i18n("openInCurrentOption")}</MenuItem>
+                                <MenuItem value={4}>{window.i18n("openInBackOption")}</MenuItem>
                                 <MenuItem value={2}>{window.i18n("openInIncognitoOption")}</MenuItem>
                                 <MenuItem value={3}>{window.i18n("openInMinWindowOption")}</MenuItem>
                             </Select>
@@ -1299,6 +1300,7 @@ class SitesList extends React.Component {
                                             <MenuItem value={-1}>{window.i18n("openInDefaultOption")}</MenuItem>
                                             <MenuItem value={1}>{window.i18n("openInNewTabOption")}</MenuItem>
                                             <MenuItem value={0}>{window.i18n("openInCurrentOption")}</MenuItem>
+                                            <MenuItem value={4}>{window.i18n("openInBackOption")}</MenuItem>
                                             <MenuItem value={2}>{window.i18n("openInIncognitoOption")}</MenuItem>
                                             <MenuItem value={3}>{window.i18n("openInMinWindowOption")}</MenuItem>
                                         </Select>
