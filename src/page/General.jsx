@@ -173,10 +173,12 @@ export default function General() {
             ...state,
             [event.target.name]: event.target.checked
         };
-        if (event.target.name === "defaultPicker") {
-            newPref["defaultFindTab"] = !event.target.checked;
-        } else if (event.target.name === "defaultFindTab") {
-            newPref["defaultPicker"] = !event.target.checked;
+        if (event.target.checked) {
+            if (event.target.name === "defaultPicker") {
+                newPref["defaultFindTab"] = false;
+            } else if (event.target.name === "defaultFindTab") {
+                newPref["defaultPicker"] = false;
+            }
         }
         if (event.target.name === "disableTypeOpen" && event.target.checked) {
             newPref["disableAutoOpen"] = true;
