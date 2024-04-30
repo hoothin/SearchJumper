@@ -138,8 +138,8 @@ Select the above text, PopClip will offer an "Install Extension" action. Click i
 + `https://search.hoothin.com/all?kw=keywords&engine=someengine&self=1` means search keywords with search engine named someengine and open in current tab.
 
 ---
- <details>
-<summary><h2>Search engine examples 搜尋引擎規則範例</h2></summary>
+
+## Search engine examples 搜尋引擎規則範例
 
 + Open link in the text, display only when a link is detected 打開文字中的鏈接，僅當檢測到鏈接時顯示
 ``` json
@@ -194,8 +194,6 @@ Select the above text, PopClip will offer an "Install Extension" action. Click i
   "kwFilter": "^[0-9a-zA-Z]+[\\-_]?\\d+$"
 }
 ```
-
- </details>
 
 ---
  <details>
