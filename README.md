@@ -14,6 +14,9 @@
 + UI: Material-UI
 + Icons: FontAwesome
 
+📖[Guide](https://search.hoothin.com/)
+---
+
 <img src='assets/demo1.gif' height='221px'><img src='assets/demo3.gif' height='221px'><img src='assets/demo2.gif' height='221px'>
 
 ## Install
