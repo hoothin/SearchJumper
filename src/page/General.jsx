@@ -1670,6 +1670,17 @@ export default function General() {
                         />
                     </FormControl>
                     <Typography gutterBottom component="div">
+                        <h4>{window.i18n('longPressTile')}</h4>
+                    </Typography>
+                    <FormControl sx={{ m: 1, minWidth: 80 }}>
+                        <FormControlLabel
+                            control={
+                                <Switch checked={state.longPressTile} onChange={handleCheckChange} name="longPressTile" />
+                            }
+                            label={window.i18n('longPressTileTips')}
+                        />
+                    </FormControl>
+                    <Typography gutterBottom component="div">
                         <h4>{window.i18n('limitPopupLen')}</h4>
                     </Typography>
                     <Box
