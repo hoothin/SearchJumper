@@ -287,6 +287,15 @@ const searchJumperEvent = new CustomEvent('searchJumper', {
 });
 document.dispatchEvent(searchJumperEvent);
 ```
++ Show All-mode 顯示所有模式
+``` javascript
+const searchJumperEvent = new CustomEvent('searchJumper', {
+  detail: {
+    action: 'showAll'
+  }
+});
+document.dispatchEvent(searchJumperEvent);
+```
 + Search by second site of current type and open in new window 使用當前分組的第二個站點搜尋並在小窗打開結果
 ``` javascript
 const siteOrder = 2;
