@@ -226,7 +226,7 @@ Hide user by target id on xxxx.com 在某個網站上根據給定的用戶名或
         "sep": "|",
         "words": [
             "@someUserID$p{0}",
-            "@someUserName$p{0}",
+            "@someUserName$p{0}"
         ]
     }
 }
