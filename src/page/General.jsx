@@ -661,6 +661,21 @@ export default function General() {
             </Paper>
             <Paper elevation={5} sx={{ padding: '20px', marginTop: '20px' }}>
                 <Typography gutterBottom component="div">
+                    <h4>{window.i18n('syncBuild')}</h4>
+                </Typography>
+                <Box>
+                    <FormControl sx={{ m: 1, minWidth: 80 }}>
+                        <FormControlLabel
+                            control={
+                                <Switch checked={state.syncBuild} onChange={handleCheckChange} name="syncBuild" />
+                            }
+                            label={window.i18n('syncBuildTips')}
+                        />
+                    </FormControl>
+                </Box>
+            </Paper>
+            <Paper elevation={5} sx={{ padding: '20px', marginTop: '20px' }}>
+                <Typography gutterBottom component="div">
                     <h4>{window.i18n('cacheSwitch')}</h4>
                 </Typography>
                 <Box>
