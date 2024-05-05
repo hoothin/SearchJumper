@@ -1152,6 +1152,9 @@ class SitesList extends React.Component {
                                     }}
                                     inputProps={{ spellCheck: 'false' }}
                                 />
+                                <DialogContentText>
+                                    {window.i18n('siteMatchTips')}
+                                </DialogContentText>
                                 <Box sx={{ flexGrow: 1, display: 'flex'}}>
                                     <FormControl sx={{ m: 1, minWidth: 80 }}>
                                         <FormControlLabel
