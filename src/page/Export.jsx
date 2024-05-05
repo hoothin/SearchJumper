@@ -152,68 +152,88 @@ function saveConfigToScript (notification) {
 }
 
 const presetCssList = [
-`     .search-jumper-searchBarCon {
-     }
-     .search-jumper-searchBar {
-         background: #505050;
-         border-radius: 20px!important;
-         border: 1px solid #b3b3b3;
-         opacity: 0.3;
-     }
-     .search-jumper-btn {
-     }
-     .search-jumper-btn>i {
-     }
-     .search-jumper-logoBtnSvg {
-     }
-     .search-jumper-type {
-         background: #c5c5c5;
-         border-radius: 20px!important;
-     }
-     .search-jumper-word {
-         background: black;
-         color: white!important;
-     }
-     .search-jumper-tips {
-         font-size: xx-large;
-         background: #f5f5f5e0;
-         border-radius: 10px!important;
-         box-shadow: 0px 0px 10px 0px #000;
-         color: black;
-     }
-     .search-jumper-searchBar .search-jumper-btn:hover {
-         color: white;
-     }`,
-`     .search-jumper-searchBarCon {
-     }
-     .search-jumper-searchBar {
-         background: rgb(153 153 153 / 50%);
-         border-radius: 20px!important;
-         border: 1px solid #c9c9c9;
-         opacity: 0.3;
-     }
-     .search-jumper-btn {
-     }
-     .search-jumper-type {
-         background: rgb(255 255 255 / 38%);
-     }
-     .search-jumper-word,a.search-jumper-word {
-         background: rgb(255 255 255 / 70%);
-         color: #282828!important;
-     }
-     .search-jumper-tips {
-         background: #0A0A0Ae0;
-         border-radius: 10px!important;
-         box-shadow: 0px 0px 10px 0px #FFFFFF;
-         font-weight: bold;
-         color: white;
-     }
-     .search-jumper-searchBar .search-jumper-btn:hover {
-         color: black;
-     }
-     .search-jumper-searchBar .search-jumper-btn.search-jumper-word:hover{
-         background:white;
-     }`
+`.search-jumper-searchBarCon {
+}
+.search-jumper-searchBar {
+ background: #505050;
+ border-radius: 20px!important;
+ border: 1px solid #b3b3b3;
+ opacity: 0.3;
+}
+.search-jumper-btn {
+}
+.search-jumper-btn>i {
+}
+.search-jumper-logoBtnSvg {
+}
+.search-jumper-type {
+ background: #c5c5c5;
+ border-radius: 20px!important;
+}
+.search-jumper-word {
+ background: black;
+ color: white!important;
+}
+.search-jumper-tips {
+ font-size: xx-large;
+ background: #f5f5f5e0;
+ border-radius: 10px!important;
+ box-shadow: 0px 0px 10px 0px #000;
+ color: black;
+}
+.search-jumper-searchBar .search-jumper-btn:hover {
+ color: white;
+}`,
+`.search-jumper-searchBarCon {
+}
+.search-jumper-searchBar {
+ background: rgb(153 153 153 / 50%);
+ border-radius: 20px!important;
+ border: 1px solid #c9c9c9;
+ opacity: 0.3;
+}
+.search-jumper-btn {
+}
+.search-jumper-type {
+ background: rgb(255 255 255 / 38%);
+}
+.search-jumper-word,a.search-jumper-word {
+ background: rgb(255 255 255 / 70%);
+ color: #282828!important;
+}
+.search-jumper-tips {
+ background: #0A0A0Ae0;
+ border-radius: 10px!important;
+ box-shadow: 0px 0px 10px 0px #FFFFFF;
+ font-weight: bold;
+ color: white;
+}
+.search-jumper-searchBar .search-jumper-btn:hover {
+ color: black;
+}
+.search-jumper-searchBar .search-jumper-btn.search-jumper-word:hover{
+ background:white;
+}`,
+`.search-jumper-searchBar {
+    border-radius: 3px !important;
+}
+.search-jumper-type, .search-jumper-logo {
+    border-radius: 3px !important;
+}
+.search-jumper-word {
+    border-radius: 3px !important;
+}
+.searchJumperExpand>svg {
+    background: black;
+    border-radius: 3px;
+}
+.search-jumper-logoBtnSvg {
+    background: white;
+    border-radius: 3px;
+}
+#search-jumper.funcKeyCall .search-jumper-word {
+    border-radius: 3px !important;
+}`
 ];
 
 function UploadSpeedDialAction(props) {
@@ -981,6 +1001,7 @@ export default function Export() {
                     </MenuItem>
                     <MenuItem value={0}>Default</MenuItem>
                     <MenuItem value={1}>Light</MenuItem>
+                    <MenuItem value={2}>嫩牛五方</MenuItem>
                 </Select>
                 <FormHelperText>{window.i18n('presetCssTips')}</FormHelperText>
             </FormControl>
