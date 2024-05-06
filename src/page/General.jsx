@@ -82,6 +82,9 @@ export default function General() {
     if (typeof window.searchData.prefConfig.rightMouse === "undefined") {
         window.searchData.prefConfig.rightMouse = true;
     }
+    if (typeof window.searchData.prefConfig.hideTileType === "undefined") {
+        window.searchData.prefConfig.hideTileType = false;
+    }
     if (!window.searchData.prefConfig.dragCtrl) {
         window.searchData.prefConfig.dragCtrl = false;
     }
@@ -1693,6 +1696,17 @@ export default function General() {
                                 <Switch checked={state.longPressTile} onChange={handleCheckChange} name="longPressTile" />
                             }
                             label={window.i18n('longPressTileTips')}
+                        />
+                    </FormControl>
+                    <Typography gutterBottom component="div">
+                        <h4>{window.i18n('hideTileType')}</h4>
+                    </Typography>
+                    <FormControl sx={{ m: 1, minWidth: 80 }}>
+                        <FormControlLabel
+                            control={
+                                <Switch checked={state.hideTileType} onChange={handleCheckChange} name="hideTileType" />
+                            }
+                            label={window.i18n('hideTileTypeTips')}
                         />
                     </FormControl>
                     <Typography gutterBottom component="div">
