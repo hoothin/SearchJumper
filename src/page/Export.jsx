@@ -623,6 +623,7 @@ export default function Export() {
     const [blacklist, setBlacklist] = React.useState(window.searchData.prefConfig.blacklist && window.searchData.prefConfig.blacklist.join ? window.searchData.prefConfig.blacklist.join("\n") : "");
     const [templateData, setTemplateData] = React.useState(window.searchData.prefConfig.templateData || {});
     const [fontAwesomeCss, setFontAwesomeCss] = React.useState(window.searchData.prefConfig.fontAwesomeCss);
+    const [bgUrl, setBgUrl] = React.useState(window.searchData.prefConfig.bgUrl || '');
 
     const [refresh, setRefresh] = React.useState(false);
     React.useEffect(() => {
@@ -683,6 +684,7 @@ export default function Export() {
             window.searchData.prefConfig.cssText = cssText;
             window.searchData.prefConfig.blacklist = blacklist ? blacklist.trim().split("\n") : false;
             window.searchData.prefConfig.fontAwesomeCss = fontAwesomeCss;
+            window.searchData.prefConfig.bgUrl = bgUrl;
             saveConfigToScript(true);
         } catch (e) {
             alert(e);
@@ -1039,6 +1041,17 @@ export default function Export() {
                 placeholder="https://cdn.bootcdn.net/ajax/libs/font-awesome/6.1.1/css/all.min.css"
                 onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
                     setFontAwesomeCss(event.target.value);
+                }}
+            />
+            <TextField
+                id="bgUrl"
+                label={window.i18n('bgUrl')}
+                fullWidth
+                sx={{mb : 1}}
+                value={bgUrl}
+                placeholder="https://x.y/z.jpg"
+                onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
+                    setBgUrl(event.target.value);
                 }}
             />
             <DefaultOpenSpeedDial
