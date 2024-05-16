@@ -149,13 +149,6 @@ Select the above text, PopClip will offer an "Install Extension" action. Click i
   "kwFilter": "\\w.*[\\.点。].*\\w|1[a-zA-Z0-9]{22,}"
 }
 ```
-+ Currency conversion of various countries 各國貨幣轉換 **javascript is effective only at userscript**
-``` json
-{
-  "name": "貨幣轉換",
-  "url": "javascript:fetch(`https://api.exchangerate.host/convert?from=%input{From currency/US Dollar/Euro/Japanese Yen/China Yuan,USD/EUR/JPY/CNY}&to=%input{Target currency/US Dollar/Euro/Japanese Yen/China Yuan,USD/EUR/JPY/CNY}&amount=%sr.replace(/\\D/g,\"\")`).then(r=>r.json()).then(r=>prompt(`${r.date} Exchange rate by the European Central Bank\\n${r.query.amount.toLocaleString()} ${r.query.from} =`,`${r.result.toLocaleString()} ${r.query.to}`)).catch(alert);"
-}
-```
 + Automatically send target text to other device like mobile phone 自動發送選中文字到手機
 ``` json
 {
@@ -178,12 +171,19 @@ Select the above text, PopClip will offer an "Install Extension" action. Click i
   "url": "#p{@=%s[]}"
 }
 ```
-+ USD to RMB, show tips when the mouse is hovering
++ Currency conversion / USD to RMB, show tips when the mouse is hovering
 ``` json
 {
   "name": "💲USD to RMB",
   "url": "showTips:https://api.exchangerate.host/convert?from=USD&to=CNY&amount=1 \n{name}<br/><i>%s USD = {json.result|*%s.replace(/\\D/,'')} RMB</i>",
   "kwFilter": "\\d\\$|\\$\\d"
+}
+```
++ Currency conversion of various countries 各國貨幣轉換 **javascript is effective only at userscript**
+``` json
+{
+  "name": "貨幣轉換",
+  "url": "javascript:fetch(`https://api.exchangerate.host/convert?from=%input{From currency/US Dollar/Euro/Japanese Yen/China Yuan,USD/EUR/JPY/CNY}&to=%input{Target currency/US Dollar/Euro/Japanese Yen/China Yuan,USD/EUR/JPY/CNY}&amount=%sr.replace(/\\D/g,\"\")`).then(r=>r.json()).then(r=>prompt(`${r.date} Exchange rate by the European Central Bank\\n${r.query.amount.toLocaleString()} ${r.query.from} =`,`${r.result.toLocaleString()} ${r.query.to}`)).catch(alert);"
 }
 ```
 + Preview Japan AV 框選番號預覽AV such as ABW-345
