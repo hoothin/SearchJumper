@@ -194,6 +194,13 @@ Select the above text, PopClip will offer an "Install Extension" action. Click i
   "kwFilter": "^[0-9a-zA-Z]+[\\-_]?\\d+$"
 }
 ```
++ Show Romaji of japanese 顯示日語對應羅馬音/羅馬字
+```
+{
+  "name": "🗻 日語羅馬字",
+  "url": "showTips:https://translate.googleapis.com/translate_a/single?client=gtx&dt=t&dt=bd&dj=1&dt=ex&dt=ld&dt=md&dt=qca&dt=rw&dt=rm&dt=ss&dt=at&sl=ja&tl=zh_CN&q=%sr\n<h3>{name}</h3>\n{json.sentences.0.trans}\n<br>\n<font color='yellow'>{json.sentences.1.src_translit}</font>"
+}
+```
 
 ---
  <details>
