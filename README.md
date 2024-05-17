@@ -204,6 +204,18 @@ Select the above text, PopClip will offer an "Install Extension" action. Click i
 
 ---
  <details>
+<summary><h2>Add search engines quickly 快速添加搜尋引擎</h2></summary>
+
++ Add with shortcut key on current page 透過快捷鍵快速在當前頁面添加
+> Click search input box with `ctrl + shift` 按住 `ctrl + shift` 點擊當前頁面中的搜尋輸入框即可
+
++ Search on mycroftproject.com and add  在 mycroftproject 上搜尋別人編輯好的站點並點擊導入
+> Click the searchJumper face icon in sites list on mycroftproject 點擊 mycroftproject 上站點列表裏的搜尋醬圖標即可
+
+ </details>
+
+---
+ <details>
 <summary><h2>Auto highlight rule examples 自動高亮詞規則範例</h2></summary>
 
 Highlight all avID on t66y 在草榴上高亮番號
@@ -244,18 +256,6 @@ Hide user by target id on xxxx.com 在某個網站上根據給定的用戶名或
  >以|分隔
 + Search links by @someUserID to hide (l after RegExp means link), and search words by @someUserName to hide. 
  >查找設定在模板 @someUserID 中的用戶 ID （正則后的 l 代表篩選連結），然後隱藏連結中含有此 ID 的元素，同時查找設定在模板 @someUserName 中的用戶名並隱藏元素
-
- </details>
-
----
- <details>
-<summary><h2>Add search engines quickly 快速添加搜尋引擎</h2></summary>
-
-+ Add with shortcut key on current page 透過快捷鍵快速在當前頁面添加
-> Click search input box with `ctrl + shift` 按住 `ctrl + shift` 點擊當前頁面中的搜尋輸入框即可
-
-+ Search on mycroftproject.com and add  在 mycroftproject 上搜尋別人編輯好的站點並點擊導入
-> Click the searchJumper face icon in sites list on mycroftproject 點擊 mycroftproject 上站點列表裏的搜尋醬圖標即可
 
  </details>
 
