@@ -50,6 +50,7 @@ function getFormatRule() {
 function setInPageRule() {
     let inPageRuleInput = document.querySelector("#inPageRule");
     let inPageWordsStyles = document.querySelector("#inPageWordsStyles");
+    let disableAutoHighlight = document.querySelector("#disableAutoHighlight");
     let colors = document.querySelectorAll("#colors>[type='color']");
     if (!inPageRuleInput.value) {
         window.searchData.prefConfig.inPageRule = {};
@@ -111,6 +112,7 @@ function setInPageRule() {
         window.searchData.lastModified = new Date().getTime();
         window.saveToWebdav();
     }
+    window.searchData.prefConfig.disableAutoHighlight = disableAutoHighlight.value.trim();
     saveConfigToScript(true);
 }
 
@@ -174,7 +176,7 @@ const ruleTitle = `{
             "word2$s{red;}"               //find word2 and change background to red
         ]
     },
-    "*bing.com": {
+    "*b?ng.com": {
         words: [
             "@wordsTemplate1$p{0}"                        //find words with wordsTemplate1 and hide first parentNode of target
         ]
@@ -215,6 +217,9 @@ export default function FindInPage() {
     }
     if (!window.searchData.prefConfig.emptyAfterCloseInput) {
         window.searchData.prefConfig.emptyAfterCloseInput = false;
+    }
+    if (!window.searchData.prefConfig.disableAutoHighlight) {
+        window.searchData.prefConfig.disableAutoHighlight = "";
     }
     const [state, setState] = React.useState(
         window.searchData.prefConfig
@@ -371,6 +376,19 @@ export default function FindInPage() {
                 </Box>
             </Paper>
             <Paper elevation={5} sx={{ padding: '20px', marginTop: '20px' }}>
+                <Typography gutterBottom component="div">
+                    <h4>{window.i18n('disableAutoHighlight')}</h4>
+                </Typography>
+                <TextField
+                    id="disableAutoHighlight"
+                    fullWidth
+                    sx={{mb : 1}}
+                    defaultValue={window.searchData.prefConfig.disableAutoHighlight}
+                    multiline
+                    rows={5}
+                    title={"https://google.com/\n*b?ng.com\n/.*youtube\\\\.com/i"}
+                    placeholder={"https://google.com/\n*b?ng.com\n/.*youtube\\\\.com/i"}
+                />
                 <Typography gutterBottom component="div">
                     <h4>{window.i18n('inPageRule')}</h4>
                 </Typography>
