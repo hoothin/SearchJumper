@@ -20,9 +20,9 @@
 <img src='assets/demo1.gif' height='221px'><img src='assets/demo3.gif' height='221px'><img src='assets/demo2.gif' height='221px'>
 
 ## Install
-| Install via [Greasyfork](https://greasyfork.org/scripts/445274) | Install via [Chrome web store](https://chromewebstore.google.com/detail/hgepmblbgodbilmfdjkalkgofdcipkhh) | Install via [Firefox addons](https://addons.mozilla.org/firefox/addon/searchjumper/) |
+| Install via [Chrome web store](https://chromewebstore.google.com/detail/hgepmblbgodbilmfdjkalkgofdcipkhh) | Install via [Firefox addons](https://addons.mozilla.org/firefox/addon/searchjumper/) | Install via [Greasyfork](https://greasyfork.org/scripts/445274) |
 |---|---|---|
-| [![](https://img.shields.io/greasyfork/dt/445274)](https://greasyfork.org/scripts/445274)                | [![](https://img.shields.io/chrome-web-store/users/hgepmblbgodbilmfdjkalkgofdcipkhh)](https://chromewebstore.google.com/detail/hgepmblbgodbilmfdjkalkgofdcipkhh)                       | [![](https://img.shields.io/amo/users/searchjumper)](https://addons.mozilla.org/firefox/addon/searchjumper/)                                      |
+| [![](https://img.shields.io/chrome-web-store/users/hgepmblbgodbilmfdjkalkgofdcipkhh)](https://chromewebstore.google.com/detail/hgepmblbgodbilmfdjkalkgofdcipkhh)                       | [![](https://img.shields.io/amo/users/searchjumper)](https://addons.mozilla.org/firefox/addon/searchjumper/)                                      | [![](https://img.shields.io/greasyfork/dt/445274)](https://greasyfork.org/scripts/445274)                |
 
 ## Config page
 [🔗**hoothin.github.io**](https://hoothin.github.io/SearchJumper/)
@@ -156,14 +156,6 @@ Select the above text, PopClip will offer an "Install Extension" action. Click i
   "url": "https://s.hoothin.com/#p{wait(x-peer)&call(document.querySelector('x-peer').dispatchEvent(new Event('contextmenu')))&#textInput=%s&click(#textInput+div>button)}"
 }
 ```
-+ Miles to kilometers and show in tips 英里轉公里並顯示為 tips
-``` json
-{
-  "name": "📏 英里轉公里",
-  "url": "showTips:let s=\"%sr\".match(/(\\d+)(英里|英?哩|mi(le)?)/)[1];let km=(s*1.609344).toFixed(2);return `<i>${s} mi = ${km} km</i>`;",
-  "kwFilter": "\\d+\\s*(英里|英?哩|mi(le)?\\b)"
-}
-```
 + Split by line and paste into the current input box in order 按行分割後依次粘貼到當前輸入框
 ``` json
 {
@@ -186,12 +178,20 @@ Select the above text, PopClip will offer an "Install Extension" action. Click i
   "url": "javascript:fetch(`https://api.exchangerate.host/convert?from=%input{From currency/US Dollar/Euro/Japanese Yen/China Yuan,USD/EUR/JPY/CNY}&to=%input{Target currency/US Dollar/Euro/Japanese Yen/China Yuan,USD/EUR/JPY/CNY}&amount=%sr.replace(/\\D/g,\"\")`).then(r=>r.json()).then(r=>prompt(`${r.date} Exchange rate by the European Central Bank\\n${r.query.amount.toLocaleString()} ${r.query.from} =`,`${r.result.toLocaleString()} ${r.query.to}`)).catch(alert);"
 }
 ```
++ Miles to kilometers and show in tips 英里轉公里並顯示為 tips
+``` json
+{
+  "name": "📏 英里轉公里",
+  "url": "showTips:let s=\"%sr\".match(/(\\d+)(英里|英?哩|mi(le)?)/)[1];let km=(s*1.609344).toFixed(2);return `<i>${s} mi = ${km} km</i>`;",
+  "kwFilter": "\\d+\\s*(英里|英?哩|mi(le)?\\b)"
+}
+```
 + Preview Japan AV 框選番號預覽AV such as ABW-345
 ``` json
 {
   "name": "💞 AV預覽",
-  "url": "showTips:let javbus='https://www.javbus.com';let avid='%sr.replace(/^(\\w+?)[\\-_]?(\\d+)$/,\"$1-$2\")';let avDatas=await storage.getItem(\"avDatas\");if(!avDatas)avDatas=[];let url=javbus+'/'+avid;let genehtml=(title,img,labels)=>`<span style='font-size:22px;line-height:1.2;'>${title}</span><br/><p style=\"margin: 0;\">${(labels || []).reduce((result, label)=>`${result}<mark style=\"margin: 5px; font-size: 16px; border-radius: 5px; padding: 2px; box-shadow: 0px 0px 10px 0px #000;\">${label}</mark>`, '')}</p><img src='${img}' referrerpolicy='no-referrer'/>`;let d=avDatas.find(avData=>avData.id==avid);if(d)return [genehtml(d.title, d.img, d.labels),url];let doc=await fetch(url).then(r=>r.text()).then(r=>{let doc=document.implementation.createHTMLDocument('');doc.documentElement.innerHTML=r;return doc;}).catch(alert);let title=doc.title;let img=doc.querySelector('a.bigImage>img');let labels=[];doc.querySelectorAll(\".genre a\").forEach(a=>labels.push(a.innerText));if(!img)return;img=javbus+img.getAttribute('src');avDatas.push({id:avid,title:title,img:img,labels:labels});if(avDatas.length>20)avDatas.shift();storage.setItem(\"avDatas\",avDatas);return[`${genehtml(title,img,labels)}`,url];",
-  "kwFilter": "^[0-9a-zA-Z]+[\\-_]?\\d+$"
+  "url": "showTips:https://www.javbus.com/%sr.replace(/^(\\w+?)[\\-_]?(\\d+)$/,\"$1-$2\") \n<span style='font-size:22px;line-height:1.2;'>{h3}</span>\n<p style=\"margin: 0; font-size: 18px; font-weight: normal;\">{.info>p:nth-child(2)}</p>\n<p style=\"margin: 0; font-size: 18px; font-weight: normal;\">{.info>p:nth-child(6)}</p>\n<p style=\"margin: 0;\">{.genre a|<mark style=\"white-space: nowrap;margin: 5px; font-size: 16px; border-radius: 5px; padding: 2px; box-shadow: 0px 0px 10px 0px #000;\">()</mark>}</p>\n<img src='https://www.javbus.com{a.bigImage>img|src}' referrerpolicy='no-referrer'/>",
+  "kwFilter": "^[0-9a-zA-Z]+[\\-_]?\\d+$",
 }
 ```
 + Show Romaji of japanese 顯示日語對應羅馬音/羅馬字
