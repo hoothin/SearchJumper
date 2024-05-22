@@ -191,7 +191,7 @@ Select the above text, PopClip will offer an "Install Extension" action. Click i
 {
   "name": "💞 AV預覽",
   "url": "showTips:https://www.javbus.com/%sr.replace(/^(\\w+?)[\\-_]?(\\d+)$/,\"$1-$2\") \n<span style='font-size:22px;line-height:1.2;'>{h3}</span>\n<p style=\"margin: 0; font-size: 18px; font-weight: normal;\">{.info>p:nth-child(2)}</p>\n<p style=\"margin: 0; font-size: 18px; font-weight: normal;\">{.info>p:nth-child(6)}</p>\n<p style=\"margin: 0;\">{.genre a|<mark style=\"white-space: nowrap;margin: 5px; font-size: 16px; border-radius: 5px; padding: 2px; box-shadow: 0px 0px 10px 0px #000;\">()</mark>}</p>\n<img src='https://www.javbus.com{a.bigImage>img|src}' referrerpolicy='no-referrer'/>",
-  "kwFilter": "^[0-9a-zA-Z]+[\\-_]?\\d+$",
+  "kwFilter": "^[0-9a-zA-Z]+[\\-_]?\\d+$"
 }
 ```
 + Show Romaji of japanese 顯示日語對應羅馬音/羅馬字
