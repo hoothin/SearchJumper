@@ -33,6 +33,8 @@
 > 
 > 亦可下載源碼到本地后雙擊 start.cmd ，透過 npm 編譯后訪問 localhost:3000 進入配置
 
+Please help with localizing this extension[[1](searchJumper.user.js#L479)][[2](src/index.js#L1040)] to the language you are familiar with!
+
 ## Features:
 + Fully open source without any privacy collection, spam or third-party libraries.
   > 完全開源，無任何隱私收集、廣告或者亂七八糟的第三方庫，所有數據均在本地，無任何服務器交互
