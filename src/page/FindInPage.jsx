@@ -120,6 +120,8 @@ function addInPageGroup() {
     let groupName = window.prompt(window.i18n("presetGroupName"), "groupName");
     if (!groupName) return;
     let groupValue = window.prompt(window.i18n("presetGroupValue"), "jack|rose");
+    if (!groupValue) return;
+    groupValue = /^\/.*\/\w{0,2}$/.test(groupValue) ? groupValue : `/${groupValue}/`;
     if (!window.searchData.prefConfig.inPageRule) {
         window.searchData.prefConfig.inPageRule = {};
     }
