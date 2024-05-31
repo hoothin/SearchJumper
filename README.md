@@ -35,6 +35,10 @@
 
 Please help with localizing this extension[[1](searchJumper.user.js#L537)][[2](src/index.js#L1040)] to the language you are familiar with!
 
+ <details>
+<summary><h3>Translation Contributors</h3></summary>
+ </details>
+
 ## Features:
 + Fully open source without any privacy collection, spam or third-party libraries.
   > 完全開源，無任何隱私收集、廣告或者亂七八糟的第三方庫，所有數據均在本地，無任何服務器交互
