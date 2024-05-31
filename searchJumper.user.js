@@ -1,6 +1,64 @@
+// ==UserScript==
+// @name         SearchJumper
+// @name:zh-CN   搜索酱
+// @name:zh-TW   搜尋醬
+// @name:ja      SearchJumper
+// @namespace    hoothin
+// @version      1.7.88
+// @description  Conduct searches for selected text/image effortlessly. Navigate to any search engine(Google/Bing/Custom) swiftly.
+// @description:zh-CN  万能聚合搜索，一键切换任何搜索引擎(百度/必应/谷歌等)，支持划词右键搜索、页内关键词查找与高亮、可视化操作模拟、高级自定义等
+// @description:zh-TW  一鍵切換任意搜尋引擎，支援劃詞右鍵搜尋、頁內關鍵詞查找與高亮、可視化操作模擬、高級自定義等
+// @description:ja  任意の検索エンジンにすばやく簡単にジャンプします！
+// @author       hoothin
+// @license      MPL-2.0
+// @match        *://*/*
+// @icon         data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAMAAABEpIrGAAAAclBMVEUAAAD+/v7////+/v7+/v7////+/v79/f3////////+/v7////////////+/v79/f3////+/v7/rP8zMzP/2f/R0dHAwMD/zf+vr69ZWVlKSkry8vL/vv/+5/7r6+uRkZGcnJx8fHxwcHD+7/7f39+kpKTMxXKjAAAAEXRSTlMA4wrL9ICvkxk56nVVI9WgZNxdEUkAAAE2SURBVDjLfdPZloMgDAZgFtHR2uU3LnWrXd//FUfIHKRT7XfhUYIkhINYqPyoM0SZTnIlPu2PEbwo2f8LqwTvIvMW/9H4oH+WeCqxQu79/xKr5N8aSmOD5gkGm3YuQYRNkU3CG+ynCYH6VsEycwW8wJXoDK8narlOIXI4Z6IKi47ucNI5A6vCOC41mBEaX8VCAuVQFEXzQODRzENDaVsRoSwYAgUrIecJI38MCAw8NkLaFCibphyDMusKox0DoJci+6615fcA2q5fikz8b/QC0HWuKTX8NnM/wbWSyL86qW01u1D3xEQ04dLSE0z6w3ILz9rWPq/hefslUN3uL+B6v/kKMiVmO2w6CSfGhqNg6oBVWvlbxTO+XAy1kiVWInTK8EZyfQFlZBDeKbEiNfFBSh2bNBj8BZ8mNsZysMSsAAAAAElFTkSuQmCC
+// @grant        GM.getValue
+// @grant        GM_getValue
+// @grant        GM.setValue
+// @grant        GM_setValue
+// @grant        GM_addStyle
+// @grant        GM.addStyle
+// @grant        GM.deleteValue
+// @grant        GM_deleteValue
+// @grant        GM.registerMenuCommand
+// @grant        GM_registerMenuCommand
+// @grant        GM.xmlHttpRequest
+// @grant        GM_xmlhttpRequest
+// @grant        GM.notification
+// @grant        GM_notification
+// @grant        GM.setClipboard
+// @grant        GM_setClipboard
+// @grant        GM.openInTab
+// @grant        GM_openInTab
+// @grant        GM.info
+// @grant        GM_info
+// @grant        unsafeWindow
+// @compatible   edge tested with tm
+// @compatible   Chrome tested with tm
+// @compatible   Firefox tested with tm
+// @compatible   Opera untested
+// @compatible   Safari untested
+// @compatible   ios tested with userscript
+// @compatible   android tested with kiwi
+// @supportURL   https://github.com/hoothin/SearchJumper/issues
+// @homepage     https://github.com/hoothin/SearchJumper
+// @downloadURL  https://greasyfork.org/scripts/445274-searchjumper/code/SearchJumper.user.js
+// @updateURL    https://greasyfork.org/scripts/445274-searchjumper/code/SearchJumper.meta.js
+// @require      https://update.greasyfork.org/scripts/484118/searchJumperDefaultConfig.js
+// @connect      global.bing.com
+// @connect      suggestqueries.google.com
+// @connect      api.bing.com
+// @connect      suggestion.baidu.com
+// @connect      webdav.hoothin.com
+// @connect      search.hoothin.com
+// @connect      *
+// @run-at       document-start
+// ==/UserScript==
+
 (function() {
     'use strict';
-    const ext = true;
+    const ext = false;
     const _unsafeWindow = (typeof unsafeWindow == 'undefined') ? window : unsafeWindow;
     if (_unsafeWindow.searchJumperInited) return;
     _unsafeWindow.searchJumperInited = true;
@@ -4385,7 +4443,7 @@
                          <div class="searchJumperModify-input-title">${i18n("wordStyle")}</div>
                          <input name="wordStyle" placeholder="orange or #333333;color:red;" type="text" />
                          <div class="searchJumperModify-input-title">${i18n("wordTitle")}</div>
-                         <textarea name="wordTitle" type="text" placeholder="@popup to popup, @popup(1) to popup 1st showTips, @popup(name) to popup showTips of target engine"></textarea>
+                         <textarea name="wordTitle" type="text" placeholder="Text comment, or @popup to popup, @popup(1) to popup 1st showTips, @popup(name) to popup showTips of target engine"></textarea>
                          <div class="searchJumperModify-buttons">
                              <button id="cancel" type="button">${i18n("cancel")}</button>
                              <button id="modify" type="button">${i18n("modify")}</button>
@@ -9352,6 +9410,7 @@
                 let clicked = false;
                 let alt, ctrl, meta, shift;
                 let action = async e => {
+                    if (e.stopPropagation) e.stopPropagation();
                     delete ele.href;
                     if (!e) e = {};
                     alt = e.altKey;
@@ -9772,6 +9831,9 @@
                 };
                 //ele.href = data.url;
                 ele.addEventListener('mousedown', action, false);
+                ele.addEventListener('mouseup', e => {
+                    if (e.stopPropagation) e.stopPropagation();
+                }, true);
                 ele.addEventListener('click', clickHandler, true);
 
                 let tipsStr = ele.dataset.name;
@@ -9780,7 +9842,7 @@
                 }
                 let lastUrl, anylizing = false, tipsShowing = false;
                 let setTips = async (target, url, again) => {
-                    self.tipsPos(target, ele.dataset.name + "<br/><span class='loader'></span><font>Loading...</font>");
+                    self.tipsPos(target, '<span class="loader"></span><font>Loading...</font>');
                     tipsShowing = false;
                     if (url) {
                         try {
@@ -9788,7 +9850,7 @@
                             anylizing = true;
                             let tipsResult = await self.anylizeShowTips(url, ele.dataset.name);
                             anylizing = false;
-                            if (self.tips.style.opacity == 0 || self.tips.innerHTML.indexOf(ele.dataset.name) !== 0) return;
+                            if (self.tips.style.opacity == 0 || self.tips.innerHTML.indexOf('<span class="loader">') !== 0) return;
                             if (Array && Array.isArray && Array.isArray(tipsResult)) {
                                 tipsData = tipsResult[1];
                                 tipsResult = tipsResult[0];
@@ -9815,7 +9877,7 @@
                         if (!url) return;
                         if (lastUrl === url) {
                             if (anylizing) {
-                                self.tipsPos(target, ele.dataset.name + "<br/><span class='loader'></span><font>Loading...</font>");
+                                self.tipsPos(target, "<span class='loader'></span><font>Loading...</font>");
                             } else {
                                 setTips(target, url);
                             }
@@ -9831,6 +9893,7 @@
                 }
                 let touchend = false;
                 ele.addEventListener('touchend', e => {
+                    if (e.stopPropagation) e.stopPropagation();
                     if (showTips) {
                         touchend = true;
                         self.waitForShowTips = true;
@@ -12240,7 +12303,7 @@
                             searchBar.con.classList.add("targetInput");
                         } else searchBar.con.classList.remove("targetInput");
                     }
-                    if (e.type === "touchend") {
+                    if (e.type === "touchstart") {
                         if (searchData.prefConfig.selectToShow) {
                             setTimeout(() => {
                                 if (getSelectStr()) {
@@ -12394,7 +12457,22 @@
                 };
                 document.addEventListener('mousedown', mouseDownHandler);
                 document.addEventListener('dblclick', mouseDownHandler);
-                document.addEventListener('touchend', mouseDownHandler);
+                if (searchData.prefConfig.selectToShow) {
+                    let touchTimer, touchstartEvent;
+                    let selectionchange = e => {
+                        clearTimeout(touchTimer);
+                        touchTimer = setTimeout(() => {
+                            if (window.getSelection().toString()) {
+                                mouseDownHandler(touchstartEvent);
+                                document.removeEventListener('selectionchange', selectionchange);
+                            }
+                        }, 300);
+                    };
+                    document.addEventListener('touchstart', e => {
+                        touchstartEvent = e;
+                        document.addEventListener('selectionchange', selectionchange);
+                    });
+                }
                 document.addEventListener('contextmenu', e => {
                     if (shown) e.preventDefault();
                     shown = false;
