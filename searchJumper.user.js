@@ -80,7 +80,6 @@
     let isAllPage = false;
 
     let searchData = {};
-    if (!sitesConfig) sitesConfig = [];
     searchData.sitesConfig = sitesConfig;
     searchData.prefConfig = {
         position: {
