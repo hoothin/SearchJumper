@@ -37,6 +37,7 @@ Please help with localizing this extension[[1](searchJumper.user.js#L537)][[2](s
 
  <details>
 <summary><h3>Translation Contributors</h3></summary>
+  Русский: <a href="https://github.com/RomanAleynikov">RomanAleynikov</a>
  </details>
 
 ## Features:
