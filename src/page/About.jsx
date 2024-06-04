@@ -24,7 +24,7 @@ export default function About() {
             </Paper>
             <Paper elevation={5} sx={{ padding: '20px' }}>
             <Typography gutterBottom  component="div" style={{textAlign: 'center', display: 'flex', flexDirection: 'column', alignItems: 'center'}}>
-                <Box style={{textAlign: 'center', display: 'flex', flexWrap: 'wrap'}}>
+                <Box style={{textAlign: 'center', justifyContent: 'center', display: 'flex', flexWrap: 'wrap'}}>
                     <Box sx={{m: 1}}>
                         <MenuBookIcon /> <Link href='https://search.hoothin.com' style={{verticalAlign: 'top', color: 'darkorange', fontWeight: 'bold'}} target="_blank">{window.i18n('share')}</Link>
                     </Box>
@@ -47,7 +47,7 @@ export default function About() {
                         <SpellcheckIcon/> <Link href='https://greasyfork.org/scripts/479610' style={{verticalAlign: 'top'}} target="_blank">{window.i18n('spellAddon')}</Link>
                     </Box>
                 </Box>
-                <Box style={{textAlign: 'center', display: 'flex', flexWrap: 'wrap'}}>
+                <Box style={{textAlign: 'center', justifyContent: 'center', display: 'flex', flexWrap: 'wrap'}}>
                     <Box sx={{m: 1}}>
                         <MarkUnreadChatAltIcon/> <Link href='https://discord.gg/keqypXC6wD' style={{verticalAlign: 'top'}} target="_blank">{window.i18n('discord')}</Link>
                     </Box>

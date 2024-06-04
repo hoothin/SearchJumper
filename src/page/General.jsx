@@ -222,6 +222,7 @@ export default function General() {
                             <MenuItem value={'zh-CN'}>简体</MenuItem>
                             <MenuItem value={'zh-TW'}>正體</MenuItem>
                             <MenuItem value={'ja'}>日本語</MenuItem>
+                            <MenuItem value={'ru'}>Русский</MenuItem>
                         </Select>
                     </FormControl>
             </Paper>
