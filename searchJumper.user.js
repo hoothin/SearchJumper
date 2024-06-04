@@ -6952,7 +6952,7 @@
                 let foundKeyword = currentSite && wordParamReg.test(currentSite.url);
                 if (!hasCurrent && foundKeyword) {
                     this.inSearchEngine();
-                } else if (!foundKeyword && window.top == window.self) {
+                } else if (!currentSite && window.top == window.self) {
                     this.checkSearchJump();
                 }
 
