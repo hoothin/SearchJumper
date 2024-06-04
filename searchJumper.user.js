@@ -5,7 +5,7 @@
 // @name:ja      SearchJumper
 // @name:ru      SearchJumper
 // @namespace    hoothin
-// @version      1.7.90
+// @version      1.7.91
 // @description  Conduct searches for selected text/image effortlessly. Navigate to any search engine(Google/Bing/Custom) swiftly.
 // @description:zh-CN  万能聚合搜索，一键切换任何搜索引擎(百度/必应/谷歌等)，支持划词右键搜索、页内关键词查找与高亮、可视化操作模拟、高级自定义等
 // @description:zh-TW  一鍵切換任意搜尋引擎，支援劃詞右鍵搜尋、頁內關鍵詞查找與高亮、可視化操作模擬、高級自定義等
@@ -11559,8 +11559,24 @@
             } else if (input.nodeName.toUpperCase() == "TEXTAREA") {
                 var nativeTextareaValueSetter = Object.getOwnPropertyDescriptor(window.HTMLTextAreaElement.prototype, "value").set;
                 nativeTextareaValueSetter.call(input, v);
-            } else {
+            } else if (input.contentEditable == 'true') {
                 input.innerHTML = createHTML(v);
+            } else {
+                let file = v;
+                if (file.indexOf('data:') == 0) {
+                    file = dataURLtoFile(file);
+                } else {
+                    let blob = new Blob([file], {
+                        type: 'text/plain'
+                    });
+                    file = new File([blob], 'noname.txt', { type: blob.type })
+                }
+                var pasteEvent = new ClipboardEvent('paste', {
+                    target: document.body,
+                    clipboardData: new DataTransfer()
+                });
+                pasteEvent.clipboardData.items.add(file);
+                input.dispatchEvent(pasteEvent);
             }
             event = new Event('input', { bubbles: true });
             let tracker = input._valueTracker;
