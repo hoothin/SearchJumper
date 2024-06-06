@@ -5,7 +5,7 @@
 // @name:ja      SearchJumper
 // @name:ru      SearchJumper
 // @namespace    hoothin
-// @version      1.7.91
+// @version      1.7.92
 // @description  Conduct searches for selected text/image effortlessly. Navigate to any search engine(Google/Bing/Custom) swiftly.
 // @description:zh-CN  万能聚合搜索，一键切换任何搜索引擎(百度/必应/谷歌等)，支持划词右键搜索、页内关键词查找与高亮、可视化操作模拟、高级自定义等
 // @description:zh-TW  一鍵切換任意搜尋引擎，支援劃詞右鍵搜尋、頁內關鍵詞查找與高亮、可視化操作模擬、高級自定義等
@@ -289,6 +289,7 @@
                         emuStopTips: '结束操作并生成规则'
                     };
                     break;
+                case "zh":
                 case "zh-TW":
                 case "zh-HK":
                     config = {
@@ -6080,6 +6081,22 @@
                 }
             }
 
+            async testCSP() {
+                let self = this;
+                let cspHandler = e => {
+                    disabled = true;
+                    self.shadowContainer.parentNode.removeChild(self.shadowContainer);
+                    self.shadowContainer = document.createElement("div");
+                    self.shadowContainer.setAttribute('contenteditable', 'false');
+                };
+                window.addEventListener('securitypolicyviolation', cspHandler);
+                let testStyleEle = _GM_addStyle(`html {color: #000;}`);
+                this.addToShadow(testStyleEle);
+                await sleep(1);
+                window.removeEventListener('securitypolicyviolation', cspHandler);
+                testStyleEle.parentNode && testStyleEle.parentNode.removeChild(testStyleEle);
+            }
+
             addToShadow(ele) {
                 if (!this.shadowContainer) {
                     this.shadowContainer = document.createElement("div");
@@ -6093,6 +6110,7 @@
                 }
                 let shadow;
                 if (disabled) {
+                    if (/^style$/i.test(ele.nodeName)) return true;
                     shadow = this.shadowContainer;
                 } else {
                     if (this.shadowRoot) {
@@ -6949,6 +6967,7 @@
                 if (disableHighlight && disableHighlight != location.hostname && window.top == window.self) {
                     storage.setItem("disableHighlight", "");
                 }
+                await this.testCSP();
                 let foundKeyword = currentSite && wordParamReg.test(currentSite.url);
                 if (!hasCurrent && foundKeyword) {
                     this.inSearchEngine();
@@ -9439,6 +9458,11 @@
                                 if (getTargetUrl() === false) return false;
                                 resultUrl = resultUrl.replace(/%T\b/g, encodeURIComponent(promptStr));
                             }
+                            if (/%TT\b/.test(resultUrl)) {
+                                self.customInput = true;
+                                if (getTargetUrl() === false) return false;
+                                resultUrl = resultUrl.replace(/%TT\b/g, encodeURIComponent(encodeURIComponent(promptStr)));
+                            }
                             if (/%b\b/.test(resultUrl)) {
                                 self.customInput = true;
                                 if (getTargetUrl() === false) return false;
@@ -9448,6 +9472,11 @@
                                 self.customInput = true;
                                 if (getTargetUrl() === false) return false;
                                 resultUrl = resultUrl.replace(/%B\b/g, encodeURIComponent(promptStr.replace(/^https?:\/\//i, "")));
+                            }
+                            if (/%BB\b/.test(resultUrl)) {
+                                self.customInput = true;
+                                if (getTargetUrl() === false) return false;
+                                resultUrl = resultUrl.replace(/%BB\b/g, encodeURIComponent(encodeURIComponent(promptStr.replace(/^https?:\/\//i, ""))));
                             }
                         }
                     }
@@ -9501,7 +9530,7 @@
                                 let pairArr = pair.split("SJ^PARAM");
                                 if (pairArr.length === 2) {
                                     let k = pairArr[0];
-                                    let v = customReplaceKeywords(pairArr[1].replace(/\\([\=&])/g, "$1").replace(/%e\b/g, document.characterSet).replace(/%i\b/g, imgBase64).replace(/%c\b/g, (isMobile?"mobile":"pc")).replace(/%U\b/g, encodeURIComponent(href)).replace(/%h\b/g, host).replace(/%T\b/g, encodeURIComponent(targetUrl)).replace(/%b\b/g, targetBaseUrl).replace(/%B\b/g, encodeURIComponent(targetBaseUrl)).replace(/%n\b/g, targetName).replace(/%S\b/g, (cacheKeywords || keywords)));
+                                    let v = customReplaceKeywords(pairArr[1].replace(/\\([\=&])/g, "$1").replace(/%e\b/g, document.characterSet).replace(/%i\b/g, imgBase64).replace(/%c\b/g, (isMobile?"mobile":"pc")).replace(/%U\b/g, encodeURIComponent(href)).replace(/%UU\b/g, encodeURIComponent(encodeURIComponent(href))).replace(/%h\b/g, host).replace(/%T\b/g, encodeURIComponent(targetUrl)).replace(/%TT\b/g, encodeURIComponent(encodeURIComponent(targetUrl))).replace(/%b\b/g, targetBaseUrl).replace(/%B\b/g, encodeURIComponent(targetBaseUrl)).replace(/%BB\b/g, encodeURIComponent(encodeURIComponent(targetBaseUrl))).replace(/%n\b/g, targetName).replace(/%S\b/g, (cacheKeywords || keywords)));
                                     v = customReplaceSingle(v, "%t", targetUrl);
                                     v = customReplaceSingle(v, "%u", href);
                                     postParams.push([k, v]);
@@ -9518,7 +9547,7 @@
                             storage.setListItem("inPagePostParams", resultUrl.replace(/^https?:\/\/([^\/:]+).*/, "$1"), postParams);
                         }
                     }
-                    resultUrl = customReplaceKeywords(resultUrl.replace(/%U\b/g, encodeURIComponent(href)).replace(/%T\b/g, encodeURIComponent(targetUrl)).replace(/%b\b/g, targetBaseUrl).replace(/%B\b/g, encodeURIComponent(targetBaseUrl)).replace(/%n\b/g, targetName).replace(/%S\b/g, (cacheKeywords || keywords)));
+                    resultUrl = customReplaceKeywords(resultUrl.replace(/%U\b/g, encodeURIComponent(href)).replace(/%UU\b/g, encodeURIComponent(encodeURIComponent(href))).replace(/%T\b/g, encodeURIComponent(targetUrl)).replace(/%TT\b/g, encodeURIComponent(encodeURIComponent(targetUrl))).replace(/%b\b/g, targetBaseUrl).replace(/%B\b/g, encodeURIComponent(targetBaseUrl)).replace(/%BB\b/g, encodeURIComponent(encodeURIComponent(targetBaseUrl))).replace(/%n\b/g, targetName).replace(/%S\b/g, (cacheKeywords || keywords)));
                     resultUrl = customReplaceSingle(resultUrl, "%t", targetUrl);
                     resultUrl = customReplaceSingle(resultUrl, "%u", href);
                     if (openInNewTab && /^(https?|ftp):/.test(resultUrl)) {
