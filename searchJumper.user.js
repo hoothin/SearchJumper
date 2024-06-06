@@ -2001,7 +2001,7 @@
                  .in-input.in-find>.search-jumper-input {
                      pointer-events: all;
                  }
-                 .in-input.in-find>.search-jumper-searchBar {
+                 .in-input.in-find>.search-jumper-searchBar, .in-input>.rectSelecting.search-jumper-searchBar {
                      opacity: 0!important;
                      pointer-events: none;
                      transition: none;
@@ -10932,6 +10932,7 @@
                             self.selectRect.parentNode.removeChild(self.selectRect);
                         }
                         self.rectSelecting = false;
+                        searchBar.bar.classList.remove("rectSelecting");
                         return;
                     }
                     let target = self.getTarget(e.target);
@@ -10939,10 +10940,14 @@
                 };
                 this.mouseDownHandler = e => {
                     self.rectSelecting = true;
+                    searchBar.bar.classList.add("rectSelecting");
                     self.rectInitPos = {x: e.clientX, y: e.clientY};
+                    e.stopPropagation();
+                    e.preventDefault();
                 };
                 this.mouseUpHandler = e => {
                     self.rectSelecting = false;
+                    searchBar.bar.classList.remove("rectSelecting");
                     if (self.creatingRect) return;
                     if (self.selectRect.parentNode) {
                         self.selectRect.parentNode.removeChild(self.selectRect);
