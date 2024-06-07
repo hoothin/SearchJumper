@@ -30,7 +30,7 @@
 > 
 > 亦可下載源碼到本地后雙擊 start.cmd ，透過 npm 編譯后訪問 localhost:3000 進入配置
 
-Please help with localizing this extension[[1](searchJumper.user.js#L537)][[2](src/index.js#L1040)] to the language you are familiar with!
+Please help with localizing this extension[[1](searchJumper.user.js#L654)][[2](src/index.js#L1386)] to the language you are familiar with!
 
  <details>
 <summary><h3>Translation Contributors</h3></summary>
