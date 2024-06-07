@@ -8,21 +8,18 @@
 ![license](https://img.shields.io/badge/License-GPL3.0-orange.svg)
 ![FontAwesome](https://img.shields.io/badge/FontAwesome-6.0-green.svg)
 ![support](https://img.shields.io/badge/Support-Chrome|Firefox|Edge-red.svg)
-> *Just a personal work, maybe not suit you.*
+> *Just a personal work, maybe not suit you.* 📖[**Guide**](https://search.hoothin.com/)
 
 + Build with React.js
 + UI: Material-UI
 + Icons: FontAwesome
 
-📖[Guide](https://search.hoothin.com/)
----
-
-<img src='assets/demo1.gif' height='221px'><img src='assets/demo3.gif' height='221px'><img src='assets/demo2.gif' height='221px'>
-
 ## Install
 | Install via [Chrome web store](https://chromewebstore.google.com/detail/hgepmblbgodbilmfdjkalkgofdcipkhh) | Install via [Firefox addons](https://addons.mozilla.org/firefox/addon/searchjumper/) | Install via [Greasyfork](https://greasyfork.org/scripts/445274) |
 |---|---|---|
 | [![](https://img.shields.io/chrome-web-store/users/hgepmblbgodbilmfdjkalkgofdcipkhh)](https://chromewebstore.google.com/detail/hgepmblbgodbilmfdjkalkgofdcipkhh)                       | [![](https://img.shields.io/amo/users/searchjumper)](https://addons.mozilla.org/firefox/addon/searchjumper/)                                      | [![](https://img.shields.io/greasyfork/dt/445274)](https://greasyfork.org/scripts/445274)                |
+
+<img src='assets/demo1.gif' height='221px'><img src='assets/demo3.gif' height='221px'><img src='assets/demo2.gif' height='221px'>
 
 ## Config page
 [🔗**hoothin.github.io**](https://hoothin.github.io/SearchJumper/)
