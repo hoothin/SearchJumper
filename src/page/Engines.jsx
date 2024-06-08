@@ -1638,7 +1638,7 @@ export default function Engines() {
       createData('find.addto()', window.i18n('param_findadd')),
       createData('javascript', window.i18n('javascript'))
     ];
-    if (/^(http|ftp)/i.test(window.location.protocol)) {
+    if (/^(http|ftp)/i.test(window.location.protocol) && window.lang.indexOf("zh") === 0) {
         rows.splice(4, 0, createData('%ss', window.i18n('param_ss')), createData('%st', window.i18n('param_st')));
     }
     let selectTxt = -1, selectImg = -1, selectLink = -1, selectPage = -1, selectAll = -1;

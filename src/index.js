@@ -7,6 +7,8 @@ import reportWebVitals from './reportWebVitals';
 const lang = navigator.appName === 'Netscape' ? navigator.language : navigator.userLanguage;
 let config = {};
 window.setLang = (_lang) => {
+      if (window.lang === _lang) return;
+      window.lang = _lang;
       switch (_lang) {
           case 'zh-CN':
           case 'zh-SG':
