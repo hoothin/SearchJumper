@@ -2110,7 +2110,7 @@ export default function Engines() {
                         }
                     }}
                 >
-                    {window.i18n('targetTxt')}
+                    {window.i18n('typeEnableSelTxt')}
                 </span>
                 <span
                     className={'selectImg'}
@@ -2122,7 +2122,7 @@ export default function Engines() {
                         }
                     }}
                 >
-                    {window.i18n('targetImg')}
+                    {window.i18n('typeEnableSelImg')}
                 </span>
                 <span
                     className={'selectLink'}
@@ -2134,7 +2134,7 @@ export default function Engines() {
                         }
                     }}
                 >
-                    {window.i18n('targetLink')}
+                    {window.i18n('typeEnableSelLink')}
                 </span>
                 <span
                     className={'selectPage'}
@@ -2146,7 +2146,7 @@ export default function Engines() {
                         }
                     }}
                 >
-                    {window.i18n('targetPage')}
+                    {window.i18n('typeEnableSelPage')}
                 </span>
             </Paper>
             <Accordion id='verifyPanel' defaultExpanded={true} sx={{ boxShadow: 5, maxHeight: '60vh', overflow: 'auto' }}>
