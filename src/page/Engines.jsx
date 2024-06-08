@@ -1609,8 +1609,6 @@ export default function Engines() {
       createData('%sl', window.i18n('param_sl')),
       createData('%su', window.i18n('param_su')),
       createData('%sr', window.i18n('param_sr')),
-      createData('%ss', window.i18n('param_ss')),
-      createData('%st', window.i18n('param_st')),
       createData('%se', window.i18n('param_se')),
       createData('%S', window.i18n('param_S')),
       createData('%u', window.i18n('param_u')),
@@ -1640,6 +1638,9 @@ export default function Engines() {
       createData('find.addto()', window.i18n('param_findadd')),
       createData('javascript', window.i18n('javascript'))
     ];
+    if (/^(http|ftp)/i.test(window.location.protocol)) {
+        rows.splice(4, 0, createData('%ss', window.i18n('param_ss')), createData('%st', window.i18n('param_st')));
+    }
     let selectTxt = -1, selectImg = -1, selectLink = -1, selectPage = -1, selectAll = -1;
     for (let i = 0; i < window.searchData.sitesConfig.length; i++) {
         let site = window.searchData.sitesConfig[i];
