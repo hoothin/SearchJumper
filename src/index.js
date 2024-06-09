@@ -1165,7 +1165,7 @@ window.setLang = (_lang) => {
                   enableInInputTips: 'Активировать поисковые меню SearchJumper при выборе текста из области ввода (Работает не на всех сайтах)',
                   fontAwesomeCss: 'FontAwesome CDN URL',
                   bgUrl: 'URL картинки для страницы всех движков',
-                  nobatch: 'Не открывать при групповом поиске',
+                  nobatch: 'Не использовать движок при групповом поиске',
                   hideNotMatch: 'Hide if not current',
                   typeMatchTips: 'Фильтровать текущую группу по URL. Показать группу только когда URL совпадает. Скрыть, установив 0',
                   siteUrlTips: '%s keywords; %t target URL; %u site URL; %h hostname',
