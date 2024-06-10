@@ -12,14 +12,6 @@ on:
       - '**.cmd'
       - 'LICENSE'
       - '.gitignore'
-  pull_request:
-    branches: [ main ]
-    paths-ignore:
-      - '**.md'
-      - '**.gif'
-      - '**.cmd'
-      - 'LICENSE'
-      - '.gitignore'
 
 jobs:
   build:
