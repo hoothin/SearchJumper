@@ -895,8 +895,6 @@
             cssStr = cssStr.replace(/\n\s*/g, "");
             if (typeof GM_addStyle != 'undefined') {
                 return GM_addStyle(cssStr);
-            } else if (typeof GM != 'undefined' && typeof GM.addStyle != 'undefined') {
-                return GM.addStyle(cssStr);
             } else {
                 let styleEle = document.createElement("style");
                 styleEle.innerHTML = createHTML(cssStr);
@@ -10615,7 +10613,7 @@
                                     saladbowl.style.transform = saladbowl.style.transform.replace(/\d+px\)/, `${e.clientY - 15}px)`);
                                 }
                             }, 100);
-                        }, 10);
+                        }, 1);
                     }, 1);
                 } else {
                     self.bar.style.display = "";
