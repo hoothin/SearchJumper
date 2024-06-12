@@ -5,7 +5,7 @@
 // @name:ja      SearchJumper
 // @name:ru      SearchJumper
 // @namespace    hoothin
-// @version      1.7.95
+// @version      1.7.96
 // @description  Conduct searches for selected text/image effortlessly. Navigate to any search engine(Google/Bing/Custom) swiftly.
 // @description:zh-CN  万能聚合搜索，一键切换任何搜索引擎(百度/必应/谷歌等)，支持划词右键搜索、页内关键词查找与高亮、可视化操作模拟、高级自定义等
 // @description:zh-TW  一鍵切換任意搜尋引擎，支援劃詞右鍵搜尋、頁內關鍵詞查找與高亮、可視化操作模擬、高級自定義等
@@ -8140,6 +8140,7 @@
                         }
                     });
                 }
+                let shownSitesNum = 0;
                 let baseSize = this.scale * 40;
                 let typeAction = e => {
                     if (e) {
@@ -8181,7 +8182,7 @@
                         }
                         let href = targetElement && (targetElement.href || targetElement.src);
                         let keyWords = getKeywords();
-                        let shownSitesNum = 0;
+                        shownSitesNum = 0;
                         siteEles.forEach((se, i) => {
                             let data = sites[i];
                             /*if (data.match && data.hideNotMatch) {
@@ -8370,13 +8371,14 @@
                 let tooLoog = sites && sites.length > 200;
                 ele.dataset.id = self.siteIndex;
                 self.stopInput = false;
-                let notMatchSites = [];
                 async function createItem(site, i) {
                     if (!site.name) return;
                     let siteEle = await self.createSiteBtn((tooLoog || searchData.prefConfig.noIcons ? "0" : site.icon), site, openInNewTab, isBookmark, data);
                     if (!siteEle) {
-                        notMatchSites.push(i);
                         return;
+                    }
+                    if (!siteEle.classList.contains("notmatch")) {
+                        shownSitesNum++;
                     }
                     siteEle.dataset.type = type;
                     siteEle.dataset.id = self.siteIndex;
@@ -8436,9 +8438,6 @@
                     if (changed) storage.setItem("sortSiteNames", sortSiteNames);
                 }
 
-
-                sites = sites.filter((s, i) => !notMatchSites.includes(i));
-                notMatchSites = null;
                 siteEles.forEach(siteEle => {
                     if (siteEle.classList.contains("notmatch")) {
                         ele.appendChild(siteEle);
@@ -8453,7 +8452,7 @@
                     }
                     if (!searchData.prefConfig.disableAutoOpen && !searchData.prefConfig.disableTypeOpen) {
                         ele.classList.add("search-jumper-open");
-                        if (sites.length > (searchData.prefConfig.expandTypeLength || 12) && !searchData.prefConfig.expandType) {
+                        if (shownSitesNum > (searchData.prefConfig.expandTypeLength || 12) && !searchData.prefConfig.expandType) {
                             ele.classList.add("not-expand");
                             ele.appendChild(self.searchJumperExpand);
                         }
@@ -10481,6 +10480,7 @@
                 this.bar.classList.remove("initShow");
                 this.tips.style.opacity = 0;
                 this.tips.style.display = "none";
+                this.tips.style.transition = "none";
                 this.tips.innerHTML = createHTML("");
                 setTimeout(() => {this.bar.classList.add("initShow");}, 10);
                 let typeSel = "";
