@@ -2587,7 +2587,7 @@
                      color: #ffffff!important;
                      font-family: Arial, sans-serif;
                      font-weight: 500;
-                     font-size: ${14 * this.scale}px;
+                     font-size: ${13 * this.scale}px;
                      line-height: ${32 * this.scale}px;
                      width: ${32 * this.scale}px;
                      height: ${32 * this.scale}px;
@@ -2642,7 +2642,6 @@
                  .search-jumper-type img {
                      width: ${32 * this.scale}px;
                      height: ${32 * this.scale}px;
-                     border-radius: ${20 * this.scale}px;
                      margin-top: unset;
                  }
                  #search-jumper.funcKeyCall .search-jumper-type img {
@@ -13033,10 +13032,15 @@
                         command: 'loadConfig'
                     }, '*');
                 }
+                let delayTimeout = setTimeout(() => {
+                    if (received) return;
+                    location.reload();
+                }, 3000);
 
                 document.addEventListener('received', e => {
                     received = true;
                     clearTimeout(sendMessageTimer);
+                    clearTimeout(delayTimeout);
                     if (cachePool.length > 0 && searchData.prefConfig.cacheSwitch) {
                         debug(`Start cache ${cachePool.length} icons!`);
                         cacheImgManager();
