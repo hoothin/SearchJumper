@@ -5,7 +5,7 @@
 // @name:ja      SearchJumper
 // @name:ru      SearchJumper
 // @namespace    hoothin
-// @version      1.7.96
+// @version      1.7.97
 // @description  Conduct searches for selected text/image effortlessly. Navigate to any search engine(Google/Bing/Custom) swiftly.
 // @description:zh-CN  万能聚合搜索，一键切换任何搜索引擎(百度/必应/谷歌等)，支持划词右键搜索、页内关键词查找与高亮、可视化操作模拟、高级自定义等
 // @description:zh-TW  一鍵切換任意搜尋引擎，支援劃詞右鍵搜尋、頁內關鍵詞查找與高亮、可視化操作模擬、高級自定義等
@@ -6165,6 +6165,10 @@
                 if (!e) e = {};
                 for (let [siteBtn, siteData] of this.allSiteBtns) {
                     if (siteBtn.dataset.name == siteName) {
+                        if (siteBtn.dataset.showTips) {
+                            siteBtn.dispatchEvent(new CustomEvent('showTips'));
+                            return;
+                        }
                         await this.siteSetUrl(siteBtn, {button: e.button, altKey: e.altKey, ctrlKey: e.ctrlKey, shiftKey: e.shiftKey, metaKey: e.metaKey});
                         let isPage = /^(https?|ftp):/.test(siteBtn.href);
                         if (isPage) {
@@ -10070,6 +10074,9 @@
                     self.clingPos(ele, self.tips);
                 }, false);
                 ele.addEventListener('showTips', e => {
+                    self.appendBar();
+                    self.con.style.display = "";
+                    self.setFuncKeyCall(true);
                     showTipsHandler(targetElement, 0);
                 }, false);
                 ele.addEventListener('mouseleave', e => {
@@ -14076,7 +14083,7 @@
                 let result = null;
                 for (let i = targetIndex; i < siteBtns.length; i++) {
                     let btn = siteBtns[i];
-                    if (btn.style.display !== 'none' && !btn.dataset.showTips) {
+                    if (btn.style.display !== 'none') {
                         result = btn;
                         targetIndex = i + 1;
                         break;
