@@ -5,7 +5,7 @@
 // @name:ja      SearchJumper
 // @name:ru      SearchJumper
 // @namespace    hoothin
-// @version      1.7.97
+// @version      1.7.98
 // @description  Conduct searches for selected text/image effortlessly. Navigate to any search engine(Google/Bing/Custom) swiftly.
 // @description:zh-CN  万能聚合搜索，一键切换任何搜索引擎(百度/必应/谷歌等)，支持划词右键搜索、页内关键词查找与高亮、可视化操作模拟、高级自定义等
 // @description:zh-TW  一鍵切換任意搜尋引擎，支援劃詞右鍵搜尋、頁內關鍵詞查找與高亮、可視化操作模擬、高級自定義等
@@ -9970,9 +9970,9 @@
                             }
                             let viewWidth = window.screen.availWidth || window.innerWidth || document.documentElement.clientWidth;
                             let viewHeight = window.screen.availHeight || window.innerHeight || document.documentElement.clientHeight;
-                            let showWidth = Math.min(viewWidth, 550);
-                            let showHeight = Math.min(viewHeight, 800);
-                            let left = viewWidth - showWidth;
+                            let showWidth = Math.min(viewWidth, 650);
+                            let showHeight = Math.max(viewHeight / 3 * 2, viewHeight - 250);
+                            let left = viewWidth - showWidth - 30;
                             let top = (viewHeight - showHeight) / 2;
                             window.open(targetUrlData + "#searchJumperMin" + (/#p{/.test(data.url) ? 'Post' : ''), "_blank", `width=${showWidth}, height=${showHeight}, location=0, resizable=1, status=0, toolbar=0, menubar=0, scrollbars=0, left=${left}, top=${top}`);
                         } else if (shift) {
@@ -10447,8 +10447,12 @@
                 else if (!selectStr && targetElement != getBody(document) && (targetElement.className != "searchJumper" || !/^MARK$/i.test(targetElement.nodeName))) {
                     let _targetElement = targetElement, children;
                     while (_targetElement && _targetElement.nodeName) {
-                        if (_targetElement.nodeName.toUpperCase() == 'IMG' || _targetElement.nodeName.toUpperCase() == 'AUDIO' || _targetElement.nodeName.toUpperCase() == 'VIDEO' || _targetElement.nodeName.toUpperCase() == 'A') break;
+                        if (/^(img|audio|video|a)$/i.test(_targetElement.nodeName)) break;
                         if (_targetElement.parentNode) {
+                            if (/^(img|audio|video|a)$/i.test(_targetElement.parentNode.nodeName)) {
+                                _targetElement = _targetElement.parentNode;
+                                break;
+                            }
                             children = _targetElement.parentNode.querySelectorAll("img,audio,video,a");
                             if (children && children.length === 1) {
                                 if (children[0].offsetHeight && _targetElement.offsetHeight / children[0].offsetHeight < 2) {
