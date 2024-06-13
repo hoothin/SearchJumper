@@ -14054,11 +14054,11 @@
                         searchBar.setFuncKeyCall(false);
                         searchBar.showInPage();
                     } else if (dragSector) {
+                        removeFrame();
                         searchBar.searchBySiteName(dragSector.children[0].dataset.name, e);
                         dragSector.style.transform = `rotate(${dragSector.dataset.deg}deg)`;
                         dragSector.classList.remove("over");
                         dragSector = null;
-                        removeFrame();
                     }
                     e.preventDefault();
                 });
