@@ -8293,7 +8293,7 @@
                     if (!searchData.prefConfig.disableTypeOpen) {
                         setTimeout(() => {
                             self.checkScroll();
-                        }, 500);
+                        }, searchData.prefConfig.typeOpenTime);
                     }
                 };
                 let draged = false, initMousePos, initTilePos;
@@ -10282,7 +10282,7 @@
                                                     resolve((r && r.data) || "");
                                                 });
                                             });
-                                        } else return "No result";;
+                                        } else return "No result";
                                     }
                                 } else {
                                     fetchData = GM_fetch(_url, fetchOption).then(r => {
@@ -13575,7 +13575,7 @@
                                         typeData.sites.push(curData);
                                     } else {
                                         let typeIndex = self.searchType(otherType.value);
-                                        searchData.sitesConfig[typeIndex].sites.push(curData);;
+                                        searchData.sitesConfig[typeIndex].sites.push(curData);
                                     }
                                 }
                             });
@@ -15493,7 +15493,10 @@
                 searchData.prefConfig.disableTypeOpen = false;
             }
             if (ext) {
-                configPage = chrome.runtime.getURL('config/index.html');;
+                configPage = chrome.runtime.getURL('config/index.html');
+                if (!searchData.prefConfig.configPage) {
+                    searchData.prefConfig.configPage = configPage;
+                }
             } else if (searchData.prefConfig.configPage) {
                 configPage = searchData.prefConfig.configPage;
             } else {
