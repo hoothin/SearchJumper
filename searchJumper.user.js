@@ -7037,10 +7037,6 @@
                                     firstType.dispatchEvent(mouseEvent);
                                 }
                             }
-                            self.bar.style.display = 'none';
-                            setTimeout(() => {
-                                self.bar.style.display = '';
-                            }, 250);
                         } else {
                             self.bar.style.display = 'none';
                         }
@@ -10691,7 +10687,6 @@
                         let leftRight = self.con.classList.contains("search-jumper-left") ||
                             self.con.classList.contains("search-jumper-right");
                         searchTypes.forEach(ele => {
-                            let scrollSize = Math.max(ele.scrollWidth, ele.scrollHeight) + "px";
                             if (!ele.classList.contains("search-jumper-open")) {
                                 if (leftRight) {
                                     ele.style.width = "";
@@ -10701,12 +10696,16 @@
                                     ele.style.height = "";
                                 }
                             } else {
-                                if (leftRight) {
-                                    ele.style.width = "";
-                                    ele.style.height = scrollSize;
-                                } else {
-                                    ele.style.width = scrollSize;
-                                    ele.style.height = "";
+                                let scrollSize = Math.max(ele.scrollWidth, ele.scrollHeight);
+                                if (scrollSize) {
+                                    scrollSize += "px";
+                                    if (leftRight) {
+                                        ele.style.width = "";
+                                        ele.style.height = scrollSize;
+                                    } else {
+                                        ele.style.width = scrollSize;
+                                        ele.style.height = "";
+                                    }
                                 }
                             }
                         });
