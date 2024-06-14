@@ -5,7 +5,7 @@
 // @name:ja      SearchJumper
 // @name:ru      SearchJumper
 // @namespace    hoothin
-// @version      1.7.98
+// @version      1.7.99
 // @description  Conduct searches for selected text/image effortlessly. Navigate to any search engine(Google/Bing/Custom) swiftly.
 // @description:zh-CN  万能聚合搜索，一键切换任何搜索引擎(百度/必应/谷歌等)，支持划词右键搜索、页内关键词查找与高亮、可视化操作模拟、高级自定义等
 // @description:zh-TW  一鍵切換任意搜尋引擎，支援劃詞右鍵搜尋、頁內關鍵詞查找與高亮、可視化操作模擬、高級自定義等
@@ -9674,7 +9674,8 @@
                                                             parent.classList.contains("search-jumper-targetAudio") ||
                                                             parent.classList.contains("search-jumper-targetVideo") ||
                                                             parent.classList.contains("search-jumper-targetLink") ||
-                                                            parent.classList.contains("search-jumper-targetPage"));
+                                                            parent.classList.contains("search-jumper-targetPage") ||
+                                                            parent.classList.contains("search-jumper-needInPage"));
                             if (!dismissHistory && historyType != ele.dataset.type) {
                                 historyType = ele.dataset.type;
                                 storage.setItem("historyType", historyType);
@@ -9817,13 +9818,13 @@
                         }
                         return false;
                     } else if (/^paste:/.test(data.url)) {
-                        function triggerPaste(element, value) {
+                        async function triggerPaste(element, value) {
                             targetElement.focus();
                             if (typeof element.value !== "undefined") {
                                 const startPos = element.selectionStart;
                                 const endPos = element.selectionEnd;
                                 let newValue = element.value.substring(0, startPos) + value + element.value.substring(endPos, element.value.length);
-                                startInput(element, newValue);
+                                await startInput(element, newValue);
                                 element.selectionStart = startPos + value.length;
                                 element.selectionEnd = startPos + value.length;
                             } else {
@@ -11572,11 +11573,19 @@
         }
 
         let reachLast = false;
-        function startInput(input, v) {
+        async function startInput(input, v) {
             if (!input) return true;
             targetElement = input;
-            let event = new Event('focus', { bubbles: true });
+            let event = new FocusEvent('focusin', { bubbles: true });
             input.dispatchEvent(event);
+            event = new Event('focus', { bubbles: true });
+            input.dispatchEvent(event);
+            const selection = window.getSelection();
+            const range = selection.rangeCount ? selection.getRangeAt(0) : new Range();
+            range.selectNode(input);
+            selection.removeAllRanges();
+            selection.addRange(range);
+            await sleep(1);
             input.type !== 'file' && input.click && input.click();
             let lastValue = input.value;
             if (input.type == 'file') {
@@ -11602,24 +11611,34 @@
             } else if (input.nodeName.toUpperCase() == "TEXTAREA") {
                 var nativeTextareaValueSetter = Object.getOwnPropertyDescriptor(window.HTMLTextAreaElement.prototype, "value").set;
                 nativeTextareaValueSetter.call(input, v);
-            } else if (input.contentEditable == 'true') {
-                input.innerHTML = createHTML(v);
             } else {
-                let file = v;
-                if (file.indexOf('data:') == 0) {
-                    file = dataURLtoFile(file);
-                } else {
-                    let blob = new Blob([file], {
-                        type: 'text/plain'
-                    });
-                    file = new File([blob], 'noname.txt', { type: blob.type })
+                let contentEditableParent = input;
+                while (contentEditableParent && contentEditableParent.contentEditable !== 'true') {
+                    contentEditableParent = contentEditableParent.parentNode;
                 }
-                var pasteEvent = new ClipboardEvent('paste', {
-                    target: document.body,
-                    clipboardData: new DataTransfer()
-                });
-                pasteEvent.clipboardData.items.add(file);
-                input.dispatchEvent(pasteEvent);
+                if (contentEditableParent) {
+                    contentEditableParent.dispatchEvent(new InputEvent('beforeinput', {inputType: "insertText", data: v}));
+                    await sleep(1);
+                    if (input.innerText !== v) {
+                        input.innerHTML = createHTML(v);
+                    }
+                } else {
+                    let file = v;
+                    if (file.indexOf('data:') == 0) {
+                        file = dataURLtoFile(file);
+                    } else {
+                        let blob = new Blob([file], {
+                            type: 'text/plain'
+                        });
+                        file = new File([blob], 'noname.txt', { type: blob.type })
+                    }
+                    var pasteEvent = new ClipboardEvent('paste', {
+                        target: document.body,
+                        clipboardData: new DataTransfer()
+                    });
+                    pasteEvent.clipboardData.items.add(file);
+                    input.dispatchEvent(pasteEvent);
+                }
             }
             event = new Event('input', { bubbles: true });
             let tracker = input._valueTracker;
@@ -11662,7 +11681,7 @@
         async function emuInput(sel, v, eleIndex = -1) {
             let input = await returnElement(sel, eleIndex);
             if (input === true) return true;
-            startInput(input, v);
+            await startInput(input, v);
             return reachLast;
         }
 
