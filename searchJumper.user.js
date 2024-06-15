@@ -3647,6 +3647,11 @@
                 tips.className = "search-jumper-tips";
                 tips.style.opacity = 0;
                 searchBarCon.appendChild(tips);
+                tips.addEventListener('mouseenter', e => {
+                    if (self.hideTimeout) {
+                        clearTimeout(self.hideTimeout);
+                    }
+                }, false);
                 this.tips = tips;
 
                 //this.appendBar();
