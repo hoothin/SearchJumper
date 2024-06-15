@@ -12354,9 +12354,13 @@
                 }, 100);
                 hideTimer = setTimeout(() => {
                     searchBar.bar.style.display = 'none';
+                    if (searchData.prefConfig.resizePage) {
+                        if (typeof searchBar.initBodyStyle != "undefined") getBody(document).style.cssText = searchBar.initBodyStyle;
+                        searchBar.con.classList.remove("resizePage");
+                    }
                     document.removeEventListener('touchend', mouseUpHandler, false);
                     document.removeEventListener('touchmove', mouseMoveHandler, false);
-                }, 2000);
+                }, 1500);
             }, { passive: false, capture: false });
 
             searchBar.bar.addEventListener(getSupportWheelEventName(), e => {
