@@ -6082,7 +6082,9 @@
                 let self = this;
                 let cspHandler = e => {
                     disabled = true;
-                    self.shadowContainer.parentNode.removeChild(self.shadowContainer);
+                    if (self.shadowContainer && self.shadowContainer.parentNode) {
+                        self.shadowContainer.parentNode.removeChild(self.shadowContainer);
+                    }
                     self.shadowContainer = document.createElement("div");
                     self.shadowContainer.setAttribute('contenteditable', 'false');
                 };
