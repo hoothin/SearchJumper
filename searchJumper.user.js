@@ -6083,16 +6083,11 @@
                 let cspHandler = e => {
                     if (!e.violatedDirective || e.violatedDirective.indexOf("style-src") == -1) return;
                     disabled = true;
-                    if (self.shadowContainer && self.shadowContainer.parentNode) {
-                        self.shadowContainer.parentNode.removeChild(self.shadowContainer);
-                    }
-                    self.shadowContainer = document.createElement("div");
-                    self.shadowContainer.setAttribute('contenteditable', 'false');
                 };
                 window.addEventListener('securitypolicyviolation', cspHandler);
                 let testStyleEle = _GM_addStyle(`html {color: #000;}`);
                 this.addToShadow(testStyleEle);
-                await sleep(1);
+                await sleep(0);
                 window.removeEventListener('securitypolicyviolation', cspHandler);
                 testStyleEle.parentNode && testStyleEle.parentNode.removeChild(testStyleEle);
             }
