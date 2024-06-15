@@ -5,7 +5,7 @@
 // @name:ja      SearchJumper
 // @name:ru      SearchJumper
 // @namespace    hoothin
-// @version      1.7.99
+// @version      1.8.0
 // @description  Conduct searches for selected text/image effortlessly. Navigate to any search engine(Google/Bing/Custom) swiftly.
 // @description:zh-CN  万能聚合搜索，一键切换任何搜索引擎(百度/必应/谷歌等)，支持划词右键搜索、页内关键词查找与高亮、可视化操作模拟、高级自定义等
 // @description:zh-TW  一鍵切換任意搜尋引擎，支援劃詞右鍵搜尋、頁內關鍵詞查找與高亮、可視化操作模擬、高級自定義等
@@ -6081,6 +6081,7 @@
             async testCSP() {
                 let self = this;
                 let cspHandler = e => {
+                    if (!e.violatedDirective || e.violatedDirective.indexOf("style-src") == -1) return;
                     disabled = true;
                     if (self.shadowContainer && self.shadowContainer.parentNode) {
                         self.shadowContainer.parentNode.removeChild(self.shadowContainer);
@@ -6142,24 +6143,37 @@
                     if (!disabled) this.addToShadow(mainStyleEle);
                 }
                 if (this.addToShadow(this.con)) {
-                    setTimeout(() => {
-                        if (!isAllPage && this.con.parentNode) {
-                            if (getComputedStyle(this.con).zIndex != "2147483647") {
-                                this.removeBar();
-                                if (disabled) {
-                                    debug(i18n("cspDisabled"));
+                    let self = this;
+                    let checkZIndex = () => {
+                        setTimeout(() => {
+                            if (self.shadowContainer && !self.shadowContainer.parentNode) {
+                                if (shareEngines) {
+                                    document.body.appendChild(self.shadowContainer);
                                 } else {
-                                    disabled = true;
-                                    mainStyleEle = _GM_addStyle(cssText);
-                                    this.shadowContainer.parentNode.removeChild(this.shadowContainer);
-                                    this.shadowContainer = document.createElement("div");
-                                    this.shadowContainer.setAttribute('contenteditable', 'false');
-                                    document.documentElement.appendChild(this.shadowContainer);
-                                    this.appendBar();
+                                    document.documentElement.appendChild(self.shadowContainer);
+                                }
+                                checkZIndex();
+                                return;
+                            }
+                            if (!isAllPage && self.con.parentNode) {
+                                if (getComputedStyle(self.con).zIndex != "2147483647") {
+                                    this.removeBar();
+                                    if (disabled) {
+                                        debug(i18n("cspDisabled"));
+                                    } else {
+                                        disabled = true;
+                                        mainStyleEle = _GM_addStyle(cssText);
+                                        self.shadowContainer.parentNode.removeChild(self.shadowContainer);
+                                        self.shadowContainer = document.createElement("div");
+                                        self.shadowContainer.setAttribute('contenteditable', 'false');
+                                        document.documentElement.appendChild(self.shadowContainer);
+                                        self.appendBar();
+                                    }
                                 }
                             }
-                        }
-                    }, 10);
+                        }, 100);
+                    };
+                    checkZIndex();
                 }
             }
 
