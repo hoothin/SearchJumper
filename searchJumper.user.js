@@ -5,7 +5,7 @@
 // @name:ja      SearchJumper
 // @name:ru      SearchJumper
 // @namespace    hoothin
-// @version      1.8.0
+// @version      1.8.1
 // @description  Conduct searches for selected text/image effortlessly. Navigate to any search engine(Google/Bing/Custom) swiftly.
 // @description:zh-CN  万能聚合搜索，一键切换任何搜索引擎(百度/必应/谷歌等)，支持划词右键搜索、页内关键词查找与高亮、可视化操作模拟、高级自定义等
 // @description:zh-TW  一鍵切換任意搜尋引擎，支援劃詞右鍵搜尋、頁內關鍵詞查找與高亮、可視化操作模擬、高級自定義等
@@ -256,6 +256,8 @@
                         submitCrawl: '☑️完成操作',
                         inputOutput: '在元素<span title="#t1#" class="element">#t1#</span>内输入<span title="#t2#">#t2#</span>',
                         clickOutput: '点击元素<span title="#t#" class="element">#t#</span>',
+                        dblclickOutput: '双击元素<span title="#t#" class="element">#t#</span>',
+                        rclickOutput: '右击元素<span title="#t#" class="element">#t#</span>',
                         copyOutput: '复制元素<span title="#t#" class="element">#t#</span>',
                         sleepOutput: '休眠<span title="#t#">#t#</span>毫秒',
                         inputNewValue: '请输入新值',
@@ -380,6 +382,8 @@
                         submitCrawl: '☑️完成操作',
                         inputOutput: '在元素<span title="#t1#" class="element">#t1#</span>內輸入<span title="#t2#">#t2#</span>',
                         clickOutput: '點擊元素<span title="#t#" class="element">#t#</span>',
+                        dblclickOutput: '雙擊元素<span title="#t#" class="element">#t#</span>',
+                        rclickOutput: '右擊元素<span title="#t#" class="element">#t#</span>',
                         copyOutput: '複製元素<span title="#t#" class="element">#t#</span>',
                         sleepOutput: '休眠<span title="#t#">#t#</span>毫秒',
                         inputNewValue: '請輸入新值',
@@ -501,7 +505,9 @@
                         copyAction: '📄要素のコピー',
                         submitCrawl: '☑️操作を完了',
                         inputOutput: '要素 <span title="#t1#" class="element">#t1#</span> 内に <span title="#t2#">#t2#</span> を入力します',
-                        clickOutput: 'クリック要素<span title="#t#" class="element">#t#</span>',
+                        clickOutput: 'クリック<span title="#t#" class="element">#t#</span>',
+                        dblclickOutput: 'ダブルクリック<span title="#t#" class="element">#t#</span>',
+                        rclickOutput: '右クリック<span title="#t#" class="element">#t#</span>',
                         copyOutput: 'コピー要素<span title="#t#" class="element">#t#</span>',
                         sleepOutput: 'スリープ<span title="#t#">#t#</span> ミリ秒',
                         inputNewValue: '新しい値を入力してください',
@@ -624,6 +630,8 @@
                         submitCrawl: '☑️Завешить действие',
                         inputOutput: 'Ввод <span title="#t2#">#t2#</span> в элемент <span title="#t1#" class="element">#t1#</span>',
                         clickOutput: 'Клик по элементу <span title="#t#" class="element">#t#</span>',
+                        dblclickOutput: 'Двойной клик <span title="#t#" class="element">#t#</span>',
+                        rclickOutput: 'щелкните ПКМ <span title="#t#" class="element">#t#</span>',
                         copyOutput: 'Копировать элемент <span title="#t#" class="element">#t#</span>',
                         sleepOutput: 'Ждать <span title="#t#">#t#</span> миллисекунд',
                         inputNewValue: 'Введите новое значение',
@@ -739,6 +747,8 @@
                         submitCrawl: '☑️Complete operation',
                         inputOutput: 'Input <span title="#t2#">#t2#</span> in the element <span title="#t1#" class="element">#t1#</span>',
                         clickOutput: 'Click on element <span title="#t#" class="element">#t#</span>',
+                        dblclickOutput: 'Double click <span title="#t#" class="element">#t#</span>',
+                        rclickOutput: 'Right click <span title="#t#" class="element">#t#</span>',
                         copyOutput: 'Copy element <span title="#t#" class="element">#t#</span>',
                         sleepOutput: 'Sleep for <span title="#t#">#t#</span> milliseconds',
                         inputNewValue: 'Please enter a new value',
@@ -8769,6 +8779,14 @@
                         clicked = true;
                         let _r = await emuClick(param[1], eleIndex);
                         if (!_r) result = false;
+                    } else if (param[0] === "@dblclick") {
+                        clicked = true;
+                        let _r = await emuDblClick(param[1], eleIndex);
+                        if (!_r) result = false;
+                    } else if (param[0] === "@rclick") {
+                        clicked = true;
+                        let _r = await emuRClick(param[1], eleIndex);
+                        if (!_r) result = false;
                     } else if (param[1] === 'click' && param[0].indexOf('@') === 0) {
                         clicked = true;
                         let _r = await emuClick(param[0].substr(1), eleIndex);
@@ -9510,6 +9528,16 @@
                                 let click = pair.slice(6, pair.length - 1);
                                 if (click) {
                                     postParams.push(['@click', click.replace(/\\([\=&])/g, "$1").trim()]);
+                                }
+                            } else if (pair.startsWith("dblclick(") && pair.endsWith(')')) {
+                                let click = pair.slice(9, pair.length - 1);
+                                if (click) {
+                                    postParams.push(['@dblclick', click.replace(/\\([\=&])/g, "$1").trim()]);
+                                }
+                            } else if (pair.startsWith("rclick(") && pair.endsWith(')')) {
+                                let click = pair.slice(7, pair.length - 1);
+                                if (click) {
+                                    postParams.push(['@rclick', click.replace(/\\([\=&])/g, "$1").trim()]);
                                 }
                             } else if (pair.startsWith("copy(") && pair.endsWith(')')) {
                                 let copy = pair.slice(5, pair.length - 1);
@@ -11318,11 +11346,11 @@
             geneSelector(ele, id) {
                 let selector = ele.nodeName.toLowerCase();
                 if (selector !== "html" && selector !== "body") {
-                    if (id && ele.id && /^[\w\-_]+$/.test(ele.id)) selector = '#' + ele.id;
+                    if (id && ele.id && /^[a-z\-_][\w\-_]+$/i.test(ele.id)) selector = '#' + ele.id;
                     else {
                         if (ele.className) {
                             let classLen = ele.classList.length;
-                            selector += [].map.call(ele.classList, d => /^[\w]+$/.test(d) || (classLen < 3 && /^[\w\-_]+$/.test(d)) ? ('.' + d) : "").join('');
+                            selector += [].map.call(ele.classList, d => /^[a-z][\w]+$/i.test(d) || (classLen < 3 && /^[a-z\-_][\w\-_]+$/i.test(d)) ? ('.' + d) : "").join('');
                         }
                         let parent = ele.parentElement;
                         if (parent) {
@@ -11792,6 +11820,114 @@
             dispatchTouchEvent(btn, "touchend");
             btn.click();
             debug(btn, `click ${sel}`);
+            return reachLast;
+        }
+
+        async function emuDblClick(sel, eleIndex = -1) {
+            let btn = await returnElement(sel, eleIndex);
+            if (btn === true) return true;
+            targetElement = btn;
+            let eventParam = {
+                isTrusted: true,
+                altKey: false,
+                azimuthAngle: 0,
+                bubbles: true,
+                button: 0,
+                buttons: 0,
+                clientX: 1,
+                clientY: 1,
+                cancelBubble: false,
+                cancelable: true,
+                composed: true,
+                ctrlKey: false,
+                defaultPrevented: false,
+                detail: 2,
+                eventPhase: 2,
+                fromElement: null,
+                height: 1,
+                isPrimary: false,
+                metaKey: false,
+                pointerId: 1,
+                pointerType: "mouse",
+                pressure: 0,
+                relatedTarget: null,
+                returnValue: true,
+                shiftKey: false,
+                toElement: null,
+                twist: 0,
+                which: 1,
+                view: window
+            };
+            btn.focus();
+            var mouseEvent = new PointerEvent("mouseover",eventParam);
+            btn.dispatchEvent(mouseEvent);
+            mouseEvent = new PointerEvent("pointerover",eventParam);
+            btn.dispatchEvent(mouseEvent);
+            mouseEvent = new PointerEvent("mousedown",eventParam);
+            btn.dispatchEvent(mouseEvent);
+            mouseEvent = new PointerEvent("pointerdown",eventParam);
+            btn.dispatchEvent(mouseEvent);
+            mouseEvent = new PointerEvent("mouseup",eventParam);
+            btn.dispatchEvent(mouseEvent);
+            mouseEvent = new PointerEvent("pointerup",eventParam);
+            btn.dispatchEvent(mouseEvent);
+            btn.click();
+            mouseEvent = new MouseEvent("dblclick",eventParam);
+            btn.dispatchEvent(mouseEvent);
+            debug(btn, `dblclick ${sel}`);
+            return reachLast;
+        }
+
+        async function emuRClick(sel, eleIndex = -1) {
+            let btn = await returnElement(sel, eleIndex);
+            if (btn === true) return true;
+            targetElement = btn;
+            let eventParam = {
+                isTrusted: true,
+                altKey: false,
+                azimuthAngle: 0,
+                bubbles: true,
+                button: 2,
+                buttons: 0,
+                clientX: 1,
+                clientY: 1,
+                cancelBubble: false,
+                cancelable: true,
+                composed: true,
+                ctrlKey: false,
+                defaultPrevented: false,
+                detail: 0,
+                eventPhase: 2,
+                fromElement: null,
+                height: 1,
+                isPrimary: false,
+                metaKey: false,
+                pointerId: 1,
+                pointerType: "mouse",
+                pressure: 0,
+                relatedTarget: null,
+                returnValue: true,
+                shiftKey: false,
+                toElement: null,
+                twist: 0,
+                which: 3
+            };
+            btn.focus();
+            var mouseEvent = new PointerEvent("mouseover",eventParam);
+            btn.dispatchEvent(mouseEvent);
+            mouseEvent = new PointerEvent("pointerover",eventParam);
+            btn.dispatchEvent(mouseEvent);
+            mouseEvent = new PointerEvent("mousedown",eventParam);
+            btn.dispatchEvent(mouseEvent);
+            mouseEvent = new PointerEvent("pointerdown",eventParam);
+            btn.dispatchEvent(mouseEvent);
+            mouseEvent = new PointerEvent("mouseup",eventParam);
+            btn.dispatchEvent(mouseEvent);
+            mouseEvent = new PointerEvent("pointerup",eventParam);
+            btn.dispatchEvent(mouseEvent);
+            mouseEvent = new PointerEvent("contextmenu",eventParam);
+            btn.dispatchEvent(mouseEvent);
+            debug(btn, `rclick ${sel}`);
             return reachLast;
         }
 
@@ -14659,6 +14795,16 @@
                                 if (click) {
                                     postParams.push(['@click', click.replace(/\\([\=&])/g, "$1").trim()]);
                                 }
+                            } else if (pair.startsWith("dblclick(") && pair.endsWith(')')) {
+                                let click = pair.slice(9, pair.length - 1);
+                                if (click) {
+                                    postParams.push(['@dblclick', click.replace(/\\([\=&])/g, "$1").trim()]);
+                                }
+                            } else if (pair.startsWith("rclick(") && pair.endsWith(')')) {
+                                let click = pair.slice(7, pair.length - 1);
+                                if (click) {
+                                    postParams.push(['@rclick', click.replace(/\\([\=&])/g, "$1").trim()]);
+                                }
                             } else if (pair.startsWith("copy(") && pair.endsWith(')')) {
                                 let copy = pair.slice(5, pair.length - 1);
                                 if (copy) {
@@ -14800,6 +14946,12 @@
                         case "click":
                             words = i18n('clickOutput', sel);
                             break;
+                        case "dblclick":
+                            words = i18n('dblclickOutput', sel);
+                            break;
+                        case "rclick":
+                            words = i18n('rclickOutput', sel);
+                            break;
                         case "copy":
                             words = i18n('copyOutput', sel);
                             break;
@@ -14893,6 +15045,16 @@
                             if (click) {
                                 addAction('click', click.replace(/\\([\=&])/g, "$1").trim());
                             }
+                        } else if (pair.startsWith("dblclick(") && pair.endsWith(')')) {
+                            let click = pair.slice(9, pair.length - 1);
+                            if (click) {
+                                addAction('dblclick', click.replace(/\\([\=&])/g, "$1").trim());
+                            }
+                        } else if (pair.startsWith("rclick(") && pair.endsWith(')')) {
+                            let click = pair.slice(7, pair.length - 1);
+                            if (click) {
+                                addAction('rclick', click.replace(/\\([\=&])/g, "$1").trim());
+                            }
                         } else if (pair.startsWith("copy(") && pair.endsWith(')')) {
                             let copy = pair.slice(5, pair.length - 1);
                             if (copy) {
@@ -14942,6 +15104,12 @@
                             case "click":
                                 actions.push(`click(${sel.replace(/([=&])/g, '\\$1')})`);
                                 break;
+                            case "dblclick":
+                                actions.push(`dblclick(${sel.replace(/([=&])/g, '\\$1')})`);
+                                break;
+                            case "rclick":
+                                actions.push(`rclick(${sel.replace(/([=&])/g, '\\$1')})`);
+                                break;
                             case "copy":
                                 actions.push(`copy(${sel.replace(/([=&])/g, '\\$1')})`);
                                 break;
@@ -14969,12 +15137,33 @@
                     addFrame.classList.remove("crawling");
                 });
                 let targetInput;
+                let clickTimer;
                 let clickSthHandler = e => {
                     if (addFrame.style.display === '') return;
                     if (/INPUT|TEXTAREA|SELECT|OPTION/i.test(e.target.nodeName)) {
                         return;
                     }
-                    addAction('click', picker.geneSelector(e.target, true));
+                    clearTimeout(clickTimer);
+                    clickTimer = setTimeout(() => {
+                        addAction('click', picker.geneSelector(e.target, true));
+                    }, 300);
+                };
+                let dblclickSthHandler = e => {
+                    if (addFrame.style.display === '') return;
+                    if (/INPUT|TEXTAREA|SELECT|OPTION/i.test(e.target.nodeName)) {
+                        return;
+                    }
+                    clearTimeout(clickTimer);
+                    addAction('dblclick', picker.geneSelector(e.target, true));
+                };
+                let rclickSthHandler = e => {
+                    if (addFrame.style.display === '') return;
+                    if (/INPUT|TEXTAREA|SELECT|OPTION/i.test(e.target.nodeName)) {
+                        return;
+                    }
+                    e.preventDefault();
+                    clearTimeout(clickTimer);
+                    addAction('rclick', picker.geneSelector(e.target, true));
                 };
                 let changeHandler = e => {
                     if (addFrame.style.display === '') return;
@@ -14982,19 +15171,22 @@
                 };
                 let keydownHandler = e => {
                     if (addFrame.style.display === '') return;
+                    let quit = false;
                     if (e.keyCode == 27) {
-                        addFrame.style.display = '';
-                        document.removeEventListener('keydown', keydownHandler, true);
-                        document.removeEventListener('click', clickSthHandler);
-                        document.removeEventListener('change', changeHandler);
+                        quit = true;
                     } else if (e.keyCode == 13) {
                         //enter
                         e.preventDefault();
                         e.stopPropagation();
                         e.target && e.target.blur && e.target.blur();
+                        quit = true;
+                    }
+                    if (quit) {
                         addFrame.style.display = '';
                         document.removeEventListener('keydown', keydownHandler, true);
                         document.removeEventListener('click', clickSthHandler);
+                        document.removeEventListener('dblclick', dblclickSthHandler);
+                        document.removeEventListener('contextmenu', rclickSthHandler);
                         document.removeEventListener('change', changeHandler);
                     }
                 };
@@ -15004,6 +15196,8 @@
                     setTimeout(() => {
                         document.addEventListener('keydown', keydownHandler, true);
                         document.addEventListener('click', clickSthHandler);
+                        document.addEventListener('dblclick', dblclickSthHandler);
+                        document.addEventListener('contextmenu', rclickSthHandler);
                         document.addEventListener('change', changeHandler);
                     }, 100);
                 });
@@ -15034,12 +15228,35 @@
                     }, !inLoop);
                     addFrame.style.display = 'none';
                 });
-                clickAction.addEventListener("click", e => {
+                clickAction.addEventListener("dblclick", e => {
+                    clearTimeout(clickTimer);
+                    e.preventDefault();
+                    e.stopPropagation();
                     picker.getSelector(selector => {
-                        addAction('click', selector);
+                        addAction('dblclick', selector);
                         addFrame.style.display = '';
                     }, !inLoop);
                     addFrame.style.display = 'none';
+                });
+                clickAction.addEventListener("contextmenu", e => {
+                    clearTimeout(clickTimer);
+                    e.preventDefault();
+                    e.stopPropagation();
+                    picker.getSelector(selector => {
+                        addAction('rclick', selector);
+                        addFrame.style.display = '';
+                    }, !inLoop);
+                    addFrame.style.display = 'none';
+                });
+                clickAction.addEventListener("click", e => {
+                    clearTimeout(clickTimer);
+                    clickTimer = setTimeout(() => {
+                        picker.getSelector(selector => {
+                            addAction('click', selector);
+                            addFrame.style.display = '';
+                        }, !inLoop);
+                        addFrame.style.display = 'none';
+                    }, 250);
                 });
                 sleepAction.addEventListener("click", e => {
                     let sleepTime = prompt(i18n('sleepPrompt'), 1000);
