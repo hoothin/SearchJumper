@@ -11855,8 +11855,7 @@
                 shiftKey: false,
                 toElement: null,
                 twist: 0,
-                which: 1,
-                view: window
+                which: 1
             };
             btn.focus();
             var mouseEvent = new PointerEvent("mouseover",eventParam);
@@ -11872,7 +11871,11 @@
             mouseEvent = new PointerEvent("pointerup",eventParam);
             btn.dispatchEvent(mouseEvent);
             btn.click();
-            mouseEvent = new MouseEvent("dblclick",eventParam);
+            btn.click();
+            mouseEvent = new MouseEvent("dblclick", {
+                ...eventParam,
+                view: _unsafeWindow
+            });
             btn.dispatchEvent(mouseEvent);
             debug(btn, `dblclick ${sel}`);
             return reachLast;
