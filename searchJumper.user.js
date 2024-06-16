@@ -5,7 +5,7 @@
 // @name:ja      SearchJumper
 // @name:ru      SearchJumper
 // @namespace    hoothin
-// @version      1.8.1
+// @version      1.8.2
 // @description  Conduct searches for selected text/image effortlessly. Navigate to any search engine(Google/Bing/Custom) swiftly.
 // @description:zh-CN  万能聚合搜索，一键切换任何搜索引擎(百度/必应/谷歌等)，支持划词右键搜索、页内关键词查找与高亮、可视化操作模拟、高级自定义等
 // @description:zh-TW  一鍵切換任意搜尋引擎，支援劃詞右鍵搜尋、頁內關鍵詞查找與高亮、可視化操作模擬、高級自定義等
@@ -6076,15 +6076,7 @@
                 picker.close();
                 document.removeEventListener("mouseup", this.checkSelHandler);
                 this.setFuncKeyCall(false);
-                let openType = this.bar.querySelector('.search-jumper-type.search-jumper-open>span');
-                if (openType) {
-                    if (openType.onmousedown) {
-                        openType.onmousedown();
-                    } else {
-                        let mouseEvent = new PointerEvent("mousedown");
-                        openType.dispatchEvent(mouseEvent);
-                    }
-                }
+                this.closeOpenType();
             }
 
             removeBar() {
@@ -7068,24 +7060,18 @@
                         }
                     }
                     if (searchData.prefConfig.autoClose) {
-                        let openType = self.bar.querySelector('.search-jumper-type.search-jumper-open>span');
-                        if (openType) {
-                            if (openType.onmousedown) {
-                                openType.onmousedown();
-                            } else {
-                                let mouseEvent = new PointerEvent("mousedown");
-                                openType.dispatchEvent(mouseEvent);
-                            }
-                        }
+                        self.closeOpenType();
                     }
-                    this.hideTimeout = null;
+                    self.hideTimeout = null;
                 };
                 if (this.hideTimeout) {
                     clearTimeout(this.hideTimeout);
                 }
-                let delayTime = delay || (this.funcKeyCall ? 500 : (searchData.prefConfig.autoDelay || 1000));
+                let delayTime = typeof delay === 'undefined' ? (this.funcKeyCall ? 500 : (searchData.prefConfig.autoDelay || 1000)) : delay;
 
-                this.hideTimeout = setTimeout(hideHandler, delayTime);
+                if (delayTime) {
+                    this.hideTimeout = setTimeout(hideHandler, delayTime);
+                } else hideHandler();
                 if (this.preList) {
                     this.preList.style.visibility = "hidden";
                     this.listArrow.style.cssText = "";
@@ -7736,12 +7722,16 @@
                 if (siteEle.href) a.href = siteEle.href;
                 a.style.display = siteEle.style.display;
                 a.addEventListener('mousedown', async e => {
-                    await self.siteSetUrl(siteEle, {button: e.button, altKey: e.altKey, ctrlKey: e.ctrlKey, shiftKey: e.shiftKey, metaKey: e.metaKey});
-                    if (siteEle.href) a.href = siteEle.href;
-                    a.setAttribute("target", siteEle.target);
+                    if (siteEle.dataset.showTips) {
+                        siteEle.dispatchEvent(new CustomEvent('showTips'));
+                    } else {
+                        await self.siteSetUrl(siteEle, {button: e.button, altKey: e.altKey, ctrlKey: e.ctrlKey, shiftKey: e.shiftKey, metaKey: e.metaKey});
+                        if (siteEle.href) a.href = siteEle.href;
+                        a.setAttribute("target", siteEle.target);
+                    }
                     if (!a.onclick) {
                         a.onclick = e => {
-                            siteEle.click();
+                            if (!siteEle.dataset.showTips) siteEle.click();
                             e.stopPropagation();
                             e.preventDefault();
                             return false;
@@ -8027,6 +8017,7 @@
 
             tipsPos(ele, type) {
                 this.tips.innerHTML = createHTML(type);
+                this.tips.style.pointerEvents = "";
                 this.tips.style.display = "";
                 this.tips.style.opacity = 1;
                 this.clingPos(ele, this.tips);
@@ -9647,6 +9638,7 @@
                                 _GM_setClipboard(tipsData);
                             }
                         }
+                        ele.dispatchEvent(new Event("actionOver"));
                         return;
                     }
                     clicked = false;
@@ -9807,7 +9799,7 @@
                                     } else {
                                         self.searchJumperInPageInput.value = _url;
                                         self.submitInPageWords();
-                                        self.waitForHide(1);
+                                        self.waitForHide(0);
                                     }
                                 });
                             } else {
@@ -9816,7 +9808,7 @@
                                 } else {
                                     self.searchJumperInPageInput.value = findWords;
                                     self.submitInPageWords();
-                                    self.waitForHide(1);
+                                    self.waitForHide(0);
                                 }
                             }
                         }
@@ -10052,11 +10044,14 @@
                             }
                             if (tipsResult) {
                                 if (tipsResult != "null" && tipsResult != "No result") {
-                                    tipsResult = `<div style="font-size: initial; line-height: initial; font-weight: normal; pointer-events: all; padding: 5px;"><style>.search-jumper-tips{padding:0;}</style>${tipsResult}</div>`;
+                                    tipsResult = `<div style="font-size: initial; line-height: initial; font-weight: normal; padding: 5px;"><style>.search-jumper-tips{padding:0;}</style>${tipsResult}</div>`;
                                     tipsShowing = true;
                                 }
                                 //self.tips.style.transition = "none";
                                 self.tipsPos(target, tipsResult);
+                                setTimeout(() => {
+                                    self.tips.style.pointerEvents = "all";
+                                }, 100);
                             }
                         } catch(e) {debug(e)}
                     }
@@ -10115,7 +10110,10 @@
                     self.clingPos(ele, self.tips);
                 }, false);
                 ele.addEventListener('showTips', e => {
+                    self.closeShowAll();
                     self.appendBar();
+                    self.waitForHide(0);
+                    self.closeOpenType();
                     self.con.style.display = "";
                     self.setFuncKeyCall(true);
                     showTipsHandler(targetElement, 0);
@@ -10126,7 +10124,25 @@
                         clearTimeout(self.requestShowTipsTimer);
                     }
                 }, false);
+                ele.addEventListener('drop', e => {
+                    self.searchBySiteName(name, e);
+                }, false);
+                ele.addEventListener('dragover', e => {
+                    e.preventDefault();
+                }, false);
                 return ele;
+            }
+
+            closeOpenType() {
+                let openType = this.bar.querySelector('.search-jumper-type.search-jumper-open>span');
+                if (openType) {
+                    if (openType.onmousedown) {
+                        openType.onmousedown();
+                    } else {
+                        let mouseEvent = new PointerEvent("mousedown");
+                        openType.dispatchEvent(mouseEvent);
+                    }
+                }
             }
 
             addToHighlightGroup(findWords, addToGroup) {
@@ -10358,12 +10374,14 @@
                                         } else return "No result";
                                     }
                                 }
+                                let title;
                                 tipsResult = await fetchData.then(r => {
                                     if (!data) {
                                         return r;
                                     }
                                     let doc = document.implementation.createHTMLDocument('');
                                     doc.documentElement.innerHTML = createHTML(r);
+                                    title = doc.title;
                                     let finalData = data;
                                     while (template) {
                                         let value = "";
@@ -10408,6 +10426,8 @@
                                 if (!tipsResult) {
                                     tipsResult = "No result";
                                     failed = true;
+                                } else {
+                                    this.insertHistoryUrl(url, title);
                                 }
                                 tipsResult = [tipsResult, url];
                                 storeData = tipsResult;
@@ -10420,9 +10440,22 @@
                         }
                     } else {
                         tipsResult = /\breturn\b/.test(data) ? await new AsyncFunction('fetch', 'storage', 'name', '"use strict";' + data)(GM_fetch, storage, name) : data;
+                        if (targetElement && targetElement.href) {
+                            let newTitle = targetElement.title || targetElement.alt || targetElement.innerText;
+                            this.insertHistoryUrl(targetElement.href, newTitle);
+                        }
                     }
                 } catch(e) {debug(e)}
                 return tipsResult;
+            }
+
+            insertHistoryUrl(url, title) {
+                let curUrl = location.href;
+                let oldTitle = document.title;
+                _unsafeWindow.history.pushState(undefined, title, url);
+                document.title = title;
+                _unsafeWindow.history.replaceState(undefined, oldTitle, curUrl);
+                document.title = oldTitle;
             }
 
             checkScroll(noIntoView, noSmooth) {
@@ -10612,15 +10645,7 @@
                     }
                 }
                 if (!_funcKeyCall && (searchData.prefConfig.disableAutoOpen || searchData.prefConfig.disableTypeOpen)) {
-                    let openType = this.bar.querySelector('.search-jumper-type.search-jumper-open>span');
-                    if (openType) {
-                        if (openType.onmousedown) {
-                            openType.onmousedown();
-                        } else {
-                            let mouseEvent = new PointerEvent("mousedown");
-                            openType.dispatchEvent(mouseEvent);
-                        }
-                    }
+                    this.closeOpenType();
                 }
                 self.setFuncKeyCall(_funcKeyCall);
                 if (_funcKeyCall) {
@@ -12407,15 +12432,7 @@
                     }
                 }
                 logoSvg.style.cursor = "";
-                let firstType = searchBar.bar.querySelector('.search-jumper-type.search-jumper-open>span');
-                if (firstType) {
-                    if (firstType.onmousedown) {
-                        firstType.onmousedown();
-                    } else {
-                        let mouseEvent = new PointerEvent("mousedown");
-                        firstType.dispatchEvent(mouseEvent);
-                    }
-                }
+                searchBar.closeOpenType();
                 searchBar.initPos(relX, relY, posX, posY);
                 storage.setItem("searchData", searchData);
             };
@@ -12668,7 +12685,7 @@
                             setTimeout(() => {
                                 if (getSelectStr()) {
                                     searchBar.showInPage(true, e);
-                                } else searchBar.waitForHide(1);
+                                } else searchBar.waitForHide(0);
                             }, 0);
                         }
                         return;
@@ -12692,7 +12709,7 @@
                     }
                     if (!searchData.prefConfig.selectToShow) {
                         if ((e.button === 0 && !searchData.prefConfig.leftMouse) || (e.button === 1 && !searchData.prefConfig.middleMouse)) {
-                            searchBar.waitForHide(1);
+                            searchBar.waitForHide(0);
                             return;
                         }
                     }
@@ -12728,7 +12745,7 @@
                                     searchBar.showInPage(true, e);
                                 } else {
                                     waitForMouse = false;
-                                    searchBar.waitForHide(1);
+                                    searchBar.waitForHide(0);
                                 }
                             }, 0);
                         }
@@ -12854,7 +12871,7 @@
                     if (targetElement.shadowRoot) return;
                     if (targetElement.getAttribute && targetElement.getAttribute("draggable") == "true") return;
                     if (targetElement.parentNode && targetElement.parentNode.getAttribute && targetElement.parentNode.getAttribute("draggable") == "true") return;
-                    searchBar.waitForHide(1);
+                    searchBar.waitForHide(0);
                     setTimeout(() => {
                         showDragSearch(e.clientX, e.clientY);
                     }, 2);
