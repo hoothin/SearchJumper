@@ -12134,6 +12134,7 @@
             if (searchData.prefConfig.cacheSwitch && !isAllPage) {
                 searchBar.con.classList.add("in-input");
                 searchBar.con.style.visibility = "hidden";
+                searchBar.con.style.display = "";
                 searchBar.appendBar();
                 let needCache = cacheFontPool.length > 0;
                 while (cacheFontPool.length > 0) {
