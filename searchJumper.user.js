@@ -9196,11 +9196,9 @@
                         _str = customReplaceSingle(_str, "%ss", keywordsSC);
                         _str = customReplaceSingle(_str, "%st", keywordsTC);
                         _str = customReplaceSingle(_str, "%se", escape ? escape(keywordsR) : keywordsR);
-                        if (_str == str) {
-                            _str = customReplaceSingle(_str, "%s", keywordsR, v => {
-                                return (needDecode ? v : encodeURIComponent(v));
-                            });
-                        }
+                        _str = customReplaceSingle(_str, "%s", keywordsR, v => {
+                            return (needDecode ? v : encodeURIComponent(v));
+                        });
                         return _str;
                     };
                     let customVariable = str => {
