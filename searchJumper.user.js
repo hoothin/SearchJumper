@@ -5,7 +5,7 @@
 // @name:ja      SearchJumper
 // @name:ru      SearchJumper
 // @namespace    hoothin
-// @version      1.8.2
+// @version      1.8.3
 // @description  Conduct searches for selected text/image effortlessly. Navigate to any search engine(Google/Bing/Custom) swiftly.
 // @description:zh-CN  万能聚合搜索，一键切换任何搜索引擎(百度/必应/谷歌等)，支持划词右键搜索、页内关键词查找与高亮、可视化操作模拟、高级自定义等
 // @description:zh-TW  一鍵切換任意搜尋引擎，支援劃詞右鍵搜尋、頁內關鍵詞查找與高亮、可視化操作模擬、高級自定義等
@@ -7612,6 +7612,11 @@
 
             initHistorySites() {
                 this.historySiteBtns = [];
+                this.txtHistorySiteBtns = [];
+                this.imgHistorySiteBtns = [];
+                this.linkHistorySiteBtns = [];
+                this.videoHistorySiteBtns = [];
+                this.audioHistorySiteBtns = [];
                 let self = this;
                 historySites.forEach(async n => {
                     for (let siteConfig of searchData.sitesConfig) {
@@ -7623,6 +7628,21 @@
                                 let siteBtn = await self.createSiteBtn((searchData.prefConfig.noIcons ? "0" : site.icon), site, true, isBookmark, siteConfig);
                                 siteBtn.classList.add("historySite");
                                 self.historySiteBtns.push(siteBtn);
+                                if (siteConfig.selectTxt) {
+                                    self.txtHistorySiteBtns.push(siteBtn);
+                                }
+                                if (siteConfig.selectImg) {
+                                    self.imgHistorySiteBtns.push(siteBtn);
+                                }
+                                if (siteConfig.selectLink || siteConfig.selectPage) {
+                                    self.linkHistorySiteBtns.push(siteBtn);
+                                }
+                                if (siteConfig.selectVideo) {
+                                    self.videoHistorySiteBtns.push(siteBtn);
+                                }
+                                if (siteConfig.selectAudio) {
+                                    self.audioHistorySiteBtns.push(siteBtn);
+                                }
                                 found = true;
                                 break;
                             }
@@ -7653,8 +7673,20 @@
                         }
                     }
                 }
-                for (let i = 0; i < this.historySiteBtns.length; i++) {
-                    let btn = this.historySiteBtns[i];
+                let historySiteBtns = this.historySiteBtns;
+                if (typeEle.classList.contains("search-jumper-needInPage")) {
+                    historySiteBtns = this.txtHistorySiteBtns;
+                } else if (typeEle.classList.contains("search-jumper-targetImg")) {
+                    historySiteBtns = this.imgHistorySiteBtns;
+                } else if (typeEle.classList.contains("search-jumper-targetAudio")) {
+                    historySiteBtns = this.audioHistorySiteBtns;
+                } else if (typeEle.classList.contains("search-jumper-targetVideo")) {
+                    historySiteBtns = this.videoHistorySiteBtns;
+                } else if (typeEle.classList.contains("search-jumper-targetLink") || typeEle.classList.contains("search-jumper-targetPage")) {
+                    historySiteBtns = this.linkHistorySiteBtns;
+                }
+                for (let i = 0; i < historySiteBtns.length; i++) {
+                    let btn = historySiteBtns[i];
                     if (btn.style.display == "none") continue;
                     let siteImg = btn.querySelector('img');
                     if (siteImg && siteImg.dataset.src) {
@@ -14330,6 +14362,25 @@
                 filldragSpan(span, targetSite);
             });
             let findIndex = 0;
+
+            let historySiteBtns;
+            if (firstType.classList.contains("search-jumper-needInPage")) {
+                historySiteBtns = searchBar.txtHistorySiteBtns;
+            } else if (firstType.classList.contains("search-jumper-targetImg")) {
+                historySiteBtns = searchBar.imgHistorySiteBtns;
+            } else if (firstType.classList.contains("search-jumper-targetAudio")) {
+                historySiteBtns = searchBar.audioHistorySiteBtns;
+            } else if (firstType.classList.contains("search-jumper-targetVideo")) {
+                historySiteBtns = searchBar.videoHistorySiteBtns;
+            } else if (firstType.classList.contains("search-jumper-targetLink") || firstType.classList.contains("search-jumper-targetPage")) {
+                historySiteBtns = searchBar.linkHistorySiteBtns;
+            }
+            if (historySiteBtns) {
+                historySiteBtns = historySiteBtns.concat(searchBar.historySiteBtns);
+                historySiteBtns = historySiteBtns.filter((value, index, self) => self.indexOf(value) === index);
+            } else {
+                historySiteBtns = searchBar.historySiteBtns;
+            }
             let getHistorySiteBtn = () => {
                 if (searchData.prefConfig.reuseDragHistory) {
                     return getTargetSiteBtn();
@@ -14337,8 +14388,8 @@
                     return false;
                 }
                 let result = null;
-                for (let i = findIndex; i < searchBar.historySiteBtns.length; i++) {
-                    let btn = searchBar.historySiteBtns[i];
+                for (let i = findIndex; i < historySiteBtns.length; i++) {
+                    let btn = historySiteBtns[i];
                     if (btn.style.display !== 'none') {
                         result = btn;
                         findIndex = i + 1;
