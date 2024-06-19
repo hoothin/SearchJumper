@@ -157,7 +157,7 @@ Select the above text, PopClip will offer an "Install Extension" action. Click i
 ``` json
 {
   "name": "發送到手機",
-  "url": "https://s.hoothin.com/#p{wait(x-peer)&rclick(x-peer')&#textInput=%s&click(#textInput+div>button)}"
+  "url": "https://s.hoothin.com/#p{wait(x-peer)&rclick(x-peer)&#textInput=%s&click(#textInput+div>button)}"
 }
 ```
 + Split by line and paste into the current input box in order 按行分割後依次粘貼到當前輸入框
