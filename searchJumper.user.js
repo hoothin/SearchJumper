@@ -5,7 +5,7 @@
 // @name:ja      SearchJumper
 // @name:ru      SearchJumper
 // @namespace    hoothin
-// @version      1.8.5
+// @version      1.8.6
 // @description  Conduct searches for selected text/image effortlessly. Navigate to any search engine(Google/Bing/Custom) swiftly.
 // @description:zh-CN  万能聚合搜索，一键切换任何搜索引擎(百度/必应/谷歌等)，支持划词右键搜索、页内关键词查找与高亮、可视化操作模拟、高级自定义等
 // @description:zh-TW  一鍵切換任意搜尋引擎，支援劃詞右鍵搜尋、頁內關鍵詞查找與高亮、可視化操作模擬、高級自定義等
@@ -3556,6 +3556,8 @@
                 this.dayInAll = dayInAll;
 
                 alllist.addEventListener(getSupportWheelEventName(), e => {
+                    self.tips.style.display = "none";
+                    clearTimeout(self.requestShowTipsTimer);
                     if (e.target != alllist && e.target != showallBg && e.target != sitelistBox) return;
                     if (alllist.classList.contains("new-mode")) return;
                     var deltaX, deltaY;
@@ -5832,6 +5834,9 @@
                 });*/
                 this.touched = false;
                 this.initPos();
+                if (this.funcKeyCall) {
+                    this.setFuncKeyCall(false);
+                }
                 if (!searchData.prefConfig.disableAutoOpen && !searchData.prefConfig.disableTypeOpen) {
                     let firstType = this.bar.querySelector('.search-jumper-type:nth-child(1)>span');
                     if (firstType && !firstType.classList.contains("search-jumper-open")) {
@@ -5843,7 +5848,7 @@
                         }
                     }
                 }
-                this.bar.style.display = ''
+                this.bar.style.display = '';
             }
 
             toggleShowAll() {
@@ -6181,6 +6186,9 @@
 
             async searchBySiteName(siteName, e, selfTab) {
                 if (!e) e = {};
+                if (e && e.type === 'drop') {
+                    this.closeShowAll();
+                }
                 for (let [siteBtn, siteData] of this.allSiteBtns) {
                     if (siteBtn.dataset.name == siteName) {
                         if (siteBtn.dataset.showTips) {
@@ -7755,6 +7763,9 @@
                 a.style.display = siteEle.style.display;
                 a.addEventListener('mousedown', async e => {
                     if (siteEle.dataset.showTips) {
+                        if (self.con.classList.contains("search-jumper-showall")) {
+                            targetElement = a.parentNode;
+                        } else self.waitForHide(0);
                         siteEle.dispatchEvent(new CustomEvent('showTips'));
                     } else {
                         await self.siteSetUrl(siteEle, {button: e.button, altKey: e.altKey, ctrlKey: e.ctrlKey, shiftKey: e.shiftKey, metaKey: e.metaKey});
@@ -7828,6 +7839,9 @@
                             img.style.width = "";
                             img.style.height = "";
                             img.style.display = "";
+                        };
+                        img.onerror = e => {
+                            img.src = noImgBase64;
                         };
                         img.style.width = "1px";
                         img.style.height = "1px";
@@ -7968,6 +7982,9 @@
                 let viewWidth = window.innerWidth || document.documentElement.clientWidth;
                 let viewHeight = window.innerHeight || document.documentElement.clientHeight;
                 if (showall) {
+                    let clientRect = clingEle.getBoundingClientRect();
+                    clientX = clientRect.x + ew / 2;
+                    clientY = clientRect.y + eh / 2;
                     clientX -= target.scrollWidth / 2 - this.con.scrollLeft;
                     clientY += this.con.scrollTop;
                     if (clientY > viewHeight / 2) clientY -= (target.scrollHeight + eh / 2 + 10);
@@ -9699,6 +9716,58 @@
                         ele.click();
                     }
                 };
+                let addHistory = () => {
+                    let historyLength = Math.max(searchData.prefConfig.historyLength, 20);
+                    let isCurrent = ele.dataset.current;
+                    if (!data.hideNotMatch && !data.kwFilter && !ele.dataset.clone && !ele.dataset.paste && urlMatch !== '0' && historyLength && !isCurrent) {
+                        storage.getItem("historySites", data => {
+                            historySites = (data || []);
+                            historySites = historySites.filter(site => {return site && site != name});
+                            historySites.unshift(name);
+                            if (historySites.length > historyLength) {
+                                historySites = historySites.slice(0, historyLength);
+                            }
+                            storage.setItem("historySites", historySites);
+                            //self.initHistorySites();
+                        });
+                    }
+                    if (searchData.prefConfig.shiftLastUsedType && !isCurrent) {
+                        let parent = ele.parentNode;
+                        let dismissHistory = parent && (parent.classList.contains("search-jumper-targetAll") ||
+                                                        parent.classList.contains("search-jumper-targetImg") ||
+                                                        parent.classList.contains("search-jumper-targetAudio") ||
+                                                        parent.classList.contains("search-jumper-targetVideo") ||
+                                                        parent.classList.contains("search-jumper-targetLink") ||
+                                                        parent.classList.contains("search-jumper-targetPage") ||
+                                                        parent.classList.contains("search-jumper-needInPage"));
+                        if (!dismissHistory && historyType != ele.dataset.type) {
+                            historyType = ele.dataset.type;
+                            storage.setItem("historyType", historyType);
+                        }
+                    }
+                    if (searchData.prefConfig.sortType) {
+                        storage.getItem("sortTypeNames", data => {
+                            sortTypeNames = (data || {});
+                            if (!sortTypeNames[ele.dataset.type]) {
+                                sortTypeNames[ele.dataset.type] = 1;
+                            } else {
+                                sortTypeNames[ele.dataset.type] = sortTypeNames[ele.dataset.type] + 1;
+                            }
+                            storage.setItem("sortTypeNames", sortTypeNames);
+                        });
+                    }
+                    if (searchData.prefConfig.sortSite) {
+                        storage.getItem("sortSiteNames", data => {
+                            sortSiteNames = (data || {});
+                            if (!sortSiteNames[ele.dataset.name]) {
+                                sortSiteNames[ele.dataset.name] = 1;
+                            } else {
+                                sortSiteNames[ele.dataset.name] = sortSiteNames[ele.dataset.name] + 1;
+                            }
+                            storage.setItem("sortSiteNames", sortSiteNames);
+                        });
+                    }
+                };
                 let clickHandler = e => {
                     if (self.waitForShowTips) {
                         showTipsHandler(ele, 0);
@@ -9719,56 +9788,7 @@
                     if (!e) e = {};
                     let isPage = /^(https?|ftp):/.test(targetUrlData);
                     if (!self.batchOpening && !isBookmark) {
-                        let historyLength = Math.max(searchData.prefConfig.historyLength, 20);
-                        let isCurrent = ele.dataset.current;
-                        if (!data.hideNotMatch && !data.kwFilter && !showTips && !ele.dataset.clone && !ele.dataset.paste && urlMatch !== '0' && historyLength && !isCurrent) {
-                            storage.getItem("historySites", data => {
-                                historySites = (data || []);
-                                historySites = historySites.filter(site => {return site && site != name});
-                                historySites.unshift(name);
-                                if (historySites.length > historyLength) {
-                                    historySites = historySites.slice(0, historyLength);
-                                }
-                                storage.setItem("historySites", historySites);
-                                //self.initHistorySites();
-                            });
-                        }
-                        if (searchData.prefConfig.shiftLastUsedType && !isCurrent) {
-                            let parent = ele.parentNode;
-                            let dismissHistory = parent && (parent.classList.contains("search-jumper-targetAll") ||
-                                                            parent.classList.contains("search-jumper-targetImg") ||
-                                                            parent.classList.contains("search-jumper-targetAudio") ||
-                                                            parent.classList.contains("search-jumper-targetVideo") ||
-                                                            parent.classList.contains("search-jumper-targetLink") ||
-                                                            parent.classList.contains("search-jumper-targetPage") ||
-                                                            parent.classList.contains("search-jumper-needInPage"));
-                            if (!dismissHistory && historyType != ele.dataset.type) {
-                                historyType = ele.dataset.type;
-                                storage.setItem("historyType", historyType);
-                            }
-                        }
-                        if (searchData.prefConfig.sortType) {
-                            storage.getItem("sortTypeNames", data => {
-                                sortTypeNames = (data || {});
-                                if (!sortTypeNames[ele.dataset.type]) {
-                                    sortTypeNames[ele.dataset.type] = 1;
-                                } else {
-                                    sortTypeNames[ele.dataset.type] = sortTypeNames[ele.dataset.type] + 1;
-                                }
-                                storage.setItem("sortTypeNames", sortTypeNames);
-                            });
-                        }
-                        if (searchData.prefConfig.sortSite) {
-                            storage.getItem("sortSiteNames", data => {
-                                sortSiteNames = (data || {});
-                                if (!sortSiteNames[ele.dataset.name]) {
-                                    sortSiteNames[ele.dataset.name] = 1;
-                                } else {
-                                    sortSiteNames[ele.dataset.name] = sortSiteNames[ele.dataset.name] + 1;
-                                }
-                                storage.setItem("sortSiteNames", sortSiteNames);
-                            });
-                        }
+                        addHistory();
                     }
                     if (searchData.prefConfig.multiline == 1 || searchData.prefConfig.multiline == 2) {
                         if (inputString &&
@@ -10079,6 +10099,7 @@
                                 }
                                 //self.tips.style.transition = "none";
                                 self.tipsPos(target, tipsResult);
+                                addHistory();
                                 setTimeout(() => {
                                     self.tips.style.pointerEvents = "all";
                                 }, 100);
@@ -10087,7 +10108,7 @@
                     }
                 };
                 let showTipsHandler = async (target, time = 1000) => {
-                    if (!target) return;
+                    if (!target || target.nodeType !== 1) return;
                     tipsData = null;
                     clearTimeout(self.requestShowTipsTimer);
                     self.waitForShowTips = false;
@@ -10147,9 +10168,7 @@
                     self.clingPos(ele, self.tips);
                 }, false);
                 ele.addEventListener('showTips', e => {
-                    self.closeShowAll();
                     self.appendBar();
-                    self.waitForHide(0);
                     self.closeOpenType();
                     self.con.style.display = "";
                     self.setFuncKeyCall(true);
@@ -10534,11 +10553,12 @@
             }
 
             insertHistoryUrl(url, title) {
+                if (url.indexOf(location.host) === -1) return;
                 let curUrl = location.href;
                 let oldTitle = document.title;
-                _unsafeWindow.history.pushState(undefined, title, url);
+                _unsafeWindow.history.pushState('', title, url);
                 document.title = title;
-                _unsafeWindow.history.replaceState(undefined, oldTitle, curUrl);
+                _unsafeWindow.history.replaceState('', oldTitle, curUrl);
                 document.title = oldTitle;
             }
 
@@ -12953,6 +12973,7 @@
                         return;
                     }
                     targetElement = e.target;
+                    if (targetElement.nodeType !== 1) targetElement = targetElement.parentNode;
                     if (targetElement.shadowRoot) return;
                     if (targetElement.getAttribute && targetElement.getAttribute("draggable") == "true") return;
                     if (targetElement.parentNode && targetElement.parentNode.getAttribute && targetElement.parentNode.getAttribute("draggable") == "true") return;
