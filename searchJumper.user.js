@@ -5,7 +5,7 @@
 // @name:ja      SearchJumper
 // @name:ru      SearchJumper
 // @namespace    hoothin
-// @version      1.8.3
+// @version      1.8.4
 // @description  Conduct searches for selected text/image effortlessly. Navigate to any search engine(Google/Bing/Custom) swiftly.
 // @description:zh-CN  万能聚合搜索，一键切换任何搜索引擎(百度/必应/谷歌等)，支持划词右键搜索、页内关键词查找与高亮、可视化操作模拟、高级自定义等
 // @description:zh-TW  一鍵切換任意搜尋引擎，支援劃詞右鍵搜尋、頁內關鍵詞查找與高亮、可視化操作模擬、高級自定義等
@@ -10227,8 +10227,8 @@
                         let calcJson = (json, template) => {
                             let finalData = data;
                             while (template) {
-                                let templateArr = template[1].split("|");
-                                let props = templateArr[0].split("."), value = json, arrayValue = null;
+                                let templateArr = template[1].replace(/\\\|/g, "【searchJumperJsonSplit】").split("|");
+                                let props = templateArr[0].replace(/【searchJumperJsonSplit】/g, "|").split("."), value = json, arrayValue = null;
                                 props.shift();
                                 props.forEach(prop => {
                                     if (arrayValue) {
@@ -10463,6 +10463,7 @@
                                 storeData = tipsResult;
                             }
                             if (!failed) {
+                                tipsResult = this.calcResult(tipsResult);
                                 tipsStorage.push({url: url, data: storeData, time: Date.now() / 1000 + cache});
                                 if (tipsStorage.length > 50) tipsStorage.shift();
                                 storage.setItem("tipsStorage", tipsStorage);
@@ -10470,6 +10471,7 @@
                         }
                     } else {
                         tipsResult = /\breturn\b/.test(data) ? await new AsyncFunction('fetch', 'storage', 'name', '"use strict";' + data)(GM_fetch, storage, name) : data;
+                        tipsResult = this.calcResult(tipsResult);
                         if (targetElement && targetElement.href) {
                             let newTitle = targetElement.title || targetElement.alt || targetElement.innerText;
                             this.insertHistoryUrl(targetElement.href, newTitle);
@@ -10477,6 +10479,44 @@
                     }
                 } catch(e) {debug(e)}
                 return tipsResult;
+            }
+
+            calcResult(str) {
+                const calcRegFull = /{([\d\.]+)(([\+\-*/][\d\.]+)+)}/;
+                const calcRegOperate = /([\+\-*/])([\d\.]+)/;
+                let needCalc = str.match(calcRegFull);
+                if (needCalc) {
+                    let calcArr = [];
+                    let fullMatch = needCalc[0];
+                    let value = parseFloat(needCalc[1]);
+                    let calcStr = needCalc[2];
+                    needCalc = calcStr.match(calcRegOperate);
+                    while (needCalc) {
+                        calcStr = calcStr.replace(needCalc[0], "");
+                        calcArr.push([needCalc[1], needCalc[2]]);
+                        needCalc = calcStr.match(calcRegOperate);
+                    }
+                    calcArr.forEach(calc => {
+                        let param = parseFloat(calc[1]);
+                        switch (calc[0]) {
+                            case "+":
+                                value += param;
+                                break;
+                            case "-":
+                                value -= param;
+                                break;
+                            case "*":
+                                value *= param;
+                                break;
+                            case "/":
+                                value /= param;
+                                break;
+                        }
+                    });
+                    value = value.toFixed(2);
+                    str = str.replace(fullMatch, value);
+                }
+                return str;
             }
 
             insertHistoryUrl(url, title) {
