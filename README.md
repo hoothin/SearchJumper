@@ -175,21 +175,6 @@ Select the above text, PopClip will offer an "Install Extension" action. Click i
   "kwFilter": "\\d\\$|\\$\\d"
 }
 ```
-+ Currency conversion of various countries 各國貨幣轉換 **javascript is effective only at userscript**
-``` json
-{
-  "name": "貨幣轉換",
-  "url": "javascript:fetch(`https://api.exchangerate.host/convert?from=%input{From currency/US Dollar/Euro/Japanese Yen/China Yuan,USD/EUR/JPY/CNY}&to=%input{Target currency/US Dollar/Euro/Japanese Yen/China Yuan,USD/EUR/JPY/CNY}&amount=%sr.replace(/\\D/g,\"\")`).then(r=>r.json()).then(r=>prompt(`${r.date} Exchange rate by the European Central Bank\\n${r.query.amount.toLocaleString()} ${r.query.from} =`,`${r.result.toLocaleString()} ${r.query.to}`)).catch(alert);"
-}
-```
-+ Miles to kilometers and show in tips 英里轉公里並顯示為 tips
-``` json
-{
-  "name": "📏 英里轉公里",
-  "url": "showTips:let s=\"%sr\".match(/(\\d+)(英里|英?哩|mi(le)?)/)[1];let km=(s*1.609344).toFixed(2);return `<i>${s} mi = ${km} km</i>`;",
-  "kwFilter": "\\d+\\s*(英里|英?哩|mi(le)?\\b)"
-}
-```
 + Preview Japan AV 框選番號預覽AV such as ABW-345
 ``` json
 {
