@@ -10817,10 +10817,18 @@
                     this.preList.style.visibility = "hidden";
                     this.listArrow.style.cssText = "";
                 }
-                relX = relX || searchData.prefConfig.position.x;
-                relY = relY || searchData.prefConfig.position.y;
-                posX = posX || searchData.prefConfig.offset.x;
-                posY = posY || searchData.prefConfig.offset.y;
+                if (typeof relX === 'undefined') {
+                    relX = searchData.prefConfig.position.x;
+                }
+                if (typeof relY === 'undefined') {
+                    relY = searchData.prefConfig.position.y;
+                }
+                if (typeof posX === 'undefined') {
+                    posX = searchData.prefConfig.offset.x;
+                }
+                if (typeof posY === 'undefined') {
+                    posY = searchData.prefConfig.offset.y;
+                }
                 let self = this;
                 let setClass = className => {
                     self.bar.style.cssText = "";
@@ -10885,19 +10893,9 @@
                         });
                     }, 1);
                 };
-                let viewWidth = window.innerWidth || document.documentElement.clientWidth;
-                let viewHeight = window.innerHeight || document.documentElement.clientHeight;
-                var maxSize = Math.max(self.bar.scrollWidth, self.bar.scrollHeight);
 
-                if (posX > viewWidth - maxSize) {
-                    posX = viewWidth - maxSize;
-                }
                 if (posX < 0) {
                     posX = 0;
-                }
-
-                if (posY > viewHeight - maxSize) {
-                    posY = viewHeight - maxSize;
                 }
                 if (posY < 0) {
                     posY = 0;
