@@ -1578,7 +1578,7 @@ function forwordToSite(inputWord) {
     let typeIndex = window.searchData.sitesConfig.findIndex((data, index) => {
         if (filterGroup) return inputWord === data.type;
         return data.sites.findIndex((site, i) => {
-            if (site.name === inputWord || site.url === inputWord) {
+            if (site.name === inputWord || site.url.replace(/\n/g, "") === inputWord) {
                 filterEngineName = site.name;
                 return true;
             }
@@ -2048,7 +2048,7 @@ export default function Engines() {
                                             option.value = site.name;
                                             list.appendChild(option);
                                         }
-                                    } else if (site.url.indexOf(inputWordLc) !== -1) {
+                                    } else if (site.url.length < 1000 && site.url.indexOf(inputWordLc) !== -1) {
                                         if (site.url !== inputWord) {
                                             let option = document.createElement('option');
                                             option.value = site.url;
