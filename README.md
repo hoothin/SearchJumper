@@ -191,6 +191,14 @@ Select the above text, PopClip will offer an "Install Extension" action. Click i
     "kwFilter": "[\\u3040-\\u309F\\u30A0-\\u30FF]"
 }
 ```
++ Convert miles and kilometers 轉換英哩與公里
+``` json
+{
+  "name": "📏 Mile to km",
+  "url": "showTips:\n<i>%sr.replace(/(\\d+)(英里|英?哩|mi(le)?)/,\"$1\") mi = {%sr.replace(/(\\d+)(英里|英?哩|mi(le)?)/,\"$1\")*1.609344} km</i>",
+  "kwFilter": "\\d+\\s*(英里|英?哩|mi(le)?\\b)"
+}
+```
 
 ---
  <details>
