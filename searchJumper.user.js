@@ -5,7 +5,7 @@
 // @name:ja      SearchJumper
 // @name:ru      SearchJumper
 // @namespace    hoothin
-// @version      1.8.4
+// @version      1.8.5
 // @description  Conduct searches for selected text/image effortlessly. Navigate to any search engine(Google/Bing/Custom) swiftly.
 // @description:zh-CN  万能聚合搜索，一键切换任何搜索引擎(百度/必应/谷歌等)，支持划词右键搜索、页内关键词查找与高亮、可视化操作模拟、高级自定义等
 // @description:zh-TW  一鍵切換任意搜尋引擎，支援劃詞右鍵搜尋、頁內關鍵詞查找與高亮、可視化操作模擬、高級自定義等
@@ -10104,6 +10104,13 @@
                         } else {
                             self.waitForShowTips = true;
                             self.requestShowTipsTimer = setTimeout(() => {
+                                if (url.indexOf('%input{') !== -1) {
+                                    self.showCustomInputWindow(url, _url => {
+                                        url = _url;
+                                        setTips(target, url);
+                                    });
+                                    return;
+                                }
                                 lastUrl = url;
                                 setTips(target, url);
                                 self.waitForShowTips = false;
@@ -10481,7 +10488,9 @@
                 return tipsResult;
             }
 
-            calcResult(str) {
+            calcResult(result) {
+                let isString = typeof result === 'string';
+                let str = isString ? result : result[0];
                 const calcRegFull = /{([\d\.]+)(([\+\-*/][\d\.]+)+)}/;
                 const calcRegOperate = /([\+\-*/])([\d\.]+)/;
                 let needCalc = str.match(calcRegFull);
@@ -10516,7 +10525,12 @@
                     value = value.toFixed(2);
                     str = str.replace(fullMatch, value);
                 }
-                return str;
+                if (isString) {
+                    result = str;
+                } else {
+                    result[0] = str;
+                }
+                return result;
             }
 
             insertHistoryUrl(url, title) {
@@ -14477,6 +14491,10 @@
 
         var addFrame, nameInput, descInput, urlInput, iconInput, iconShow, iconsCon, typeSelect, testBtn, cancelBtn, addBtn, siteKeywords, siteMatch, openSelect, crawlBtn;
         function showSiteAdd(name, description, url, icons, charset, kwFilter, match, hideNotMatch) {
+            self.kwFilter = kwFilter;
+            self.charset = charset;
+            self.hideNotMatch = hideNotMatch;
+            self.match = match;
             if (!addFrame) {
                 let addFrameCssText = `
                     .searchJumperFrame-body,
@@ -15005,17 +15023,17 @@
                             if (openSelect.value && openSelect.value != '-1') {
                                 siteObj.openInNewTab = openSelect.value === 'true';
                             }
-                            if (charset && charset.toLowerCase() != 'utf-8') {
-                                siteObj.charset = charset;
+                            if (self.charset && charset.toLowerCase() != 'utf-8') {
+                                siteObj.charset = self.charset;
                             }
-                            if (kwFilter) {
-                                siteObj.kwFilter = kwFilter;
+                            if (self.kwFilter) {
+                                siteObj.kwFilter = self.kwFilter;
                             }
-                            if (match) {
-                                siteObj.match = match;
+                            if (self.match) {
+                                siteObj.match = self.match;
                             }
-                            if (hideNotMatch) {
-                                siteObj.hideNotMatch = hideNotMatch;
+                            if (self.hideNotMatch) {
+                                siteObj.hideNotMatch = self.hideNotMatch;
                             }
                         }
                         searchData.sitesConfig[typeSelect.value].sites.push(siteObj);
