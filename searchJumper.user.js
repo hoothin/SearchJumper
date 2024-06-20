@@ -2086,7 +2086,7 @@
                  #search-jumper.funcKeyCall>.search-jumper-searchBar>.search-jumper-type>.sitelist {
                      display: none;
                  }
-                 ${searchData.prefConfig.minPopup ? `
+                 ${searchData.prefConfig.minPopup && !searchData.prefConfig.hideTileType ? `
                  #search-jumper.funcKeyCall>.search-jumper-searchBar>.search-jumper-type>a.search-jumper-btn {
                      display: none;
                  }
