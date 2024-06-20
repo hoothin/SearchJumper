@@ -4279,6 +4279,11 @@
                             }
                             resolve("");
                         });
+                        customInputFrame.addEventListener("keydown", e => {
+                            if (e.keyCode == 13) {
+                                customSubmit.click();
+                            }
+                        });
                         let customGroup = this.customInputFrame.querySelector("#customGroup");
                         this.customGroup = customGroup;
                         let finalSearch = this.customInputFrame.querySelector("[name='finalSearch']");
