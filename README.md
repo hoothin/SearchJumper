@@ -449,3 +449,7 @@ users:
 ![i](assets/batchOpen3.jpg)
 
  </details>
+
+## Star History
+
+[![Star History Chart](https://api.star-history.com/svg?repos=hoothin/SearchJumper&type=Date)](https://star-history.com/#hoothin/SearchJumper&Date)
