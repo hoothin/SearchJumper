@@ -2971,6 +2971,11 @@
                  .inputGroup svg.checked {
                      fill: #1E88E5;
                  }
+                 @media screen and (max-width: 2048px) {
+                     #search-jumper.search-jumper-showall #search-jumper-alllist.new-mode .sitelist {
+                         width: 1580px;
+                     }
+                 }
                  @media screen and (max-width: 1920px) {
                      #search-jumper.search-jumper-showall #search-jumper-alllist.new-mode .sitelist {
                          width: 1320px;
@@ -6720,11 +6725,23 @@
                 };
                 let inputTimer;
                 this.inInput = false;
+                let saveCacheFilter = () => {
+                    if (cacheFilter !== self.searchInput.value) {
+                        cacheFilter = self.searchInput.value;
+                        storage.setItem("cacheFilter", cacheFilter);
+                    }
+                };
                 this.searchInput.addEventListener("input", e => {
                     clearTimeout(inputTimer);
                     inputTimer = setTimeout(() => {
                         self.searchSiteBtns(self.searchInput.value)
                     }, 500);
+                });
+                this.searchInput.addEventListener("click", e => {
+                    self.searchInput.select();
+                });
+                this.searchInput.addEventListener("blur", e => {
+                    saveCacheFilter();
                 });
                 this.searchInput.addEventListener("keydown", e => {
                     e.stopPropagation();
@@ -6758,10 +6775,7 @@
                                 } else {
                                     this.searchJumperInputKeyWords.focus();
                                 }
-                                if (cacheFilter !== self.searchInput.value) {
-                                    cacheFilter = self.searchInput.value;
-                                    storage.setItem("cacheFilter", cacheFilter);
-                                }
+                                saveCacheFilter();
                             }
                             break;
                         case 8://退格
@@ -6801,10 +6815,6 @@
                             break;
                         case 13://回车
                             searchWithCurrentFilter(e);
-                            if (cacheFilter !== self.searchInput.value) {
-                                cacheFilter = self.searchInput.value;
-                                storage.setItem("cacheFilter", cacheFilter);
-                            }
                             break;
                         default:
                             break;
