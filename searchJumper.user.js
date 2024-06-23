@@ -5,7 +5,7 @@
 // @name:ja      SearchJumper
 // @name:ru      SearchJumper
 // @namespace    hoothin
-// @version      1.8.8
+// @version      1.8.9
 // @description  Conduct searches for selected text/image effortlessly. Navigate to any search engine(Google/Bing/Custom) swiftly.
 // @description:zh-CN  万能聚合搜索，一键切换任何搜索引擎(百度/必应/谷歌等)，支持划词右键搜索、页内关键词查找与高亮、可视化操作模拟、高级自定义等
 // @description:zh-TW  一鍵切換任意搜尋引擎，支援劃詞右鍵搜尋、頁內關鍵詞查找與高亮、可視化操作模擬、高級自定義等
@@ -8646,11 +8646,11 @@
                 siteEle.setAttribute("target", siteEle.dataset.target == 1 ? "_blank" : "_self");
             }
 
-            async batchOpen(siteNames, e) {
+            async batchOpen(siteNames, e, newTab) {
                 let self = this;
                 self.batchOpening = true;
                 self.customInput = false;
-                if (e.button === 0 && e.altKey && e.shiftKey) {
+                if (e.altKey && e.shiftKey) {
                     let targetSites = self.getTargetSitesByName(siteNames);
                     let html = '<title>SearchJumper Multi</title><style>body{background: black; margin: 0;}iframe{box-sizing: border-box;padding: 5px}</style>';
                     let c = window.open("", "_blank"), i = 1;
@@ -8715,8 +8715,11 @@
                             if (targetElement) {
                                 target = {src: targetElement.src || targetElement.href || '', title: targetElement.title || targetElement.alt};
                             }
+                            siteNames = siteNames.filter(n => n !== siteEle.dataset.name);
                             storage.setItem("lastSign", {target: target, sites: siteNames});
-                            _GM_openInTab(siteEle.href, {incognito: true});
+                            setTimeout(() => {
+                                _GM_openInTab(siteEle.href, {incognito: true});
+                            }, 300);
                             setTimeout(() => {
                                 storage.setItem("lastSign", false);
                             }, 2000);
@@ -8755,6 +8758,7 @@
                             if (targetElement) {
                                 target = {src: targetElement.src || targetElement.href || '', title: targetElement.title || targetElement.alt};
                             }
+                            siteNames = siteNames.filter(n => n !== siteEle.dataset.name);
                             storage.setItem("lastSign", {target: target, sites: siteNames});
                             window.open(siteEle.href, '_blank');
                             setTimeout(() => {
@@ -8779,7 +8783,7 @@
                     let targetSites = self.getTargetSitesByName(siteNames);
                     targetSites.reverse().forEach(siteEle => {
                         if (siteEle.dataset.current) return;
-                        self.openSiteBtn(siteEle);
+                        self.openSiteBtn(siteEle, "_blank", !!newTab);
                     });
                 }
                 self.batchOpening = false;
@@ -9966,7 +9970,7 @@
                         if (e.preventDefault) e.preventDefault();
                         if (e.stopPropagation) e.stopPropagation();
                         let siteNames = JSON.parse(data.url);
-                        self.batchOpen(siteNames, {button: 2, altKey: alt || e.altKey, ctrlKey: ctrl || e.ctrlKey, shiftKey: shift || e.shiftKey, metaKey: meta || e.metaKey});
+                        self.batchOpen(siteNames, {button: 2, altKey: alt || e.altKey, ctrlKey: ctrl || e.ctrlKey, shiftKey: shift || e.shiftKey, metaKey: meta || e.metaKey}, openInNewTab === 1);
                         return false;
                     } else if (/[:%]P{/.test(data.url)) {
                         if (e.preventDefault) e.preventDefault();
