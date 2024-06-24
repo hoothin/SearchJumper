@@ -194,7 +194,7 @@ Select the above text, PopClip will offer an "Install Extension" action. Click i
 ``` json
 {
     "name": "🗻 Japanese romaji",
-    "url": "showTips:https://translate.googleapis.com/translate_a/single%p{client=gtx&dt=t&dt=bd&dj=1&dt=ex&dt=ld&dt=md&dt=qca&dt=rw&dt=rm&dt=ss&dt=at&sl=ja&tl=en&q=%s}\n<h3 style='margin: 0;'>{name}</h3>\n{json.sentences.all.trans}\n<br>\n<font style='display: block;' color='antiquewhite'>{json.sentences.all.orig}</font>\n<font style='display: block;' color='yellow'>{json.sentences.-1.src_translit}</font>\n🔈<a style=\"color:#f9690e;\" href=\"#\" onclick='var msg = new SpeechSynthesisUtterance(\"\");msg.volume = 1;msg.rate = 1;msg.pitch = 1;msg.lang = \"ja\";msg.text=`%sr`;window.speechSynthesis.speak(msg);'>Read</a>",
+    "url": "showTips:https://translate.googleapis.com/translate_a/single%p{client=gtx&dt=t&dt=bd&dj=1&dt=ex&dt=ld&dt=md&dt=qca&dt=rw&dt=rm&dt=ss&dt=at&sl=ja&tl=zh_CN&q=%s}\n<h3 style='margin: 0;'>{name}</h3>\n{json.sentences.all.trans}\n<br>\n<font style='display: block;' color='antiquewhite'>{json.sentences.all.orig}</font>\n<font style='display: block;' color='yellow'>{json.sentences.-1.src_translit}</font>\n<span style=\"cursor:pointer;color:#f9690e;\" onclick='var msg = new SpeechSynthesisUtterance(\"\");msg.volume = 1;msg.rate = 1;msg.pitch = 1;msg.lang = \"ja\";msg.text=`%sr`;window.speechSynthesis.speak(msg);'>🔈Read</span>",
     "kwFilter": "[\\u3040-\\u309F\\u30A0-\\u30FF]"
 }
 ```
