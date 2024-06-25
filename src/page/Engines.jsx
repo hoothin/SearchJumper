@@ -457,12 +457,14 @@ class ChildSiteIcons extends React.Component {
                 console.log(e);
             }
         }
+        let icon = "";
+        
         if (site.icon) {
-            return site.icon;
+            icon = site.icon;
         } else if (/^(showTips:)?https?:/.test(site.url)) {
-            return site.url.replace(new RegExp('^(showTips:)?(https?://[^/]*/)[\\s\\S]*$'), "$2favicon.ico");
+            icon = site.url.replace(new RegExp('^(showTips:)?(https?://[^/]*/)[\\s\\S]*$'), "$2favicon.ico");
         }
-        return "";
+        return (/^http/.test(icon) && window.cacheIcon[icon]) || icon;
     }
 
     dragOver(e) {
@@ -1961,7 +1963,7 @@ export default function Engines() {
                                 onDragLeave={e => {hideDragLine()}}
                                 icon={
                                     /^(http|data:)/.test(data.icon)?(
-                                        <img alt={data.type} src={data.icon} style={{m:1, background: 'darkgray', borderRadius: '35px', width: '65px', height: '65px', padding: '15px', boxSizing: 'border-box'}} />
+                                        <img alt={data.type} src={(/^http/.test(data.icon) && window.cacheIcon[data.icon]) || data.icon} style={{m:1, background: 'darkgray', borderRadius: '35px', width: '65px', height: '65px', padding: '15px', boxSizing: 'border-box'}} />
                                     ):(
                                         <i style={{background: 'darkgray', lineHeight: '65px', width: '65px', height: '65px', fontSize: '30px', color: 'white', borderRadius: '35px'}} className={`${/^fa/.test(data.icon) ? data.icon : "fa fa-" + data.icon}`}>{data.icon ? '' : data.type}</i>
                                     )} 
