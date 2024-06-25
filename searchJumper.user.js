@@ -5,7 +5,7 @@
 // @name:ja      SearchJumper
 // @name:ru      SearchJumper
 // @namespace    hoothin
-// @version      1.8.9
+// @version      1.9.0
 // @description  Conduct searches for selected text/image effortlessly. Navigate to any search engine(Google/Bing/Custom) swiftly.
 // @description:zh-CN  万能聚合搜索，一键切换任何搜索引擎(百度/必应/谷歌等)，支持划词右键搜索、页内关键词查找与高亮、可视化操作模拟、高级自定义等
 // @description:zh-TW  一鍵切換任意搜尋引擎，支援劃詞右鍵搜尋、頁內關鍵詞查找與高亮、可視化操作模擬、高級自定義等
@@ -820,7 +820,7 @@
                 if (!url) return null;
                 return new Promise((resolve, reject) => {
                     let isPost = option && /^post$/i.test(option.method);
-                    _GM_xmlhttpRequest({
+                    let requestOption = {
                         method: (option && option.method) || 'GET',
                         url: url,
                         data: (option && option.body) || '',
@@ -853,7 +853,41 @@
                             debug(e);
                             reject(e);
                         }
-                    });
+                    };
+                    if (option.responseType === "stream") {
+                        requestOption.responseType = "stream";
+                        delete requestOption.onload;
+                        requestOption.onloadstart = d => {
+                            if (!d || !d.response || !d.response.getReader) return;
+                            let bytes = [], callBack, buffer;
+                            const reader = d.response.getReader();
+                            let json = () => {
+                                try {
+                                    if (/^( *{.*} *\n)* *{.*} *$/.test(buffer)) {
+                                        buffer = buffer.split("\n").pop();
+                                    }
+                                    return JSON.parse(buffer);
+                                } catch (e) {
+                                    return null;
+                                }
+                            };
+                            reader.read().then(function readBytes({done, value}) {
+                                if (done) {
+                                    resolve({text: buffer, json: json, finalUrl: (d.finalUrl || url)});
+                                    return;
+                                }
+                                bytes = option.streamMode === "standalone" ? Array.from(value) : bytes.concat(Array.from(value));
+                                try {
+                                    buffer = new TextDecoder('utf-8').decode(new Uint8Array(bytes));
+                                    option.onstream({text: buffer, json: json, finalUrl: (d.finalUrl || url)});
+                                } catch (e) {
+                                    console.log(e);
+                                }
+                                return reader.read().then(readBytes);
+                            });
+                        };
+                    }
+                    _GM_xmlhttpRequest(requestOption);
                 });
             }
         } else GM_fetch = fetch;
@@ -3669,6 +3703,33 @@
                 tips.addEventListener('mouseenter', e => {
                     if (self.hideTimeout) {
                         clearTimeout(self.hideTimeout);
+                    }
+                }, false);
+                tips.addEventListener('click', e => {
+                    let dataset = e.target.dataset;
+                    if (!dataset) return;
+                    if (dataset.read) {
+                        let msg = new SpeechSynthesisUtterance("");
+                        msg.volume = dataset.volume || 1;
+                        msg.rate = dataset.rate || 1;
+                        msg.pitch = dataset.pitch || 1;
+                        msg.lang = dataset.lang || "en";
+                        msg.text = dataset.read;
+                        window.speechSynthesis.speak(msg);
+                    }
+                    if (dataset.copy) {
+                        _GM_setClipboard(dataset.copy);
+                    }
+                    if (dataset.paste) {
+                        if (targetElement &&
+                            ((/INPUT|TEXTAREA/i.test(targetElement.nodeName) &&
+                              targetElement.getAttribute("aria-readonly") != "true"
+                             ) ||
+                             targetElement.contentEditable == 'true'
+                            )
+                           ) {
+                            triggerPaste(targetElement, dataset.paste);
+                        }
                     }
                 }, false);
                 this.tips = tips;
@@ -9925,24 +9986,6 @@
                         }
                         return false;
                     } else if (/^paste:/.test(data.url)) {
-                        async function triggerPaste(element, value) {
-                            targetElement.focus();
-                            if (typeof element.value !== "undefined") {
-                                const startPos = element.selectionStart;
-                                const endPos = element.selectionEnd;
-                                let newValue = element.value.substring(0, startPos) + value + element.value.substring(endPos, element.value.length);
-                                await startInput(element, newValue);
-                                element.selectionStart = startPos + value.length;
-                                element.selectionEnd = startPos + value.length;
-                            } else {
-                                const selection = window.getSelection();
-                                const range = selection.getRangeAt(0);
-                                range.deleteContents();
-                                range.insertNode(document.createTextNode(value));
-                                selection.removeAllRanges();
-                                selection.addRange(range);
-                            }
-                        }
                         if (targetElement &&
                             ((/INPUT|TEXTAREA/i.test(targetElement.nodeName) &&
                               targetElement.getAttribute("aria-readonly") != "true"
@@ -10085,6 +10128,10 @@
                         if (e.preventDefault) e.preventDefault();
                         if (e.stopPropagation) e.stopPropagation();
                         return false;
+                    } else if (isPage && openInNewTab === true && !(alt || ctrl || meta || shift) && e.button === 0) {
+                        _GM_openInTab(targetUrlData, {active: true});
+                        if (e.preventDefault) e.preventDefault();
+                        if (e.stopPropagation) e.stopPropagation();
                     }
                 };
                 //ele.href = data.url;
@@ -10106,7 +10153,7 @@
                         try {
                             url = url.replace(/^showTips:/, '');
                             anylizing = true;
-                            let tipsResult = await self.anylizeShowTips(url, ele.dataset.name);
+                            let tipsResult = await self.anylizeShowTips(url, ele.dataset.name, target);
                             anylizing = false;
                             if (self.tips.style.opacity == 0 || self.tips.innerHTML.indexOf('<span class="loader">') !== 0) return;
                             if (Array && Array.isArray && Array.isArray(tipsResult)) {
@@ -10237,12 +10284,18 @@
                 this.refreshPageWords(this.lockWords);
             }
 
-            async anylizeShowTips(data, name) {
-                let tipsResult;
+            streamUpdate(data) {
+                this.streamUpdateCallBack(data);
+            }
+
+            async anylizeShowTips(data, name, target) {
+                let tipsResult, self = this;
                 try {
                     const calcReg = /([^\\]|^)([\+\-*/])([\d\.]+)$/;
                     const cacheReg = /\|cache\=(\d+)$/;
                     const postReg = /%p{(.*?)}/;
+                    const headersReg = /#headers({.*?})/;
+                    const streamReg = /#stream({(.*?)})?/;
                     const thenReg = /.then{(.*?)}/;
                     data = data.replace(/^showTips:/, '').trim();
                     if (/^https?:/.test(data)) {
@@ -10356,12 +10409,70 @@
                             let storeData;
                             let postMatch = url.match(postReg), fetchOption = {}, _url = url;
                             if (postMatch) {
-                                fetchOption.body = postMatch[1];
+                                let body = postMatch[1];
+                                if (body.indexOf("%") === 0) {
+                                    try {
+                                        body = decodeURIComponent(body);
+                                    } catch(e) {}
+                                }
+                                fetchOption.body = body;
                                 fetchOption.method = "POST";
                                 _url = _url.replace(postMatch[0], "");
                             }
+                            let headersMatch = url.match(headersReg);
+                            if (headersMatch) {
+                                let headers = headersMatch[1];
+                                if (headers.indexOf("%") === 0 || headers.indexOf("%") === 1) {
+                                    try {
+                                        headers = decodeURIComponent(headers);
+                                    } catch(e) {}
+                                }
+                                fetchOption.headers = JSON.parse(headers);
+                                _url = _url.replace(headersMatch[0], "");
+                            }
+
                             let failed = false, fetchData;
-                            if (template && template[1].indexOf("json.") === 0) {
+                            let isJson = (template && template[1].indexOf("json.") === 0);
+                            let streamMatch = url.match(streamReg);
+                            if (streamMatch) {
+                                fetchOption.responseType = "stream";
+                                fetchOption.streamMode = streamMatch[2] || "concat";
+                                _url = _url.replace(streamMatch[0], "");
+                                tipsResult = await new Promise(resolve => {
+                                    fetchOption.onstream = async data => {
+                                        let result = isJson ? calcJson(data.json(), template) : data.text;
+                                        self.tipsPos(target, result);
+                                        resolve && resolve(result);
+                                    };
+                                    self.streamUpdateCallBack = data => {
+                                        let result = isJson ? calcJson(data.json, template) : data.text;
+                                        self.tipsPos(target, result);
+                                        resolve && resolve(result);
+                                    };
+                                    if (ext) {
+                                        fetchData = new Promise((resolve) => {
+                                            chrome.runtime.sendMessage({action: "showTips", detail: {from: url + `\n{${template[1]}}`}}, function(r) {
+                                                data = data.replace(/【SEARCHJUMPERURL】/g, (r && r.finalUrl) || "");
+                                                resolve(isJson ? r.json : r.text);
+                                            });
+                                        });
+                                    } else {
+                                        fetchData = GM_fetch(_url, fetchOption).then(r => {
+                                            data = data.replace(/【SEARCHJUMPERURL】/g, r.finalUrl);
+                                            return isJson ? r.json() : r.text;
+                                        });
+                                    }
+                                    fetchData.then(r => {
+                                        if (!r) return null;
+                                        let finalData = isJson ? calcJson(r, template) : r;
+                                        return finalData;
+                                    });
+                                });
+                                if (!tipsResult) {
+                                    tipsResult = "No result";
+                                    failed = true;
+                                }
+                            } else if (isJson) {
                                 let allValue = [];
                                 if (ext) {
                                     fetchData = new Promise((resolve) => {
@@ -12082,6 +12193,26 @@
             return reachLast;
         }
 
+        async function triggerPaste(element, value) {
+            if (!targetElement) return;
+            targetElement.focus();
+            if (typeof element.value !== "undefined") {
+                const startPos = element.selectionStart;
+                const endPos = element.selectionEnd;
+                let newValue = element.value.substring(0, startPos) + value + element.value.substring(endPos, element.value.length);
+                await startInput(element, newValue);
+                element.selectionStart = startPos + value.length;
+                element.selectionEnd = startPos + value.length;
+            } else {
+                const selection = window.getSelection();
+                const range = selection.getRangeAt(0);
+                range.deleteContents();
+                range.insertNode(document.createTextNode(value));
+                selection.removeAllRanges();
+                selection.addRange(range);
+            }
+        }
+
         function submitByForm(charset, url, target) {
             url = url.replace(/#(j(umpFrom|f)?|from){(.*?)}/, "");
             currentFormParams = {charset: charset, url: url, target: target};
@@ -12456,6 +12587,9 @@
                             break;
                         case "toggle":
                             location.reload();
+                            break;
+                        case "streamUpdate":
+                            searchBar.streamUpdate(request.detail);
                             break;
                         case "showAll":
                             searchBar.toggleShowAll();
@@ -13364,6 +13498,7 @@
                     }, 50);
                     window.postMessage({
                         searchData: searchData,
+                        cacheIcon: cacheIcon,
                         version: _GM_info.script.version || 0,
                         command: 'loadConfig'
                     }, '*');
