@@ -10463,9 +10463,8 @@
                                         });
                                     }
                                     fetchData.then(r => {
-                                        if (!r) return null;
-                                        let finalData = isJson ? calcJson(r, template) : r;
-                                        return finalData;
+                                        let finalData = isJson ? (r && calcJson(r, template)) : r;
+                                        resolve && resolve(finalData);
                                     });
                                 });
                                 if (!tipsResult) {
