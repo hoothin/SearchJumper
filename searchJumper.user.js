@@ -10464,6 +10464,7 @@
                                     }
                                     fetchData.then(r => {
                                         let finalData = isJson ? (r && calcJson(r, template)) : r;
+                                        self.tipsPos(target, finalData);
                                         resolve && resolve(finalData);
                                     });
                                 });
