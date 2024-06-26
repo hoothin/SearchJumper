@@ -863,7 +863,7 @@
                             const reader = d.response.getReader();
                             let json = () => {
                                 try {
-                                    if (/^( *{.*} *\n)* *{.*} *$/.test(buffer)) {
+                                    if (buffer && /^({.*} *\n)* *{.*}$/.test(buffer.trim())) {
                                         buffer = buffer.split("\n").pop();
                                     }
                                     return JSON.parse(buffer);
