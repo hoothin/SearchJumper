@@ -5,7 +5,7 @@
 // @name:ja      SearchJumper
 // @name:ru      SearchJumper
 // @namespace    hoothin
-// @version      1.9.0
+// @version      1.9.1
 // @description  Conduct searches for selected text/image effortlessly. Navigate to any search engine(Google/Bing/Custom) swiftly.
 // @description:zh-CN  万能聚合搜索，一键切换任何搜索引擎(百度/必应/谷歌等)，支持划词右键搜索、页内关键词查找与高亮、可视化操作模拟、高级自定义等
 // @description:zh-TW  一鍵切換任意搜尋引擎，支援劃詞右鍵搜尋、頁內關鍵詞查找與高亮、可視化操作模擬、高級自定義等
@@ -8155,6 +8155,24 @@
                 }
             }
 
+            checkKwFilter(kwFilter, checkKw) {
+                let selectorMatch = kwFilter.match(/^@{(.*?)}/);
+                if (selectorMatch) {
+                    if (!targetElement) return false;
+                    let selector = selectorMatch[1];
+                    let pass = [].some.call(getAllElements(selector, document), e => e === targetElement);
+                    if (!pass) return false;
+                    kwFilter = kwFilter.replace(selectorMatch[0], "");
+                }
+                let kwRe, fullMatch = kwFilter.match(/^\/(.*)\/(\w*)$/);
+                if (fullMatch) {
+                    kwRe = new RegExp(fullMatch[1], fullMatch[2]);
+                } else {
+                    kwRe = new RegExp(kwFilter, "i");
+                }
+                return (kwRe.test(checkKw || ""));
+            }
+
             async createType(data) {
                 let self = this;
                 let type = data.type;
@@ -8347,13 +8365,8 @@
                                 } else {
                                     checkKw = se.dataset.txt ? keyWords : (href || keyWords || location.href);
                                 }
-                                let kwRe, fullMatch = data.kwFilter.match(/^\/(.*)\/(\w*)$/);
-                                if (fullMatch) {
-                                    kwRe = new RegExp(fullMatch[1], fullMatch[2]);
-                                } else {
-                                    kwRe = new RegExp(data.kwFilter, "i");
-                                }
-                                if (kwRe.test(checkKw || "")) {
+                                let pass = self.checkKwFilter(data.kwFilter, checkKw);
+                                if (pass) {
                                     se.style.display = '';
                                     if (ele.children.length > 1) ele.insertBefore(se, ele.children[1]);
                                 } else {
@@ -8624,13 +8637,8 @@
                             let data = sites[i];
 
                             if (data && localKeywords && data.kwFilter) {
-                                let kwRe, fullMatch = data.kwFilter.match(/^\/(.*)\/(\w*)$/);
-                                if (fullMatch) {
-                                    kwRe = new RegExp(fullMatch[1], fullMatch[2]);
-                                } else {
-                                    kwRe = new RegExp(data.kwFilter, "i");
-                                }
-                                if (kwRe.test(localKeywords)) {
+                                let pass = self.checkKwFilter(data.kwFilter, localKeywords);
+                                if (pass) {
                                     se.style.display = '';
                                 } else {
                                     se.style.display = 'none';
@@ -9851,6 +9859,9 @@
                     }
                 };
                 let clickHandler = e => {
+                    if (targetElement) {
+                        targetElement.focus && targetElement.focus();
+                    }
                     if (self.waitForShowTips) {
                         showTipsHandler(ele, 0);
                         if (e) {

@@ -1637,11 +1637,13 @@ export default function Engines() {
       createData('paste', window.i18n('param_paste')),
       createData('showTips', window.i18n('param_showTips')),
       createData('find', window.i18n('param_find')),
-      createData('find.addto()', window.i18n('param_findadd')),
-      createData('javascript', window.i18n('javascript'))
+      createData('find.addto()', window.i18n('param_findadd'))      
     ];
-    if (/^(http|ftp)/i.test(window.location.protocol) && window.lang.indexOf("zh") === 0) {
-        rows.splice(4, 0, createData('%ss', window.i18n('param_ss')), createData('%st', window.i18n('param_st')));
+    if (/^(http|ftp)/i.test(window.location.protocol)) {
+        if (window.lang.indexOf("zh") === 0) {
+            rows.splice(4, 0, createData('%ss', window.i18n('param_ss')), createData('%st', window.i18n('param_st')));
+        }
+        rows.push(createData('javascript', window.i18n('javascript')));
     }
     let selectTxt = -1, selectImg = -1, selectLink = -1, selectPage = -1, selectAll = -1;
     for (let i = 0; i < window.searchData.sitesConfig.length; i++) {
