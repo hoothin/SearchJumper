@@ -13485,7 +13485,7 @@
                         shareEngines = false;
                     }
                 }
-                let trustSite = location.href.indexOf(configPage.replace("/config", "")) === 0 || location.href.indexOf(homePage) === 0 || location.hostname === "localhost";
+                let trustSite = location.href.indexOf(configPage.replace(/\/config.*/, "")) === 0 || location.href.indexOf(homePage) === 0 || location.hostname === "localhost";
                 if (trustSite) {
                     isAllPage = !!shareEngines || /all(\.html)?$/.test(location.pathname);
                 }
