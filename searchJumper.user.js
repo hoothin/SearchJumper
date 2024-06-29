@@ -5,7 +5,7 @@
 // @name:ja      SearchJumper
 // @name:ru      SearchJumper
 // @namespace    hoothin
-// @version      1.9.2
+// @version      1.9.3
 // @description  Conduct searches for selected text/image effortlessly. Navigate to any search engine(Google/Bing/Custom) swiftly.
 // @description:zh-CN  万能聚合搜索，一键切换任何搜索引擎(百度/必应/谷歌等)，支持划词右键搜索、页内关键词查找与高亮、可视化操作模拟、高级自定义等
 // @description:zh-TW  一鍵切換任意搜尋引擎，支援劃詞右鍵搜尋、頁內關鍵詞查找與高亮、可視化操作模擬、高級自定義等
@@ -1437,7 +1437,7 @@
         const closePath = '<path d="M512 64C264.6 64 64 264.6 64 512s200.6 448 448 448 448-200.6 448-448S759.4 64 512 64z m165.4 618.2l-66-0.3L512 563.4l-99.3 118.4-66.1 0.3c-4.4 0-8-3.5-8-8 0-1.9 0.7-3.7 1.9-5.2l130.1-155L340.5 359c-1.2-1.5-1.9-3.3-1.9-5.2 0-4.4 3.6-8 8-8l66.1 0.3L512 464.6l99.3-118.4 66-0.3c4.4 0 8 3.5 8 8 0 1.9-0.7 3.7-1.9 5.2L553.5 514l130 155c1.2 1.5 1.9 3.3 1.9 5.2 0 4.4-3.6 8-8 8z"></path>';
         const wordParam = "%s[lurest]?\\b";
         const wordParamReg = new RegExp(wordParam);
-        var targetElement, cssText, mainStyleEle;
+        var targetElement, hoverElement, cssText, mainStyleEle;
         var inMinMode = false;
 
         function sloarToLunar(sy, sm, sd) {
@@ -9188,7 +9188,12 @@
                         }
                         var key = (e.key || String.fromCharCode(e.keyCode)).toLowerCase();
                         if (data.shortcut == e.code || data.shortcut == key) {
-                            if (action() !== false && !self.customInput) {
+                            if (hoverElement) {
+                                targetElement = hoverElement;
+                            }
+                            if (showTips) {
+                                ele.dispatchEvent(new CustomEvent('showTips'));
+                            } else if (action() !== false && !self.customInput) {
                                 ele.click();
                             }
                             e.stopPropagation();
@@ -12862,6 +12867,11 @@
                     e.stopPropagation();
                     return true;
                 };
+                document.addEventListener('mouseenter', e => {
+                    if (e.target && !searchBar.contains(e.target)) {
+                        hoverElement = e.target;
+                    }
+                }, true);
                 document.addEventListener('keydown', e => {
                     if (e.target.id === "searchJumperInput") return;
                     inputing = -1;
