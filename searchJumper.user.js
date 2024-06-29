@@ -8307,6 +8307,18 @@
                 }
                 let shownSitesNum = 0;
                 let baseSize = this.scale * 40;
+                let taggleHide = (se, show) => {
+                    if (show) {
+                        se.style.display = '';
+                        if (ele.children.length > 2) ele.insertBefore(se, ele.children[2]);
+                        else if (ele.children.length > 1) ele.insertBefore(se, ele.children[1]);
+                    } else {
+                        se.style.display = 'none';
+                        if (self.searchJumperExpand.parentNode == ele) {
+                            ele.insertBefore(se, self.searchJumperExpand);
+                        } else ele.appendChild(se);
+                    }
+                }
                 let typeAction = e => {
                     if (e) {
                         if (e.button === 2) {
@@ -8318,16 +8330,6 @@
                     }
                     if (self.funcKeyCall) {
                         self.showAllSites();
-                        /*self.bar.style.display = "none";
-                        setTimeout(() => {
-                            self.bar.style.display = "";
-                            self.initPos(
-                                searchData.prefConfig.position.x,
-                                searchData.prefConfig.position.y,
-                                searchData.prefConfig.offset.x,
-                                searchData.prefConfig.offset.y
-                            );
-                        }, 0);*/
                         return false;
                     }
                     ele.style.width = "";
@@ -8342,7 +8344,6 @@
                         self.recoveHistory();
                         ele.classList.add("search-jumper-open");
                         if (searchData.prefConfig.minSizeMode) {
-                            //self.bar.classList.add("minSizeMode");
                             self.bar.classList.remove("minSizeModeClose");
                         }
                         let href = targetElement && (targetElement.href || targetElement.src);
@@ -8350,17 +8351,7 @@
                         shownSitesNum = 0;
                         siteEles.forEach((se, i) => {
                             let data = sites[i];
-                            /*if (data.match && data.hideNotMatch) {
-                                if (new RegExp(data.match).test(href)) {
-                                    se.style.display = '';
-                                    if (ele.children.length > 1) ele.insertBefore(se, ele.children[1]);
-                                } else {
-                                    se.style.display = 'none';
-                                    if (self.searchJumperExpand.parentNode == ele) {
-                                        ele.insertBefore(se, self.searchJumperExpand);
-                                    } else ele.appendChild(se);
-                                }
-                            }*/
+                            let pass = true;
                             if (data.kwFilter) {
                                 let checkKw;
                                 if (se.dataset.link) {
@@ -8368,33 +8359,16 @@
                                 } else {
                                     checkKw = se.dataset.txt ? keyWords : (href || keyWords || location.href);
                                 }
-                                let pass = self.checkKwFilter(data.kwFilter, checkKw);
-                                if (pass) {
-                                    se.style.display = '';
-                                    if (ele.children.length > 1) ele.insertBefore(se, ele.children[1]);
-                                } else {
-                                    se.style.display = 'none';
-                                    if (self.searchJumperExpand.parentNode == ele) {
-                                        ele.insertBefore(se, self.searchJumperExpand);
-                                    } else ele.appendChild(se);
-                                }
+                                pass = self.checkKwFilter(data.kwFilter, checkKw);
                             }
-                            if (se.dataset.paste) {
-                                if (targetElement &&
+                            if (pass && se.dataset.paste) {
+                                pass = targetElement &&
                                     ((/INPUT|TEXTAREA/i.test(targetElement.nodeName) &&
-                                      targetElement.getAttribute("aria-readonly") != "true"
-                                     ) ||
-                                     targetElement.contentEditable == 'true'
-                                    )
-                                   ) {
-                                    se.style.display = '';
-                                    if (ele.children.length > 1) ele.insertBefore(se, ele.children[1]);
-                                } else {
-                                    se.style.display = 'none';
-                                    if (self.searchJumperExpand.parentNode == ele) {
-                                        ele.insertBefore(se, self.searchJumperExpand);
-                                    } else ele.appendChild(se);
-                                }
+                                      targetElement.getAttribute("aria-readonly") != "true") ||
+                                     targetElement.contentEditable == 'true');
+                                taggleHide(se, pass);
+                            } else if (data.kwFilter) {
+                                taggleHide(se, pass);
                             }
                             let si = se.querySelector("img");
                             if (se.style.display != "none") {
@@ -8436,7 +8410,6 @@
                         });
                     } else {
                         if (searchData.prefConfig.minSizeMode) {
-                            //self.bar.classList.remove("minSizeMode");
                             self.bar.classList.add("minSizeModeClose");
                         }
                         ele.classList.remove("search-jumper-open");
