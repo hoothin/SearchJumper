@@ -8311,7 +8311,6 @@
                     if (show) {
                         se.style.display = '';
                         if (ele.children.length > 2) ele.insertBefore(se, ele.children[2]);
-                        else if (ele.children.length > 1) ele.insertBefore(se, ele.children[1]);
                     } else {
                         se.style.display = 'none';
                         if (self.searchJumperExpand.parentNode == ele) {
