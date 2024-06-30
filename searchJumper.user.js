@@ -2466,6 +2466,10 @@
                      width: 20px;
                      height: 20px;
                      cursor: pointer;
+                     transition:all 0.2s ease;
+                 }
+                 .search-jumper-tips>div [data-close]:hover {
+                     color: red;
                  }
                  .search-jumper-tips>div [data-read] {
                      cursor: pointer;
