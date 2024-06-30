@@ -3145,6 +3145,11 @@
                          top: 10px;
                      }
                  }
+                 @media screen and (max-width: 650px) {
+                     #search-jumper.search-jumper-showall>#search-jumper-alllist.new-mode+.groupTab {
+                         display: none;
+                     }
+                 }
                  .search-jumper-input .content-container {
                      background: #eee;
                      position: static;
