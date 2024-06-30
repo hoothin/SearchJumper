@@ -2461,7 +2461,7 @@
                  }
                  .search-jumper-tips>div [data-close] {
                      position: absolute;
-                     top: 5px;
+                     top: 0px;
                      right: 0px;
                      width: 20px;
                      height: 20px;
