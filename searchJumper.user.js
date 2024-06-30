@@ -5,7 +5,7 @@
 // @name:ja      SearchJumper
 // @name:ru      SearchJumper
 // @namespace    hoothin
-// @version      1.9.3
+// @version      1.9.4
 // @description  Conduct searches for selected text/image effortlessly. Navigate to any search engine(Google/Bing/Custom) swiftly.
 // @description:zh-CN  万能聚合搜索，一键切换任何搜索引擎(百度/必应/谷歌等)，支持划词右键搜索、页内关键词查找与高亮、可视化操作模拟、高级自定义等
 // @description:zh-TW  一鍵切換任意搜尋引擎，支援劃詞右鍵搜尋、頁內關鍵詞查找與高亮、可視化操作模擬、高級自定義等
@@ -1735,12 +1735,55 @@
                     //"-webkit-backdrop-filter: blur(5px);" +
                     "transition:background-color .6s ease;")}
                  }
-                 #search-jumper.search-jumper-showall:hover>.search-jumper-showallBg,
-                 body:hover+#search-jumper.search-jumper-showall>.search-jumper-showallBg {
+                 #search-jumper.search-jumper-showall>#search-jumper-alllist:hover~.search-jumper-showallBg {
                      background-color: rgba(0, 0, 0, 0.8);
                  }
                  #search-jumper.search-jumper-showall>.search-jumper-showallBg {
                      display: block;
+                 }
+                 #search-jumper>.groupTab {
+                     position: fixed;
+                     background: #ffffffee !important;
+                     left: 0;
+                     top: 0;
+                     overflow: hidden;
+                     height: 100%;
+                     overflow: auto;
+                     scrollbar-width: none;
+                     padding: 20px 0;
+                     box-sizing: border-box;
+                     display: none;
+                 }
+                 #search-jumper.search-jumper-showall>#search-jumper-alllist.new-mode+.groupTab {
+                     display: block;
+                 }
+                 #search-jumper.search-jumper-showall>.groupTab::-webkit-scrollbar {
+                     width: 0 !important;
+                     height: 0 !important;
+                 }
+                 #search-jumper.search-jumper-showall>.groupTab>span {
+                     display: block;
+                     width: ${42 * this.scale}px;
+                     transition: all 0.25s ease;
+                     cursor: pointer;
+                 }
+                 #search-jumper.search-jumper-showall>.groupTab>span>span.search-jumper-word {
+                     opacity: 0.8;
+                 }
+                 #search-jumper.search-jumper-showall>.groupTab:hover>span {
+                     width: ${42 * this.scale + 100}px;
+                 }
+                 #search-jumper.search-jumper-showall>.groupTab>span:hover{
+                     background: #f5f7fa !important;
+                 }
+                 #search-jumper.search-jumper-showall>.groupTab:hover>span::after {
+                     content: attr(data-type);
+                     color: #6b6e74;
+                     position: absolute;
+                     margin-top: -${21 * this.scale + 10}px;
+                     left: ${42 * this.scale + 5}px;
+                     white-space: nowrap;
+                     font-weight: bold;
                  }
                  .search-jumper-historylistcon {
                      display: flex;
@@ -1751,7 +1794,7 @@
                      justify-content: center;
                      left: 0;
                      top: 60px;
-                     background: #f5f5f5e0;
+                     background: #ffffffee;
                      border-bottom: 1px solid #ddd;
                      pointer-events: all;
                      min-height: 40px;
@@ -2726,6 +2769,7 @@
                  .search-jumper-tips * {
                      max-width: 640px;
                      max-width: min(80vw,640px);
+                     margin: auto;
                  }
                  .search-jumper-searchBar>.search-jumper-type {
                      padding: 0px;
@@ -3370,7 +3414,6 @@
                      min-width: auto;
                      min-height: auto;
                      flex-shrink: 0;
-                     border-radius: 50%;
                  }
                  .search-jumper-historylist>a.search-jumper-btn>img {
                      width: 32px;
@@ -3458,6 +3501,7 @@
                      .search-jumper-showall a.search-jumper-word,
                      .search-jumper-showall a.search-jumper-word > span {
                          background-color: #292A2D !important;
+                         border-radius: 20px !important;
                      }
 
                      .search-jumper-tips {
@@ -3477,6 +3521,16 @@
                      .search-jumper-showall .search-jumper-type,
                      .search-jumper-showall .search-jumper-logo {
                          background-color: #181C20 !important;
+                     }
+
+                     #search-jumper.search-jumper-showall>.groupTab {
+                         background: #1C2127ee !important;
+                     }
+                     #search-jumper.search-jumper-showall>.groupTab>span:hover{
+                         background: #283C57 !important;
+                     }
+                     #search-jumper.search-jumper-showall>.groupTab:hover>span::after {
+                         color: white;
                      }
                  }
                  `;
@@ -3545,6 +3599,11 @@
                 searchBarCon.appendChild(alllist);
                 this.alllist = alllist;
 
+                let groupTab = document.createElement("span");
+                groupTab.className = "groupTab";
+                searchBarCon.appendChild(groupTab);
+                this.groupTab = groupTab;
+
                 let showallBg = document.createElement("div");
                 showallBg.className = "search-jumper-showallBg";
                 searchBarCon.appendChild(showallBg);
@@ -3589,6 +3648,8 @@
                 this.modeSwitch.innerHTML = createHTML(`<svg viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg" version="1.1"><rect height="450" width="520" y="287" x="253" fill="#fff"></rect><path d="m511.8,64.2c-247.5,0 -448.2,200.7 -448.2,448.2s200.7,448.2 448.2,448.2s448.2,-200.6 448.2,-448.2s-200.7,-448.2 -448.2,-448.2zm-260.4,353.9c0,-7.8 6.3,-14.2 14.2,-14.2l315.6,0l0,-102.5c0,-12.3 14.7,-18.8 23.7,-10.4l165.1,151.7c9.5,8.7 3.3,24.6 -9.6,24.6l-495,0c-7.8,0 -14.2,-6.3 -14.2,-14.2l0,-35l0.2,0zm523.2,188.5c0,7.8 -6.3,14.2 -14.2,14.2l-315.5,0l0,102.6c0,12.3 -14.7,18.8 -23.7,10.4l-165.2,-151.8c-9.5,-8.7 -3.3,-24.6 9.6,-24.6l495,0c7.8,0 14.2,6.3 14.2,14.2l0,35l-0.2,0z"></path></svg>`);
                 alllist.appendChild(this.modeSwitch);
                 this.modeSwitch.addEventListener("click", e => {
+                    e.preventDefault();
+                    e.stopPropagation();
                     alllist.classList.toggle("new-mode");
                     storage.setItem("allPageNewMode", alllist.classList.contains("new-mode"));
                 });
@@ -7071,6 +7132,7 @@
                         self.createAddonSpan(name, addon);
                     });
                 }
+                this.buildAllPageGroupTab();
                 if (isAllPage) return;
                 if (disableHighlight && disableHighlight != location.hostname && window.top == window.self) {
                     storage.setItem("disableHighlight", "");
@@ -7087,6 +7149,24 @@
                 if (inMinMode || (this.bar.style.display === "none" && (!navEnable || !hasHighlightWords))) {
                     this.removeBar();
                 }
+            }
+
+            buildAllPageGroupTab() {
+                let self = this;
+                this.groupTab.innerHTML = createHTML();
+                searchTypes.forEach(type => {
+                    if (type.classList.contains("notmatch")) return;
+                    let typeName = type.dataset.type;
+                    let icon = type.firstElementChild.cloneNode(true);
+                    let groupSpan = document.createElement("span");
+                    groupSpan.appendChild(icon);
+                    groupSpan.dataset.type = typeName;
+                    groupSpan.addEventListener("click", e => {
+                        let targetType = self.sitelistBox.querySelector(`[data-type="${typeName}"]`);
+                        if (targetType) targetType.scrollIntoView({behavior: "smooth", block: "start", inline: "center"});
+                    });
+                    self.groupTab.appendChild(groupSpan);
+                });
             }
 
             async refreshEngines() {
@@ -7110,6 +7190,7 @@
                 }
                 this.initHistorySites();
                 this.initSort();
+                this.buildAllPageGroupTab();
                 if (isAllPage) {
                     this.appendBar();
                 }
