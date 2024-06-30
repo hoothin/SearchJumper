@@ -5,7 +5,7 @@
 // @name:ja      SearchJumper
 // @name:ru      SearchJumper
 // @namespace    hoothin
-// @version      1.9.4
+// @version      1.9.5
 // @description  Conduct searches for selected text/image effortlessly. Navigate to any search engine(Google/Bing/Custom) swiftly.
 // @description:zh-CN  万能聚合搜索，一键切换任何搜索引擎(百度/必应/谷歌等)，支持划词右键搜索、页内关键词查找与高亮、可视化操作模拟、高级自定义等
 // @description:zh-TW  一鍵切換任意搜尋引擎，支援劃詞右鍵搜尋、頁內關鍵詞查找與高亮、可視化操作模擬、高級自定義等
@@ -2453,6 +2453,24 @@
                      font-size: 25px;
                      line-height: 40px;
                  }
+                 .search-jumper-tips>div {
+                     font-size: initial;
+                     line-height: initial;
+                     font-weight: normal;
+                     padding: 5px;
+                 }
+                 .search-jumper-tips>div [data-close] {
+                     position: absolute;
+                     top: 5px;
+                     right: 0px;
+                     width: 20px;
+                     height: 20px;
+                     cursor: pointer;
+                 }
+                 .search-jumper-tips>div [data-read] {
+                     cursor: pointer;
+                     color: #f9690e;
+                 }
                  .search-jumper-logoBtnSvg {
                      width: ${32 * this.scale}px;
                      height: ${32 * this.scale}px;
@@ -3794,6 +3812,11 @@
                            ) {
                             triggerPaste(targetElement, dataset.paste);
                         }
+                    }
+                    if (typeof dataset.close !== 'undefined') {
+                        self.tips.style.opacity = 0;
+                        self.tips.style.display = "none";
+                        self.tips.innerHTML = createHTML("");
                     }
                 }, false);
                 this.tips = tips;
@@ -10234,7 +10257,7 @@
                             }
                             if (tipsResult) {
                                 if (tipsResult != "null" && tipsResult != "No result") {
-                                    tipsResult = `<div style="font-size: initial; line-height: initial; font-weight: normal; padding: 5px;"><style>.search-jumper-tips{padding:0;}</style>${tipsResult}</div>`;
+                                    tipsResult = `<div>${tipsResult}</div>`;
                                     tipsShowing = true;
                                 }
                                 //self.tips.style.transition = "none";
