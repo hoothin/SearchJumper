@@ -9341,6 +9341,7 @@
                 let inputString;
                 let getUrl = async (_keyWords) => {
                     self.customInput = false;
+                    dataUrl = data.url;
                     inputString = "";
                     let keywords = _keyWords || self.searchJumperInputKeyWords.value || getSelectStr();
                     if (!keywords && !draging && !self.bar.classList.contains("search-jumper-isTargetLink")) {
