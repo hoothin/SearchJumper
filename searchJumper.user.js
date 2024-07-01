@@ -1771,7 +1771,7 @@
                      opacity: 0.8;
                  }
                  #search-jumper.search-jumper-showall>.groupTab:hover>span {
-                     width: ${42 * this.scale + 100}px;
+                     width: ${42 * this.scale + 150}px;
                  }
                  #search-jumper.search-jumper-showall>.groupTab>span:hover{
                      background: #f5f7fa !important;
@@ -6833,26 +6833,6 @@
                     this.initPos();
                     this.appendBar();
                 }
-                if (this.fontPool.length > 0 || isInConfigPage) {
-                    let linkEle = document.createElement("link");
-                    linkEle.rel="stylesheet";
-                    linkEle.href = searchData.prefConfig.fontAwesomeCss || "https://lib.baomitu.com/font-awesome/6.1.2/css/all.css";
-                    document.documentElement.insertBefore(linkEle, document.documentElement.children[0]);
-                    this.addToShadow(linkEle.cloneNode());
-                    waitForFontAwesome(() => {
-                        let hasFont = false;
-                        this.fontPool.forEach(font => {
-                            font.innerText = '';
-                            font.style.fontSize = '';
-                            font.style.color = '';
-                            hasFont = true;
-                            cacheFontPool.unshift(font);
-                        });
-                        if (hasFont && isInConfigPage) {
-                            setTimeout(() => {cacheFontManager()}, 5000);
-                        }
-                    });
-                }
 
                 if (lastSign) {
                     targetElement = lastSign.target;
@@ -7164,7 +7144,29 @@
                         self.createAddonSpan(name, addon);
                     });
                 }
-                this.buildAllPageGroupTab();
+                if (this.fontPool.length > 0 || isInConfigPage) {
+                    let linkEle = document.createElement("link");
+                    linkEle.rel="stylesheet";
+                    linkEle.href = searchData.prefConfig.fontAwesomeCss || "https://lib.baomitu.com/font-awesome/6.1.2/css/all.css";
+                    document.documentElement.insertBefore(linkEle, document.documentElement.children[0]);
+                    this.addToShadow(linkEle.cloneNode());
+                    waitForFontAwesome(() => {
+                        let hasFont = false;
+                        this.fontPool.forEach(font => {
+                            font.innerText = '';
+                            font.style.fontSize = '';
+                            font.style.color = '';
+                            hasFont = true;
+                            cacheFontPool.unshift(font);
+                        });
+                        if (hasFont && isInConfigPage) {
+                            setTimeout(() => {cacheFontManager()}, 5000);
+                        }
+                        this.buildAllPageGroupTab();
+                    });
+                } else {
+                    this.buildAllPageGroupTab();
+                }
                 if (isAllPage) return;
                 if (disableHighlight && disableHighlight != location.hostname && window.top == window.self) {
                     storage.setItem("disableHighlight", "");
