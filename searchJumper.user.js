@@ -5,7 +5,7 @@
 // @name:ja      SearchJumper
 // @name:ru      SearchJumper
 // @namespace    hoothin
-// @version      1.9.5
+// @version      1.9.6
 // @description  Conduct searches for selected text/image effortlessly. Navigate to any search engine(Google/Bing/Custom) swiftly.
 // @description:zh-CN  万能聚合搜索，一键切换任何搜索引擎(百度/必应/谷歌等)，支持划词右键搜索、页内关键词查找与高亮、可视化操作模拟、高级自定义等
 // @description:zh-TW  一鍵切換任意搜尋引擎，支援劃詞右鍵搜尋、頁內關鍵詞查找與高亮、可視化操作模擬、高級自定義等
@@ -78,6 +78,7 @@
     const importPageReg = /^https:\/\/github\.com\/hoothin\/SearchJumper(\/(issue|discussions)|\/?$|#|\?)|^https:\/\/greasyfork\.org\/.*\/scripts\/445274[\-\/].*\/discussions/i;
     const mobileUa = "Mozilla/5.0 (iPhone; CPU iPhone OS 13_2_3 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/13.0.3 Mobile/15E148 Safari/604.1";
     const homePage = 'https://search.hoothin.com/';
+    const githubPage = 'https://hoothin.github.io/SearchJumper';
     const firstRunPage = homePage + "firstRun";
     let configPage = homePage + 'config/';
     let isAllPage = false;
@@ -13582,7 +13583,7 @@
                         shareEngines = false;
                     }
                 }
-                let trustSite = location.href.indexOf(configPage.replace(/\/config.*/, "")) === 0 || location.href.indexOf(homePage) === 0 || location.hostname === "localhost";
+                let trustSite = location.href.indexOf(configPage.replace(/\/config.*/, "")) === 0 || location.href.indexOf(homePage) === 0 || location.href.indexOf(githubPage) === 0 || location.hostname === "localhost";
                 if (trustSite) {
                     isAllPage = !!shareEngines || /all(\.html)?$/.test(location.pathname);
                 }
