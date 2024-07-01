@@ -7,7 +7,7 @@
 // @namespace    hoothin
 // @version      1.9.6
 // @description  Conduct searches for selected text/image effortlessly. Navigate to any search engine(Google/Bing/Custom) swiftly.
-// @description:zh-CN  万能聚合搜索，一键切换任何搜索引擎(百度/必应/谷歌等)，支持划词右键搜索、页内关键词查找与高亮、可视化操作模拟、高级自定义等
+// @description:zh-CN  一键搜索切换，超过300种功能，可以选择、组合或自定义页面、划词、图片菜单，并有页内关键词查找与高亮，可视化搜索，超级拖拽等功能。
 // @description:zh-TW  一鍵切換任意搜尋引擎，支援劃詞右鍵搜尋、頁內關鍵詞查找與高亮、可視化操作模擬、高級自定義等
 // @description:ja  任意の検索エンジンにすばやく簡単にジャンプします！
 // @description:ru  Легко проводите поиск по выбранному тексту/изображению/ссылке. Быстро переходите к любому поисковому движку. Выделяйте искомый текст.
