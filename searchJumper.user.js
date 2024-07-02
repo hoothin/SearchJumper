@@ -1827,7 +1827,7 @@
                      bottom: 0;
                      line-height: 1.5;
                      color: white;
-                     opacity: 0.35;
+                     opacity: 0.45;
                      font-weight: bold;
                      font-family: Arial,sans-serif,微软雅黑;
                      overflow-wrap: normal;
@@ -1838,11 +1838,11 @@
                      background-image: initial;
                  }
                  #search-jumper-alllist>.dayInAll {
-                     left: 0;
+                     left: 50px;
                      font-size: 1.5vw;
                  }
                  #search-jumper-alllist>.timeInAll {
-                     right: 0;
+                     right: 50px;
                      font-size: 2vw;
                  }
                  #search-jumper-alllist>.modeSwitch {
