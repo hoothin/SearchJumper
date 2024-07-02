@@ -5,7 +5,7 @@
 // @name:ja      SearchJumper
 // @name:ru      SearchJumper
 // @namespace    hoothin
-// @version      1.9.6
+// @version      1.9.7
 // @description  One-click search switching, over 300 features available. Conduct searches for selected text/image/link effortlessly.
 // @description:zh-CN  一键搜索切换，超过300种功能，可以组合或自定义页面、划词、图片菜单，并有页内关键词查找与高亮，可视化搜索，超级拖拽等功能。
 // @description:zh-TW  一鍵搜尋切換，超過300種功能，可以組合或自訂頁面、劃詞、圖片選單，並有頁內關鍵字查找與高亮，可視化搜索，超級拖曳等功能。
@@ -2460,20 +2460,24 @@
                      font-weight: normal;
                      padding: 5px;
                  }
+                 .search-jumper-tips>div [data-read],
+                 .search-jumper-tips>div [data-close],
+                 .search-jumper-tips>div [data-paste],
+                 .search-jumper-tips>div [data-copy] {
+                     cursor: pointer;
+                 }
                  .search-jumper-tips>div [data-close] {
                      position: absolute;
                      top: 0px;
                      right: 0px;
                      width: 20px;
                      height: 20px;
-                     cursor: pointer;
                      transition:all 0.2s ease;
                  }
                  .search-jumper-tips>div [data-close]:hover {
                      color: red;
                  }
                  .search-jumper-tips>div [data-read] {
-                     cursor: pointer;
                      color: #f9690e;
                  }
                  .search-jumper-logoBtnSvg {
@@ -3799,20 +3803,21 @@
                 }, false);
                 tips.addEventListener('click', e => {
                     let dataset = e.target.dataset;
+                    let text = e.target.innerText;
                     if (!dataset) return;
-                    if (dataset.read) {
+                    if (typeof dataset.read !== 'undefined') {
                         let msg = new SpeechSynthesisUtterance("");
                         msg.volume = dataset.volume || 1;
                         msg.rate = dataset.rate || 1;
                         msg.pitch = dataset.pitch || 1;
                         msg.lang = dataset.lang || "en";
-                        msg.text = dataset.read;
+                        msg.text = dataset.read || text;
                         window.speechSynthesis.speak(msg);
                     }
-                    if (dataset.copy) {
-                        _GM_setClipboard(dataset.copy);
+                    if (typeof dataset.copy !== 'undefined') {
+                        _GM_setClipboard(dataset.copy || text);
                     }
-                    if (dataset.paste) {
+                    if (typeof dataset.paste !== 'undefined') {
                         if (targetElement &&
                             ((/INPUT|TEXTAREA/i.test(targetElement.nodeName) &&
                               targetElement.getAttribute("aria-readonly") != "true"
@@ -3820,7 +3825,7 @@
                              targetElement.contentEditable == 'true'
                             )
                            ) {
-                            triggerPaste(targetElement, dataset.paste);
+                            triggerPaste(targetElement, dataset.paste || text);
                         }
                     }
                     if (typeof dataset.close !== 'undefined') {
@@ -9438,6 +9443,22 @@
                         _str = customReplaceSingle(_str, "%s", keywordsR, v => {
                             return (needDecode ? v : encodeURIComponent(v));
                         });
+                        if (/%bd\b/.test(_str)) {
+                            try {
+                                let debase64 = atob(keywordsR);
+                                _str = customReplaceSingle(_str, "%bd", debase64);
+                            } catch(e) {
+                                console.log(e);
+                            }
+                        }
+                        if (/%be\b/.test(_str)) {
+                            try {
+                                let enbase64 = btoa(keywordsR);
+                                _str = customReplaceSingle(_str, "%be", enbase64);
+                            } catch(e) {
+                                console.log(e);
+                            }
+                        }
                         return _str;
                     };
                     let customVariable = str => {
