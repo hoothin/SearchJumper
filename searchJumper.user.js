@@ -6,10 +6,10 @@
 // @name:ru      SearchJumper
 // @namespace    hoothin
 // @version      1.9.6
-// @description  Conduct searches for selected text/image effortlessly. Navigate to any search engine(Google/Bing/Custom) swiftly.
+// @description  One-click search switching, over 300 features available. Conduct searches for selected text/image/link effortlessly.
 // @description:zh-CN  一键搜索切换，超过300种功能，可以组合或自定义页面、划词、图片菜单，并有页内关键词查找与高亮，可视化搜索，超级拖拽等功能。
-// @description:zh-TW  一鍵搜尋切換，超過300種功能，可以組合或自訂頁面、劃詞、圖片選單，並有頁內關鍵字查找與高亮，可視化搜索，超級拖曳等功能
-// @description:ja  任意の検索エンジンにすばやく簡単にジャンプします！
+// @description:zh-TW  一鍵搜尋切換，超過300種功能，可以組合或自訂頁面、劃詞、圖片選單，並有頁內關鍵字查找與高亮，可視化搜索，超級拖曳等功能。
+// @description:ja  任意の検索エンジンにすばやく簡単にジャンプします、300種類以上の機能を備えています。
 // @description:ru  Легко проводите поиск по выбранному тексту/изображению/ссылке. Быстро переходите к любому поисковому движку. Выделяйте искомый текст.
 // @author       hoothin
 // @license      MPL-2.0
