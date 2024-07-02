@@ -7219,6 +7219,9 @@
                     });
                 }
                 searchTypes = [];
+                this.allSiteBtns = [];
+                this.allListBtns = [];
+                this.allLists = [];
                 this.historyTypeEle = null;
                 for (let siteConfig of searchData.sitesConfig) {
                     await this.createType(siteConfig);
@@ -8472,7 +8475,7 @@
                                 if (se.dataset.link) {
                                     checkKw = href || keyWords;
                                 } else {
-                                    checkKw = se.dataset.txt ? keyWords : (href || keyWords || location.href);
+                                    checkKw = se.dataset.txt ? (keyWords || (targetElement && targetElement.innerText) || "") : (href || keyWords || location.href);
                                 }
                                 pass = self.checkKwFilter(data.kwFilter, checkKw);
                             }
