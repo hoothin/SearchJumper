@@ -673,7 +673,7 @@ class SitesList extends React.Component {
                 for (let j = 0; j < sites.length; j++) {
                     let site = sites[j];
                     if (site.url === this.editSite.url) continue;
-                    if (site.url === this.state.currentSite.url) {
+                    if (!isClone && site.url === this.state.currentSite.url) {
                         return this.handleAlertOpen(window.i18n('sameSiteUrl'));
                     }
                     if (this.state.currentSite.shortcut) {
