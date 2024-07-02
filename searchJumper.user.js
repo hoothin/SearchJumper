@@ -11045,10 +11045,12 @@
 
             setFuncKeyCall(value) {
                 this.funcKeyCall = value;
-                if (value) {
-                    this.con.classList.add("funcKeyCall");
-                } else {
-                    this.con.classList.remove("funcKeyCall");
+                if (!this.con.classList.contains("search-jumper-showall")) {
+                    if (value) {
+                        this.con.classList.add("funcKeyCall");
+                    } else {
+                        this.con.classList.remove("funcKeyCall");
+                    }
                 }
             }
 
