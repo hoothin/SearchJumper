@@ -1106,6 +1106,8 @@ class SitesList extends React.Component {
                                     label={window.i18n('siteKeywords')}
                                     type="text"
                                     fullWidth
+                                    multiline
+                                    maxRows={5}
                                     variant="standard"
                                     placeholder="wd|q"
                                     value={this.state.currentSite.keywords}

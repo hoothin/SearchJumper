@@ -430,6 +430,10 @@ function FreeWebDav(props) {
         <Dialog open={props.open} onClose={() => {props.close()}}>
             <DialogTitle>{window.i18n('freeWebDavShare')}</DialogTitle>
             <DialogContent>
+                <DialogContentText sx={{textAlign: 'center'}}>
+                    {window.i18n('shareTips')}
+                    <a target="_blank" rel="noreferrer" href={`https://search.hoothin.com/${window.searchData.webdavConfig.username.replace('user_', '')}`}>{`https://search.hoothin.com/${window.searchData.webdavConfig.username.replace('user_', '')}`}</a>
+                </DialogContentText>
                 <FormControl fullWidth sx={{ mt: 1, mb: 1 }} variant="outlined">
                   <InputLabel htmlFor="sharePassword">{window.i18n('sharePassword')}</InputLabel>
                   <OutlinedInput
@@ -456,10 +460,6 @@ function FreeWebDav(props) {
                     label={window.i18n('shareTitleword')}
                   />
                 </FormControl>
-                <DialogContentText sx={{textAlign: 'center'}}>
-                    {window.i18n('shareTips')}
-                    <a target="_blank" rel="noreferrer" href={`https://search.hoothin.com/${window.searchData.webdavConfig.username.replace('user_', '')}`}>{`https://search.hoothin.com/${window.searchData.webdavConfig.username.replace('user_', '')}`}</a>
-                </DialogContentText>
             </DialogContent>
             <DialogActions>
                 <Button variant="contained" color={webdavDisabled ? "error" : "success"} sx={{position: 'absolute', top: '15px', right: '23px'}} startIcon={<ErrorIcon />} onClick={() => {

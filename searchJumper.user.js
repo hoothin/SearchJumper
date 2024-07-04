@@ -5,7 +5,7 @@
 // @name:ja      SearchJumper
 // @name:ru      SearchJumper
 // @namespace    hoothin
-// @version      1.9.7
+// @version      1.9.8
 // @description  One-click search switching, over 300 features available. Conduct searches for selected text/image/link effortlessly.
 // @description:zh-CN  一键搜索切换，超过300种功能，可以组合或自定义页面、划词、图片菜单，并有页内关键词查找与高亮，可视化搜索，超级拖拽等功能。
 // @description:zh-TW  一鍵搜尋切換，超過300種功能，可以組合或自訂頁面、劃詞、圖片選單，並有頁內關鍵字查找與高亮，可視化搜索，超級拖曳等功能。
@@ -7126,7 +7126,7 @@
                 for (let siteConfig of bookmarkTypes) {
                     await this.createType(siteConfig);
                     sitesNum += siteConfig.sites.length;
-                    if (sitesNum > 100) {
+                    if (sitesNum > 200) {
                         await sleep(1);
                         sitesNum = 0;
                     }
@@ -8174,20 +8174,24 @@
                 //}
                 let ew = clingEle.clientWidth || clingEle.offsetWidth;
                 let eh = clingEle.clientHeight || clingEle.offsetHeight;
-                let clientX = clingEle.offsetLeft + ew / 2 - this.con.scrollLeft;
+                /*let clientX = clingEle.offsetLeft + ew / 2 - this.con.scrollLeft;
                 let clientY = clingEle.offsetTop + eh / 2 - this.con.scrollTop - clingEle.parentNode.scrollTop;
-                let current = clingEle.offsetParent;
+                let current = clingEle.offsetParent;*/
+
+                const clientRect = clingEle.getBoundingClientRect();
+
+                let clientX, clientY;
+
                 let showall = this.con && this.con.classList.contains("search-jumper-showall");
 
-                while (current !== null){
+                /*while (current !== null){
                     clientX += current.offsetLeft;
                     clientY += current.offsetTop;
                     current = current.offsetParent;
-                }
+                }*/
                 let viewWidth = window.innerWidth || document.documentElement.clientWidth;
                 let viewHeight = window.innerHeight || document.documentElement.clientHeight;
                 if (showall) {
-                    let clientRect = clingEle.getBoundingClientRect();
                     clientX = clientRect.x + ew / 2;
                     clientY = clientRect.y + eh / 2;
                     clientX -= target.scrollWidth / 2 - this.con.scrollLeft;
@@ -8199,12 +8203,17 @@
                     target.style.left = clientX + "px";
                     target.style.top = clientY + "px";
                 } else if (this.funcKeyCall) {
+                    const scrollTop = window.pageYOffset || document.documentElement.scrollTop || getBody(document).scrollTop;
+                    const scrollLeft = window.pageXOffset || document.documentElement.scrollLeft || getBody(document).scrollLeft;
+
+                    clientX = clientRect.x + ew / 2 - this.con.scrollLeft + scrollLeft;
+                    clientY = clientRect.y + eh / 2 - this.con.scrollTop + scrollTop - clingEle.parentNode.scrollTop;
+
                     clientX -= target.scrollWidth / 2;
                     let actualTop = clingEle.getBoundingClientRect().top;
                     if (actualTop > viewHeight / 2) clientY -= (target.scrollHeight + eh / 2 + 5);
                     else clientY += (eh / 2 + 5);
                     if (clientX < 20) clientX = 20;
-                    let scrollLeft = document.documentElement.scrollLeft || document.body.scrollLeft;
                     let maxLeft = viewWidth + scrollLeft - target.scrollWidth - 30;
                     if (clientX > maxLeft) {
                         clientX = maxLeft;
@@ -8213,59 +8222,69 @@
                     target.style.bottom = "";
                     target.style.left = clientX + "px";
                     target.style.top = clientY + "px";
-                } else if (clientY < eh) {
-                    clientX -= target.scrollWidth / 2;
-                    clientY += target.scrollHeight / 2;
-                    if (clientX < 5) {
-                        clientX = 5;
-                        target.style.left = "5px";
-                        target.style.right = "";
-                        target.style.bottom = "";
-                    } else if (clientX > viewWidth - target.scrollWidth) {
-                        target.style.left = "";
-                        target.style.right = "5px";
-                        target.style.bottom = "";
-                    } else {
-                        target.style.left = clientX + "px";
-                        target.style.right = "";
-                        target.style.bottom = "";
-                    }
-                    target.style.top = (close ? eh : eh + 20) + "px";
-                } else if (clientY > viewHeight - eh) {
-                    clientX -= target.scrollWidth / 2;
-                    if (clientX < 5) {
-                        target.style.left = "5px";
-                        target.style.right = "";
-                        target.style.top = "";
-                    } else if (clientX > viewWidth - target.scrollWidth) {
-                        target.style.left = "";
-                        target.style.right = "5px";
-                        target.style.top = "";
-                    } else {
-                        target.style.left = clientX + "px";
-                        target.style.right = "";
-                        target.style.top = "";
-                    }
-                    target.style.bottom = (close ? eh : eh + 20) + "px";
-                } else if (clientX > viewWidth - ew - 10) {
-                    target.style.left = "";
-                    target.style.bottom = "";
-                    clientY -= target.scrollHeight / 2;
-                    if (clientY < 5) clientY = 5;
-                    target.style.right = (close ? ew : ew + 20) + "px";
-                    target.style.top = clientY + "px";
-                } else if (clientX < ew) {
-                    target.style.right = "";
-                    target.style.bottom = "";
-                    clientY -= target.scrollHeight / 2;
-                    if (clientY < 5) clientY = 5;
-                    target.style.left = (close ? ew : ew + 20) + "px";
-                    target.style.top = clientY + "px";
                 } else {
-                    target.style.right = "";
-                    target.style.bottom = "";
-                    target.style.left = clientX + "px";
-                    target.style.top = clientY + "px";
+                    clientX = clingEle.offsetLeft + ew / 2 - this.con.scrollLeft - clingEle.parentNode.scrollLeft;
+                    clientY = clingEle.offsetTop + eh / 2 - this.con.scrollTop - clingEle.parentNode.scrollTop;
+                    let current = clingEle.offsetParent;
+                    while (current !== null){
+                        clientX += current.offsetLeft;
+                        clientY += current.offsetTop;
+                        current = current.offsetParent;
+                    }
+                    if (clientY < eh) {
+                        clientX -= target.scrollWidth / 2;
+                        clientY += target.scrollHeight / 2;
+                        if (clientX < 5) {
+                            clientX = 5;
+                            target.style.left = "5px";
+                            target.style.right = "";
+                            target.style.bottom = "";
+                        } else if (clientX > viewWidth - target.scrollWidth) {
+                            target.style.left = "";
+                            target.style.right = "5px";
+                            target.style.bottom = "";
+                        } else {
+                            target.style.left = clientX + "px";
+                            target.style.right = "";
+                            target.style.bottom = "";
+                        }
+                        target.style.top = (close ? eh : eh + 20) + "px";
+                    } else if (clientY > viewHeight - eh) {
+                        clientX -= target.scrollWidth / 2;
+                        if (clientX < 5) {
+                            target.style.left = "5px";
+                            target.style.right = "";
+                            target.style.top = "";
+                        } else if (clientX > viewWidth - target.scrollWidth) {
+                            target.style.left = "";
+                            target.style.right = "5px";
+                            target.style.top = "";
+                        } else {
+                            target.style.left = clientX + "px";
+                            target.style.right = "";
+                            target.style.top = "";
+                        }
+                        target.style.bottom = (close ? eh : eh + 20) + "px";
+                    } else if (clientX > viewWidth - ew - 10) {
+                        target.style.left = "";
+                        target.style.bottom = "";
+                        clientY -= target.scrollHeight / 2;
+                        if (clientY < 5) clientY = 5;
+                        target.style.right = (close ? ew : ew + 20) + "px";
+                        target.style.top = clientY + "px";
+                    } else if (clientX < ew) {
+                        target.style.right = "";
+                        target.style.bottom = "";
+                        clientY -= target.scrollHeight / 2;
+                        if (clientY < 5) clientY = 5;
+                        target.style.left = (close ? ew : ew + 20) + "px";
+                        target.style.top = clientY + "px";
+                    } else {
+                        target.style.right = "";
+                        target.style.bottom = "";
+                        target.style.left = clientX + "px";
+                        target.style.top = clientY + "px";
+                    }
                 }
             }
 
@@ -8657,7 +8676,7 @@
                 try {
                     for (let [i, site] of sites.entries()) {
                         await createItem(site, i);
-                        if (i % 50 === 49) await sleep(1);
+                        if (i % 100 === 99) await sleep(1);
                     }
                 } catch(e) {
                     for (let i = 0; i < sites.length; i++) {
@@ -9157,6 +9176,7 @@
                 let self = this;
                 let ele = document.createElement("a");
                 ele.setAttribute("ref", "noopener noreferrer");
+                ele.setAttribute("referrerPolicy", "no-referrer");
                 let name = data.name;
                 let urlMatch = data.match;
                 let showTips = false;
@@ -9376,14 +9396,6 @@
                     }
                     let host = location.host;
                     let href = location.href;
-                    let keyToReg = (key, sign, more) => {
-                        if (!more) {
-                            if (/\w$/.test(key)) {
-                                more = '(\\b|$)';
-                            } else more = '';
-                        }
-                        return new RegExp(key.replace(/([\*\.\?\+\$\^\[\]\(\)\{\}\|\\\/])/g, "\\$1") + more, sign);
-                    }
                     let customReplaceSingle = (str, key, value, after) => {
                         if (str.indexOf(key + "[") !== -1) {
                             let multiMatch = str.match(keyToReg(key, "", "\\[(.*?)(\\|(.+))?\\]")), valueArr;
@@ -9420,15 +9432,7 @@
                                 str = str.replace(multiMatch[0], key);
                             }
                         }
-                        if (str.indexOf(key + ".replace(/") !== -1) {
-                            let replaceMatch = str.match(keyToReg(key, "", "\\.replace\\(/(.*?[^\\\\])/(.*?),\s*[\"'](.*?[^\\\\])??[\"']\\)"));
-                            if (!replaceMatch) return str.replace(keyToReg(key, "g"), (after ? after(value) : value));
-                            value = value.replace(new RegExp(replaceMatch[1], replaceMatch[2]), replaceMatch[3] || '');
-                            str = str.replace(replaceMatch[0], key);
-                            return customReplaceSingle(str, key, value, after);
-                        } else {
-                            return str.replace(keyToReg(key, "g"), (after ? after(value.replace(/\$/g, "$$$$")) : value.replace(/\$/g, "$$$$")));
-                        }
+                        return replaceSingle(str, key, value, after);
                     };
                     let needDecode = (!/^showTips:h/i.test(dataUrl) && /^c(opy)?:|[#:%]P{|^javascript:|^showTips:/i.test(dataUrl));
                     let keywordsU = "", keywordsL = "", keywordsR = "", keywordsSC = "", keywordsTC = "";
@@ -10417,7 +10421,7 @@
             }
 
             streamUpdate(data) {
-                this.streamUpdateCallBack(data);
+                this.streamUpdateCallBack && this.streamUpdateCallBack(data);
             }
 
             async anylizeShowTips(data, name, target) {
@@ -10576,12 +10580,12 @@
                                         self.tipsPos(target, result);
                                         resolve && resolve(result);
                                     };
-                                    self.streamUpdateCallBack = data => {
-                                        let result = isJson ? calcJson(data.json, template) : data.text;
-                                        self.tipsPos(target, result);
-                                        resolve && resolve(result);
-                                    };
                                     if (ext) {
+                                        self.streamUpdateCallBack = data => {
+                                            let result = isJson ? calcJson(data.json, template) : data.text;
+                                            self.tipsPos(target, result);
+                                            resolve && resolve(result);
+                                        };
                                         fetchData = new Promise((resolve) => {
                                             chrome.runtime.sendMessage({action: "showTips", detail: {from: url + `\n{${template[1]}}`}}, function(r) {
                                                 data = data.replace(/【SEARCHJUMPERURL】/g, (r && r.finalUrl) || "");
@@ -12565,6 +12569,27 @@
             return "";
         }
 
+        function keyToReg(key, sign, more) {
+            if (!more) {
+                if (/\w$/.test(key)) {
+                    more = '(\\b|$)';
+                } else more = '';
+            }
+            return new RegExp(key.replace(/([\*\.\?\+\$\^\[\]\(\)\{\}\|\\\/])/g, "\\$1") + more, sign);
+        }
+
+        function replaceSingle(str, key, value, after) {
+            if (str.indexOf(key + ".replace(/") !== -1) {
+                let replaceMatch = str.match(keyToReg(key, "", "\\.replace\\(/(.*?[^\\\\])/(.*?),\s*[\"'](.*?[^\\\\])??[\"']\\)"));
+                if (!replaceMatch) return str.replace(keyToReg(key, "g"), (after ? after(value) : value));
+                value = value.replace(new RegExp(replaceMatch[1], replaceMatch[2]), replaceMatch[3] || '');
+                str = str.replace(replaceMatch[0], key);
+                return replaceSingle(str, key, value, after);
+            } else {
+                return str.replace(keyToReg(key, "g"), (after ? after(value.replace(/\$/g, "$$$$")) : value.replace(/\$/g, "$$$$")));
+            }
+        }
+
         function getKeywords() {
             let selStr = getSelectStr();
             if (selStr) {
@@ -12575,37 +12600,48 @@
 
             let keywordsMatch, keywords = '', isUtf8 = !currentSite.charset || currentSite.charset == 'UTF-8';
             if (currentSite.keywords) {
-                if (isUtf8) {
-                    if (/^[\w\|]+$/.test(currentSite.keywords)) {
-                        let keywordsList = currentSite.keywords.split("|");
-                        let urlParams = new URLSearchParams(location.search);
-                        for (let i = 0; i < keywordsList.length; i++) {
-                            keywords = urlParams.get(keywordsList[i]);
-                            if (keywords) break;
-                        }
-                    } else if (/\(.+\)/.test(currentSite.keywords)) {
-                        try {
-                            keywordsMatch = location.href.match(new RegExp(currentSite.keywords));
-                            if (keywordsMatch) {
-                                keywords = keywordsMatch[1];
+                let rules = currentSite.keywords.split("\n");
+                for (let i = 0; i < rules.length; i++) {
+                    let rule = rules[i];
+                    if (!rule || !rule.trim()) continue;
+                    let ruleMatch = rules[i].match(/^(.*?)\.replace\(\//);
+                    if (ruleMatch) rule = ruleMatch[1];
+                    if (isUtf8) {
+                        if (/^\w[\w\|]*$/.test(rule)) {
+                            let keywordsList = rule.split("|");
+                            let urlParams = new URLSearchParams(location.search);
+                            for (let i = 0; i < keywordsList.length; i++) {
+                                keywords = urlParams.get(keywordsList[i]);
+                                if (keywords) break;
                             }
-                            if (keywords) {
-                                keywords = decodeURIComponent(keywords);
+                        } else if (/\(.+\)/.test(rule) && rule.indexOf("@") !== 0) {
+                            try {
+                                keywordsMatch = location.href.match(new RegExp(rule));
+                                if (keywordsMatch) {
+                                    keywords = keywordsMatch[1];
+                                }
+                                if (keywords) {
+                                    keywords = decodeURIComponent(keywords);
+                                }
+                            } catch (e) {
+                                keywords = '';
+                            }
+                        }
+                    }
+                    if (!keywords && getBody(document)) {
+                        try {
+                            let targetEle = getElement(rule);
+                            if (targetEle) {
+                                keywords = targetEle.value || targetEle.innerText;
                             }
                         } catch (e) {
                             keywords = '';
                         }
                     }
-                }
-                if (!keywords && getBody(document)) {
-                    try {
-                        let targetEle = getElement(currentSite.keywords);
-                        if (targetEle) {
-                            keywords = targetEle.value || targetEle.innerText;
-                        }
-                    } catch (e) {
-                        keywords = '';
+                    if (keywords && ruleMatch) {
+                        keywords = replaceSingle(rules[i], rule, keywords);
                     }
+                    if (keywords) break;
                 }
             } else if (isUtf8 && wordParamReg.test(currentSite.url) && !/[#:%]p{/.test(currentSite.url)) {
                 if (location.href.indexOf("?") != -1) {
