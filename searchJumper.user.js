@@ -5,7 +5,7 @@
 // @name:ja      SearchJumper
 // @name:ru      SearchJumper
 // @namespace    hoothin
-// @version      1.9.8
+// @version      1.9.9
 // @description  One-click search switching, over 300 features available. Conduct searches for selected text/image/link effortlessly.
 // @description:zh-CN  一键搜索切换，超过300种功能，可以组合或自定义页面、划词、图片菜单，并有页内关键词查找与高亮，可视化搜索，超级拖拽等功能。
 // @description:zh-TW  一鍵搜尋切換，超過300種功能，可以組合或自訂頁面、劃詞、圖片選單，並有頁內關鍵字查找與高亮，可視化搜索，超級拖曳等功能。
@@ -6260,6 +6260,9 @@
             }
 
             removeBar() {
+                if (this.shadowContainer && this.shadowContainer.parentNode) {
+                    this.shadowContainer.parentNode.removeChild(this.shadowContainer);
+                }
                 if (this.con.parentNode) {
                     this.con.parentNode.removeChild(this.con);
                 }
@@ -6299,6 +6302,22 @@
                         shadow = this.shadowRoot;
                     } else {
                         this.shadowContainer.setAttribute('contenteditable', 'true');
+                        this.shadowContainer.className = "search-jumper-shadow";
+                        let style = _GM_addStyle(`
+                         .search-jumper-shadow {
+                          display: block !important;
+                          width: 0px !important;
+                          height: 0px !important;
+                          margin: 0px !important;
+                          padding: 0px !important;
+                          border-width: initial !important;
+                          border-style: none !important;
+                          border-color: initial !important;
+                          border-image: initial !important;
+                          outline: none !important;
+                         }
+                        `);
+                        this.shadowContainer.appendChild(style);
                         let shadowRoot = this.shadowContainer.attachShadow({ mode: "closed" });
                         shadow = document.createElement("div");
                         shadow.id = "search-jumper-root";
