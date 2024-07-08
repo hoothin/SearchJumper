@@ -171,7 +171,7 @@ Select the above text, PopClip will offer an "Install Extension" action. Click i
 ``` json
 {
   "name": "💲USD to RMB",
-  "url": "showTips:https://api.exchangerate.host/convert?from=USD&to=CNY&amount=1 \n{name}<br/><i>%s USD = {json.result|*%s.replace(/\\D/,'')} RMB</i>",
+  "url": "showTips:https://api.exchangerate.host/convert?from=USD&to=CNY&amount=1 \n{name}<br/><i>%sr USD = {json.result|*%sr.replace(/\\D/,'')} RMB</i>",
   "kwFilter": "\\d\\$|\\$\\d"
 }
 ```
@@ -179,7 +179,7 @@ Select the above text, PopClip will offer an "Install Extension" action. Click i
 ``` json
 {
   "name": "💲Currency convert",
-  "url": "showTips:http://apilayer.net/api/convert?from=%input{From currency/US Dollar/Euro/Japanese Yen/China Yuan,USD/EUR/JPY/CNY}&to=%input{Target currency/US Dollar/Euro/Japanese Yen/China Yuan,USD/EUR/JPY/CNY}&amount=1&access_key=%template{apilayer key}\n{name}<br/><i>%s {json.query.from} = {json.result|*%s.replace(/\\D/,'')} {json.query.to}</i>"
+  "url": "showTips:http://apilayer.net/api/convert?from=%input{From currency/US Dollar/Euro/Japanese Yen/China Yuan,USD/EUR/JPY/CNY}&to=%input{Target currency/US Dollar/Euro/Japanese Yen/China Yuan,USD/EUR/JPY/CNY}&amount=1&access_key=%template{apilayer key}\n{name}<br/><i>%sr {json.query.from} = {json.result|*%sr.replace(/\\D/,'')} {json.query.to}</i>"
 }
 ```
 + Preview Japan AV 框選番號預覽AV such as ABW-345
