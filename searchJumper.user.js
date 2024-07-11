@@ -5,7 +5,7 @@
 // @name:ja      SearchJumper
 // @name:ru      SearchJumper
 // @namespace    hoothin
-// @version      1.9.9
+// @version      1.9.10
 // @description  One-click search switching, over 300 features available. Conduct searches for selected text/image/link effortlessly.
 // @description:zh-CN  一键搜索切换，超过300种功能，可以组合或自定义页面、划词、图片菜单，并有页内关键词查找与高亮，可视化搜索，超级拖拽等功能。
 // @description:zh-TW  一鍵搜尋切換，超過300種功能，可以組合或自訂頁面、劃詞、圖片選單，並有頁內關鍵字查找與高亮，可視化搜索，超級拖曳等功能。
@@ -858,7 +858,7 @@
                     if (option && option.body) {
                         requestOption.data = option.body;
                     }
-                    if (option.responseType === "stream") {
+                    if (option && option.responseType === "stream") {
                         requestOption.responseType = "stream";
                         delete requestOption.onload;
                         requestOption.onloadstart = d => {
@@ -1262,8 +1262,19 @@
             doc = doc || document;
             contextNode = contextNode || doc;
             try {
-                var result = doc.evaluate(xpath, contextNode, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null);
-                return result.singleNodeValue && result.singleNodeValue.nodeType === 1 && result.singleNodeValue;
+                let xpathNode = (s, d, n) => {
+                    let result = d.evaluate(s, n, null, XPathResult.ANY_UNORDERED_NODE_TYPE, null);
+                    return result.singleNodeValue && result.singleNodeValue.nodeType === 1 && result.singleNodeValue;
+                };
+                let selSplit = xpath.split(" =>> ");
+                if (selSplit.length === 2) {
+                    let ele = xpathNode(selSplit[0], doc, contextNode);
+                    if (ele && ele.shadowRoot) {
+                        return xpathNode(selSplit[1], ele.shadowRoot, ele.shadowRoot);
+                    }
+                } else {
+                    return xpathNode(xpath, doc, contextNode);
+                }
             } catch (err) {
                 debug(`Invalid xpath: ${xpath}`);
                 return false;
@@ -1291,7 +1302,11 @@
             if (!doc) doc = document;
             try {
                 if (!isXPath(sel)) {
-                    return doc.querySelector(sel);
+                    let selSplit = sel.split(" =>> ");
+                    if (selSplit.length === 2) {
+                        let ele = doc.querySelector(selSplit[0]);
+                        return ele && ele.shadowRoot && ele.shadowRoot.querySelector(selSplit[1]);
+                    } else return doc.querySelector(sel);
                 }
             } catch(e) {
                 debug(e);
@@ -8226,7 +8241,7 @@
                     const scrollLeft = window.pageXOffset || document.documentElement.scrollLeft || getBody(document).scrollLeft;
 
                     clientX = clientRect.x + ew / 2 - this.con.scrollLeft + scrollLeft;
-                    clientY = clientRect.y + eh / 2 - this.con.scrollTop + scrollTop - clingEle.parentNode.scrollTop;
+                    clientY = clientRect.y + eh / 2 - this.con.scrollTop + scrollTop;
 
                     clientX -= target.scrollWidth / 2;
                     let actualTop = clingEle.getBoundingClientRect().top;
