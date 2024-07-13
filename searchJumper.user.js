@@ -64,9 +64,8 @@
     const _unsafeWindow = (typeof unsafeWindow == 'undefined') ? window : unsafeWindow;
     if (_unsafeWindow.searchJumperInited) return;
     _unsafeWindow.searchJumperInited = true;
-    if (window.name === 'pagetual-iframe' || (window.frameElement && window.frameElement.name === 'pagetual-iframe')) return;
     const inIframe = window.top !== window.self;
-    if (inIframe) {
+    if (inIframe && window.name !== 'pagetual-iframe' && (!window.frameElement || window.frameElement.name !== 'pagetual-iframe')) {
         try {
             if (window.self.innerWidth < 300 || window.self.innerHeight < 300) {
                 return;
