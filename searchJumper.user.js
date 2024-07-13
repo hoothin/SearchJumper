@@ -1999,8 +1999,16 @@
                  #search-jumper #search-jumper-alllist.new-mode .sitelistCon>div:hover>p {
                      opacity: 1;
                  }
+                 #search-jumper #search-jumper-alllist.showbg+.groupTab,
                  #search-jumper #search-jumper-alllist.showbg>.sitelistBox {
+                     transition: .3s;
                      opacity: 0;
+                 }
+                 #search-jumper #search-jumper-alllist.showbg>.search-jumper-historylistcon,
+                 #search-jumper #search-jumper-alllist.showbg>.inputGroup,
+                 #search-jumper #search-jumper-alllist.showbg>.search-jumper-btn {
+                     transition: .3s;
+                     opacity: 0.3;
                  }
                  #search-jumper.search-jumper-showall>#search-jumper-alllist.showbg:hover~.search-jumper-showallBg {
                      background: unset;
@@ -3714,14 +3722,18 @@
                     storage.setItem("allPageNewMode", alllist.classList.contains("new-mode"));
                 });
                 this.modeSwitch.addEventListener("mouseenter", e => {
-                    e.preventDefault();
-                    e.stopPropagation();
-                    alllist.classList.add("showbg");
+                    if (allPageBgUrl) {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        alllist.classList.add("showbg");
+                    }
                 });
                 this.modeSwitch.addEventListener("mouseleave", e => {
-                    e.preventDefault();
-                    e.stopPropagation();
-                    alllist.classList.remove("showbg");
+                    if (allPageBgUrl) {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        alllist.classList.remove("showbg");
+                    }
                 });
                 this.modeSwitch.addEventListener("contextmenu", e => {
                     if (allPageBgUrl) {
