@@ -5,10 +5,10 @@
 // @name:ja      SearchJumper
 // @name:ru      SearchJumper
 // @namespace    hoothin
-// @version      1.9.10
+// @version      1.9.11
 // @description  Search for everything in different search engines, conduct searches for selected text/image/link effortlessly, over 300 features available.
-// @description:zh-CN  万能聚合搜索，一键切换搜索引擎，超过300种功能，可组合或自定义划词、页面、图片菜单，并有页内关键词查找与高亮，可视化搜索，超级拖拽等功能。
-// @description:zh-TW  萬能聚合搜尋，一鍵切換搜尋引擎，超過300種功能，可組合或自訂劃詞、頁面、圖片選單，並有頁內關鍵字查找與高亮，可視化搜索，超級拖曳等功能。
+// @description:zh-CN  万能聚合搜索，一键切换搜索引擎，超过300种功能，可组合或自定义划词、页面、图片菜单，并有页内关键词查找与高亮、可视化搜索、超级拖拽等功能。
+// @description:zh-TW  萬能聚合搜尋，一鍵切換搜尋引擎，超過300種功能，可組合或自訂劃詞、頁面、圖片選單，並有頁內關鍵字查找與高亮、可視化搜索、超級拖曳等功能。
 // @description:ja  任意の検索エンジンにすばやく簡単にジャンプします、300種類以上の機能を備えています。
 // @description:ru  Легко проводите поиск по выбранному тексту/изображению/ссылке. Быстро переходите к любому поисковому движку. Выделяйте искомый текст.
 // @author       hoothin
@@ -895,7 +895,9 @@
                 });
             }
         } else GM_fetch = fetch;
-        if (typeof GM_registerMenuCommand != 'undefined') {
+        if (inIframe) {
+            _GM_registerMenuCommand = (s, f) => {};
+        } else if (typeof GM_registerMenuCommand != 'undefined') {
             _GM_registerMenuCommand = GM_registerMenuCommand;
         } else if (typeof GM != 'undefined' && typeof GM.registerMenuCommand != 'undefined') {
             _GM_registerMenuCommand = GM.registerMenuCommand;
@@ -8362,6 +8364,21 @@
                         this.tips.style.transition = "";
                     }, 1);
                 }
+                [].forEach.call(this.tips.querySelectorAll('iframe'), iframe => {
+                    let html = iframe.innerHTML;
+                    if (html) {
+                        iframe.innerHTML = createHTML();
+                        iframe.addEventListener('load', e => {
+                            try {
+                                if (!iframe || !iframe.parentNode) return;
+                                let doc = iframe.contentDocument || iframe.contentWindow.document;
+                                let div = doc.createElement('div');
+                                doc.body.appendChild(div);
+                                div.outerHTML = createHTML(html);
+                            } catch(e) {}
+                        });
+                    }
+                });
             }
 
             checkKwFilter(kwFilter, checkKw) {
