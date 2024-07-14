@@ -1882,6 +1882,7 @@
                  #search-jumper-alllist.new-mode {
                      overflow-x: hidden;
                      overflow-y: auto;
+                     scrollbar-width: none;
                  }
                  #search-jumper-alllist.new-mode>.sitelistBox {
                      flex-wrap: wrap;
@@ -1998,16 +1999,13 @@
                  #search-jumper #search-jumper-alllist.new-mode .sitelistCon>div:hover>p {
                      opacity: 1;
                  }
+                 #search-jumper #search-jumper-alllist.showbg>.inputGroup,
+                 #search-jumper #search-jumper-alllist.showbg>.search-jumper-btn,
+                 #search-jumper #search-jumper-alllist.showbg>.search-jumper-historylistcon,
                  #search-jumper #search-jumper-alllist.showbg+.groupTab,
                  #search-jumper #search-jumper-alllist.showbg>.sitelistBox {
                      transition: .3s;
                      opacity: 0;
-                 }
-                 #search-jumper #search-jumper-alllist.showbg>.search-jumper-historylistcon,
-                 #search-jumper #search-jumper-alllist.showbg>.inputGroup,
-                 #search-jumper #search-jumper-alllist.showbg>.search-jumper-btn {
-                     transition: .3s;
-                     opacity: 0.3;
                  }
                  #search-jumper.search-jumper-showall>#search-jumper-alllist.showbg:hover~.search-jumper-showallBg {
                      background: unset;
@@ -3370,7 +3368,6 @@
                      display: inline-block;
                      cursor: pointer;
                      transition: 0.25s opacity ease, 0.25s transform ease;
-                     pointer-events: all;
                  }
                  .searchJumperNavBar:hover>.minNavBtn {
                      opacity: 0.8;
@@ -3389,6 +3386,7 @@
                      box-shadow: 0px 0px 3px 1px #000;
                      margin-left: -50px;
                      margin-top: 5px;
+                     pointer-events: all;
                  }
                  .search-jumper-right>.searchJumperNavBar.minimize>.minNavBtn {
                      margin-left: unset;
