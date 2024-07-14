@@ -898,6 +898,8 @@ export default function Export() {
           myBlob = new Blob(blobStr, { type: "application/json" });
         }
         longHoldState = 0;
+        let date = new Date();
+        downloadEle.download = `searchJumper_${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}_${date.getHours().toString().padStart(2, '0')}${date.getMinutes().toString().padStart(2, '0')}${date.getSeconds().toString().padStart(2, '0')}.json`;
         downloadEle.href = window.URL.createObjectURL(myBlob);
         downloadEle.click();
     }

@@ -5,7 +5,7 @@
 // @name:ja      SearchJumper
 // @name:ru      SearchJumper
 // @namespace    hoothin
-// @version      1.9.11
+// @version      1.9.12
 // @description  Search for everything in different search engines, conduct searches for selected text/image/link effortlessly, over 300 features available.
 // @description:zh-CN  万能聚合搜索，一键切换搜索引擎，超过300种功能，可组合或自定义划词、页面、图片菜单，并有页内关键词查找与高亮、可视化搜索、超级拖拽等功能。
 // @description:zh-TW  萬能聚合搜尋，一鍵切換搜尋引擎，超過300種功能，可組合或自訂劃詞、頁面、圖片選單，並有頁內關鍵字查找與高亮、可視化搜索、超級拖曳等功能。
@@ -8373,6 +8373,7 @@
                         this.tips.style.transition = "";
                     }, 1);
                 }
+                let self = this;
                 [].forEach.call(this.tips.querySelectorAll('iframe'), iframe => {
                     let html = iframe.innerHTML;
                     if (html) {
@@ -8387,6 +8388,11 @@
                             } catch(e) {}
                         });
                     }
+                });
+                [].forEach.call(this.tips.querySelectorAll('img,video'), media => {
+                    media.addEventListener('load', e => {
+                        self.clingPos(ele, self.tips);
+                    });
                 });
             }
 
@@ -10353,7 +10359,7 @@
                         if (e.preventDefault) e.preventDefault();
                         if (e.stopPropagation) e.stopPropagation();
                         return false;
-                    } else if (isPage && openInNewTab === true && !(alt || ctrl || meta || shift) && e.button === 0) {
+                    } else if (isPage && ele.getAttribute("target") === "_blank" && !(alt || ctrl || meta || shift) && e.button === 0) {
                         _GM_openInTab(targetUrlData, {active: true});
                         if (e.preventDefault) e.preventDefault();
                         if (e.stopPropagation) e.stopPropagation();
@@ -10625,7 +10631,7 @@
 
                         let template = data.match(/{(.*?)}/);
                         if (tipsResult) {
-                            if (template && template[1].indexOf("json.") === 0) {
+                            if (template && template[1].indexOf("json") === 0) {
                                 data = data.replace(/【SEARCHJUMPERURL】/g, url);
                                 tipsResult = calcJson(tipsResult, template);
                                 tipsResult = [tipsResult, "\n" + allValue.join(",")];
@@ -10657,7 +10663,7 @@
                             }
 
                             let failed = false, fetchData;
-                            let isJson = (template && template[1].indexOf("json.") === 0);
+                            let isJson = (template && template[1].indexOf("json") === 0);
                             let streamMatch = url.match(streamReg);
                             if (streamMatch) {
                                 fetchOption.responseType = "stream";
@@ -10988,7 +10994,13 @@
                                 _targetElement = _targetElement.parentNode;
                                 break;
                             }
-                            children = _targetElement.parentNode.querySelectorAll("img,audio,video,a");
+                            children = _targetElement.parentNode.querySelectorAll("audio,video");
+                            if (children && children.length !== 1) {
+                                children = _targetElement.parentNode.querySelectorAll("img");
+                            }
+                            if (children && children.length !== 1) {
+                                children = _targetElement.parentNode.querySelectorAll("a");
+                            }
                             if (children && children.length === 1) {
                                 if (children[0].offsetHeight && _targetElement.offsetHeight / children[0].offsetHeight < 2) {
                                     _targetElement = children[0];
@@ -16069,10 +16081,10 @@
                     }
                 });
                 if (_keyWords) {
-                    searchBar.searchJumperInputKeyWords.value = _keyWords;
-                    if (_engine && searchBar.searchJumperInputKeyWords.value) {
-                        searchBar.searchBySiteName(_engine, {}, !!_self);
-                    }
+                    searchBar.searchJumperInputKeyWords.value = _keyWords || "";
+                }
+                if (_engine) {
+                    searchBar.searchBySiteName(_engine, {}, !!_self);
                 }
             }
             getBody(document).style.cssText = `
