@@ -3915,6 +3915,7 @@
                     } else {
                         tips.style.bottom = (startPos.bottom - curY) + "px";
                     }
+                    tips.classList.add("draging");
                 };
                 let mouseUpHandler = e => {
                     document.removeEventListener('mouseup', mouseUpHandler, false);
@@ -3935,7 +3936,6 @@
                         top: parseFloat(tips.style.top),
                         bottom: parseFloat(tips.style.bottom)
                     };
-                    tips.classList.add("draging");
                     cb && cb();
                 };
                 tips.addEventListener('mousedown', e => {
