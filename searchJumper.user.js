@@ -5,7 +5,7 @@
 // @name:ja      SearchJumper
 // @name:ru      SearchJumper
 // @namespace    hoothin
-// @version      1.9.12
+// @version      1.9.13
 // @description  Search for everything in different search engines, conduct searches for selected text/image/link effortlessly, over 300 features available.
 // @description:zh-CN  万能聚合搜索，一键切换搜索引擎，超过300种功能，可组合或自定义划词、页面、图片菜单，并有页内关键词查找与高亮、可视化搜索、超级拖拽等功能。
 // @description:zh-TW  萬能聚合搜尋，一鍵切換搜尋引擎，超過300種功能，可組合或自訂劃詞、頁面、圖片選單，並有頁內關鍵字查找與高亮、可視化搜索、超級拖曳等功能。
@@ -305,8 +305,8 @@
                         batchOpenConfirm: '確定要批量打開嗎？',
                         postOver: '發送成功：',
                         postError: '發送失敗：',
-                        keywords: '請輸入搜索詞',
-                        targetUrl: '請輸入搜索URL',
+                        keywords: '請輸入搜尋詞',
+                        targetUrl: '請輸入搜尋URL',
                         siteName: '站名',
                         siteDesc: '描述',
                         siteUrl: '地址',
@@ -317,12 +317,12 @@
                         siteType: '分類',
                         siteExist: '已存在相同規則，是否添加為克隆項？',
                         siteAddOver: '站點添加成功',
-                        multiline: '是否以換行符分隔多行搜索？',
-                        multilineTooMuch: '行數超過10行，是否繼續搜索？',
+                        multiline: '是否以換行符分隔多行搜尋？',
+                        multilineTooMuch: '行數超過10行，是否繼續搜尋？',
                         inputPlaceholder: '篩選引擎',
                         inputTitle: '篩選引擎，支援 * ? 通配符，$代表末尾，^代表開頭，分組**站點 可篩選指定分組，例如 圖片**google，tab 下一項',
-                        inputKeywords: '輸入搜索關鍵詞',
-                        inPageTips: '自定義分隔符：$c 加分隔符，例如 $c| search | jumper，默認空格作為分隔符\n原始文本不分隔：$o 加文本，例如$oopai liked by hero\n正則表達式：/re/，例如 $c, /google/i , /aPPle/\n添加提示文本：搜索文本$t{提示文本}，例如 linux$t{linux is not unix}\n添加自定義樣式：搜索文本$s{背景;其他}，例如 google$s{#333333;color:red;}\n左鍵點擊關鍵詞跳轉至下一個，右鍵點擊關鍵詞跳轉至上一個',
+                        inputKeywords: '輸入搜尋關鍵詞',
+                        inPageTips: '自定義分隔符：$c 加分隔符，例如 $c| search | jumper，默認空格作為分隔符\n原始文本不分隔：$o 加文本，例如$oopai liked by hero\n正則表達式：/re/，例如 $c, /google/i , /aPPle/\n添加提示文本：搜尋文本$t{提示文本}，例如 linux$t{linux is not unix}\n添加自定義樣式：搜尋文本$s{背景;其他}，例如 google$s{#333333;color:red;}\n左鍵點擊關鍵詞跳轉至下一個，右鍵點擊關鍵詞跳轉至上一個',
                         inPagePlaceholder: '輸入文字，按下回車進行頁內查找',
                         pickerBtn: '抓取元素',
                         multiPickerBtn: '抓取元素，按住 Ctrl 或 Command 連續抓取',
@@ -338,33 +338,33 @@
                         collapseAll: '全部合起',
                         rename: '重命名',
                         recoverBtn: '恢復查找文字',
-                        pinBtn: '固定查找文字，在所有標籤頁中搜索',
+                        pinBtn: '固定查找文字，在所有標籤頁中搜尋',
                         locBtn: '定位側邊欄',
                         filterSites: '篩選搜尋引擎',
                         searchInPage: '頁內查找',
-                        removeBtn: '移除搜索詞',
-                        saveRuleBtn: '保存當前站點的搜索詞',
-                        wordContent: '搜索詞內容',
+                        removeBtn: '移除搜尋詞',
+                        saveRuleBtn: '保存當前站點的搜尋詞',
+                        wordContent: '搜尋詞內容',
                         wordHide: '隱藏父級元素',
                         wordHideTips: '元素深度，0為當前父級',
-                        wordStyle: '搜索詞樣式',
-                        wordTitle: '搜索詞注釋',
+                        wordStyle: '搜尋詞樣式',
+                        wordTitle: '搜尋詞注釋',
                         re: '正則',
                         ignoreCase: '不區分大小寫',
                         filterLink: '篩選鏈接',
                         modify: '修改',
                         cancel: '取消',
-                        modifyWord: '修改頁內搜索詞',
+                        modifyWord: '修改頁內搜尋詞',
                         addSearchEngine: '添加搜尋引擎',
                         noValidItemAsk: '未找到有效元素，是否手動編輯規則並添加？',
                         expand: '展開剩餘站點',
                         add: '添加',
                         addWord: '添加新詞語',
                         wordRange: '生效範圍',
-                        customInputFrame: '自定義搜索參數',
-                        customSubmit: '提交搜索',
+                        customInputFrame: '自定義搜尋參數',
+                        customSubmit: '提交搜尋',
                         finalSearch: '目標搜尋字串',
-                        search: '搜索此項',
+                        search: '搜尋此項',
                         siteKeywords: '關鍵詞(多個關鍵詞以|分隔)',
                         siteMatch: '站點 URL 匹配正則',
                         openSelect: '打開選項',
@@ -375,7 +375,7 @@
                         maxAddSiteBtn: '最大化',
                         minAddSiteBtn: '還原',
                         addAction: '添加操作',
-                        crawlInfo: '模擬輸入搜索',
+                        crawlInfo: '模擬輸入搜尋',
                         inputAction: '輸入',
                         clickAction: '點擊',
                         sleepAction: '等待',
@@ -1856,7 +1856,7 @@
                  }
                  #search-jumper-alllist>.dayInAll {
                      left: 50px;
-                     font-size: 1.5vw;
+                     font-size: ${lang.indexOf("zh") == 0 ? '1.5' : '2'}vw;
                  }
                  #search-jumper-alllist>.timeInAll {
                      right: 50px;
@@ -6115,7 +6115,7 @@
                 let now = new Date();
                 let year = now.getFullYear(), month = now.getMonth(), date = now.getDate();
                 let dayLabelStr = i18n(days[now.getDay()]) + "<br/>" + year + '-' + (++month < 10 ? '0' + month : month) + '-' + (date < 10 ? '0' + date : date);
-                if (lang.indexOf("zh-") == 0) {
+                if (lang.indexOf("zh") == 0) {
                     let lunar = sloarToLunar(year, month, date);
                     if (lunar) {
                         let lunarStr = `${lunar.lunarYear}年${lunar.lunarMonth}月${lunar.lunarDay}`;
@@ -10618,6 +10618,13 @@
                                             }
                                         });
                                         value = value.toFixed(2);
+                                    } else {
+                                        let fullReg = calcStr.match(/^\/(.*)\/(\w?)$/);
+                                        let regGroup = fullReg ? new RegExp(fullReg[1], fullReg[2]) : new RegExp(calcStr);
+                                        let valueMatch = value.match(regGroup);
+                                        if (valueMatch) {
+                                            value = valueMatch[1];
+                                        }
                                     }
                                 }
                                 if (!value) value = "";
