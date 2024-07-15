@@ -5,7 +5,7 @@
 // @name:ja      SearchJumper
 // @name:ru      SearchJumper
 // @namespace    hoothin
-// @version      1.9.14
+// @version      1.9.15
 // @description  Search for everything in different search engines, conduct searches for selected text/image/link effortlessly, over 300 features available.
 // @description:zh-CN  万能聚合搜索，一键切换搜索引擎，超过300种功能，可组合或自定义划词、页面、图片菜单，并有页内关键词查找与高亮、可视化搜索、超级拖拽等功能。
 // @description:zh-TW  萬能聚合搜尋，一鍵切換搜尋引擎，超過300種功能，可組合或自訂劃詞、頁面、圖片選單，並有頁內關鍵字查找與高亮、可視化搜索、超級拖曳等功能。
@@ -866,8 +866,12 @@
                             const reader = d.response.getReader();
                             let json = () => {
                                 try {
-                                    if (buffer && /^({.*} *\n)* *{.*}$/.test(buffer.trim())) {
-                                        buffer = buffer.split("\n").pop();
+                                    if (buffer) {
+                                        if (/^({.*} *\n)* *{.*}$/.test(buffer.trim())) {
+                                            buffer = buffer.split("\n").pop();
+                                        } else if (/^\[[\s\S]+[^\]]$/.test(buffer.trim())) {
+                                            buffer = buffer + "]";
+                                        }
                                     }
                                     return JSON.parse(buffer);
                                 } catch (e) {
@@ -10741,12 +10745,14 @@
                                     fetchOption.onstream = async data => {
                                         let result = isJson ? calcJson(data.json(), template) : data.text;
                                         self.tipsPos(target, result);
+                                        self.tips.style.pointerEvents = "all";
                                         resolve && resolve(result);
                                     };
                                     if (ext) {
                                         self.streamUpdateCallBack = data => {
                                             let result = isJson ? calcJson(data.json, template) : data.text;
                                             self.tipsPos(target, result);
+                                            self.tips.style.pointerEvents = "all";
                                             resolve && resolve(result);
                                         };
                                         fetchData = new Promise((resolve) => {
