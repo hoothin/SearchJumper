@@ -5,7 +5,7 @@
 // @name:ja      SearchJumper
 // @name:ru      SearchJumper
 // @namespace    hoothin
-// @version      1.9.13
+// @version      1.9.14
 // @description  Search for everything in different search engines, conduct searches for selected text/image/link effortlessly, over 300 features available.
 // @description:zh-CN  万能聚合搜索，一键切换搜索引擎，超过300种功能，可组合或自定义划词、页面、图片菜单，并有页内关键词查找与高亮、可视化搜索、超级拖拽等功能。
 // @description:zh-TW  萬能聚合搜尋，一鍵切換搜尋引擎，超過300種功能，可組合或自訂劃詞、頁面、圖片選單，並有頁內關鍵字查找與高亮、可視化搜索、超級拖曳等功能。
@@ -2512,6 +2512,13 @@
                  .search-jumper-tips>div [data-read] {
                      color: #f9690e;
                  }
+                 .search-jumper-tips.draging {
+                     cursor: grabbing;
+                     transition: none;
+                 }
+                 .search-jumper-tips.draging * {
+                     pointer-events: none;
+                 }
                  .search-jumper-logoBtnSvg {
                      width: ${32 * this.scale}px;
                      height: ${32 * this.scale}px;
@@ -2824,11 +2831,13 @@
                      box-sizing: content-box;
                      overflow: hidden;
                      font-family: Roboto,arial,sans-serif;
+                     cursor: grab;
                  }
                  .search-jumper-tips * {
                      max-width: 640px;
                      max-width: min(80vw,640px);
                      margin: auto;
+                     cursor: initial;
                  }
                  .search-jumper-searchBar>.search-jumper-type {
                      padding: 0px;
@@ -3889,6 +3898,55 @@
                         self.tips.innerHTML = createHTML("");
                     }
                 }, false);
+                let startMouse, startPos, mouseMoveHandler = e => {
+                    let curX = clientX(e) - startMouse.x;
+                    let curY = clientY(e) - startMouse.y;
+                    if (Math.abs(curX) + Math.abs(curY) < 5) return;
+                    if (tips.style.right === "") {
+                        tips.style.left = (startPos.left + curX) + "px";
+                    } else {
+                        tips.style.right = (startPos.right - curX) + "px";
+                    }
+                    if (tips.style.bottom === "") {
+                        tips.style.top = (startPos.top + curY) + "px";
+                    } else {
+                        tips.style.bottom = (startPos.bottom - curY) + "px";
+                    }
+                };
+                let mouseUpHandler = e => {
+                    document.removeEventListener('mouseup', mouseUpHandler, false);
+                    document.removeEventListener('mousemove', mouseMoveHandler, false);
+                    document.removeEventListener('touchend', mouseUpHandler, false);
+                    document.removeEventListener('touchmove', mouseMoveHandler, false);
+                    tips.classList.remove("draging");
+                };
+                let dragTips = (e, cb) => {
+                    if (!e.target) return;
+                    if (e.target !== tips && !e.target.dataset.drag) return;
+                    e.preventDefault();
+                    e.stopPropagation();
+                    startMouse = {x: clientX(e), y: clientY(e)};
+                    startPos = {
+                        left: parseFloat(tips.style.left),
+                        right: parseFloat(tips.style.right),
+                        top: parseFloat(tips.style.top),
+                        bottom: parseFloat(tips.style.bottom)
+                    };
+                    tips.classList.add("draging");
+                    cb && cb();
+                };
+                tips.addEventListener('mousedown', e => {
+                    dragTips(e, () => {
+                        document.addEventListener('mouseup', mouseUpHandler, false);
+                        document.addEventListener('mousemove', mouseMoveHandler, false);
+                    });
+                }, false);
+                tips.addEventListener('touchstart', e => {
+                    dragTips(e, () => {
+                        document.addEventListener('touchend', mouseUpHandler, false);
+                        document.addEventListener('touchmove', mouseMoveHandler, false);
+                    });
+                }, { passive: false, capture: false });
                 this.tips = tips;
 
                 //this.appendBar();
