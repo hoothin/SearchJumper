@@ -2512,6 +2512,9 @@
                  .search-jumper-tips>div [data-read] {
                      color: #f9690e;
                  }
+                 .search-jumper-tips>div [data-drag] {
+                     cursor: grab;
+                 }
                  .search-jumper-tips.draging {
                      cursor: grabbing;
                      transition: none;
@@ -3922,7 +3925,7 @@
                 };
                 let dragTips = (e, cb) => {
                     if (!e.target) return;
-                    if (e.target !== tips && !e.target.dataset.drag) return;
+                    if (e.target !== tips && typeof e.target.dataset.drag === 'undefined') return;
                     e.preventDefault();
                     e.stopPropagation();
                     startMouse = {x: clientX(e), y: clientY(e)};
