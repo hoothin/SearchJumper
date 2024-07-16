@@ -5,7 +5,7 @@
 // @name:ja      SearchJumper
 // @name:ru      SearchJumper
 // @namespace    hoothin
-// @version      1.9.15
+// @version      1.9.16
 // @description  Search for everything in different search engines, conduct searches for selected text/image/link effortlessly, over 300 features available.
 // @description:zh-CN  万能聚合搜索，一键切换搜索引擎，超过300种功能，可组合或自定义划词、页面、图片菜单，并有页内关键词查找与高亮、可视化搜索、超级拖拽等功能。
 // @description:zh-TW  萬能聚合搜尋，一鍵切換搜尋引擎，超過300種功能，可組合或自訂劃詞、頁面、圖片選單，並有頁內關鍵字查找與高亮、可視化搜索、超級拖曳等功能。
@@ -2495,6 +2495,7 @@
                      line-height: initial;
                      font-weight: normal;
                      padding: 5px;
+                     cursor: initial;
                  }
                  .search-jumper-tips>div [data-read],
                  .search-jumper-tips>div [data-close],
@@ -2844,7 +2845,6 @@
                      max-width: 640px;
                      max-width: min(80vw,640px);
                      margin: auto;
-                     cursor: initial;
                  }
                  .search-jumper-searchBar>.search-jumper-type {
                      padding: 0px;
@@ -9967,9 +9967,7 @@
                                 postParams.push(['@reload', func.trim()]);
                             } else if (pair.startsWith("wait(") && pair.endsWith(')')) {
                                 let wait = pair.slice(5, pair.length - 1);
-                                if (wait) {
-                                    postParams.push(['@wait', wait.replace(/\\([\=&])/g, "$1").trim()]);
-                                }
+                                postParams.push(['@wait', wait.replace(/\\([\=&])/g, "$1").trim()]);
                             } else if (pair.startsWith("open(") && pair.endsWith(')')) {
                                 let open = pair.slice(5, pair.length - 1);
                                 if (open) {
@@ -11115,7 +11113,7 @@
                 this.tips.style.transition = "none";
                 this.tips.innerHTML = createHTML("");
                 setTimeout(() => {this.bar.classList.add("initShow");}, 10);
-                let typeSel = "";
+                let typeSel = "", secondType = "";
                 if (selectStr) {
                     this.bar.classList.add("search-jumper-isInPage");
                     if (this.bar.style.display == "none" || _funcKeyCall) {
@@ -11160,7 +11158,7 @@
                         this.bar.classList.add("search-jumper-isTargetLink");
                         if (!typeSel) {
                             typeSel = "targetLink";
-                        }
+                        } else secondType = "targetLink";
                     }
                     if (!typeSel) {
                         this.bar.classList.add("search-jumper-isTargetPage");
@@ -11189,6 +11187,15 @@
                         });
                         self.reopenType(firstType);
                         self.insertHistory(firstType.parentNode);
+                        if (secondType) {
+                            targetTypes = this.bar.querySelectorAll(`.search-jumper-${secondType}:not(.notmatch)>span:first-child`);
+                            [].forEach.call(targetTypes, type => {
+                                if (type !== firstType) {
+                                    self.reopenType(type);
+                                }
+                            });
+                            self.reopenType(firstType);
+                        }
                     }
                 }
                 if (!_funcKeyCall && (searchData.prefConfig.disableAutoOpen || searchData.prefConfig.disableTypeOpen)) {
@@ -12159,11 +12166,12 @@
         }
 
         async function waitForElement(sel) {
-            if (!sel) return null;
             return new Promise((resolve) => {
                 let checkInv = setInterval(() => {
                     let result = null;
-                    if (sel === "@") {
+                    if (!sel) {
+                        result = document.readyState === "complete";
+                    } else if (sel === "@") {
                         result = targetElement;
                     } else result = getElement(sel);
                     if (result === false) return null;
@@ -12898,12 +12906,14 @@
                     showSiteAddFromOpenSearch(openSearch.href, (type, e) => {
                         if (type != 'load') {
                             if (e) debug(e.statusText || e.error || e.response || e);
-                            let firstInput = getBody(document).querySelector('input[type=text]:not([readonly]),input[type=search]:not([readonly]),input:not([type])');
+                            let firstInput = getBody(document).querySelector('input[type=text]:not([readonly]),input[type=search]:not([readonly]),input:not([type])') ||
+                                getBody(document).querySelector('textarea');
                             quickAddByInput(firstInput);
                         }
                     });
                 } else {
-                    let firstInput = getBody(document).querySelector('input[type=text]:not([readonly]),input[type=search]:not([readonly]),input:not([type])');
+                    let firstInput = getBody(document).querySelector('input[type=text]:not([readonly]),input[type=search]:not([readonly]),input:not([type])') ||
+                        getBody(document).querySelector('textarea');
                     quickAddByInput(firstInput);
                 }
             });
@@ -12951,12 +12961,14 @@
                                     showSiteAddFromOpenSearch(openSearch.href, (type, e) => {
                                         if (type != 'load') {
                                             if (e) debug(e.statusText || e.error || e.response || e);
-                                            let firstInput = getBody(document).querySelector('input[type=text]:not([readonly]),input[type=search]:not([readonly]),input:not([type])');
+                                            let firstInput = getBody(document).querySelector('input[type=text]:not([readonly]),input[type=search]:not([readonly]),input:not([type])') ||
+                                                getBody(document).querySelector('textarea');
                                             quickAddByInput(firstInput);
                                         }
                                     });
                                 } else {
-                                    let firstInput = getBody(document).querySelector('input[type=text]:not([readonly]),input[type=search]:not([readonly]),input:not([type])');
+                                    let firstInput = getBody(document).querySelector('input[type=text]:not([readonly]),input[type=search]:not([readonly]),input:not([type])') ||
+                                        getBody(document).querySelector('textarea');
                                     quickAddByInput(firstInput);
                                 }
                             }
@@ -15481,9 +15493,7 @@
                                 }
                             } else if (pair.startsWith("wait(") && pair.endsWith(')')) {
                                 let wait = pair.slice(5, pair.length - 1);
-                                if (wait) {
-                                    postParams.push(['@wait', wait.replace(/\\([\=&])/g, "$1").trim()]);
-                                }
+                                postParams.push(['@wait', wait.replace(/\\([\=&])/g, "$1").trim()]);
                             } else if (/^sleep\(\d+\)$/.test(pair)) {
                                 let sleep = pair.match(/sleep\((.*)\)/);
                                 if (sleep) {
