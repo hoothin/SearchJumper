@@ -5,7 +5,7 @@
 // @name:ja      SearchJumper
 // @name:ru      SearchJumper
 // @namespace    hoothin
-// @version      1.9.16
+// @version      1.9.17
 // @description  Search for everything in different search engines, conduct searches for selected text/image/link effortlessly, over 300 features available.
 // @description:zh-CN  万能聚合搜索，一键切换搜索引擎，超过300种功能，可组合或自定义划词、页面、图片菜单，并有页内关键词查找与高亮、可视化搜索、超级拖拽等功能。
 // @description:zh-TW  萬能聚合搜尋，一鍵切換搜尋引擎，超過300種功能，可組合或自訂劃詞、頁面、圖片選單，並有頁內關鍵字查找與高亮、可視化搜索、超級拖曳等功能。
@@ -2845,6 +2845,10 @@
                      max-width: 640px;
                      max-width: min(80vw,640px);
                      margin: auto;
+                 }
+                 .search-jumper-tips iframe {
+                     border: unset;
+                     display: block;
                  }
                  .search-jumper-searchBar>.search-jumper-type {
                      padding: 0px;
@@ -8333,9 +8337,9 @@
                 if (showall) {
                     clientX = clientRect.x + ew / 2;
                     clientY = clientRect.y + eh / 2;
-                    clientX -= target.scrollWidth / 2 - this.con.scrollLeft;
+                    clientX -= target.clientWidth / 2 - this.con.scrollLeft;
                     clientY += this.con.scrollTop;
-                    if (clientY > viewHeight / 2) clientY -= (target.scrollHeight + eh / 2 + 10);
+                    if (clientY > viewHeight / 2) clientY -= (target.clientHeight + eh / 2 + 10);
                     else clientY += (eh / 2 + 10);
                     target.style.right = "";
                     target.style.bottom = "";
@@ -8348,12 +8352,12 @@
                     clientX = clientRect.x + ew / 2 - this.con.scrollLeft + scrollLeft;
                     clientY = clientRect.y + eh / 2 - this.con.scrollTop + scrollTop;
 
-                    clientX -= target.scrollWidth / 2;
+                    clientX -= target.clientWidth / 2;
                     let actualTop = clingEle.getBoundingClientRect().top;
-                    if (actualTop > viewHeight / 2) clientY -= (target.scrollHeight + eh / 2 + 5);
+                    if (actualTop > viewHeight / 2) clientY -= (target.clientHeight + eh / 2 + 5);
                     else clientY += (eh / 2 + 5);
                     if (clientX < 20) clientX = 20;
-                    let maxLeft = viewWidth + scrollLeft - target.scrollWidth - 30;
+                    let maxLeft = viewWidth + scrollLeft - target.clientWidth - 30;
                     if (clientX > maxLeft) {
                         clientX = maxLeft;
                     }
@@ -8371,14 +8375,14 @@
                         current = current.offsetParent;
                     }
                     if (clientY < eh) {
-                        clientX -= target.scrollWidth / 2;
-                        clientY += target.scrollHeight / 2;
+                        clientX -= target.clientWidth / 2;
+                        clientY += target.clientHeight / 2;
                         if (clientX < 5) {
                             clientX = 5;
                             target.style.left = "5px";
                             target.style.right = "";
                             target.style.bottom = "";
-                        } else if (clientX > viewWidth - target.scrollWidth) {
+                        } else if (clientX > viewWidth - target.clientWidth) {
                             target.style.left = "";
                             target.style.right = "5px";
                             target.style.bottom = "";
@@ -8389,12 +8393,12 @@
                         }
                         target.style.top = (close ? eh : eh + 20) + "px";
                     } else if (clientY > viewHeight - eh) {
-                        clientX -= target.scrollWidth / 2;
+                        clientX -= target.clientWidth / 2;
                         if (clientX < 5) {
                             target.style.left = "5px";
                             target.style.right = "";
                             target.style.top = "";
-                        } else if (clientX > viewWidth - target.scrollWidth) {
+                        } else if (clientX > viewWidth - target.clientWidth) {
                             target.style.left = "";
                             target.style.right = "5px";
                             target.style.top = "";
@@ -8407,14 +8411,14 @@
                     } else if (clientX > viewWidth - ew - 10) {
                         target.style.left = "";
                         target.style.bottom = "";
-                        clientY -= target.scrollHeight / 2;
+                        clientY -= target.clientHeight / 2;
                         if (clientY < 5) clientY = 5;
                         target.style.right = (close ? ew : ew + 20) + "px";
                         target.style.top = clientY + "px";
                     } else if (clientX < ew) {
                         target.style.right = "";
                         target.style.bottom = "";
-                        clientY -= target.scrollHeight / 2;
+                        clientY -= target.clientHeight / 2;
                         if (clientY < 5) clientY = 5;
                         target.style.left = (close ? ew : ew + 20) + "px";
                         target.style.top = clientY + "px";
@@ -8443,15 +8447,24 @@
                     let html = iframe.innerHTML;
                     if (html) {
                         iframe.innerHTML = createHTML();
-                        iframe.addEventListener('load', e => {
+                        if (iframe.src) {
+                            iframe.addEventListener('load', e => {
+                                try {
+                                    if (!iframe || !iframe.parentNode) return;
+                                    let doc = iframe.contentDocument || iframe.contentWindow.document;
+                                    let div = doc.createElement('div');
+                                    doc.body.appendChild(div);
+                                    div.outerHTML = createHTML(html);
+                                } catch(e) {}
+                            });
+                        } else {
                             try {
-                                if (!iframe || !iframe.parentNode) return;
                                 let doc = iframe.contentDocument || iframe.contentWindow.document;
-                                let div = doc.createElement('div');
-                                doc.body.appendChild(div);
-                                div.outerHTML = createHTML(html);
+                                doc.open();
+                                doc.write(html);
+                                doc.close();
                             } catch(e) {}
-                        });
+                        }
                     }
                 });
                 [].forEach.call(this.tips.querySelectorAll('img,video'), media => {
@@ -10449,7 +10462,10 @@
                             anylizing = true;
                             let tipsResult = await self.anylizeShowTips(url, ele.dataset.name, target);
                             anylizing = false;
-                            if (self.tips.style.opacity == 0 || self.tips.innerHTML.indexOf('<span class="loader">') !== 0) return;
+                            if (self.tips.style.opacity == 0 || self.tips.innerHTML.indexOf('<span class="loader">') !== 0) {
+                                tipsShowing = true;
+                                return;
+                            }
                             if (Array && Array.isArray && Array.isArray(tipsResult)) {
                                 tipsData = tipsResult[1];
                                 tipsResult = tipsResult[0];
@@ -12976,6 +12992,7 @@
                         default:
                             break;
                     }
+                    sendResponse({ msg: "ok" });
                 });
             }
             document.addEventListener('searchJumper', e => {
