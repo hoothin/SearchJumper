@@ -10410,6 +10410,7 @@
                         } else {
                             _GM_openInTab(targetUrlData, {active: true});
                         }
+                        return false;
                     } else if ((alt || ctrl || meta || shift) && isPage) {
                         if ((ctrl || meta) && shift) {
                             _GM_openInTab(targetUrlData, {incognito: true});
@@ -10442,6 +10443,7 @@
                         _GM_openInTab(targetUrlData, {active: true});
                         if (e.preventDefault) e.preventDefault();
                         if (e.stopPropagation) e.stopPropagation();
+                        return false;
                     }
                 };
                 //ele.href = data.url;
