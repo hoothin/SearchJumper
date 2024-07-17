@@ -9754,7 +9754,7 @@
                         if (inPagePost) {
                             tempUrl = tempUrl.replace(postMatch[0], "");
                         }
-                        ele.dataset.url = tempUrl.replace(/%e\b/g, document.characterSet).replace(/%c\b/g, (isMobile?"mobile":"pc")).replace(/%h\b/g, host);
+                        ele.dataset.url = tempUrl.replace(/%e\b/g, document.characterSet).replace(/%c\b/g, (isMobile?"mobile":"pc"));
                     }
                     let targetUrl = '', targetLink = '';
                     let targetName = inputString || document.title;
@@ -9938,8 +9938,10 @@
                             }
                         }
                     }
+                    let _host = host;
                     if ((targetLink || targetUrl) && !ele.dataset.link) {
                         href = targetLink || targetUrl;
+                        _host = href.replace(/^\w+:\/\/([^\/]+).*/, "$1");
                     }
                     if (inPagePost) {
                         let postParams = [];
@@ -9996,7 +9998,7 @@
                                 let pairArr = pair.split("SJ^PARAM");
                                 if (pairArr.length === 2) {
                                     let k = pairArr[0];
-                                    let v = customReplaceKeywords(pairArr[1].replace(/\\([\=&])/g, "$1").replace(/%e\b/g, document.characterSet).replace(/%i\b/g, imgBase64).replace(/%c\b/g, (isMobile?"mobile":"pc")).replace(/%U\b/g, encodeURIComponent(href)).replace(/%UU\b/g, encodeURIComponent(encodeURIComponent(href))).replace(/%h\b/g, host).replace(/%T\b/g, encodeURIComponent(targetUrl)).replace(/%TT\b/g, encodeURIComponent(encodeURIComponent(targetUrl))).replace(/%b\b/g, targetBaseUrl).replace(/%B\b/g, encodeURIComponent(targetBaseUrl)).replace(/%BB\b/g, encodeURIComponent(encodeURIComponent(targetBaseUrl))).replace(/%n\b/g, targetName).replace(/%S\b/g, (cacheKeywords || keywords)));
+                                    let v = customReplaceKeywords(pairArr[1].replace(/\\([\=&])/g, "$1").replace(/%e\b/g, document.characterSet).replace(/%i\b/g, imgBase64).replace(/%c\b/g, (isMobile?"mobile":"pc")).replace(/%U\b/g, encodeURIComponent(href)).replace(/%UU\b/g, encodeURIComponent(encodeURIComponent(href))).replace(/%h\b/g, _host).replace(/%T\b/g, encodeURIComponent(targetUrl)).replace(/%TT\b/g, encodeURIComponent(encodeURIComponent(targetUrl))).replace(/%b\b/g, targetBaseUrl).replace(/%B\b/g, encodeURIComponent(targetBaseUrl)).replace(/%BB\b/g, encodeURIComponent(encodeURIComponent(targetBaseUrl))).replace(/%n\b/g, targetName).replace(/%S\b/g, (cacheKeywords || keywords)));
                                     v = customReplaceSingle(v, "%t", targetUrl);
                                     v = customReplaceSingle(v, "%u", href);
                                     postParams.push([k, v]);
@@ -10013,6 +10015,7 @@
                             storage.setListItem("inPagePostParams", resultUrl.replace(/^https?:\/\/([^\/:]+).*/, "$1"), postParams);
                         }
                     }
+                    resultUrl = customReplaceSingle(resultUrl, "%h", _host);
                     resultUrl = customReplaceSingle(resultUrl, "%t", targetUrl);
                     resultUrl = customReplaceSingle(resultUrl, "%u", href);
                     resultUrl = customReplaceKeywords(resultUrl.replace(/%U\b/g, encodeURIComponent(href)).replace(/%UU\b/g, encodeURIComponent(encodeURIComponent(href))).replace(/%T\b/g, encodeURIComponent(targetUrl)).replace(/%TT\b/g, encodeURIComponent(encodeURIComponent(targetUrl))).replace(/%b\b/g, targetBaseUrl).replace(/%B\b/g, encodeURIComponent(targetBaseUrl)).replace(/%BB\b/g, encodeURIComponent(encodeURIComponent(targetBaseUrl))).replace(/%n\b/g, targetName).replace(/%S\b/g, (cacheKeywords || keywords)));
@@ -16203,13 +16206,15 @@
                 `;
             if (searchData.prefConfig.bgUrl) {
                 allPageBgUrl = searchData.prefConfig.bgUrl;
-                getBody(document).style.backgroundImage = `url("${allPageBgUrl}")`;
-                return;
+                if (allPageBgUrl.length) {
+                    getBody(document).style.backgroundImage = `url("${allPageBgUrl}")`;
+                    return;
+                }
             }
             storage.getItem("allPageBg", allPageBg => {
                 if (allPageBg) {
                     allPageBgUrl = allPageBg.url;
-                    getBody(document).style.backgroundImage = `url("${allPageBg.base64}")`;
+                    getBody(document).style.backgroundImage = `url("${allPageBg.base64 || allPageBgUrl}")`;
                 } else allPageBg = {url: ""};
                 if (ext) {
                     chrome.runtime.sendMessage({action: "getBingBG", detail: {curBgUrl: allPageBg.url}}, function(r) {
@@ -16217,7 +16222,7 @@
                             allPageBg = r;
                             storage.setItem("allPageBg", allPageBg);
                             allPageBgUrl = allPageBg.url;
-                            getBody(document).style.backgroundImage = `url("${allPageBg.base64}")`;
+                            getBody(document).style.backgroundImage = `url("${allPageBg.base64 || allPageBgUrl}")`;
                         }
                     });
                     return;
