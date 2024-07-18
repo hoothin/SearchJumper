@@ -5,7 +5,7 @@
 // @name:ja      SearchJumper
 // @name:ru      SearchJumper
 // @namespace    hoothin
-// @version      1.9.17
+// @version      1.9.18
 // @description  Search for everything in different search engines, conduct searches for selected text/image/link effortlessly, over 300 features available.
 // @description:zh-CN  万能聚合搜索，一键切换搜索引擎，超过300种功能，可组合或自定义划词、页面、图片菜单，并有页内关键词查找与高亮、可视化搜索、超级拖拽等功能。
 // @description:zh-TW  萬能聚合搜尋，一鍵切換搜尋引擎，超過300種功能，可組合或自訂劃詞、頁面、圖片選單，並有頁內關鍵字查找與高亮、可視化搜索、超級拖曳等功能。
@@ -7981,7 +7981,7 @@
                         for (let i = 0; i < siteConfig.sites.length; i++) {
                             let site = siteConfig.sites[i];
                             if (site.name == n) {
-                                let siteBtn = await self.createSiteBtn((searchData.prefConfig.noIcons ? "0" : site.icon), site, true, isBookmark, siteConfig);
+                                let siteBtn = await self.createSiteBtn((searchData.prefConfig.noIcons ? "0" : site.icon), site, true, isBookmark, siteConfig, true);
                                 siteBtn.classList.add("historySite");
                                 self.historySiteBtns.push(siteBtn);
                                 if (siteConfig.selectTxt) {
@@ -9345,7 +9345,7 @@
                 return null;
             }
 
-            async createSiteBtn(icon, data, openInNewTab, isBookmark, typeData) {
+            async createSiteBtn(icon, data, openInNewTab, isBookmark, typeData, isHistoryBtn) {
                 let self = this;
                 let ele = document.createElement("a");
                 ele.setAttribute("ref", "noopener noreferrer");
@@ -9356,6 +9356,7 @@
                 let tipsData;
                 let pointer = !isBookmark && /^\[/.test(data.url);
                 let description = data.description;
+                let shortcut = data.shortcut;
                 if (typeof data.openInNewTab !== 'undefined') {
                     openInNewTab = data.openInNewTab;
                 }
@@ -9455,14 +9456,14 @@
                 img.style.display = "none";
                 ele.appendChild(img);
 
-                if (searchData.prefConfig.shortcut && data.shortcut && !ele.dataset.clone && !ele.classList.contains("notmatch")) {
+                if (!isHistoryBtn && searchData.prefConfig.shortcut && shortcut && !ele.dataset.clone && !ele.classList.contains("notmatch")) {
                     let shortcutCover = document.createElement("div");
-                    let shortcurStr = data.shortcut.replace('Key', '').replace('Digit', '').toUpperCase();
+                    let shortcurStr = shortcut.replace('Key', '').replace('Digit', '').toUpperCase();
                     if (shortcurStr.length == 1) {
                         shortcutCover.innerText = shortcurStr;
                         ele.appendChild(shortcutCover);
                     }
-                    document.addEventListener('keydown', e => {
+                    document.addEventListener('keydown', async e => {
                         if (e.target.id === "searchJumperInput") return;
                         if (!self.hideTimeout) {
                             if ((!data.ctrl == e.ctrlKey) ||
@@ -9472,20 +9473,21 @@
                                 return;
                             }
                         }
+                        if (!self.bar.contains(ele)) return;
                         if (!searchData.prefConfig.enableInInput && !data.ctrl && !data.alt && !data.shift && !data.meta) {
                             if (inputActive(document)) return;
                         }
                         var key = (e.key || String.fromCharCode(e.keyCode)).toLowerCase();
-                        if (data.shortcut == e.code || data.shortcut == key) {
+                        if (shortcut == e.code || shortcut == key) {
+                            e.stopPropagation();
                             if (hoverElement) {
                                 targetElement = hoverElement;
                             }
                             if (showTips) {
                                 ele.dispatchEvent(new CustomEvent('showTips'));
-                            } else if (action() !== false && !self.customInput) {
+                            } else if (await action() !== false && !self.customInput) {
                                 ele.click();
                             }
-                            e.stopPropagation();
                         }
                     });
                 }
@@ -10454,8 +10456,8 @@
                 ele.addEventListener('click', clickHandler, true);
 
                 let tipsStr = ele.dataset.name;
-                if (data.shortcut) {
-                    tipsStr += ` (${data.ctrl ? "Ctrl + " : ""}${data.shift ? "Shift + " : ""}${data.alt ? "Alt + " : ""}${data.meta ? "Meta + " : ""}${data.shortcut.replace("Key", "")})`;
+                if (shortcut) {
+                    tipsStr += ` (${data.ctrl ? "Ctrl + " : ""}${data.shift ? "Shift + " : ""}${data.alt ? "Alt + " : ""}${data.meta ? "Meta + " : ""}${shortcut.replace("Key", "")})`;
                 }
                 let lastUrl, anylizing = false, tipsShowing = false;
                 let setTips = async (target, url, again) => {
