@@ -5,9 +5,9 @@
 // @name:ja      SearchJumper
 // @name:ru      SearchJumper
 // @namespace    hoothin
-// @version      1.9.18
+// @version      1.9.19
 // @description  Search for everything in different search engines, conduct searches for selected text/image/link effortlessly, over 300 features available.
-// @description:zh-CN  万能聚合搜索，一键切换搜索引擎，超过300种功能，可组合或自定义划词、页面、图片菜单，并有页内关键词查找与高亮、可视化搜索、超级拖拽等功能。
+// @description:zh-CN  万能聚合搜索，快速切换搜索引擎，可组合或自定义划词、页面、图片菜单，超过300种功能，并有右键/超级拖拽/全站搜索、划词翻译、以图搜图、站内搜索、多文本页内正则查找与高亮显示等功能。
 // @description:zh-TW  萬能聚合搜尋，一鍵切換搜尋引擎，超過300種功能，可組合或自訂劃詞、頁面、圖片選單，並有頁內關鍵字查找與高亮、可視化搜索、超級拖曳等功能。
 // @description:ja  任意の検索エンジンにすばやく簡単にジャンプします、300種類以上の機能を備えています。
 // @description:ru  Легко проводите поиск по выбранному тексту/изображению/ссылке. Быстро переходите к любому поисковому движку. Выделяйте искомый текст.
@@ -8334,7 +8334,13 @@
                 }*/
                 let viewWidth = window.innerWidth || document.documentElement.clientWidth;
                 let viewHeight = window.innerHeight || document.documentElement.clientHeight;
-                if (showall) {
+                if (!clingEle || /^(body|html)$/i.test(clingEle.nodeName)) {
+                    this.tips.style.transition = "none";
+                    target.style.right = "";
+                    target.style.bottom = "";
+                    target.style.left = (viewWidth - target.clientWidth) / 2 + "px";
+                    target.style.top = (viewHeight - target.clientHeight) / 2 + "px";
+                } else if (showall) {
                     clientX = clientRect.x + ew / 2;
                     clientY = clientRect.y + eh / 2;
                     clientX -= target.clientWidth / 2 - this.con.scrollLeft;
