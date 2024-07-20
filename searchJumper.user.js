@@ -10179,7 +10179,9 @@
                         self.closeOpenType();
                         self.con.style.display = "";
                         self.setFuncKeyCall(true);
-                        target = targetElement || ele;
+                        if (window.getSelection().toString()) {
+                            target = targetElement || ele;
+                        } else target = getBody(document);
                     }
                     self.tipsPos(target, i18n('copyOver'));
                     clearTimeout(self.hideTips);
