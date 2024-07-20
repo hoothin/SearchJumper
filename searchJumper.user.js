@@ -8339,12 +8339,14 @@
                 }*/
                 let viewWidth = window.innerWidth || document.documentElement.clientWidth;
                 let viewHeight = window.innerHeight || document.documentElement.clientHeight;
+                this.tips.style.position = "";
                 if (!clingEle || /^(body|html)$/i.test(clingEle.nodeName)) {
                     this.tips.style.transition = "none";
+                    this.tips.style.position = "fixed";
                     target.style.right = "";
                     target.style.bottom = "";
                     target.style.left = (viewWidth - target.clientWidth) / 2 + "px";
-                    target.style.top = (viewHeight - target.clientHeight) / 2 + "px";
+                    target.style.top = "min(11%,110px)";
                 } else if (showall) {
                     clientX = clientRect.x + ew / 2;
                     clientY = clientRect.y + eh / 2;
