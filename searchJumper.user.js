@@ -5,10 +5,10 @@
 // @name:ja      SearchJumper
 // @name:ru      SearchJumper
 // @namespace    hoothin
-// @version      1.9.19
+// @version      1.9.20
 // @description  Search for everything in different search engines, conduct searches for selected text/image/link effortlessly, over 300 features available.
-// @description:zh-CN  万能聚合搜索，快速切换搜索引擎，可组合或自定义划词、页面、图片菜单，超过300种功能，并有右键/超级拖拽/全站搜索、划词翻译、以图搜图、站内搜索、多文本页内正则查找与高亮显示等功能。
-// @description:zh-TW  萬能聚合搜尋，一鍵切換搜尋引擎，超過300種功能，可組合或自訂劃詞、頁面、圖片選單，並有頁內關鍵字查找與高亮、可視化搜索、超級拖曳等功能。
+// @description:zh-CN  万能聚合搜索，一键切换任何搜索引擎，并有右键/拖拽/全站搜索、以图搜图、页内正则查找、高亮显示与自定义搜索引擎等功能。
+// @description:zh-TW  萬能搜尋輔助，單鍵切換任何搜尋引擎，並有右鍵/拖曳/全站搜尋、以圖搜圖、頁內正規表達式查找、醒目標示與自訂搜尋引擎等功能。
 // @description:ja  任意の検索エンジンにすばやく簡単にジャンプします、300種類以上の機能を備えています。
 // @description:ru  Легко проводите поиск по выбранному тексту/изображению/ссылке. Быстро переходите к любому поисковому движку. Выделяйте искомый текст.
 // @author       hoothin
@@ -179,6 +179,7 @@
                         batchOpenConfirm: '确定要批量打开吗？',
                         postOver: '发送成功：',
                         postError: '发送失败：',
+                        copyOver: '复制成功',
                         keywords: '请输入搜索词',
                         targetUrl: '请输入搜索URL',
                         siteName: '站名',
@@ -305,6 +306,7 @@
                         batchOpenConfirm: '確定要批量打開嗎？',
                         postOver: '發送成功：',
                         postError: '發送失敗：',
+                        copyOver: '複製成功',
                         keywords: '請輸入搜尋詞',
                         targetUrl: '請輸入搜尋URL',
                         siteName: '站名',
@@ -429,6 +431,7 @@
                         batchOpenConfirm: 'バッチオープンしてもよろしいですか? ',
                         postOver: '正常に送信されました:',
                         postError: '送信に失敗しました:',
+                        copyOver: 'コピーに成功しました',
                         keywords: '検索語を入力してください',
                         targetUrl: '検索 URL を入力してください',
                         siteName: 'サイト名',
@@ -553,6 +556,7 @@
                         batchOpenConfirm: 'Искать с помощью всех движков группы?',
                         postOver: 'Post over: ',
                         postError: 'Post fail: ',
+                        copyOver: 'Скопировано успешно',
                         keywords: 'Input keywords',
                         targetUrl: 'Input URL',
                         siteName: 'Название',
@@ -670,6 +674,7 @@
                         batchOpenConfirm: 'Batch open urls?',
                         postOver: 'Post over: ',
                         postError: 'Post fail: ',
+                        copyOver: 'Copied successfully',
                         keywords: 'Input keywords',
                         targetUrl: 'Input URL',
                         siteName: 'Site Name',
@@ -8443,6 +8448,7 @@
                 this.tips.style.display = "";
                 this.tips.style.opacity = 1;
                 this.clingPos(ele, this.tips);
+                clearTimeout(this.hideTips);
                 if (this.tips.style.transition) {
                     setTimeout(() => {
                         this.tips.style.transition = "";
@@ -10165,6 +10171,24 @@
                         });
                     }
                 };
+                let copyHandler = (inner, str) => {
+                    _GM_setClipboard(str);
+                    let target = ele;
+                    if (!inner) {
+                        self.appendBar();
+                        self.closeOpenType();
+                        self.con.style.display = "";
+                        self.setFuncKeyCall(true);
+                        target = targetElement || ele;
+                    }
+                    self.tipsPos(target, i18n('copyOver'));
+                    clearTimeout(self.hideTips);
+                    self.hideTips = setTimeout(() => {
+                        if (self.tips.style.opacity == "1") {
+                            self.tips.style.opacity = 0;
+                        }
+                    }, 1500);
+                };
                 let clickHandler = e => {
                     if (targetElement) {
                         targetElement.focus && targetElement.focus();
@@ -10295,12 +10319,10 @@
                             return false;
                         } else if (targetUrlData.indexOf('%input{') !== -1) {
                             self.showCustomInputWindow(targetUrlData, _url => {
-                                _GM_setClipboard(_url.replace(/^c(opy)?:/, ""));
-                                //_GM_notification('Copied successfully!');
+                                copyHandler(true, _url.replace(/^c(opy)?:/, ""));
                             });
                         } else {
-                            _GM_setClipboard(targetUrlData.replace(/^c(opy)?:/, ""));
-                            //_GM_notification('Copied successfully!');
+                            copyHandler(e.isTrusted, targetUrlData.replace(/^c(opy)?:/, ""));
                         }
                         return false;
                     } else if (/^paste:/.test(data.url)) {
@@ -10583,6 +10605,7 @@
             closeOpenType() {
                 let openType = this.bar.querySelector('.search-jumper-type.search-jumper-open>span');
                 if (openType) {
+                    this.funcKeyCall = false;
                     if (openType.onmousedown) {
                         openType.onmousedown();
                     } else {
