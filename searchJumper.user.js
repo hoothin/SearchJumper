@@ -2827,7 +2827,7 @@
                      pointer-events: none;
                      position: fixed;
                      font-size: ${35 * this.tipsZoom}px;
-                     background: #f5f5f5e0;
+                     background: #f5f5f5f0;
                      border-radius: ${10 * this.tipsZoom}px!important;
                      padding: 5px;
                      box-shadow: 0px 0px 10px 0px #000;
@@ -2845,11 +2845,26 @@
                      overflow: hidden;
                      font-family: Roboto,arial,sans-serif;
                      cursor: grab;
+                     max-height: 80vh;
+                     overscroll-behavior: contain;
+                     -ms-scroll-chaining: contain;
+                 }
+                 .search-jumper-tips:hover {
+                     overflow: auto;
                  }
                  .search-jumper-tips * {
                      max-width: 640px;
                      max-width: min(80vw,640px);
                      margin: auto;
+                 }
+                 .search-jumper-tips .markdown {
+                     white-space: pre-wrap;
+                     line-height: 1;
+                     text-align: initial;
+                     margin: 10px;
+                     display: block;
+                     user-select: text;
+                     cursor: auto;
                  }
                  .search-jumper-tips iframe {
                      border: unset;
@@ -3594,7 +3609,7 @@
                      }
 
                      .search-jumper-tips {
-                         background-color: #3F4042e0;
+                         background-color: #3F4042f0;
                          color: #DADADA;
                      }
 
@@ -8486,6 +8501,14 @@
                         self.clingPos(ele, self.tips);
                     });
                 });
+                if (window.markdownit) {
+                    if (!self.md) {
+                        self.md = window.markdownit();
+                    }
+                    [].forEach.call(this.tips.querySelectorAll('.markdown'), markdown => {
+                        markdown.innerHTML = createHTML(self.md.render(markdown.innerHTML));
+                    });
+                }
             }
 
             checkKwFilter(kwFilter, checkKw) {
@@ -10565,6 +10588,10 @@
                     }
                 }, false);
                 ele.addEventListener('mouseenter', e => {
+                    if (tipsShowing && self.lastTips === ele && self.tips.style.opacity == 1) {
+                        return;
+                    }
+                    self.lastTips = ele;
                     if (showTips) {
                         if (touchend) {
                             touchend = false;

@@ -1967,9 +1967,9 @@ export default function Engines() {
                                 onDragLeave={e => {hideDragLine()}}
                                 icon={
                                     /^(http|data:)/.test(data.icon)?(
-                                        <img alt={data.type} src={(/^http/.test(data.icon) && window.cacheIcon[data.icon]) || data.icon} style={{m:1, background: 'darkgray', borderRadius: '35px', width: '65px', height: '65px', padding: '15px', boxSizing: 'border-box'}} />
+                                        <img alt={data.type} src={(/^http/.test(data.icon) && window.cacheIcon[data.icon]) || data.icon} style={{m:1, background: 'darkgray', borderRadius: '35px', width: '65px', height: '65px', padding: '15px', boxSizing: 'border-box', overflow: 'hidden'}} />
                                     ):(
-                                        <i style={{background: 'darkgray', lineHeight: '65px', width: '65px', height: '65px', fontSize: '30px', color: 'white', borderRadius: '35px'}} className={`${/^fa/.test(data.icon) ? data.icon : "fa fa-" + data.icon}`}>{data.icon ? '' : data.type}</i>
+                                        <i style={{background: 'darkgray', lineHeight: '65px', width: '65px', height: '65px', fontSize: '30px', color: 'white', borderRadius: '35px', overflow: 'hidden'}} className={`${/^fa/.test(data.icon) ? data.icon : "fa fa-" + data.icon}`}>{data.icon ? '' : data.type}</i>
                                     )} 
                                 label={data.type.slice(0, 10)} 
                                 title={data.description || data.type}
