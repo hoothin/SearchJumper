@@ -3481,7 +3481,7 @@
                      position: absolute;
                      min-height: 10px;
                      min-width: 10px;
-                     animation-duration: 3s;
+                     animation-duration: 2s;
                      z-index: 2147483647;
                      margin: 0;
                      opacity: 0;
@@ -3498,8 +3498,9 @@
                      position: fixed;
                  }
                  @keyframes fadeit {
-                     from {opacity: 1;}
-                     to {opacity: 0;}
+                     0% {opacity: 1;}
+                     50% {opacity: 0.8;}
+                     100% {opacity: 0;}
                  }
                  #rightSizeChange {
                      top: 0;
@@ -5232,11 +5233,18 @@
                 setTimeout(async () => {
                     ele.scrollIntoView({behavior: "smooth", block: "center", inline: "nearest"});
                     ele.dataset.current = true;
-                    this.wPosBar.style.animationName = "fadeit";
-                    this.hPosBar.style.animationName = "fadeit";
-                    let fixTimes = 0;
+                    self.wPosBar.style.animationName = "fadeit";
+                    self.hPosBar.style.animationName = "fadeit";
+                    self.fixTimes = 0;
                     function fixPosBar() {
-                        if (self.focusMark != ele || ++fixTimes > 10) return;
+                        if (self.focusMark != ele) return;
+                        if (++self.fixTimes == 5) {
+                            ele.scrollIntoView({behavior: "smooth", block: "center", inline: "nearest"});
+                        } else if (self.fixTimes > 10) {
+                            self.wPosBar.style.animationName = "";
+                            self.hPosBar.style.animationName = "";
+                            return;
+                        }
                         let rect = ele.getBoundingClientRect();
                         self.wPosBar.style.top = rect.top + document.documentElement.scrollTop + getBody(document).scrollTop + "px";
                         self.hPosBar.style.left = rect.left + "px";
@@ -16707,6 +16715,7 @@
 
         var waiting = false;
         function visibilitychangeHandler() {
+            if (!document.head || !getBody(document)) return;
             if (searchData.prefConfig.globalSearchNow) {
                 clearInterval(checkGlobalIntv);
                 clearInterval(flashTitleIntv);
