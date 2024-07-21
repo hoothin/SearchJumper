@@ -2863,7 +2863,7 @@
                  }
                  .search-jumper-tips .markdown {
                      white-space: pre-wrap;
-                     line-height: 1;
+                     line-height: 1.2;
                      text-align: initial;
                      margin: 10px;
                      display: block;
@@ -9605,7 +9605,7 @@
                         if (keywords != cacheKeywords) {
                             cacheKeywords = keywords;
                             self.keywordIndex = 0;
-                            storage.setItem("cacheKeywords", keywords);
+                            if (isPage) storage.setItem("cacheKeywords", keywords);
                         }
                         inputString = keywords;
                     }
