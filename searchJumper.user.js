@@ -5,7 +5,7 @@
 // @name:ja      SearchJumper
 // @name:ru      SearchJumper
 // @namespace    hoothin
-// @version      1.9.20
+// @version      1.9.21
 // @description  Search for everything in different search engines, conduct searches for selected text/image/link effortlessly, over 300 features available.
 // @description:zh-CN  万能聚合搜索，一键切换任何搜索引擎，并有右键/拖拽/全站搜索、以图搜图、页内正则查找、高亮显示与自定义搜索引擎等功能。
 // @description:zh-TW  萬能搜尋輔助，單鍵切換任何搜尋引擎，並有右鍵/拖曳/全站搜尋、以圖搜圖、頁內正規表達式查找、醒目標示與自訂搜尋引擎等功能。
@@ -8355,6 +8355,7 @@
                 let viewWidth = window.innerWidth || document.documentElement.clientWidth;
                 let viewHeight = window.innerHeight || document.documentElement.clientHeight;
                 this.tips.style.position = "";
+                target.style.height = "";
                 if (!clingEle || /^(body|html)$/i.test(clingEle.nodeName)) {
                     this.tips.style.transition = "none";
                     this.tips.style.position = "fixed";
@@ -8382,8 +8383,17 @@
 
                     clientX -= target.clientWidth / 2;
                     let actualTop = clingEle.getBoundingClientRect().top;
-                    if (actualTop > viewHeight / 2) clientY -= (target.clientHeight + eh / 2 + 5);
-                    else clientY += (eh / 2 + 5);
+                    if (actualTop > viewHeight / 2) {
+                        if (clientY < target.clientHeight + eh / 2 + 5) {
+                            target.style.height = clientY - 30 + "px";
+                            clientY = 5;
+                        } else clientY -= (target.clientHeight + eh / 2 + 5);
+                    } else {
+                        clientY += (eh / 2 + 5);
+                        if (clientY + target.clientHeight + 20 > viewHeight) {
+                            target.style.height = viewHeight - clientY - 20 + "px";
+                        }
+                    }
                     if (clientX < 20) clientX = 20;
                     let maxLeft = viewWidth + scrollLeft - target.clientWidth - 30;
                     if (clientX > maxLeft) {
@@ -9747,7 +9757,7 @@
                                     }
                                 }
                             }
-                            str = customReplaceSingle(str, customMatch[0], value);
+                            str = customReplaceSingle(str, customMatch[0], needDecode ? value : encodeURIComponent(value));
                             customMatch = str.match(/%element{(.*?)}(\.prop\((.*?)\))?/);
                         }
                         customMatch = str.match(/%date({(.*?)})?/);
@@ -9970,10 +9980,10 @@
                                 if (getTargetUrl() === false) return false;
                                 resultUrl = resultUrl.replace(/%B\b/g, encodeURIComponent(promptStr.replace(/^https?:\/\//i, "")));
                             }
-                            if (/%BB\b/.test(resultUrl)) {
+                            if (/%D\b/.test(resultUrl)) {
                                 self.customInput = true;
                                 if (getTargetUrl() === false) return false;
-                                resultUrl = resultUrl.replace(/%BB\b/g, encodeURIComponent(encodeURIComponent(promptStr.replace(/^https?:\/\//i, ""))));
+                                resultUrl = resultUrl.replace(/%D\b/g, encodeURIComponent(encodeURIComponent(promptStr.replace(/^https?:\/\//i, ""))));
                             }
                         }
                     }
