@@ -870,15 +870,19 @@
                             let bytes = [], callBack, buffer;
                             const reader = d.response.getReader();
                             let json = () => {
+                                let result = "";
                                 try {
                                     if (buffer) {
-                                        if (/^({.*} *\n)* *{.*}$/.test(buffer.trim())) {
-                                            buffer = buffer.split("\n").pop();
-                                        } else if (/^\[[\s\S]+[^\]]$/.test(buffer.trim())) {
-                                            buffer = buffer + "]";
+                                        result = buffer.trim();
+                                        if (/^data:/.test(result)) {
+                                            result = "[" + result.replace(/^data:\s+\[DONE\]\s*/m, "").trim().replace(/\n+/g, "\n").split("\n").map(line => line.replace(/^data:/, "")).join(",") + "]";
+                                        } else if (/^({.*} *\n)* *{.*}$/.test(result)) {
+                                            result = result.split("\n").pop();
+                                        } else if (/^\[[\s\S]+[^\]]$/.test(result)) {
+                                            result = result + "]";
                                         }
                                     }
-                                    return JSON.parse(buffer);
+                                    return JSON.parse(result);
                                 } catch (e) {
                                     return null;
                                 }
@@ -5402,7 +5406,7 @@
                         } else {
                             textData = ele.data;
                         }
-                        if (!textData.trim()) return;
+                        if (!textData || !textData.trim()) return;
                         const start = result.text.length;
                         result.text += textData;
                         result.data[result.text.length - 1] = {node: ele, text: textData};
@@ -10680,7 +10684,7 @@
                 try {
                     const calcReg = /([^\\]|^)([\+\-*/])([\d\.]+)$/;
                     const cacheReg = /\|cache\=(\d+)$/;
-                    const postReg = /%p{(.*?)}/;
+                    const postReg = /%p(\{+)/;
                     const headersReg = /#headers({.*?})/;
                     const streamReg = /#stream({(.*?)})?/;
                     const thenReg = /.then{(.*?)}/;
@@ -10715,7 +10719,7 @@
                             let finalData = data;
                             while (template) {
                                 let templateArr = template[1].replace(/\\\|/g, "【searchJumperJsonSplit】").split("|");
-                                let props = templateArr[0].replace(/【searchJumperJsonSplit】/g, "|").replace(/\[(\d+)\]/g, ".$1").split("."), value = json, arrayValue = null;
+                                let props = templateArr[0].replace(/【searchJumperJsonSplit】/g, "|").replace(/\[(\d+)\]/g, ".$1").replace(/\[all\]/g, ".all").split("."), value = json, arrayValue = null;
                                 props.shift();
                                 props.forEach(prop => {
                                     if (arrayValue) {
@@ -10803,15 +10807,19 @@
                             let storeData;
                             let postMatch = url.match(postReg), fetchOption = {}, _url = url;
                             if (postMatch) {
-                                let body = postMatch[1];
-                                if (body.indexOf("%") === 0) {
-                                    try {
-                                        body = decodeURIComponent(body);
-                                    } catch(e) {}
+                                let braceNum = postMatch[1].length;
+                                postMatch = url.match(new RegExp(`%p\{+(.*?)\}{${braceNum}}`));
+                                if (postMatch) {
+                                    let body = postMatch[1];
+                                    if (body.indexOf("%") === 0) {
+                                        try {
+                                            body = decodeURIComponent(body);
+                                        } catch(e) {}
+                                    }
+                                    fetchOption.body = body;
+                                    fetchOption.method = "POST";
+                                    _url = _url.replace(postMatch[0], "");
                                 }
-                                fetchOption.body = body;
-                                fetchOption.method = "POST";
-                                _url = _url.replace(postMatch[0], "");
                             }
                             let headersMatch = url.match(headersReg);
                             if (headersMatch) {
