@@ -2837,7 +2837,7 @@
                      font-size: ${35 * this.tipsZoom}px;
                      background: #f5f5f5f0;
                      border-radius: ${10 * this.tipsZoom}px!important;
-                     padding: 5px;
+                     padding: 6px;
                      box-shadow: 0px 0px 10px 0px #000;
                      font-weight: bold;
                      ${searchData.prefConfig.noAni ? "" : "transition: all 0.2s ease;"}
