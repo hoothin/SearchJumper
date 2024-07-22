@@ -6942,7 +6942,7 @@
                         mark.click();
                     }
                 });
-                this.con.addEventListener("mousedown", e => {
+                this.bar.addEventListener("mousedown", e => {
                     e && e.preventDefault && e.preventDefault();
                 }, true);
                 //Search in page
