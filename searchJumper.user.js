@@ -799,6 +799,7 @@
         };
         var disabled = false;
         var isInConfigPage = false;
+        var lastRequestUrl;
 
         function createHTML(html = "") {
             return escapeHTMLPolicy ? escapeHTMLPolicy.createHTML(html) : html;
@@ -824,6 +825,7 @@
         if (GM_fetch) {
             GM_fetch = async (url, option) => {
                 if (!url) return null;
+                lastRequestUrl = url;
                 return new Promise((resolve, reject) => {
                     let isPost = option && /^post$/i.test(option.method);
                     let requestOption = {
@@ -836,6 +838,7 @@
                             'X-Requested-With': (isPost ? 'XMLHttpRequest' : '')
                         },
                         onload: function(d) {
+                            if (lastRequestUrl != url) return;
                             let response = d.response;
                             if (d.status >= 400 || !response) response = "";
                             let text = () => new Promise((r) => {
@@ -888,6 +891,7 @@
                                 }
                             };
                             reader.read().then(function readBytes({done, value}) {
+                                if (lastRequestUrl != url) return;
                                 if (done) {
                                     resolve({text: buffer, json: json, finalUrl: (d.finalUrl || url)});
                                     return;
@@ -6935,9 +6939,13 @@
                         mark.click();
                     }
                 });
+                this.con.addEventListener("mousedown", e => {
+                    e && e.preventDefault && e.preventDefault();
+                }, true);
                 //Search in page
 
                 let expandTypeHandler = e => {
+                    e.stopPropagation();
                     e.preventDefault();
                     let typeEle = self.searchJumperExpand.parentNode;
                     if (!typeEle || !typeEle.classList.contains('not-expand')) return;
@@ -6957,8 +6965,8 @@
                         self.checkScroll();
                     }, 251);
                 }, showTimer;
-                this.searchJumperExpand.addEventListener("click", expandTypeHandler);
-                this.searchJumperExpand.addEventListener("contextmenu", expandTypeHandler);
+                this.searchJumperExpand.addEventListener("click", expandTypeHandler, true);
+                this.searchJumperExpand.addEventListener("contextmenu", expandTypeHandler, true);
                 if (searchData.prefConfig.overOpen) {
                     this.searchJumperExpand.addEventListener('mouseenter', e => {
                         clearTimeout(showTimer);
@@ -10092,7 +10100,10 @@
                 let clicked = false;
                 let alt, ctrl, meta, shift;
                 let action = async e => {
-                    if (e && e.stopPropagation) e.stopPropagation();
+                    if (e) {
+                        e.preventDefault && e.preventDefault();
+                        e.stopPropagation && e.stopPropagation();
+                    }
                     delete ele.href;
                     if (!e) e = {};
                     alt = e.altKey;
@@ -10526,7 +10537,7 @@
                     }
                 };
                 //ele.href = data.url;
-                ele.addEventListener('mousedown', action, false);
+                ele.addEventListener('mousedown', action, true);
                 ele.addEventListener('mouseup', e => {
                     if (e.stopPropagation) e.stopPropagation();
                 }, true);
@@ -10536,7 +10547,7 @@
                 if (shortcut) {
                     tipsStr += ` (${data.ctrl ? "Ctrl + " : ""}${data.shift ? "Shift + " : ""}${data.alt ? "Alt + " : ""}${data.meta ? "Meta + " : ""}${shortcut.replace("Key", "")})`;
                 }
-                let lastUrl, anylizing = false, tipsShowing = false;
+                let anylizing = false, tipsShowing = false;
                 let setTips = async (target, url, again) => {
                     self.tipsPos(target, '<span class="loader"></span><font>Loading...</font>');
                     tipsShowing = false;
@@ -10578,7 +10589,7 @@
                     if (showTips) {
                         let url = await getUrl();
                         if (!url) return;
-                        if (lastUrl === url) {
+                        if (self.lastUrl === url) {
                             if (anylizing) {
                                 self.tipsPos(target, "<span class='loader'></span><font>Loading...</font>");
                             } else {
@@ -10594,7 +10605,7 @@
                                     });
                                     return;
                                 }
-                                lastUrl = url;
+                                self.lastUrl = url;
                                 setTips(target, url);
                                 self.waitForShowTips = false;
                             }, time);
@@ -10610,6 +10621,7 @@
                     }
                 }, false);
                 ele.addEventListener('mouseenter', e => {
+                    if (e.stopPropagation) e.stopPropagation();
                     if (tipsShowing && self.lastTips === ele && self.tips.style.opacity == 1) {
                         return;
                     }
@@ -10629,7 +10641,7 @@
                         }
                     }
                     showTipsHandler(ele);
-                }, false);
+                }, true);
                 ele.addEventListener('mousemove', e => {
                     self.clingPos(ele, self.tips);
                 }, false);
@@ -10849,15 +10861,24 @@
                                 fetchOption.streamMode = streamMatch[2] || "concat";
                                 _url = _url.replace(streamMatch[0], "");
                                 tipsResult = await new Promise(resolve => {
-                                    fetchOption.onstream = async data => {
-                                        let result = isJson ? calcJson(data.json(), template) : data.text;
+                                    fetchOption.onstream = data => {
+                                        let result;
+                                        if (isJson) {
+                                            result = data.json();
+                                            if (!result) return;
+                                            result = calcJson(result, template);
+                                        } else result = data.text;
                                         self.tipsPos(target, result);
                                         self.tips.style.pointerEvents = "all";
                                         resolve && resolve(result);
                                     };
                                     if (ext) {
                                         self.streamUpdateCallBack = data => {
-                                            let result = isJson ? calcJson(data.json, template) : data.text;
+                                            let result;
+                                            if (isJson) {
+                                                if (!data.json) return;
+                                                result = calcJson(data.json, template);
+                                            } else result = data.text;
                                             self.tipsPos(target, result);
                                             self.tips.style.pointerEvents = "all";
                                             resolve && resolve(result);
@@ -10876,6 +10897,7 @@
                                     }
                                     fetchData.then(r => {
                                         let finalData = isJson ? (r && calcJson(r, template)) : r;
+                                        if (!finalData) return;
                                         self.tipsPos(target, finalData);
                                         resolve && resolve(finalData);
                                     });
