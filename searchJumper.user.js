@@ -8404,14 +8404,14 @@
                     clientX -= target.clientWidth / 2;
                     let actualTop = clingEle.getBoundingClientRect().top;
                     if (actualTop > viewHeight / 2) {
-                        if (clientY < target.clientHeight + eh / 2 + 5) {
-                            target.style.height = clientY - 30 + "px";
+                        if (actualTop < target.clientHeight + 10) {
+                            target.style.height = actualTop - 20 + "px";
                             clientY = 5;
                         } else clientY -= (target.clientHeight + eh / 2 + 5);
                     } else {
                         clientY += (eh / 2 + 5);
-                        if (clientY + target.clientHeight + 20 > viewHeight) {
-                            target.style.height = viewHeight - clientY - 20 + "px";
+                        if (actualTop + target.clientHeight + eh + 10 > viewHeight) {
+                            target.style.height = viewHeight - actualTop - eh - 20 + "px";
                         }
                     }
                     if (clientX < 20) clientX = 20;
