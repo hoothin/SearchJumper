@@ -3621,6 +3621,9 @@
                          background-color: #3F4042f0;
                          color: #DADADA;
                      }
+                     .search-jumper-tips>*:not(font) {
+                         color: white;
+                     }
 
                      .search-jumper-showall a.search-jumper-word > span {
                          color: #DADADA !important;
