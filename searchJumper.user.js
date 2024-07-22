@@ -8399,8 +8399,8 @@
                     target.style.left = clientX + "px";
                     target.style.top = clientY + "px";
                 } else if (this.funcKeyCall) {
-                    const scrollTop = window.pageYOffset || document.documentElement.scrollTop || getBody(document).scrollTop;
-                    const scrollLeft = window.pageXOffset || document.documentElement.scrollLeft || getBody(document).scrollLeft;
+                    let scrollTop = window.pageYOffset || document.documentElement.scrollTop || getBody(document).scrollTop;
+                    let scrollLeft = window.pageXOffset || document.documentElement.scrollLeft || getBody(document).scrollLeft;
 
                     clientX = clientRect.x + ew / 2 - this.con.scrollLeft + scrollLeft;
                     clientY = clientRect.y + eh / 2 - this.con.scrollTop + scrollTop;
@@ -8410,8 +8410,8 @@
                     if (actualTop > viewHeight / 2) {
                         if (actualTop < target.clientHeight + 10) {
                             target.style.height = actualTop - 20 + "px";
-                            clientY = 5;
-                        } else clientY -= (target.clientHeight + eh / 2 + 5);
+                        }
+                        clientY -= (target.clientHeight + eh / 2 + 5);
                     } else {
                         clientY += (eh / 2 + 5);
                         if (actualTop + target.clientHeight + eh + 10 > viewHeight) {
