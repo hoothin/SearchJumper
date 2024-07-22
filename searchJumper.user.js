@@ -6943,8 +6943,9 @@
                     }
                 });
                 this.bar.addEventListener("mousedown", e => {
+                    e && e.stopPropagation && e.stopPropagation();
                     e && e.preventDefault && e.preventDefault();
-                }, true);
+                });
                 //Search in page
 
                 let expandTypeHandler = e => {
@@ -10103,10 +10104,6 @@
                 let clicked = false;
                 let alt, ctrl, meta, shift;
                 let action = async e => {
-                    if (e) {
-                        e.preventDefault && e.preventDefault();
-                        e.stopPropagation && e.stopPropagation();
-                    }
                     delete ele.href;
                     if (!e) e = {};
                     alt = e.altKey;
@@ -10155,6 +10152,9 @@
                     clicked = false;
                     targetUrlData = "";
                     targetUrlData = await getUrl();
+                    if (/^(https?|ftp):/.test(targetUrlData)) {
+                        e.stopPropagation && e.stopPropagation();
+                    }
                     if (/^c(opy)?:|^paste:/.test(data.url) || /^javascript:/.test(data.url) || /^\[/.test(data.url) || /[:%]P{/.test(data.url) || (data.charset && data.charset != 'utf-8') || /[:%]p{/.test(data.url)) {
                         if (e.button == 1 || e.button == 2) {
                             clicked = true;
@@ -10253,23 +10253,18 @@
                     }, 1500);
                 };
                 let clickHandler = e => {
+                    e && e.stopPropagation && e.stopPropagation();
                     if (targetElement) {
                         targetElement.focus && targetElement.focus();
                     }
                     if (self.waitForShowTips) {
                         showTipsHandler(ele, 0);
-                        if (e) {
-                            e.preventDefault();
-                            e.stopPropagation();
-                        }
+                        e && e.preventDefault && e.preventDefault();
                         return false;
                     }
                     clicked = true;
                     if (!targetUrlData) {
-                        if (e) {
-                            e.preventDefault();
-                            e.stopPropagation();
-                        }
+                        e && e.preventDefault && e.preventDefault();
                         return false;
                     }
                     if (!e) e = {};
