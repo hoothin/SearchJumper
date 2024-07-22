@@ -5,7 +5,7 @@
 // @name:ja      SearchJumper
 // @name:ru      SearchJumper
 // @namespace    hoothin
-// @version      1.9.21
+// @version      1.9.22
 // @description  Search for everything in different search engines, conduct searches for selected text/image/link effortlessly, over 300 features available.
 // @description:zh-CN  万能聚合搜索，一键切换任何搜索引擎，并有右键/拖拽/全站搜索、以图搜图、页内正则查找、高亮显示与自定义搜索引擎等功能。
 // @description:zh-TW  萬能搜尋輔助，單鍵切換任何搜尋引擎，並有右鍵/拖曳/全站搜尋、以圖搜圖、頁內正規表達式查找、醒目標示與自訂搜尋引擎等功能。
@@ -10071,7 +10071,7 @@
                                 let pairArr = pair.split("SJ^PARAM");
                                 if (pairArr.length === 2) {
                                     let k = pairArr[0];
-                                    let v = customReplaceKeywords(pairArr[1].replace(/\\([\=&])/g, "$1").replace(/%e\b/g, document.characterSet).replace(/%i\b/g, imgBase64).replace(/%c\b/g, (isMobile?"mobile":"pc")).replace(/%U\b/g, encodeURIComponent(href)).replace(/%UU\b/g, encodeURIComponent(encodeURIComponent(href))).replace(/%h\b/g, _host).replace(/%T\b/g, encodeURIComponent(targetUrl)).replace(/%TT\b/g, encodeURIComponent(encodeURIComponent(targetUrl))).replace(/%b\b/g, targetBaseUrl).replace(/%B\b/g, encodeURIComponent(targetBaseUrl)).replace(/%BB\b/g, encodeURIComponent(encodeURIComponent(targetBaseUrl))).replace(/%n\b/g, targetName).replace(/%S\b/g, (cacheKeywords || keywords)));
+                                    let v = customReplaceKeywords(pairArr[1].replace(/\\([\=&])/g, "$1").replace(/%e\b/g, document.characterSet).replace(/%i\b/g, imgBase64).replace(/%c\b/g, (isMobile?"mobile":"pc")).replace(/%U\b/g, encodeURIComponent(href)).replace(/%UU\b/g, encodeURIComponent(encodeURIComponent(href))).replace(/%h\b/g, _host).replace(/%T\b/g, encodeURIComponent(targetUrl)).replace(/%TT\b/g, encodeURIComponent(encodeURIComponent(targetUrl))).replace(/%b\b/g, targetBaseUrl).replace(/%B\b/g, encodeURIComponent(targetBaseUrl)).replace(/%D\b/g, encodeURIComponent(encodeURIComponent(targetBaseUrl))).replace(/%n\b/g, targetName).replace(/%S\b/g, (cacheKeywords || keywords)));
                                     v = customReplaceSingle(v, "%t", targetUrl);
                                     v = customReplaceSingle(v, "%u", href);
                                     postParams.push([k, v]);
@@ -10091,7 +10091,7 @@
                     resultUrl = customReplaceSingle(resultUrl, "%h", _host);
                     resultUrl = customReplaceSingle(resultUrl, "%t", targetUrl);
                     resultUrl = customReplaceSingle(resultUrl, "%u", href);
-                    resultUrl = customReplaceKeywords(resultUrl.replace(/%U\b/g, encodeURIComponent(href)).replace(/%UU\b/g, encodeURIComponent(encodeURIComponent(href))).replace(/%T\b/g, encodeURIComponent(targetUrl)).replace(/%TT\b/g, encodeURIComponent(encodeURIComponent(targetUrl))).replace(/%b\b/g, targetBaseUrl).replace(/%B\b/g, encodeURIComponent(targetBaseUrl)).replace(/%BB\b/g, encodeURIComponent(encodeURIComponent(targetBaseUrl))).replace(/%n\b/g, targetName).replace(/%S\b/g, (cacheKeywords || keywords)));
+                    resultUrl = customReplaceKeywords(resultUrl.replace(/%U\b/g, encodeURIComponent(href)).replace(/%UU\b/g, encodeURIComponent(encodeURIComponent(href))).replace(/%T\b/g, encodeURIComponent(targetUrl)).replace(/%TT\b/g, encodeURIComponent(encodeURIComponent(targetUrl))).replace(/%b\b/g, targetBaseUrl).replace(/%B\b/g, encodeURIComponent(targetBaseUrl)).replace(/%D\b/g, encodeURIComponent(encodeURIComponent(targetBaseUrl))).replace(/%n\b/g, targetName).replace(/%S\b/g, (cacheKeywords || keywords)));
                     if (openInNewTab && /^(https?|ftp):/.test(resultUrl)) {
                         ele.setAttribute("target", "_blank");
                         ele.dataset.target = 1;
