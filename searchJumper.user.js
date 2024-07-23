@@ -5,7 +5,7 @@
 // @name:ja      SearchJumper
 // @name:ru      SearchJumper
 // @namespace    hoothin
-// @version      1.9.22
+// @version      1.9.23
 // @description  Search for everything in different search engines, conduct searches for selected text/image/link effortlessly, over 300 features available.
 // @description:zh-CN  万能聚合搜索，一键切换任何搜索引擎，并有右键/拖拽/全站搜索、以图搜图、页内正则查找、高亮显示与自定义搜索引擎等功能。
 // @description:zh-TW  萬能搜尋輔助，單鍵切換任何搜尋引擎，並有右鍵/拖曳/全站搜尋、以圖搜圖、頁內正規表達式查找、醒目標示與自訂搜尋引擎等功能。
@@ -12892,7 +12892,7 @@
 
         function replaceSingle(str, key, value, after) {
             if (str.indexOf(key + ".replace(/") !== -1) {
-                let replaceMatch = str.match(keyToReg(key, "", "\\.replace\\(/(.*?[^\\\\])/(.*?),\s*[\"'](.*?[^\\\\])??[\"']\\)"));
+                let replaceMatch = str.match(keyToReg(key, "", "\\.replace\\(/(.*?[^\\\\])/([gimsuyx]*),\\s*[\"'](.*?[^\\\\])??[\"']\\)"));
                 if (!replaceMatch) return str.replace(keyToReg(key, "g"), (after ? after(value) : value));
                 value = value.replace(new RegExp(replaceMatch[1], replaceMatch[2]), replaceMatch[3] || '');
                 str = str.replace(replaceMatch[0], key);
