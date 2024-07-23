@@ -9895,6 +9895,12 @@
                             resultUrl = resultUrl.replace(inputMatch[0], promptStr);
                         } else break;
                     }
+                    if (targetUrl) {
+                        targetUrl = targetUrl.replace(/%(\w+)/g, (match, letter) => `%${letter.toUpperCase()}`);
+                    }
+                    if (targetLink) {
+                        targetLink = targetLink.replace(/%(\w+)/g, (match, letter) => `%${letter.toUpperCase()}`);
+                    }
                     let targetBaseUrl = targetUrl.replace(/^https?:\/\//i, "");
                     if (!keywords) keywords = (currentSite && cacheKeywords);
                     try {
@@ -9966,6 +9972,7 @@
                         let canBeUrl = getSelectStr() || self.searchJumperInputKeyWords.value;
                         if (!hasWordParam && canBeUrl && /^(http|ftp)/i.test(canBeUrl)) {
                             targetUrl = canBeUrl;
+                            targetUrl = targetUrl.replace(/%(\w+)/g, (match, letter) => `%${letter.toUpperCase()}`);
                         } else {
                             let promptStr = false;
                             let getTargetUrl = () => {
@@ -9973,6 +9980,7 @@
                                 if (promptStr === false) {
                                     promptStr = window.prompt(i18n("targetUrl"), "https://www.google.com/favicon.ico");
                                     if (promptStr) {
+                                        promptStr = promptStr.replace(/%(\w+)/g, (match, letter) => `%${letter.toUpperCase()}`);
                                         targetElement = {src: promptStr};
                                     }
                                 }
