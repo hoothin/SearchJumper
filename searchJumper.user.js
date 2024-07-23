@@ -9989,10 +9989,10 @@
                                 if (getTargetUrl() === false) return false;
                                 resultUrl = resultUrl.replace(/%T\b/g, encodeURIComponent(promptStr));
                             }
-                            if (/%TT\b/.test(resultUrl)) {
+                            if (/%τ\b/.test(resultUrl)) {
                                 self.customInput = true;
                                 if (getTargetUrl() === false) return false;
-                                resultUrl = resultUrl.replace(/%TT\b/g, encodeURIComponent(encodeURIComponent(promptStr)));
+                                resultUrl = resultUrl.replace(/%τ\b/g, encodeURIComponent(encodeURIComponent(promptStr)));
                             }
                             if (/%b\b/.test(resultUrl)) {
                                 self.customInput = true;
@@ -10004,10 +10004,10 @@
                                 if (getTargetUrl() === false) return false;
                                 resultUrl = resultUrl.replace(/%B\b/g, encodeURIComponent(promptStr.replace(/^https?:\/\//i, "")));
                             }
-                            if (/%D\b/.test(resultUrl)) {
+                            if (/%β\b/.test(resultUrl)) {
                                 self.customInput = true;
                                 if (getTargetUrl() === false) return false;
-                                resultUrl = resultUrl.replace(/%D\b/g, encodeURIComponent(encodeURIComponent(promptStr.replace(/^https?:\/\//i, ""))));
+                                resultUrl = resultUrl.replace(/%β\b/g, encodeURIComponent(encodeURIComponent(promptStr.replace(/^https?:\/\//i, ""))));
                             }
                         }
                     }
@@ -10071,7 +10071,7 @@
                                 let pairArr = pair.split("SJ^PARAM");
                                 if (pairArr.length === 2) {
                                     let k = pairArr[0];
-                                    let v = customReplaceKeywords(pairArr[1].replace(/\\([\=&])/g, "$1").replace(/%e\b/g, document.characterSet).replace(/%i\b/g, imgBase64).replace(/%c\b/g, (isMobile?"mobile":"pc")).replace(/%U\b/g, encodeURIComponent(href)).replace(/%UU\b/g, encodeURIComponent(encodeURIComponent(href))).replace(/%h\b/g, _host).replace(/%T\b/g, encodeURIComponent(targetUrl)).replace(/%TT\b/g, encodeURIComponent(encodeURIComponent(targetUrl))).replace(/%b\b/g, targetBaseUrl).replace(/%B\b/g, encodeURIComponent(targetBaseUrl)).replace(/%D\b/g, encodeURIComponent(encodeURIComponent(targetBaseUrl))).replace(/%n\b/g, targetName).replace(/%S\b/g, (cacheKeywords || keywords)));
+                                    let v = customReplaceKeywords(pairArr[1].replace(/\\([\=&])/g, "$1").replace(/%e\b/g, document.characterSet).replace(/%i\b/g, imgBase64).replace(/%c\b/g, (isMobile?"mobile":"pc")).replace(/%U\b/g, encodeURIComponent(href)).replace(/%υ\b/g, encodeURIComponent(encodeURIComponent(href))).replace(/%h\b/g, _host).replace(/%T\b/g, encodeURIComponent(targetUrl)).replace(/%τ\b/g, encodeURIComponent(encodeURIComponent(targetUrl))).replace(/%b\b/g, targetBaseUrl).replace(/%B\b/g, encodeURIComponent(targetBaseUrl)).replace(/%β\b/g, encodeURIComponent(encodeURIComponent(targetBaseUrl))).replace(/%n\b/g, targetName).replace(/%S\b/g, (cacheKeywords || keywords)));
                                     v = customReplaceSingle(v, "%t", targetUrl);
                                     v = customReplaceSingle(v, "%u", href);
                                     postParams.push([k, v]);
@@ -10091,7 +10091,7 @@
                     resultUrl = customReplaceSingle(resultUrl, "%h", _host);
                     resultUrl = customReplaceSingle(resultUrl, "%t", targetUrl);
                     resultUrl = customReplaceSingle(resultUrl, "%u", href);
-                    resultUrl = customReplaceKeywords(resultUrl.replace(/%U\b/g, encodeURIComponent(href)).replace(/%UU\b/g, encodeURIComponent(encodeURIComponent(href))).replace(/%T\b/g, encodeURIComponent(targetUrl)).replace(/%TT\b/g, encodeURIComponent(encodeURIComponent(targetUrl))).replace(/%b\b/g, targetBaseUrl).replace(/%B\b/g, encodeURIComponent(targetBaseUrl)).replace(/%D\b/g, encodeURIComponent(encodeURIComponent(targetBaseUrl))).replace(/%n\b/g, targetName).replace(/%S\b/g, (cacheKeywords || keywords)));
+                    resultUrl = customReplaceKeywords(resultUrl.replace(/%U\b/g, encodeURIComponent(href)).replace(/%υ\b/g, encodeURIComponent(encodeURIComponent(href))).replace(/%T\b/g, encodeURIComponent(targetUrl)).replace(/%τ\b/g, encodeURIComponent(encodeURIComponent(targetUrl))).replace(/%b\b/g, targetBaseUrl).replace(/%B\b/g, encodeURIComponent(targetBaseUrl)).replace(/%β\b/g, encodeURIComponent(encodeURIComponent(targetBaseUrl))).replace(/%n\b/g, targetName).replace(/%S\b/g, (cacheKeywords || keywords)));
                     if (openInNewTab && /^(https?|ftp):/.test(resultUrl)) {
                         ele.setAttribute("target", "_blank");
                         ele.dataset.target = 1;
