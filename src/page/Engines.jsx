@@ -437,6 +437,7 @@ class ChildSiteIcons extends React.Component {
     }
 
     getIcon(site){
+        let icon = "";
         let isClone = site.url.indexOf('[') === 0;
         if (isClone) {
             try {
@@ -448,7 +449,8 @@ class ChildSiteIcons extends React.Component {
                         for (let j = 0; j < sites.length; j++) {
                             let _site = sites[j];
                             if (_site.url.indexOf('[') !== 0 && _site.name === siteNames[0]) {
-                                return _site.icon || _site.url.replace(new RegExp('^(showTips:)?(https?://[^/]*/)[\\s\\S]*$'), "$2favicon.ico");
+                                icon = _site.icon || _site.url.replace(new RegExp('^(showTips:)?(https?://[^/]*/)[\\s\\S]*$'), "$2favicon.ico");
+                                return (/^http/.test(icon) && window.cacheIcon[icon]) || icon;
                             }
                         }
                     }
@@ -457,7 +459,6 @@ class ChildSiteIcons extends React.Component {
                 console.log(e);
             }
         }
-        let icon = "";
         
         if (site.icon) {
             icon = site.icon;

@@ -5,7 +5,7 @@
 // @name:ja      SearchJumper
 // @name:ru      SearchJumper
 // @namespace    hoothin
-// @version      1.9.23
+// @version      1.9.24
 // @description  Search for everything in different search engines, conduct searches for selected text/image/link effortlessly, over 300 features available.
 // @description:zh-CN  万能聚合搜索，一键切换任何搜索引擎，并有右键/拖拽/全站搜索、以图搜图、页内正则查找、高亮显示与自定义搜索引擎等功能。
 // @description:zh-TW  萬能搜尋輔助，單鍵切換任何搜尋引擎，並有右鍵/拖曳/全站搜尋、以圖搜圖、頁內正規表達式查找、醒目標示與自訂搜尋引擎等功能。
@@ -9896,10 +9896,10 @@
                         } else break;
                     }
                     if (targetUrl) {
-                        targetUrl = targetUrl.replace(/%(\w+)/g, (match, letter) => `%${letter.toUpperCase()}`);
+                        targetUrl = targetUrl.replace(/%(\w{2})/g, (match, letter) => `%${letter.toUpperCase()}`);
                     }
                     if (targetLink) {
-                        targetLink = targetLink.replace(/%(\w+)/g, (match, letter) => `%${letter.toUpperCase()}`);
+                        targetLink = targetLink.replace(/%(\w{2})/g, (match, letter) => `%${letter.toUpperCase()}`);
                     }
                     let targetBaseUrl = targetUrl.replace(/^https?:\/\//i, "");
                     if (!keywords) keywords = (currentSite && cacheKeywords);
@@ -9972,7 +9972,7 @@
                         let canBeUrl = getSelectStr() || self.searchJumperInputKeyWords.value;
                         if (!hasWordParam && canBeUrl && /^(http|ftp)/i.test(canBeUrl)) {
                             targetUrl = canBeUrl;
-                            targetUrl = targetUrl.replace(/%(\w+)/g, (match, letter) => `%${letter.toUpperCase()}`);
+                            targetUrl = targetUrl.replace(/%(\w{2})/g, (match, letter) => `%${letter.toUpperCase()}`);
                         } else {
                             let promptStr = false;
                             let getTargetUrl = () => {
@@ -9980,7 +9980,7 @@
                                 if (promptStr === false) {
                                     promptStr = window.prompt(i18n("targetUrl"), "https://www.google.com/favicon.ico");
                                     if (promptStr) {
-                                        promptStr = promptStr.replace(/%(\w+)/g, (match, letter) => `%${letter.toUpperCase()}`);
+                                        promptStr = promptStr.replace(/%(\w{2})/g, (match, letter) => `%${letter.toUpperCase()}`);
                                         targetElement = {src: promptStr};
                                     }
                                 }
@@ -10524,11 +10524,33 @@
                             }
                             let viewWidth = window.screen.availWidth || window.innerWidth || document.documentElement.clientWidth;
                             let viewHeight = window.screen.availHeight || window.innerHeight || document.documentElement.clientHeight;
-                            let showWidth = Math.min(viewWidth, 650);
-                            let showHeight = Math.max(viewHeight / 3 * 2, viewHeight - 250);
-                            let left = viewWidth - showWidth - 30;
-                            let top = (viewHeight - showHeight) / 2;
-                            window.open(targetUrlData + "#searchJumperMin" + (/#p{/.test(data.url) ? 'Post' : ''), "_blank", `width=${showWidth}, height=${showHeight}, location=0, resizable=1, status=0, toolbar=0, menubar=0, scrollbars=0, left=${left}, top=${top}`);
+                            let showWidth = searchData.prefConfig.popupWidth, showHeight = searchData.prefConfig.popupHeight, left = searchData.prefConfig.popupLeft, top = searchData.prefConfig.popupTop;
+                            if (showHeight) {
+                                showHeight = parseFloat(showHeight);
+                                showHeight = viewHeight / 100 * showHeight;
+                            } else {
+                                showHeight = Math.max(viewHeight / 3 * 2, viewHeight - 250);
+                            }
+                            if (showWidth) {
+                                showWidth = parseFloat(showWidth);
+                                showWidth = viewWidth / 100 * showWidth;
+                            } else {
+                                showWidth = Math.min(viewWidth, 650);
+                            }
+                            if (left) {
+                                left = parseFloat(left);
+                                left = viewWidth / 100 * left - showWidth / 2;
+                            } else {
+                                left = viewWidth - showWidth - 30;
+                            }
+                            if (top) {
+                                top = parseFloat(top);
+                                top = viewHeight / 100 * top - showHeight / 2;
+                            } else {
+                                top = (viewHeight - showHeight) / 2;
+                            }
+                            self.closePopupWindow();
+                            self.popupWindow = window.open(targetUrlData + "#searchJumperMin" + (/#p{/.test(data.url) ? 'Post' : ''), "_blank", `width=${showWidth}, height=${showHeight}, location=0, resizable=1, status=0, toolbar=0, menubar=0, scrollbars=0, left=${left}, top=${top}`);
                         } else if (shift) {
                             _GM_openInTab(targetUrlData, {active: true});
                         }
@@ -10671,6 +10693,14 @@
                     e.preventDefault();
                 }, false);
                 return ele;
+            }
+
+            closePopupWindow() {
+                if (!searchData.prefConfig.closePopupWhenClick) return;
+                if (this.popupWindow) {
+                    this.popupWindow.close();
+                    this.popupWindow = null;
+                }
             }
 
             closeOpenType() {
@@ -13459,6 +13489,7 @@
                     }, 500);
                     shown = false;
                     targetElement = e.target;
+                    searchBar.closePopupWindow();
                     let matchKey = false;
                     if ((searchData.prefConfig.altKey ||
                          searchData.prefConfig.ctrlKey ||
@@ -16743,7 +16774,7 @@
 
         var waiting = false;
         function visibilitychangeHandler() {
-            if (!document.head || !getBody(document)) return;
+            if (!document.head || !getBody(document) || inIframe) return;
             if (searchData.prefConfig.globalSearchNow) {
                 clearInterval(checkGlobalIntv);
                 clearInterval(flashTitleIntv);

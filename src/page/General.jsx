@@ -807,6 +807,110 @@ export default function General() {
                 >
                     <Box>
                         <Typography gutterBottom component="div">
+                            <h4>{window.i18n('closePopupWhenClick')}</h4>
+                        </Typography>
+                        <FormControl sx={{ m: 1, minWidth: 80 }}>
+                            <FormControlLabel
+                                control={
+                                    <Switch checked={state.closePopupWhenClick} onChange={handleCheckChange} name="closePopupWhenClick" />
+                                }
+                                label={window.i18n('closePopupWhenClickTips')}
+                            />
+                        </FormControl>
+                    </Box>
+                    <Box>
+                        <Typography gutterBottom component="div">
+                            <h4>{window.i18n('popupSize')}</h4>
+                        </Typography>
+                        <Box
+                            sx={{ flexGrow: 1, display: 'flex', width: '100%', flexWrap: 'wrap' }}
+                        >
+                            <TextField
+                                sx={{ m: 1, minWidth: 50 }}
+                                label={window.i18n('popupWidth')}
+                                InputProps={{
+                                    inputMode: 'numeric', type:'number', pattern: '[0-9]*',
+                                    endAdornment: <InputAdornment position="end">%</InputAdornment>
+                                }}
+                                value={state.popupWidth}
+                                onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
+                                    let newValue = parseInt(event.target.value);
+                                    var newPref = {
+                                        ...state,
+                                        popupWidth: newValue
+                                    };
+                                    setState(newPref);
+                                    window.searchData.prefConfig = newPref;
+                                    saveConfigToScript();
+                                }}
+                            />
+                            <TextField
+                                sx={{ m: 1, minWidth: 50 }}
+                                label={window.i18n('popupHeight')}
+                                InputProps={{
+                                    inputMode: 'numeric', type:'number', pattern: '[0-9]*',
+                                    endAdornment: <InputAdornment position="end">%</InputAdornment>
+                                }}
+                                value={state.popupHeight}
+                                onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
+                                    let newValue = parseInt(event.target.value);
+                                    var newPref = {
+                                        ...state,
+                                        popupHeight: newValue
+                                    };
+                                    setState(newPref);
+                                    window.searchData.prefConfig = newPref;
+                                    saveConfigToScript();
+                                }}
+                            />
+                            <TextField
+                                sx={{ m: 1, minWidth: 50 }}
+                                label={window.i18n('popupLeft')}
+                                InputProps={{
+                                    inputMode: 'numeric', type:'number', pattern: '[0-9]*',
+                                    endAdornment: <InputAdornment position="end">%</InputAdornment>
+                                }}
+                                value={state.popupLeft}
+                                onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
+                                    let newValue = parseInt(event.target.value);
+                                    var newPref = {
+                                        ...state,
+                                        popupLeft: newValue
+                                    };
+                                    setState(newPref);
+                                    window.searchData.prefConfig = newPref;
+                                    saveConfigToScript();
+                                }}
+                            />
+                            <TextField
+                                sx={{ m: 1, minWidth: 50 }}
+                                label={window.i18n('popupTop')}
+                                InputProps={{
+                                    inputMode: 'numeric', type:'number', pattern: '[0-9]*',
+                                    endAdornment: <InputAdornment position="end">%</InputAdornment>
+                                }}
+                                value={state.popupTop}
+                                onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
+                                    let newValue = parseInt(event.target.value);
+                                    var newPref = {
+                                        ...state,
+                                        popupTop: newValue
+                                    };
+                                    setState(newPref);
+                                    window.searchData.prefConfig = newPref;
+                                    saveConfigToScript();
+                                }}
+                            />
+                        </Box>
+                    </Box>
+                </Box>
+            </Paper>
+            <Paper elevation={5} sx={{ padding: '20px', marginTop: '20px' }}>
+                <Box
+                    sx={{ flexGrow: 1, display: 'flex', width: '100%', flexWrap: 'wrap' }}
+                >
+                    <Box>
+                        <Typography gutterBottom component="div">
                             <h4>{window.i18n('historyLength')}</h4>
                         </Typography>
                         <Box
