@@ -977,6 +977,7 @@
         }
         if (!_unsafeWindow.searchJumperAddons) _unsafeWindow.searchJumperAddons = [];
         const curRef = document.referrer;
+        let href = location.href.slice(0, 500);
 
         var storage = {
             supportGM: typeof GM_getValue == 'function' && typeof GM_getValue('a', 'b') != 'undefined',
@@ -6861,7 +6862,7 @@
                     if (shareEngines) return;
                     dataChanged(() => {
                         let inPageRule = searchData.prefConfig.inPageRule || {};
-                        inPageRule[this.inPageRuleKey || location.href.replace(/([&\?]_i=|#).*/, "")] = this.lockWords;
+                        inPageRule[this.inPageRuleKey || href.replace(/([&\?]_i=|#).*/, "")] = this.lockWords;
                         searchData.prefConfig.inPageRule = inPageRule;
                         searchData.lastModified = new Date().getTime();
                         lastModified = searchData.lastModified;
@@ -7525,7 +7526,6 @@
 
             searchInPageRule() {
                 if (searchData.prefConfig.disableAutoHighlight) {
-                    let href = location.href.slice(0, 250);
                     let sites = searchData.prefConfig.disableAutoHighlight.trim().split("\n");
                     for (let i = 0; i < sites.length; i++) {
                         let key = sites[i], isMatch = false;
@@ -7544,7 +7544,6 @@
                     }
                 }
                 if (searchData.prefConfig.inPageRule) {
-                    let href = location.href.slice(0, 250);
                     let keys = Object.keys(searchData.prefConfig.inPageRule);
                     for (let i = 0; i < keys.length; i++) {
                         let key = keys[i];
@@ -7924,20 +7923,20 @@
                                 let currentData;
                                 if (data.match === '0') {
                                 } else if (data.match) {
-                                    if (new RegExp(data.match).test(location.href)) {
+                                    if (new RegExp(data.match).test(href)) {
                                         currentData = data;
                                     }
                                 } else if (data.url.indexOf(location.hostname) != -1) {
                                     if (data.url.indexOf("site") != -1) {
                                         let siteMatch = data.url.match(/site(%3A|:)([\s\S]+?)[\s%]/);
-                                        if (siteMatch && location.href.indexOf(siteMatch[2]) != -1 && data.url.replace(siteMatch[0], "").indexOf(location.hostname) != -1) {
+                                        if (siteMatch && href.indexOf(siteMatch[2]) != -1 && data.url.replace(siteMatch[0], "").indexOf(location.hostname) != -1) {
                                             currentData = data;
                                         }
                                     } else if (!currentSite && data.url.replace(/^https?:\/\//, "").replace(location.host, "").replace(/\/?[\?#][\s\S]*/, "") == location.pathname.replace(/\/$/, "")) {
                                         let urlReg = data.url.match(/[^\/\?&]+(?=%[stb])/g);
                                         if (urlReg) {
                                             urlReg = urlReg.join('.*');
-                                            if (new RegExp(urlReg).test(location.href)) {
+                                            if (new RegExp(urlReg).test(href)) {
                                                 currentData = data;
                                             }
                                         }
@@ -8594,7 +8593,7 @@
                     ele.style.display = 'none';
                     ele.classList.add("notmatch");
                 } else if (data.match) {
-                    if (new RegExp(data.match).test(location.href) == false) {
+                    if (new RegExp(data.match).test(href) == false) {
                         ele.style.display = 'none';
                         ele.classList.add("notmatch");
                     } else {
@@ -9484,14 +9483,14 @@
                         } else {
                             urlRe = new RegExp(urlMatch, "i");
                         }
-                        if (urlRe.test(location.href)) {
+                        if (urlRe.test(href)) {
                             ele.dataset.current = true;
                         }
                     } else if (!pointer && location.hostname && data.url.indexOf(location.hostname) != -1) {
                         if (!this.inSiteMatch) this.inSiteMatch = /site(%3A|:)(.+?)[\s%]/;
                         let match = data.url.match(this.inSiteMatch);
                         if (match) {
-                            if (location.href.indexOf(match[2]) != -1 && data.url.replace(match[0], "").indexOf(location.hostname) != -1) {
+                            if (href.indexOf(match[2]) != -1 && data.url.replace(match[0], "").indexOf(location.hostname) != -1) {
                                 ele.dataset.current = true;
                             }
                         } else {
@@ -9505,7 +9504,7 @@
                                     let urlReg = data.url.match(this.paramMatch);
                                     if (urlReg) {
                                         urlReg = urlReg.join('.*');
-                                        if (new RegExp(urlReg).test(location.href)) {
+                                        if (new RegExp(urlReg).test(href)) {
                                             ele.dataset.current = true;
                                         }
                                     } else {
@@ -9514,7 +9513,7 @@
                                 }
                             } else if (data.url.indexOf("http") === 0 && data.url.indexOf("?") === -1) {
                                 if (!this.keywordMatch) this.keywordMatch = /%[stb][a-z]?\b/g;
-                                if (new RegExp(data.url.replace(/^https?/, "").replace(/[#%]\w+{.*/, "").replace(/\./g, "\\.").replace(this.keywordMatch, ".*")).test(location.href)) {
+                                if (new RegExp(data.url.replace(/^https?/, "").replace(/[#%]\w+{.*/, "").replace(/\./g, "\\.").replace(this.keywordMatch, ".*")).test(href)) {
                                     ele.dataset.current = true;
                                 }
                             }
@@ -12977,7 +12976,7 @@
                             }
                         } else if (/\(.+\)/.test(rule) && rule.indexOf("@") !== 0) {
                             try {
-                                keywordsMatch = location.href.match(new RegExp(rule));
+                                keywordsMatch = href.match(new RegExp(rule));
                                 if (keywordsMatch) {
                                     keywords = keywordsMatch[1];
                                 }
@@ -13005,7 +13004,7 @@
                     if (keywords) break;
                 }
             } else if (isUtf8 && wordParamReg.test(currentSite.url) && !/[#:%]p{/.test(currentSite.url)) {
-                if (location.href.indexOf("?") != -1) {
+                if (href.indexOf("?") != -1) {
                     keywordsMatch = currentSite.url.match(new RegExp(`[\\?&]([^&]*?)=${wordParam}.*`));
                     if (keywordsMatch) {
                         keywords = new URLSearchParams(location.search).get(keywordsMatch[1]);
@@ -13014,7 +13013,7 @@
                 if (!keywords) {
                     keywordsMatch = currentSite.url.match(new RegExp(`https?://[^/]*/(.*)${wordParam}`));
                     if (keywordsMatch) {
-                        keywordsMatch = location.href.match(new RegExp((keywordsMatch[1] || (location.host.replace(/\./g, "\\.") + "/")) + "(.*?)(\/|$)"));
+                        keywordsMatch = href.match(new RegExp((keywordsMatch[1] || (location.host.replace(/\./g, "\\.") + "/")) + "(.*?)(\/|$)"));
                         if (keywordsMatch) {
                             keywords = keywordsMatch[1];
                         }
@@ -13724,13 +13723,13 @@
             };
             getBody(document).addEventListener("auxclick", clickAHandler, true);
             getBody(document).addEventListener("click", clickAHandler, true);
-            let href = location.href;
             let _wr = function(type) {
                 var orig = history[type];
                 return function() {
                     var rv = orig.apply(this, arguments);
-                    if (href != location.href) {
-                        href = location.href;
+                    let _href = location.href.slice(0, 500);
+                    if (href != _href) {
+                        href = _href;
                         var e = new Event('sj_' + type);
                         e.arguments = arguments;
                         window.dispatchEvent(e);
@@ -13947,8 +13946,8 @@
         }
 
         function preAction() {
-            if (location.href.indexOf(jumpHtml) != -1) {
-                let submitParams = location.href.match(/#jump{url=(.*)&charset=(.*)}/);
+            if (href.indexOf(jumpHtml) != -1) {
+                let submitParams = href.match(/#jump{url=(.*)&charset=(.*)}/);
                 if (submitParams) {
                     submitByForm(submitParams[2], decodeURIComponent(submitParams[1]), '_self');
                 }
@@ -13957,7 +13956,7 @@
 
         var shareEngines;
         async function checkConfigPage() {
-            if (location.href.indexOf(configPage) === 0 || ((document.title === "SearchJumper" || document.querySelector('[name="from"][content="SearchJumper"]')) && document.querySelector('[name="author"][content="Hoothin"]'))) {
+            if (href.indexOf(configPage) === 0 || ((document.title === "SearchJumper" || document.querySelector('[name="from"][content="SearchJumper"]')) && document.querySelector('[name="author"][content="Hoothin"]'))) {
                 shareEngines = document.querySelector('[name="engines"]');
                 let spotlight = document.getElementById("spotlight");
                 if (shareEngines) {
@@ -14013,7 +14012,7 @@
                         shareEngines = false;
                     }
                 }
-                let trustSite = location.href.indexOf(configPage.replace(/\/config.*/, "")) === 0 || location.href.indexOf(homePage) === 0 || location.href.indexOf(githubPage) === 0 || location.hostname === "localhost";
+                let trustSite = href.indexOf(configPage.replace(/\/config.*/, "")) === 0 || href.indexOf(homePage) === 0 || href.indexOf(githubPage) === 0 || location.hostname === "localhost";
                 if (trustSite) {
                     isAllPage = !!shareEngines || /all(\.html)?$/.test(location.pathname);
                 }
@@ -14202,7 +14201,7 @@
                     _GM_setClipboard(JSON.stringify(copyTarget, null, 2));
                     _GM_notification('Configuration copied successfully!');
                 });
-            } else if (importPageReg.test(location.href)) {
+            } else if (importPageReg.test(href)) {
                 let importCss = _GM_addStyle(`
                     #import-btns-con {
                         position: absolute;
@@ -14380,7 +14379,7 @@
                 });
 
                 document.addEventListener("mouseover", e => {
-                    if (importPageReg.test(location.href)) {
+                    if (importPageReg.test(href)) {
                         if (e.target.nodeName === "PRE") {
                             bindPre(e.target);
                         } else {
@@ -16658,12 +16657,12 @@
             return false;
         }
 
-        if (location.href.indexOf("#searchJumperMin") != -1) {
+        if (href.indexOf("#searchJumperMin") != -1) {
             inMinMode = true;
-            if (location.href.indexOf("#searchJumperMinPost") != -1) {
-                window.history.replaceState(null, '', location.href.replace(/#searchJumperMin(Post)?/, ""));
+            if (href.indexOf("#searchJumperMinPost") != -1) {
+                window.history.replaceState(null, '', href.replace(/#searchJumperMin(Post)?/, ""));
             } else {
-                if (location.href.indexOf("#searchJumperMinMobile") != -1) {
+                if (href.indexOf("#searchJumperMinMobile") != -1) {
                     Object.defineProperty(Object.getPrototypeOf(navigator), 'userAgent', { get:function() { return mobileUa }});
                     _GM_xmlhttpRequest({
                         method: 'GET',
@@ -16702,7 +16701,6 @@
                 await initData();
                 if (disableState) return;
                 if (searchData.prefConfig.blacklist && searchData.prefConfig.blacklist.length > 0) {
-                    let href = location.href.slice(0, 500);
                     let commentStart = false;
                     for (let i = 0; i < searchData.prefConfig.blacklist.length; i++) {
                         let curGlob = searchData.prefConfig.blacklist[i];
