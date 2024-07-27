@@ -2516,6 +2516,9 @@
                  .search-jumper-tips>div [data-copy] {
                      cursor: pointer;
                  }
+                 .search-jumper-tips>div [data-search] {
+                     cursor: help;
+                 }
                  .search-jumper-tips>div [data-close] {
                      position: absolute;
                      top: 0px;
@@ -3917,12 +3920,16 @@
                         msg.volume = dataset.volume || 1;
                         msg.rate = dataset.rate || 1;
                         msg.pitch = dataset.pitch || 1;
-                        msg.lang = dataset.lang || "en";
+                        msg.lang = dataset.lang || "";
                         msg.text = dataset.read || text;
                         window.speechSynthesis.speak(msg);
                     }
                     if (typeof dataset.copy !== 'undefined') {
                         _GM_setClipboard(dataset.copy || text);
+                    }
+                    if (dataset.search) {
+                        extSelectionText = text;
+                        self.searchBySiteName(dataset.search);
                     }
                     if (typeof dataset.paste !== 'undefined') {
                         if (targetElement &&
