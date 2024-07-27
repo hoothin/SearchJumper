@@ -9685,6 +9685,7 @@
                                 str = str.replace(multiMatch[0], key);
                             }
                         }
+                        if (showTips) value = value.split(/[\n\r]/).join(" ");
                         return replaceSingle(str, key, value, after);
                     };
                     let needDecode = (!/^showTips:h/i.test(dataUrl) && /^c(opy)?:|[#:%]P{|^javascript:|^showTips:/i.test(dataUrl));
