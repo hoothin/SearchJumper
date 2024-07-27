@@ -8553,6 +8553,9 @@
             }
 
             checkKwFilter(kwFilter, checkKw) {
+                if (checkKw.length > 600) {
+                    checkKw = checkKw.slice(0, 500) + checkKw.slice(checkKw.length - 10);
+                }
                 let selectorMatch = kwFilter.match(/^@{(.*?)}/);
                 if (selectorMatch) {
                     if (!targetElement) return false;
