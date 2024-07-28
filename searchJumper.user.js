@@ -982,6 +982,7 @@
         var storage = {
             supportGM: typeof GM_getValue == 'function' && typeof GM_getValue('a', 'b') != 'undefined',
             supportGMPromise: typeof GM != 'undefined' && typeof GM.getValue == 'function' && typeof GM.getValue('a','b') != 'undefined',
+            listItemCache: [],
             mxAppStorage: (function() {
                 try {
                     return window.external.mxGetRuntime().storage;
@@ -1035,7 +1036,11 @@
                 return value;
             },
             getListItem: async function(list, key) {
-                var listData = await this.getItem(list);
+                var listData = this.listItemCache[list];
+                if (typeof listData === 'undefined') {
+                    listData = await this.getItem(list);
+                    this.listItemCache[list] = listData || null;
+                }
                 if (!listData) return null;
                 for(var i = 0; i < listData.length; i++) {
                     let data = listData[i];
@@ -1046,7 +1051,10 @@
                 return null;
             },
             setListItem: async function(list, key, value) {
-                var listData = await this.getItem(list);
+                var listData = this.listItemCache[list];
+                if (typeof listData === 'undefined') {
+                    listData = await this.getItem(list);
+                }
                 if (!listData) listData = [];
                 listData = listData.filter(data => data && data.k != key);
                 if (value) {
@@ -1054,6 +1062,7 @@
                     if (listData.length > 50) listData.pop();
                 }
                 this.setItem(list, listData);
+                this.listItemCache[list] = listData;
             }
         };
 
@@ -9241,15 +9250,24 @@
                 });
             }
 
-            getTargetSitesByName(siteNames) {
+            getTargetSitesByName(siteNames, noPointer) {
                 let self = this;
                 let targetSites = [];
                 siteNames.forEach(n => {
                     for (let i = 0; i < self.allSiteBtns.length; i++) {
                         let siteBtn = self.allSiteBtns[i][0];
-                        if (siteBtn.dataset.pointer) continue;
                         if (siteBtn.dataset.name == n) {
-                            targetSites.push(siteBtn);
+                            if (!noPointer && siteBtn.dataset.pointer) {
+                                if (siteBtn.dataset.oriName) {
+                                    let oriBtn = self.getTargetSitesByName([siteBtn.dataset.oriName], true);
+                                    if (oriBtn.length) {
+                                        targetSites.push(...oriBtn);
+                                        break;
+                                    }
+                                }
+                            } else {
+                                targetSites.push(siteBtn);
+                            }
                             break;
                         }
                     }
