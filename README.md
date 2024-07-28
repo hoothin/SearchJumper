@@ -15,9 +15,9 @@
 + Icons: FontAwesome
 
 ## Install
-| Install via [Chrome web store](https://chromewebstore.google.com/detail/hgepmblbgodbilmfdjkalkgofdcipkhh) | Install via [Firefox addons](https://addons.mozilla.org/firefox/addon/searchjumper/) | Install via [Greasyfork](https://greasyfork.org/scripts/445274) |
+| Install via [Chrome web store](https://chromewebstore.google.com/detail/hgepmblbgodbilmfdjkalkgofdcipkhh) | Install via [Greasyfork](https://greasyfork.org/scripts/445274) | Install via [Firefox addons](https://addons.mozilla.org/firefox/addon/searchjumper/) |
 |---|---|---|
-| [![](https://img.shields.io/chrome-web-store/users/hgepmblbgodbilmfdjkalkgofdcipkhh)](https://chromewebstore.google.com/detail/hgepmblbgodbilmfdjkalkgofdcipkhh)                       | [![](https://img.shields.io/amo/users/searchjumper)](https://addons.mozilla.org/firefox/addon/searchjumper/)                                      | [![](https://img.shields.io/greasyfork/dt/445274)](https://greasyfork.org/scripts/445274)                |
+| [![](https://img.shields.io/chrome-web-store/users/hgepmblbgodbilmfdjkalkgofdcipkhh)](https://chromewebstore.google.com/detail/hgepmblbgodbilmfdjkalkgofdcipkhh) | [![](https://img.shields.io/greasyfork/dt/445274)](https://greasyfork.org/scripts/445274) | [![](https://img.shields.io/amo/users/searchjumper)](https://addons.mozilla.org/firefox/addon/searchjumper/) |
 
 <img src='assets/demo1.gif' height='221px'><img src='assets/demo3.gif' height='221px'><img src='assets/demo2.gif' height='221px'>
 
