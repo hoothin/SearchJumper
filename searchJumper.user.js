@@ -9101,6 +9101,7 @@
                 self.customInput = false;
                 if (e.altKey && e.shiftKey) {
                     let targetSites = self.getTargetSitesByName(siteNames);
+                    let viewWidth = window.innerWidth || document.documentElement.clientWidth;
                     let html = '<title>SearchJumper Multi</title><style>body{background: black; margin: 0;}iframe{box-sizing: border-box;padding: 5px}</style>';
                     let c = window.open("", "_blank"), i = 1;
                     for (let siteEle of targetSites) {
@@ -9109,7 +9110,7 @@
                             if (self.stopInput) return;
                             if (!siteEle.href) continue;
                             let iframe = document.createElement('iframe');
-                            iframe.width = targetSites.length <= 2 ? '50%' : '33%';
+                            iframe.width = targetSites.length <= 2 || viewWidth <= 1280 ? '50%' : '33%';
                             iframe.height = '100%';
                             iframe.frameBorder = '0';
                             iframe.sandbox = "allow-same-origin allow-scripts allow-popups allow-forms";
