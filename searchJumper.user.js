@@ -5,7 +5,7 @@
 // @name:ja      SearchJumper
 // @name:ru      SearchJumper
 // @namespace    hoothin
-// @version      1.9.24
+// @version      1.9.25
 // @description  Boost your search efficiency, quickly toggle between search engines like Google, Bing, and Yahoo, while supporting simultaneous keyword highlighting across results.
 // @description:zh-CN  高效搜索辅助，专注于提升搜索效率，一键在 Google、Bing、百度等搜索引擎之间快速切换，并支持多关键词同时高亮显示、右键/拖拽/全站搜索、以图搜图、页内正则查找与自定义搜索引擎等功能。
 // @description:zh-TW  萬能搜尋輔助，單鍵切換任何搜尋引擎，並有右鍵/拖曳/全站搜尋、以圖搜圖、頁內正規表達式查找、醒目標示與自訂搜尋引擎等功能。
@@ -6738,7 +6738,7 @@
                             this.searchInPageLockWords.innerHTML = createHTML();
                             this.setNav(false, true);
                         } else {
-                            this.removeBar();
+                            //this.removeBar();
                         }
                     }
                 }, true);
