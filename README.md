@@ -1,18 +1,21 @@
-# [SearchJumper](https://chromewebstore.google.com/detail/hgepmblbgodbilmfdjkalkgofdcipkhh "Install from Chrome web store 搜尋引擎輔助增強瀏覽器插件，一键切换搜尋引擎，支援拖拽搜尋/劃詞搜尋/快捷鍵等。検索機能強化。検索ちゃん")  [💞Share your search engines](https://github.com/hoothin/SearchJumper/discussions/categories/search-engines?discussions_q=)
+<h1 align="center"><a href="https://chromewebstore.google.com/detail/hgepmblbgodbilmfdjkalkgofdcipkhh" title="Install from Chrome web store 搜尋引擎輔助增強瀏覽器插件，一键切换搜尋引擎，支援拖拽搜尋/劃詞搜尋/快捷鍵等。検索機能強化。検索ちゃん" rel="nofollow">SearchJumper</a></h1>
 
 [![i](assets/logo.jpg)](https://search.hoothin.com/)
 
-![star](https://img.shields.io/github/stars/hoothin/SearchJumper)
-![react-version](https://img.shields.io/badge/React.js-lastest-yellow.svg)
-![materialUI-version](https://img.shields.io/badge/MaterialUI-lastest-indigo.svg)
-![license](https://img.shields.io/badge/License-GPL3.0-orange.svg)
-![FontAwesome](https://img.shields.io/badge/FontAwesome-6.0-green.svg)
-![support](https://img.shields.io/badge/Support-Chrome|Firefox|Edge-red.svg)
-> *Just a personal work, maybe not suit you.* 📖[**Guide**](https://search.hoothin.com/)
+<h3 align="center"><a href="https://github.com/hoothin/SearchJumper/discussions/categories/search-engines?discussions_q=">💞Share your search engines</a> <a href="https://search.hoothin.com/">📖Guide</a></h3>
+<p align="center">
+ <img src="https://img.shields.io/badge/React.js-lastest-yellow.svg" alt="react-version"/>
+ <img src="https://img.shields.io/badge/MaterialUI-lastest-indigo.svg" alt="materialUI-version"/>
+ <img src="https://img.shields.io/badge/License-GPL3.0-orange.svg" alt="license"/>
+ <img src="https://img.shields.io/badge/FontAwesome-6.0-green.svg" alt="FontAwesome"/>
+ <img src="https://img.shields.io/badge/Support-Chrome|Firefox|Edge-red.svg" alt="support"/>
+</p>
 
 + Build with React.js
 + UI: Material-UI
 + Icons: FontAwesome
+
+> *Just a personal work, maybe not suit you.*
 
 ## Install
 | Install via [Chrome web store](https://chromewebstore.google.com/detail/hgepmblbgodbilmfdjkalkgofdcipkhh) | Install via [Greasyfork](https://greasyfork.org/scripts/445274) | Install via [Firefox addons](https://addons.mozilla.org/firefox/addon/searchjumper/) |
