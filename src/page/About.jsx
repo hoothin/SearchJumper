@@ -85,7 +85,7 @@ export default function About() {
                         [Paypal.Me]
                     </Link>
                     <span style={{margin: "0 10px"}}>|</span> 
-                    <Link href='https://afdian.net/@hoothin' style={{verticalAlign: 'top'}} target="_blank">
+                    <Link href='https://afdian.com/@hoothin' style={{verticalAlign: 'top'}} target="_blank">
                         <img style={{verticalAlign: 'bottom', marginRight: "5px"}} src='afd.png' alt='afd' loading="lazy"/>
                         [Afdian]
                     </Link>
