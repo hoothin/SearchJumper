@@ -14016,10 +14016,10 @@
                         }
                         if (mutation.addedNodes.length) {
                             [].forEach.call(mutation.addedNodes, addedNode => {
-                                let target = addedNode.nodeType === 1 ? addedNode : mutation.target;
-                                if (!target.className || !/searchJumper/.test(target.className)) {
+                                if (addedNode.nodeType !== 1) return;
+                                if (!addedNode.className || !/searchJumper/.test(addedNode.className)) {
                                     setTimeout(() => {
-                                        highlight("insert", target)
+                                        highlight("insert", addedNode);
                                     }, 0);
                                     searchBar.initHighlight && highlightTimes++;
                                 }
