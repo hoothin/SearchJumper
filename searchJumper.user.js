@@ -5,7 +5,7 @@
 // @name:ja      SearchJumper
 // @name:ru      SearchJumper
 // @namespace    hoothin
-// @version      1.9.26
+// @version      1.9.27
 // @description  Boost your search efficiency, quickly toggle between search engines like Google, Bing, and Yahoo, while supporting simultaneous keyword highlighting across results.
 // @description:zh-CN  终极搜索辅助，数倍提升搜索效率，一键在 Google、Bing、百度等搜索引擎之间快速切换，并支持多关键词同时高亮显示、右键/拖拽/全站搜索、以图搜图、页内正则查找与自定义搜索引擎等功能。
 // @description:zh-TW  萬能搜尋輔助，單鍵切換任何搜尋引擎，並有右鍵/拖曳/全站搜尋、以圖搜圖、頁內正規表達式查找、醒目標示與自訂搜尋引擎等功能。
@@ -1357,31 +1357,18 @@
             return getElementByXpath(sel, doc, doc);
         }
 
-        function getElementTop(ele) {
+        function getElementTop(ele, targetIframe) {
             var actualTop = ele.offsetTop;
             var current = ele.offsetParent;
             while (current) {
                 actualTop += current.offsetTop;
                 current = current.offsetParent;
             }
-            if (ele.ownerDocument != document) {
-                let iframes = document.getElementsByTagName("iframe");
-                for (let i = 0; i < iframes.length; i++) {
-                    let iframe = iframes[i];
-                    let iframeDoc;
-                    try {
-                        iframeDoc = iframe.contentDocument || iframe.contentWindow.document;
-                    } catch(e) {
-                        break;
-                    }
-                    if (iframeDoc == ele.ownerDocument) {
-                        current = iframe;
-                        while (current) {
-                            actualTop += current.offsetTop;
-                            current = current.offsetParent;
-                        }
-                        break;
-                    }
+            if (targetIframe) {
+                current = targetIframe;
+                while (current) {
+                    actualTop += current.offsetTop;
+                    current = current.offsetParent;
                 }
             }
             return actualTop;
@@ -1394,7 +1381,7 @@
                 actualLeft += current.offsetLeft;
                 current = current.offsetParent;
             }
-            if (ele.ownerDocument != document) {
+            if (!document.isSameNode(ele.ownerDocument)) {
                 let iframes = document.getElementsByTagName("iframe");
                 for (let i = 0; i < iframes.length; i++) {
                     let iframe = iframes[i];
@@ -1404,7 +1391,7 @@
                     } catch(e) {
                         break;
                     }
-                    if (iframeDoc == ele.ownerDocument) {
+                    if (iframeDoc.isSameNode(ele.ownerDocument)) {
                         current = iframe;
                         while (current) {
                             actualLeft += current.offsetLeft;
@@ -5332,6 +5319,7 @@
                         if (++self.fixTimes == 5) {
                             ele.scrollIntoView({behavior: "smooth", block: "center", inline: "nearest"});
                         } else if (self.fixTimes > 10) {
+                            ele.scrollIntoView({behavior: "smooth", block: "center", inline: "nearest"});
                             self.wPosBar.style.animationName = "";
                             self.hPosBar.style.animationName = "";
                             return;
@@ -5341,7 +5329,7 @@
                         self.hPosBar.style.left = rect.left + "px";
                         setTimeout(() => {
                             fixPosBar();
-                        }, 150);
+                        }, 200);
                     }
                     fixPosBar();
                 }, 0);
@@ -5453,14 +5441,13 @@
                 return `${background}${addCssText}`;
             }
 
-            createNavMark(node, word, index, curList) {
+            createNavMark(node, word, index, curList, scrollHeight) {
                 let self = this;
                 let navMark = document.createElement("span");
-                let top = getElementTop(node);
+                let top = getElementTop(node, self.targetIframe);
                 navMark.title = word.title || word.showWords;
                 navMark.dataset.top = top;
                 navMark.dataset.content = word.showWords;
-                let scrollHeight = Math.max(document.documentElement.scrollHeight, getBody(document).scrollHeight);
                 navMark.style.top = top / scrollHeight * 100 + "%";
                 navMark.style.background = node.style.background || "yellow";
                 navMark.addEventListener("click", e => {
@@ -5628,7 +5615,7 @@
                 this.addonsList.appendChild(con);
             }
 
-            findPosInStr(content, kw) {
+            findPosInStr(content, kw, contentUp, wordUp) {
                 let len = 0, pos = -1, hasAddon = false;
                 if (this.findInpageAddons.length) {
                     for (let i = 0; i < this.findInpageAddons.length; i++) {
@@ -5645,12 +5632,12 @@
                 }
                 if (pos == -1 && !hasAddon) {
                     len = kw.length;
-                    pos = content.toUpperCase().indexOf(kw.toUpperCase());
+                    pos = contentUp.indexOf(wordUp);
                 }
                 return {len: len, pos: pos};
             }
 
-            highlight(words, ele, root) {
+            highlight(words, ele, root, iframe) {
                 if (!words && (!this.curHighlightWords || this.curHighlightWords.length === 0)) return;
                 if (!ele) {
                     this.highlight(words, getBody(document), root);
@@ -5664,11 +5651,12 @@
                             return;
                         }
                         if (iframeDoc && getBody(iframeDoc)) {
-                            this.highlight(words, getBody(iframeDoc), root);
+                            this.highlight(words, getBody(iframeDoc), root, iframe);
                         }
                     });
                     return;
                 }
+                this.targetIframe = iframe || false;
                 if (ele.id == "searchJumperModifyWord") return;
                 ele = ele || getBody(document);
                 let inWordMode = this.wordModeBtn.classList.contains("checked");
@@ -5718,6 +5706,9 @@
                     this.curHighlightWords = (this.curHighlightWords || []).concat(words);
                 }
                 this.fakeTextareas = {};
+                let scrollHeight = Math.max(document.documentElement.scrollHeight, getBody(document).scrollHeight);
+                this.navMarks.style.display = "none";
+                let navMarkParams = [];
                 function searchWithinNode(node, word, start) {
                     let len, pos = -1, skip, spannode, middlebit, middleclone;
                     skip = 0;
@@ -5726,6 +5717,8 @@
                     if (start && (node.nodeType == 1 || node.nodeType == 11)) {
                         let domTextResult = self.anylizeDomWithTextPos(node);
                         let textRes = domTextResult.text;
+                        let textResUp = textRes.toUpperCase();
+                        let wordUp = word.content.toUpperCase();
                         let dataRes = domTextResult.data;
                         let index = 0;
                         let nodeAndPos = [];
@@ -5803,12 +5796,13 @@
                                     pos = wordMatch.index;
                                 }
                             } else {
-                                let result = self.findPosInStr(textRes, word.content);
+                                let result = self.findPosInStr(textRes, word.content, textResUp, wordUp);
                                 len = result.len;
                                 pos = result.pos;
                             }
                             if (pos > -1) {
                                 textRes = textRes.slice(pos + len);
+                                textResUp = textResUp.slice(pos + len);
                                 pos += index;
                                 index = pos + len;
                                 getNodePos(pos, len);
@@ -5879,10 +5873,10 @@
                                         spannodes.unshift(spannode);
                                     });
                                     data.node.parentNode.replaceChild(newTextNodeCon, data.node);
+                                    self.marks[word.showWords].push(...spannodes);
                                     spannodes.forEach(n => {
-                                        self.marks[word.showWords].push(n);
                                         if (!n.dataset.type) {
-                                            self.createNavMark(n, word, index, curList);
+                                            navMarkParams.push([n, word, index, curList, scrollHeight]);
                                         }
                                     });
                                 }
@@ -5945,7 +5939,7 @@
                                     });
                                     self.marks[word.showWords].push(node);
 
-                                    self.createNavMark(node, word, index, curList);
+                                    navMarkParams.push([node, word, index, curList, scrollHeight]);
                                 }
                             }
                         }
@@ -5965,6 +5959,8 @@
                             let textareaParentLoc = (node.offsetParent || getBody(document)).getBoundingClientRect();
                             let baseLeft = textareaLoc.left - textareaParentLoc.left;
                             let baseTop = textareaLoc.top - textareaParentLoc.top;
+                            let blockValueUp = blockValue.toUpperCase();
+                            let wordUp = word.content.toUpperCase();
                             while (true) {
                                 if (word.isRe) {
                                     wordMatch = blockValue.match(new RegExp(word.content, word.reCase));
@@ -5973,7 +5969,7 @@
                                         wordMatch = wordMatch[0];
                                     }
                                 } else {
-                                    let result = self.findPosInStr(blockValue, word.content);
+                                    let result = self.findPosInStr(blockValue, word.content, blockValueUp, wordUp);
                                     len = result.len;
                                     pos = result.pos;
                                     if ((word.init || inWordMode) && pos >= 0 && /^[a-z]+$/i.test(word.content)) {
@@ -5990,6 +5986,7 @@
                                     findTextInBlock(wordMatch, lastIndex + pos);
                                     lastIndex += (pos + wordMatch.length);
                                     blockValue = blockValue.slice(pos + wordMatch.length);
+                                    blockValueUp = blockValueUp.slice(pos + wordMatch.length);
                                 } else break;
                             }
                             function findTextInBlock(curWord, pos) {
@@ -6072,7 +6069,8 @@
                                         spannode.style.left = _baseLeft + "px";
                                         spannode.style.top = _baseTop + "px";
                                         self.marks[word.showWords].push(spannode);
-                                        self.createNavMark(spannode, word, index, curList);
+
+                                        navMarkParams.push([spannode, word, index, curList, scrollHeight]);
                                         if (node.nodeName && node.nodeName.toLowerCase && node.nodeName.toLowerCase() == "textarea") {
                                             let nodeScrollHandler = e => {
                                                 if (!spannode.parentNode) {
@@ -6139,7 +6137,13 @@
                         })
                     } else searchWithinNode(ele, w, true);
                 });
+                navMarkParams.forEach(param => {
+                    self.createNavMark(...param);
+                });
+                this.navMarks.style.display = "";
                 setTimeout(() => {
+                    self.navMarks.style.display = "none";
+                    navMarkParams = [];
                     searchingPre = true;
                     words.forEach(w => {
                         if (!self.marks[w.showWords]) {
@@ -6149,6 +6153,10 @@
                             searchWithinNode(e, w, true);
                         });
                     });
+                    navMarkParams.forEach(param => {
+                        self.createNavMark(...param);
+                    });
+                    self.navMarks.style.display = "";
                 }, 1000);
                 if (this.navMarks.innerHTML != "") {
                     this.searchJumperNavBar.classList.add("sjNavShow");
