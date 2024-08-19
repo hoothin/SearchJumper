@@ -1439,7 +1439,7 @@
         }
 
         function waitForFontAwesome(callback) {
-            var retries = 50;
+            var retries = 100;
             var text = '\uf0c8';
             var checkReady = function() {
                 var canvas, context;
