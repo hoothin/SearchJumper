@@ -1799,6 +1799,7 @@
                      padding: 20px 0;
                      box-sizing: border-box;
                      display: none;
+                     z-index: 1;
                  }
                  #search-jumper.search-jumper-showall>#search-jumper-alllist.new-mode+.groupTab {
                      display: block;
@@ -8589,7 +8590,7 @@
                             target.style.bottom = "";
                         }
                         target.style.top = (close ? eh : eh + 20) + "px";
-                    } else if (clientY > viewHeight - eh) {
+                    } else if (clientY > viewHeight - eh - 10) {
                         clientX -= target.clientWidth / 2;
                         if (clientX < 5) {
                             target.style.left = "5px";
