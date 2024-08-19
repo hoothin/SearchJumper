@@ -5469,12 +5469,12 @@
                     return result;
                 }
                 dom.childNodes.forEach(ele => {
-                    if ((ele.classList && ele.classList.contains("searchJumper")) || /^(img|svg|picture)$/i.test(ele.nodeName)) {
+                    if ((ele.classList && ele.classList.contains("searchJumper")) || /^(img|svg|picture|br|hr)$/i.test(ele.nodeName)) {
                         const start = result.text.length;
                         result.text += "\n";
                         result.data[start] = {node: ele, text: "\n"};
                     } else if (ele.offsetParent || ele.offsetHeight) {
-                        if (/^(li|p|a|td)$/i.test(ele.nodeName)) {
+                        if (/^(div|h\d|p|form|ul|li|ol|dl|address|menu|table|fieldset|a|td)$/i.test(ele.nodeName)) {
                             let start = result.text.length;
                             result.text += "\n";
                             result.data[start] = {node: {}, text: "\n"};
