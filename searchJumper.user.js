@@ -3343,7 +3343,8 @@
                  .search-jumper-input svg:hover,
                  .searchJumperNavBar svg:hover,
                  .search-jumper-input>.closeBtn:hover,
-                 .searchJumperNavBar>div.minNavBtn:hover {
+                 .searchJumperNavBar>div.minNavBtn:hover,
+                 .searchJumperNavBar>div.maxNavBtn:hover {
                      -webkit-transform:scale(1.2);
                      -moz-transform:scale(1.2);
                      transform:scale(1.2);
@@ -3469,7 +3470,8 @@
                      cursor: pointer;
                      display: inline-block;
                  }
-                 .searchJumperNavBar>.minNavBtn {
+                 .searchJumperNavBar>.minNavBtn,
+                 .searchJumperNavBar>.maxNavBtn {
                      font-size: 12px;
                      font-weight: bold;
                      font-family: system-ui;
@@ -3484,7 +3486,8 @@
                      cursor: pointer;
                      transition: 0.25s opacity ease, 0.25s transform ease;
                  }
-                 .searchJumperNavBar:hover>.minNavBtn {
+                 .searchJumperNavBar:hover>.minNavBtn,
+                 .searchJumperNavBar:hover>.maxNavBtn {
                      opacity: 0.8;
                  }
                  #search-jumper>.searchJumperNavBar.minimize {
@@ -3493,6 +3496,7 @@
                  }
                  .searchJumperNavBar.minimize>.closeNavBtn,
                  .searchJumperNavBar.minimize>.navPointer,
+                 .searchJumperNavBar.minimize>.maxNavBtn,
                  .searchJumperNavBar.minimize>#navMarks {
                      display: none;
                  }
@@ -3532,9 +3536,9 @@
                      100% {right: 20px;}
                  }
                  #navMarks {
-                     height: calc(100% - 32px);
+                     height: calc(100% - 50px);
                      width: 100%;
-                     position: absolute;
+                     position: relative;
                  }
                  #navMarks>span {
                      height: 0.5vh;
@@ -4076,6 +4080,7 @@
                   <svg class="closeNavBtn" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg"><title>Close navigation</title>${closePath}</svg>
                   <div class="minNavBtn" title="Minimize navigation">-</div>
                   <div id="navMarks"></div>
+                  <div class="maxNavBtn" title="Restore input"><img src="${logoBase64}" /></div>
                   <div class="navPointer">></div>
                 `);
                 searchBarCon.appendChild(searchJumperNavBar);
@@ -4091,6 +4096,7 @@
                 this.navMarks = searchJumperNavBar.querySelector("#navMarks");
                 this.closeNavBtn = searchJumperNavBar.querySelector(".closeNavBtn");
                 this.minNavBtn = searchJumperNavBar.querySelector(".minNavBtn");
+                this.maxNavBtn = searchJumperNavBar.querySelector(".maxNavBtn");
                 this.searchJumperNavBar = searchJumperNavBar;
                 this.navPointer = searchJumperNavBar.querySelector(".navPointer");
                 this.navPointer.style.display = "none";
@@ -7009,6 +7015,10 @@
                         this.searchInPageLockWords.innerHTML = createHTML();
                         this.searchJumperInPageInput.style.paddingLeft = "";
                     }
+                });
+                this.maxNavBtn.addEventListener("click", e => {
+                    self.showInPage();
+                    self.showInPageSearch();
                 });
                 this.navMarks.addEventListener("click", e => {
                     let topPercent = e.offsetY / this.navMarks.clientHeight * 100;
