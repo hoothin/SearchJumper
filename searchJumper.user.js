@@ -2721,7 +2721,7 @@
                  }
                  .search-jumper-bottom>.search-jumper-input {
                      bottom: unset;
-                     top: 5%;
+                     top: 80px;
                  }
                  #search-jumper .search-jumper-type.search-jumper-open.not-expand>a:nth-of-type(${searchData.prefConfig.expandTypeLength || 12})~a {
                      display: none!important;
@@ -8149,7 +8149,7 @@
                                 let siteBtn = await self.createSiteBtn((searchData.prefConfig.noIcons ? "0" : site.icon), site, true, isBookmark, siteConfig, true);
                                 siteBtn.classList.add("historySite");
                                 self.historySiteBtns.push(siteBtn);
-                                if (siteConfig.selectTxt) {
+                                if (!siteConfig.selectImg && !siteConfig.selectLink && !siteConfig.selectPage && !siteConfig.selectVideo && !siteConfig.selectAudio) {
                                     self.txtHistorySiteBtns.push(siteBtn);
                                 }
                                 if (siteConfig.selectImg) {
