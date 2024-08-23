@@ -5,7 +5,7 @@
 // @name:ja      SearchJumper
 // @name:ru      SearchJumper
 // @namespace    hoothin
-// @version      1.9.28
+// @version      1.9.29
 // @description  Boost your search efficiency, quickly toggle between search engines like Google, Bing, and Yahoo, while supporting simultaneous keyword highlighting across results.
 // @description:zh-CN  老司机必备搜索脚本，数倍提升搜索效率，一键在 Google、Bing、百度等搜索引擎之间快速切换，支持关键词高亮、右键/拖拽/全站搜索、以图搜图、页内查找与自定义引擎等功能。
 // @description:zh-TW  萬能搜尋輔助，單鍵切換任何搜尋引擎，並有右鍵/拖曳/全站搜尋、以圖搜圖、頁內正規表達式查找、醒目標示與自訂搜尋引擎等功能。
@@ -1370,6 +1370,20 @@
                     actualTop += current.offsetTop;
                     current = current.offsetParent;
                 }
+                try {
+                    let currentWindow = targetIframe.contentWindow.parent;
+                    targetIframe = currentWindow.frameElement;
+                    while (targetIframe) {
+                        current = targetIframe;
+                        while (current) {
+                            actualTop += current.offsetTop;
+                            current = current.offsetParent;
+                        }
+
+                        currentWindow = currentWindow.parent;
+                        targetIframe = currentWindow.frameElement;
+                    }
+                } catch(e) {}
             }
             return actualTop;
         }
@@ -3732,7 +3746,7 @@
                      padding: 1px 0;
                      -webkit-text-fill-color: initial;
                      text-shadow: initial;
-                     min-width: inherit;
+                     min-width: initial;
                      display: inline;
                  }
                  mark.searchJumper:before,
@@ -4175,7 +4189,7 @@
                 this.filterGlob = searchInputDiv.querySelector("#filterGlob");
                 this.suggestDatalist = searchInputDiv.querySelector("#suggest");
                 this.addonsList = searchInputDiv.querySelector("#addons");
-                this.fakeTextareas = {};
+                this.fakeTextareas = new Map();
                 this.addonCheckboxDict = {};
             }
 
@@ -5293,6 +5307,29 @@
                 this.setHighlightSpan(span, this.focusIndex, curList);
             }
 
+            getRect(ele) {
+                let eleBCR = ele.getBoundingClientRect();
+                let rect = {
+                    left: eleBCR.left,
+                    top: eleBCR.top,
+                    width: eleBCR.width,
+                    height: eleBCR.height
+                };
+
+                let currentWindow = ele.ownerDocument && ele.ownerDocument.defaultView;
+                let currentFrame = currentWindow && currentWindow.frameElement;
+
+                while (currentFrame) {
+                    const frameRect = currentFrame.getBoundingClientRect();
+                    rect.left += frameRect.left;
+                    rect.top += frameRect.top;
+
+                    currentWindow = currentWindow.parent;
+                    currentFrame = currentWindow.frameElement;
+                }
+                return rect;
+            }
+
             focusHighlight(ele) {
                 if (!ele) return;
                 if (this.focusMark) this.focusMark.removeAttribute('data-current');
@@ -5308,7 +5345,8 @@
                     this.addToShadow(this.hPosBar);
                 }
 
-                let rect = ele.getBoundingClientRect();
+                let rect = this.getRect(ele);
+
                 this.wPosBar.style.top = rect.top + document.documentElement.scrollTop + getBody(document).scrollTop + "px";
                 this.wPosBar.style.height = rect.height + "px";
 
@@ -5334,7 +5372,7 @@
                             self.hPosBar.style.animationName = "";
                             return;
                         }
-                        let rect = ele.getBoundingClientRect();
+                        let rect = self.getRect(ele);
                         self.wPosBar.style.top = rect.top + document.documentElement.scrollTop + getBody(document).scrollTop + "px";
                         self.hPosBar.style.left = rect.left + "px";
                         setTimeout(() => {
@@ -5626,6 +5664,9 @@
             }
 
             findPosInStr(content, kw, contentUp, wordUp) {
+                if (!content) {
+                    return {len: 0, pos: -1};
+                }
                 let len = 0, pos = -1, hasAddon = false;
                 if (this.findInpageAddons.length) {
                     for (let i = 0; i < this.findInpageAddons.length; i++) {
@@ -5651,21 +5692,21 @@
                 if (!words && (!this.curHighlightWords || this.curHighlightWords.length === 0)) return;
                 if (!ele) {
                     this.highlight(words, getBody(document), root);
-                    [].forEach.call(document.getElementsByTagName("iframe"), iframe => {
-                        if (!iframe.offsetParent) return;
-                        if (iframe.offsetHeight < 100 || iframe.offsetWidth < 100) return;
-                        let iframeDoc;
-                        try {
-                            iframeDoc = iframe.contentDocument || iframe.contentWindow.document;
-                        } catch(e) {
-                            return;
-                        }
-                        if (iframeDoc && getBody(iframeDoc)) {
-                            this.highlight(words, getBody(iframeDoc), root, iframe);
-                        }
-                    });
                     return;
                 }
+                [].forEach.call(ele.getElementsByTagName("iframe"), iframe => {
+                    if (!iframe.offsetParent) return;
+                    if (iframe.offsetHeight < 100 || iframe.offsetWidth < 100) return;
+                    let iframeDoc;
+                    try {
+                        iframeDoc = iframe.contentDocument || iframe.contentWindow.document;
+                    } catch(e) {
+                        return;
+                    }
+                    if (iframeDoc && getBody(iframeDoc)) {
+                        this.highlight(words, getBody(iframeDoc), root, iframe);
+                    }
+                });
                 this.targetIframe = iframe || false;
                 if (ele.id == "searchJumperModifyWord") return;
                 ele = ele || getBody(document);
@@ -5715,7 +5756,7 @@
                 } else {
                     this.curHighlightWords = (this.curHighlightWords || []).concat(words);
                 }
-                this.fakeTextareas = {};
+                this.fakeTextareas = new Map();
                 let scrollHeight = Math.max(document.documentElement.scrollHeight, getBody(document).scrollHeight);
                 this.navMarks.style.display = "none";
                 let navMarkParams = [];
@@ -5962,13 +6003,11 @@
                             checkChildren = false;
                             let wordMatch = false;
                             let lastIndex = 0;
-                            let fakeTextarea = self.fakeTextareas[node];
+                            let fakeTextarea = self.fakeTextareas.get(node);
                             if (insert && fakeTextarea) return 0;
                             let nodeStyle = getComputedStyle(node);
-                            let textareaLoc = node.getBoundingClientRect();
-                            let textareaParentLoc = (node.offsetParent || getBody(document)).getBoundingClientRect();
-                            let baseLeft = textareaLoc.left - textareaParentLoc.left;
-                            let baseTop = textareaLoc.top - textareaParentLoc.top;
+                            let baseLeft = node.offsetLeft;//textareaLoc.left - textareaParentLoc.left;
+                            let baseTop = node.offsetTop//textareaLoc.top - textareaParentLoc.top;
                             let blockValueUp = blockValue.toUpperCase();
                             let wordUp = word.content.toUpperCase();
                             while (true) {
@@ -6033,16 +6072,15 @@
                                             fakeTextarea.style.lineHeight = fakeTextarea.style.height;
                                             if (fakeTextarea.style.boxSizing == "border-box") fakeTextarea.style.paddingTop = 0;
                                         }
-                                        self.fakeTextareas[node] = fakeTextarea;
+                                        self.fakeTextareas.set(node, fakeTextarea);
                                     }
+
                                     document.body.appendChild(fakeTextarea);
                                     let range = document.createRange();
-                                    range.setStart(fakeTextarea.firstChild, pos);
-                                    range.setEnd(fakeTextarea.firstChild, pos + 1);
+                                    range.setStart(fakeTextarea.firstChild, Math.min(fakeTextarea.firstChild.length, pos));
+                                    range.setEnd(fakeTextarea.firstChild, Math.min(fakeTextarea.firstChild.length, pos + 1));
                                     let rect = range.getBoundingClientRect();
                                     document.body.removeChild(fakeTextarea);
-
-
 
                                     if (typeof word.hideParent !== 'undefined') {
                                         let parentDepth = word.hideParent;
@@ -6067,13 +6105,13 @@
                                         spannode.style.cssText = word.style;
                                         spannode.dataset.content = word.showWords;
                                         spannode.innerText = curWord;
-                                        node.parentNode.appendChild(spannode);
+                                        spannode.style.padding = "0";
+                                        spannode.style.position = "absolute";
                                         spannode.style.fontSize = fakeTextarea.style.fontSize;
                                         spannode.style.fontFamily = fakeTextarea.style.fontFamily;
                                         spannode.style.lineHeight = "1";
-                                        spannode.style.padding = "0";
-                                        spannode.style.position = "absolute";
                                         spannode.style.pointerEvents = "none";
+                                        node.parentNode.appendChild(spannode);
                                         let _baseLeft = rect.left + baseLeft;
                                         let _baseTop = rect.top + baseTop;
                                         spannode.style.left = _baseLeft + "px";
@@ -14035,15 +14073,18 @@
                             });
                         }
                         if (mutation.addedNodes.length) {
-                            [].forEach.call(mutation.addedNodes, addedNode => {
-                                if (addedNode.nodeType !== 1) return;
-                                if (!addedNode.className || !/searchJumper/.test(addedNode.className)) {
-                                    setTimeout(() => {
-                                        highlight("insert", addedNode);
-                                    }, 0);
-                                    searchBar.initHighlight && highlightTimes++;
-                                }
-                            });
+                            let noSearchJumper = [].every.call(mutation.addedNodes, node => !/searchJumper/.test(node.className));
+                            if (noSearchJumper) {
+                                [].forEach.call(mutation.addedNodes, addedNode => {
+                                    let target = addedNode.nodeType === 1 ? addedNode : addedNode.parentNode;
+                                    if (target) {
+                                        setTimeout(() => {
+                                            highlight("insert", target);
+                                        }, 0);
+                                        searchBar.initHighlight && highlightTimes++;
+                                    }
+                                });
+                            }
                         }
                     }
                     appendBar();
