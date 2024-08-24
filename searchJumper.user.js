@@ -5663,7 +5663,40 @@
                 this.addonsList.appendChild(con);
             }
 
-            findPosInStr(content, kw, contentUp, wordUp) {
+            findAccentedWord(text, searchWord, normalizeArray) {
+                const searchLength = searchWord.length;
+                let normalizedIndex = 0;
+                let startIndex = -1;
+
+                for (let i = 0; i < text.length; i++) {
+                    const normalized = normalizeArray[i];
+                    if (normalized === "") {
+                        continue;
+                    }
+                    if (normalized === searchWord[normalizedIndex]) {
+                        if (normalizedIndex === 0) startIndex = i;
+                        normalizedIndex++;
+                        if (normalizedIndex === searchLength) {
+                            return {
+                                pos: startIndex,
+                                len: i - startIndex + 1
+                            };
+                        }
+                    } else {
+                        normalizedIndex = 0;
+                        startIndex = -1;
+                        if (normalized === searchWord[0]) {
+                            startIndex = i;
+                            normalizedIndex = 1;
+                        }
+                    }
+                }
+
+                startIndex = text.indexOf(searchWord);
+                return {len: searchWord.length, pos: startIndex};
+            }
+
+            findPosInStr(content, kw, contentUp, wordUp, normalizeArray) {
                 if (!content) {
                     return {len: 0, pos: -1};
                 }
@@ -5682,8 +5715,7 @@
                     }
                 }
                 if (pos == -1 && !hasAddon) {
-                    len = kw.length;
-                    pos = contentUp.indexOf(wordUp);
+                    return this.findAccentedWord(contentUp, wordUp, normalizeArray);
                 }
                 return {len: len, pos: pos};
             }
@@ -5769,6 +5801,13 @@
                         let domTextResult = self.anylizeDomWithTextPos(node);
                         let textRes = domTextResult.text;
                         let textResUp = textRes.toUpperCase();
+
+                        let normalizeArray = [];
+                        for (let i = 0; i < textResUp.length; i++) {
+                            const normalized = textResUp[i].normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+                            normalizeArray.push(normalized);
+                        }
+
                         let wordUp = word.content.toUpperCase();
                         let dataRes = domTextResult.data;
                         let index = 0;
@@ -5847,13 +5886,14 @@
                                     pos = wordMatch.index;
                                 }
                             } else {
-                                let result = self.findPosInStr(textRes, word.content, textResUp, wordUp);
+                                let result = self.findPosInStr(textRes, word.content, textResUp, wordUp, normalizeArray);
                                 len = result.len;
                                 pos = result.pos;
                             }
                             if (pos > -1) {
                                 textRes = textRes.slice(pos + len);
                                 textResUp = textResUp.slice(pos + len);
+                                normalizeArray = normalizeArray.slice(pos + len);
                                 pos += index;
                                 index = pos + len;
                                 getNodePos(pos, len);
@@ -6009,6 +6049,13 @@
                             let baseLeft = node.offsetLeft;//textareaLoc.left - textareaParentLoc.left;
                             let baseTop = node.offsetTop//textareaLoc.top - textareaParentLoc.top;
                             let blockValueUp = blockValue.toUpperCase();
+
+                            let normalizeArray = [];
+                            for (let i = 0; i < blockValueUp.length; i++) {
+                                const normalized = blockValueUp[i].normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+                                normalizeArray.push(normalized);
+                            }
+
                             let wordUp = word.content.toUpperCase();
                             while (true) {
                                 if (word.isRe) {
@@ -6018,7 +6065,7 @@
                                         wordMatch = wordMatch[0];
                                     }
                                 } else {
-                                    let result = self.findPosInStr(blockValue, word.content, blockValueUp, wordUp);
+                                    let result = self.findPosInStr(blockValue, word.content, blockValueUp, wordUp, normalizeArray);
                                     len = result.len;
                                     pos = result.pos;
                                     if ((word.init || inWordMode) && pos >= 0 && /^[a-z]+$/i.test(word.content)) {
@@ -6036,6 +6083,7 @@
                                     lastIndex += (pos + wordMatch.length);
                                     blockValue = blockValue.slice(pos + wordMatch.length);
                                     blockValueUp = blockValueUp.slice(pos + wordMatch.length);
+                                    normalizeArray = normalizeArray.slice(pos + wordMatch.length);
                                 } else break;
                             }
                             function findTextInBlock(curWord, pos) {
