@@ -5248,7 +5248,7 @@
                             mark.style.cssText = mark.dataset.css || "";
                             delete mark.dataset.css;
                         } else {
-                            let newNode = document.createTextNode(mark.innerText);
+                            let newNode = document.createTextNode(mark.firstChild.data);
                             mark.parentNode.replaceChild(newNode, mark);
                             newNode.parentNode.normalize();
                         }
@@ -5748,10 +5748,11 @@
                 let self = this;
                 if (words === "") {
                     this.highlightSpans = {};
-                    Object.values(this.marks).forEach(markList => {
+                    Object.values(this.marks).forEach(async markList => {
                         if (!markList) return;
-                        markList.forEach(mark => {
-                            if (!mark.parentNode) return;
+                        let normalizeSet = new Set();
+                        for (let mark of markList) {
+                            if (!mark.parentNode) continue;
                             if (mark.dataset.block) {
                                 mark.parentNode && mark.parentNode.removeChild(mark);
                             } else if (!/^MARK$/i.test(mark.nodeName)) {
@@ -5759,11 +5760,13 @@
                                 mark.style.cssText = mark.dataset.css || "";
                                 delete mark.dataset.css;
                             } else {
-                                let newNode = document.createTextNode(mark.innerText);
+                                let newNode = document.createTextNode(mark.firstChild.data);
                                 mark.parentNode.replaceChild(newNode, mark);
-                                newNode.parentNode.normalize();
+                                normalizeSet.add(newNode.parentNode);
                             }
-                        });
+                        }
+                        await sleep(0);
+                        normalizeSet.forEach(node => {node.normalize();});
                     });
                     [].forEach.call(ele.querySelectorAll(".searchJumper-hide"), hide => {
                         hide.classList.remove("searchJumper-hide");
@@ -14121,17 +14124,27 @@
                             });
                         }
                         if (mutation.addedNodes.length) {
-                            let noSearchJumper = [].every.call(mutation.addedNodes, node => !/searchJumper/.test(node.className));
-                            if (noSearchJumper) {
-                                [].forEach.call(mutation.addedNodes, addedNode => {
-                                    let target = addedNode.nodeType === 1 ? addedNode : addedNode.parentNode;
-                                    if (target) {
-                                        setTimeout(() => {
-                                            highlight("insert", target);
-                                        }, 0);
-                                        searchBar.initHighlight && highlightTimes++;
+                            for (let i = 0; i < mutation.addedNodes.length; i++) {
+                                let addedNode = mutation.addedNodes[i], target;
+                                if (addedNode.nodeType === 1) {
+                                    if (/^searchJumper$/.test(addedNode.className)) {
+                                        continue;
                                     }
-                                });
+                                    target = addedNode;
+                                } else {
+                                    if (addedNode.previousElementSibling && /^searchJumper$/.test(addedNode.previousElementSibling.className)) {
+                                        continue;
+                                    } else if (addedNode.nextElementSibling && /^searchJumper$/.test(addedNode.nextElementSibling.className)) {
+                                        continue;
+                                    }
+                                    target = addedNode.parentNode;
+                                }
+                                if (target) {
+                                    setTimeout(() => {
+                                        highlight("insert", target);
+                                    }, 0);
+                                    searchBar.initHighlight && highlightTimes++;
+                                }
                             }
                         }
                     }
