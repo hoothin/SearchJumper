@@ -3874,7 +3874,7 @@
                         e.preventDefault();
                         e.stopPropagation();
                         alllist.classList.remove("showbg");
-                        _GM_openInTab(allPageBgUrl, {active: true});
+                        _GM_openInTab(allPageBgUrl, {active: true, insert: true});
                     }
                 });
                 if (allPageNewMode) alllist.classList.add("new-mode");
@@ -3923,7 +3923,7 @@
                 logoConfigBtn.innerHTML = createHTML(logoBtnSvg);
                 logoConfigBtn.className = "search-jumper-btn";
                 logoConfigBtn.addEventListener('click', e => {
-                    _GM_openInTab(configPage, {active: true});
+                    _GM_openInTab(configPage, {active: true, insert: true});
                 });
                 alllist.appendChild(logoConfigBtn);
 
@@ -7479,7 +7479,7 @@
                         if (!isPage) {
                             dragSiteBtn.click();
                         } else {
-                            _GM_openInTab(dragSiteBtn.href, {active: false});
+                            _GM_openInTab(dragSiteBtn.href, {active: false, insert: true});
                         }
                         if (isPage) {
                             dragSiteBtn.setAttribute("target", dragSiteBtn.dataset.target == 1 ? "_blank" : "_self");
@@ -9328,7 +9328,7 @@
                     siteEle.setAttribute("target", forceTarget);
                 }
                 if (isPage && forceTarget == "_blank" && siteEle.href) {
-                    _GM_openInTab(siteEle.href, {active: active});
+                    _GM_openInTab(siteEle.href, {active: active, insert: true});
                 } else {
                     siteEle.click();
                 }
@@ -9362,18 +9362,22 @@
                                 url: siteEle.href,
                                 headers: {
                                     referer: siteEle.href,
-                                    origin: siteEle.href
+                                    origin: siteEle.href,
+                                    'User-Agent': navigator.userAgent
                                 },
                                 onload: function(d) {
                                     let curIframe = c.document.querySelector('iframe#' + iframe.id);
                                     let waitReady = () => {
                                         let doc = curIframe.contentDocument || (curIframe.contentWindow && curIframe.contentWindow.document);
                                         if (doc) {
-                                            curIframe.style.display = "";
-                                            curIframe.src = siteEle.href;
-                                            let base = `<base href="${siteEle.href.replace(/[^\/]*$/, "")}">`;
-                                            let docContent = d.response.indexOf("<head>") !== -1 ? d.response.replace("<head>", "<head>" + base) : base + d.response;
-                                            doc.write(docContent);
+                                            try {
+                                                curIframe.style.display = "";
+                                                curIframe.src = siteEle.href;
+                                                let base = `<base href="${siteEle.href.replace(/[^\/]*$/, "")}" />`;
+                                                let docContent = d.response.indexOf("<head") !== -1 ? d.response.replace(/(\<head.*?\>)/, "$1" + base) : base + d.response;
+                                                doc.write(docContent);
+                                            } catch(e) {
+                                            }
                                         } else {
                                             setTimeout(() => {
                                                 waitReady();
@@ -9463,7 +9467,7 @@
                         await self.siteSetUrl(siteEle);
                         let isPage = siteEle.dataset.isPage;
                         if (isPage && siteEle.href) {
-                            _GM_openInTab(siteEle.href, {active: false});
+                            _GM_openInTab(siteEle.href, {active: false, insert: true});
                             continue;
                         }
                         if (self.stopInput) return;
@@ -10764,7 +10768,7 @@
                                 _url = processPostUrl(_url);
                                 ele.href = _url;
                                 if (ele.target === '_blank') {
-                                    _GM_openInTab(ele.href, {active: true});
+                                    _GM_openInTab(ele.href, {active: true, insert: true});
                                 } else {
                                     location.href = ele.href;
                                 }
@@ -10782,16 +10786,16 @@
                         if (e.preventDefault) e.preventDefault();
                         if (e.stopPropagation) e.stopPropagation();
                         if (ctrl) {
-                            _GM_openInTab(targetUrlData, {active: false});
+                            _GM_openInTab(targetUrlData, {active: false, insert: true});
                         } else {
-                            _GM_openInTab(targetUrlData, {active: true});
+                            _GM_openInTab(targetUrlData, {active: true, insert: true});
                         }
                         return false;
                     } else if ((alt || ctrl || meta || shift) && isPage) {
                         if ((ctrl || meta) && shift) {
                             _GM_openInTab(targetUrlData, {incognito: true});
                         } else if (ctrl || meta) {
-                            _GM_openInTab(targetUrlData, {active: false});
+                            _GM_openInTab(targetUrlData, {active: false, insert: true});
                         } else if (alt) {
                             if (data.match) {
                                 let match = data.match.replace(/\\/g, "");
@@ -10832,13 +10836,13 @@
                             self.closePopupWindow();
                             self.popupWindow = window.open(targetUrlData + "#searchJumperMin" + (/#p{/.test(data.url) ? 'Post' : ''), "_blank", `width=${showWidth}, height=${showHeight}, location=0, resizable=1, status=0, toolbar=0, menubar=0, scrollbars=0, left=${left}, top=${top}`);
                         } else if (shift) {
-                            _GM_openInTab(targetUrlData, {active: true});
+                            _GM_openInTab(targetUrlData, {active: true, insert: true});
                         }
                         if (e.preventDefault) e.preventDefault();
                         if (e.stopPropagation) e.stopPropagation();
                         return false;
                     } else if (isPage && ele.getAttribute("target") === "_blank" && !(alt || ctrl || meta || shift) && e.button === 0) {
-                        _GM_openInTab(targetUrlData, {active: true});
+                        _GM_openInTab(targetUrlData, {active: true, insert: true});
                         if (e.preventDefault) e.preventDefault();
                         if (e.stopPropagation) e.stopPropagation();
                         return false;
@@ -12496,7 +12500,7 @@
                     }
                 });
                 links.forEach(link => {
-                    _GM_openInTab(link, {active: false});
+                    _GM_openInTab(link, {active: false, insert: true});
                 });
             }
 
@@ -13386,7 +13390,7 @@
         let extSelectionText = "";
         function initListener() {
             _GM_registerMenuCommand(i18n('settings'), () => {
-                _GM_openInTab(configPage, {active: true});
+                _GM_openInTab(configPage, {active: true, insert: true});
             });
             _GM_registerMenuCommand(i18n('searchInPage'), () => {
                 searchBar.showInPage();
@@ -13417,7 +13421,7 @@
                     if (request.selectionText) extSelectionText = request.selectionText;
                     switch (request.command) {
                         case "settings":
-                            _GM_openInTab(configPage, {active: true});
+                            _GM_openInTab(configPage, {active: true, insert: true});
                             break;
                         case "searchInPage":
                             searchBar.showInPage();
@@ -13598,7 +13602,7 @@
                 e.preventDefault();
                 e.stopPropagation();
                 if (searchBar.inInput || e.button === 1 || e.altKey || e.ctrlKey || e.shiftKey || e.metaKey) {
-                    _GM_openInTab(configPage, {active: true});
+                    _GM_openInTab(configPage, {active: true, insert: true});
                     return;
                 }
                 grabState = 1;
@@ -14274,7 +14278,7 @@
             if (currentFormParams.target == '_self') {
                 location.href = jumpTo;
             } else {
-                _GM_openInTab(jumpTo, {active: true});
+                _GM_openInTab(jumpTo, {active: true, insert: true});
             }
         }
 
@@ -16031,7 +16035,7 @@
                     } else if (/[:%]p{/.test(urlInput.value) || (charset && charset.toLowerCase() != 'utf-8')) {
                         submitByForm(charset, urlInput.value.replace(/%se?\b/g, "searchJumper"), "_blank");
                     } else {
-                        _GM_openInTab(urlInput.value.replace(/%se?\b/g, "searchJumper"), {active: true});
+                        _GM_openInTab(urlInput.value.replace(/%se?\b/g, "searchJumper"), {active: true, insert: true});
                     }
                 });
                 cancelBtn.addEventListener("click", e => {
@@ -16880,7 +16884,7 @@
                 setTimeout(() => {
                     storage.getItem("searchData", data => {
                         if (data.prefConfig.firstRun === false) {
-                            _GM_openInTab(firstRunPage, {active: true});
+                            _GM_openInTab(firstRunPage, {active: true, insert: true});
                         }
                     });
                 }, 100);
