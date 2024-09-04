@@ -10140,6 +10140,7 @@
                         if (!searchData.prefConfig.templateData) searchData.prefConfig.templateData = {};
                         let templateResult = searchData.prefConfig.templateData[templateName];
                         if (!templateResult) {
+                            if (self.stopInput) return false;
                             templateResult = window.prompt(i18n("template", templateName)) || "";
                             if (templateResult) {
                                 searchData.prefConfig.templateData[templateName] = templateResult;
@@ -10903,9 +10904,10 @@
                     self.waitForShowTips = false;
                     self.tipsPos(target, tipsStr);
                     if (showTips) {
+                        self.stopInput = true;
                         let url = await getUrl();
-                        if (!url) return;
-                        if (self.lastUrl === url) {
+                        self.stopInput = false;
+                        if (url && self.lastUrl === url) {
                             if (anylizing) {
                                 self.tipsPos(target, "<span class='loader'></span><font>Loading...</font>");
                             } else {
@@ -10913,7 +10915,9 @@
                             }
                         } else {
                             self.waitForShowTips = true;
-                            self.requestShowTipsTimer = setTimeout(() => {
+                            self.requestShowTipsTimer = setTimeout(async () => {
+                                url = url || await getUrl();
+                                if (!url) return;
                                 if (url.indexOf('%input{') !== -1) {
                                     self.showCustomInputWindow(url, _url => {
                                         url = _url;
