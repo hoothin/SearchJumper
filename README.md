@@ -231,7 +231,7 @@ Highlight all text URL on any site 在任意網頁上高亮文字網址
 {
     "*": {
         "words": [
-            "/(https?:\\/\\/|www\\.)[^\\s\"'{\\(\\[#]+/i$s{unset;border-radius:unset;border-bottom-width:5px;border-bottom-style:dotted;border-bottom-color:red;}$t{@popup}"
+            "/(https?:\\/\\/|www\\.)[^\\s\"'\\\\{}\\(\\)\\[\\]#]+\\.[^\\s\"'\\\\{}\\(\\)\\[\\]#]+/i$s{unset;border-radius:unset;border-bottom-width:5px;border-bottom-style:dotted;border-bottom-color:red;}$t{@popup}"
         ]
     }
 }
