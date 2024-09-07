@@ -1,4 +1,4 @@
-<h1 align="center"><a href="https://chromewebstore.google.com/detail/hgepmblbgodbilmfdjkalkgofdcipkhh" title="Install from Chrome web store 搜尋引擎輔助增強瀏覽器插件，一键切换搜尋引擎，支援拖拽搜尋/劃詞搜尋/快捷鍵等。検索機能強化。検索ちゃん" rel="nofollow">🔎SearchJumper</a></h1>
+<h1 align="center"><a href="https://chromewebstore.google.com/detail/hgepmblbgodbilmfdjkalkgofdcipkhh" title="Install from Chrome web store 搜尋引擎輔助增強瀏覽器插件，一键切换搜尋引擎，支援拖拽搜尋/劃詞搜尋/快捷鍵等。検索機能強化。" rel="nofollow">🔎SearchJumper</a></h1>
 
 [![i](assets/logo.jpg)](https://search.hoothin.com/)
 
