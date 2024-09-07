@@ -5537,7 +5537,7 @@
                     } else if (ele.nodeType === 3) {
                         let textData;
                         if (ele.parentNode.nodeType == 1 && ele.parentNode.childNodes.length == 1) {
-                            textData = ele.parentNode.innerText;
+                            textData = ele.parentNode.innerText || ele.data;
                         } else {
                             textData = ele.data;
                         }
