@@ -4361,7 +4361,7 @@
                 let targetWords = this.anylizeInPageWords(words, this.initHighlight);
                 if (!targetWords || targetWords.length == 0) return wordSpans;
                 if (this.lockWords) {
-                    this.lockWords += this.splitSep + words;
+                    this.lockWords += (this.lockWords.indexOf(this.splitSep) === this.lockWords.length - this.splitSep.length ? "" : this.splitSep) + words;
                 } else this.lockWords = words;
                 this.searchJumperInPageInput.value = "";
                 if (!this.splitSep) {
@@ -5523,7 +5523,7 @@
                         result.text += "\n";
                         result.data[start] = {node: ele, text: "\n"};
                     } else if (ele.offsetParent || ele.offsetHeight) {
-                        if (/^(div|h\d|p|form|ul|li|ol|dl|address|menu|table|fieldset|a|td)$/i.test(ele.nodeName)) {
+                        if (/^(div|h\d|p|form|ul|li|ol|dl|address|menu|table|fieldset|td)$/i.test(ele.nodeName)) {
                             let start = result.text.length;
                             result.text += "\n";
                             result.data[start] = {node: {}, text: "\n"};
@@ -5817,7 +5817,7 @@
                         let index = 0;
                         let nodeAndPos = [];
                         //let validWord = (word.init || inWordMode) && /^[a-z]+$/i.test(word.content);
-                        function getNodePos(pos, len) {
+                        function getNodePos(pos, len, matchedText) {
                             let keys = Object.keys(domTextResult.data);
                             let findNodes = [], leftLen = len;
                             let pre = "", after = "", after2 = "";
@@ -5838,6 +5838,7 @@
                                         type = "start";
                                     }
                                 }
+                                if (type === "full") matchedText = "";
 
                                 /*if (validWord) {
                                     if (type == "full") {
@@ -5875,8 +5876,8 @@
                                         break;
                                     }
                                 }
-                                if (!nodeInfo) nodeAndPos.push({node: curnode.node, text: curnode.text, match:[{pos: curpos, len: curlen, type: type}]});
-                                else nodeInfo.match.push({pos: curpos, len: curlen, type: type});
+                                if (!nodeInfo) nodeAndPos.push({node: curnode.node, text: curnode.text, match:[{pos: curpos, len: curlen, type: type, matched: matchedText}]});
+                                else nodeInfo.match.push({pos: curpos, len: curlen, type: type, matched: matchedText});
                                 if (leftLen <= 0) break;
                             }
                         }
@@ -5895,12 +5896,13 @@
                                 pos = result.pos;
                             }
                             if (pos > -1) {
+                                let matchedText = textRes.slice(pos, pos + len);
                                 textRes = textRes.slice(pos + len);
                                 textResUp = textResUp.slice(pos + len);
                                 normalizeArray = normalizeArray.slice(pos + len);
                                 pos += index;
                                 index = pos + len;
-                                getNodePos(pos, len);
+                                getNodePos(pos, len, matchedText);
                                 getIndex();
                             }
                         }
@@ -5963,6 +5965,9 @@
                                         spannode.appendChild(middleclone);
                                         if (d.type != "full" && d.type != "start") {
                                             spannode.dataset.type = d.type;
+                                        }
+                                        if (d.matched) {
+                                            spannode.dataset.matched = d.matched;
                                         }
                                         newTextNodeCon.replaceChild(spannode, middlebit);
                                         spannodes.unshift(spannode);
@@ -13250,7 +13255,7 @@
                 }
             } else {
                 if (targetElement && targetElement.className === "searchJumper" && /^MARK$/i.test(targetElement.nodeName)) {
-                    return targetElement.innerText;
+                    return targetElement.dataset.matched || targetElement.innerText;
                 }
             }
             return "";
