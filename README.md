@@ -226,6 +226,17 @@ Select the above text, PopClip will offer an "Install Extension" action. Click i
  <details>
 <summary><h2>Auto highlight rule examples 自動高亮詞規則範例</h2></summary>
 
+Highlight all text URL on any site 在任意網頁上高亮文字網址
+``` json
+{
+    "*": {
+        "words": [
+            "/(https?:\\/\\/|www\\.)[^\\s#]+/i$s{unset;border-radius:unset;border-bottom-width:5px;border-bottom-style:dotted;border-bottom-color:red;}$t{@popup}"
+        ]
+    }
+}
+```
+
 Highlight all avID on t66y 在草榴上高亮番號
 ``` json
 {
