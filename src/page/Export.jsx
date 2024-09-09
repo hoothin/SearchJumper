@@ -927,9 +927,9 @@ export default function Export() {
                     validator={/^(http|ftp)/i.test(window.location.protocol) ? createAjvValidator(schema) : null}
                 />
             </Box>
-            <Accordion defaultExpanded={true} sx={{ maxHeight: '30vh', overflow: 'auto' }}>
+            <Accordion defaultExpanded={true} sx={{ maxHeight: '50vh', overflow: 'auto' }}>
                 <AccordionSummary
-                  sx={{background: '#f9f9f9', position: 'sticky', top: 0, minHeight: '45px!important', maxHeight: '45px!important'}}
+                  sx={{background: '#f9f9f9', position: 'sticky', top: 0, minHeight: '45px!important', maxHeight: '45px!important', zIndex: 2}}
                   expandIcon={<ExpandMoreIcon />}
                   id="template-header"
                 >
