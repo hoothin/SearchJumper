@@ -70,7 +70,7 @@ export default function About() {
                 <Card component="pre" style={{padding: '15px', lineHeight: 1.5, width: '90%', whiteSpace: 'pre-wrap', textAlign: 'left', marginTop: '0px', marginBottom: '10px'}}>
                     <img align='left' style={{width: '100px', maxWidth: '50%', boxShadow: 'rgb(0 0 0) 0px 0px 15px', marginRight: '20px', height: 'fit-content'}} src='avatar.jpg' alt='donate' loading="lazy"/>{window.i18n("donate")}
                     <Box sx={{m: 1, display: /^(http|ftp)/i.test(window.location.protocol) ? "none" : ""}}>
-                        <StarRateIcon/> <Link href='https://chrome.google.com/webstore/detail/hgepmblbgodbilmfdjkalkgofdcipkhh/reviews' style={{verticalAlign: 'top'}} target="_blank">{window.i18n('rate')}</Link>
+                        <b><StarRateIcon/> <Link href='https://chrome.google.com/webstore/detail/hgepmblbgodbilmfdjkalkgofdcipkhh/reviews' style={{verticalAlign: 'top'}} target="_blank">{window.i18n('rate')}</Link></b>
                     </Box>
                 </Card>
                 <VolunteerActivismIcon fontSize="large" /> 

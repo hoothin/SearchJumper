@@ -6540,12 +6540,8 @@
                     if (searchData.prefConfig.defaultPicker) {
                         this.togglePicker();
                     }
-                    if (!this.searchJumperInputKeyWords.value && currentSite) {
+                    if (!this.searchJumperInputKeyWords.value) {
                         this.searchJumperInputKeyWords.value = getKeywords() || cacheKeywords;
-                        this.searchJumperInputKeyWords.focus();
-                        this.searchJumperInputKeyWords.select();
-                    } else {
-                        this.searchInput.focus();
                     }
                     let firstType = this.bar.querySelector('.search-jumper-needInPage:not(.notmatch)>span');
                     if (firstType && !firstType.parentNode.classList.contains('search-jumper-open')) {
@@ -6559,8 +6555,9 @@
                     if (cacheFilter) {
                         this.searchInput.value = cacheFilter;
                         this.searchInput.dispatchEvent(new Event("input"));
-                        this.searchJumperInputKeyWords.focus();
                     }
+                    this.searchJumperInputKeyWords.focus();
+                    this.searchJumperInputKeyWords.select();
                 } else if (this.searchInPageTab.checked) {
                     this.con.classList.add("in-find");
                     this.searchJumperInPageInput.focus();
@@ -7338,7 +7335,7 @@
                     clearTimeout(inputTimer);
                     inputTimer = setTimeout(() => {
                         self.getSuggest(self.searchJumperInputKeyWords.value)
-                    }, 500);
+                    }, 200);
                 });
                 this.searchJumperInputKeyWords.addEventListener("keydown", e => {
                     e.stopPropagation();
@@ -7846,10 +7843,11 @@
                 let suggestDatalist = this.suggestDatalist;
                 suggestDatalist.innerHTML = createHTML();
                 if (!searchWords) return;
-                let requestSuggest = (api, cb) => {
+                let requestSuggest = (api, cb, charset) => {
                     _GM_xmlhttpRequest({
                         method: 'GET',
                         url: api,
+                        responseType: charset ? 'blob' : '',
                         headers: {
                             referer: api,
                             origin: api
@@ -7857,7 +7855,15 @@
                         onload: function(d) {
                             let response = d.response;
                             if (d.status >= 400 || !response) return;
-                            cb(response);
+                            if (charset) {
+                                let reader = new FileReader();
+                                reader.onload = () => {
+                                    cb(reader.result);
+                                }
+                                reader.readAsText(response, charset);
+                            } else {
+                                cb(response);
+                            }
                         },
                         onerror: function(e){
                             debug(e);
@@ -7899,7 +7905,7 @@
                                     suggestDatalist.appendChild(option);
                                 }
                             }
-                        });
+                        }, "GBK");
                         break;
                     case "bing":
                         requestSuggest("https://api.bing.com/qsonhs.aspx?type=json&q=%s".replace("%s", searchWords), res => {
@@ -13429,19 +13435,24 @@
             if (ext) {
                 chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
                     if (request.selectionText) extSelectionText = request.selectionText;
+                    let validCommand = false;
                     switch (request.command) {
                         case "settings":
+                            validCommand = true;
                             _GM_openInTab(configPage, {active: true, insert: true});
                             break;
                         case "searchInPage":
+                            validCommand = true;
                             searchBar.showInPage();
                             searchBar.showInPageSearch();
                             break;
                         case "filterSearch":
+                            validCommand = true;
                             searchBar.showInPage();
                             searchBar.showFilterSearch();
                             break;
                         case "search":
+                            validCommand = true;
                             if (request.name) {
                                 searchBar.searchBySiteName(request.name, request.key || {});
                             } else {
@@ -13449,21 +13460,26 @@
                             }
                             break;
                         case "searchAll":
+                            validCommand = true;
                             if (request.name) {
                                 searchBar.searcAllhByTypeName(request.name);
                             }
                             break;
                         case "toggle":
+                            validCommand = true;
                             location.reload();
                             break;
                         case "streamUpdate":
+                            validCommand = true;
                             searchBar.streamUpdate(request.detail);
                             break;
                         case "showAll":
+                            validCommand = true;
                             searchBar.toggleShowAll();
                             break;
                         case "addSearchEngine":
                             {
+                                validCommand = true;
                                 if (shareEngines) return;
                                 let openSearch = document.head.querySelector('[rel="search"]');
                                 if (openSearch) {
@@ -13485,7 +13501,9 @@
                         default:
                             break;
                     }
-                    sendResponse({ msg: "ok" });
+                    if (validCommand) {
+                        sendResponse({ msg: "ok" });
+                    }
                 });
             }
             document.addEventListener('searchJumper', e => {
