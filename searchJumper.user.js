@@ -13049,7 +13049,9 @@
             } else {
                 const selection = window.getSelection();
                 const range = selection.getRangeAt(0);
-                range.selectNode(element);
+                if (!selection.toString()) {
+                    range.selectNode(element.childNodes === 1 ? element.firstChild : element);
+                }
                 range.deleteContents();
                 range.insertNode(document.createTextNode(value));
                 selection.removeAllRanges();
