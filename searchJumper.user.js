@@ -13050,7 +13050,7 @@
                 const selection = window.getSelection();
                 const range = selection.getRangeAt(0);
                 if (!selection.toString()) {
-                    range.selectNode(element.childNodes === 1 ? element.firstChild : element);
+                    range.selectNode(element.childNodes.length === 1 ? element.firstChild : element);
                 }
                 range.deleteContents();
                 range.insertNode(document.createTextNode(value));
