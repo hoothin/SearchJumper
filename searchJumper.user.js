@@ -1430,26 +1430,30 @@
             }
         }
 
-        function inputActive(doc) {
-            let activeEl = getActiveElement(doc);
-            if (activeEl &&
-                ((/INPUT|TEXTAREA/i.test(activeEl.nodeName) &&
-                  activeEl.getAttribute("aria-readonly") != "true"
+        function isInput(ele) {
+            if (ele &&
+                ((/INPUT|TEXTAREA/i.test(ele.nodeName) &&
+                  ele.getAttribute("aria-readonly") != "true"
                  ) ||
-                 activeEl.contentEditable == 'true'
+                 ele.contentEditable == 'true'
                 )
                ) {
                 return true;
             } else {
-                while (activeEl && activeEl.nodeName) {
-                    if (activeEl.contentEditable == 'true') return true;
-                    if (activeEl.nodeName.toUpperCase() == 'BODY') {
+                while (ele && ele.nodeName) {
+                    if (ele.contentEditable == 'true') return true;
+                    if (ele.nodeName.toUpperCase() == 'BODY') {
                         break;
                     }
-                    activeEl = activeEl.parentNode;
+                    ele = ele.parentNode;
                 }
             }
             return false;
+        }
+
+        function inputActive(doc) {
+            let activeEl = getActiveElement(doc);
+            return isInput(activeEl);
         }
 
         async function waitForFontAwesome(callback) {
@@ -8993,6 +8997,12 @@
                         if (searchData.prefConfig.minSizeMode) {
                             self.bar.classList.remove("minSizeModeClose");
                         }
+
+                        let targetInput = false;
+                        if (targetElement) {
+                            targetInput = isInput(targetElement);
+                        }
+
                         let href = targetElement && (targetElement.href || targetElement.src);
                         let keyWords = getKeywords();
                         shownSitesNum = 0;
@@ -9009,10 +9019,7 @@
                                 pass = self.checkKwFilter(data.kwFilter, checkKw);
                             }
                             if (pass && se.dataset.paste) {
-                                pass = targetElement &&
-                                    ((/INPUT|TEXTAREA/i.test(targetElement.nodeName) &&
-                                      targetElement.getAttribute("aria-readonly") != "true") ||
-                                     targetElement.contentEditable == 'true');
+                                pass = targetInput;
                                 taggleHide(se, pass);
                             } else if (data.kwFilter) {
                                 taggleHide(se, pass);
@@ -13042,6 +13049,7 @@
             } else {
                 const selection = window.getSelection();
                 const range = selection.getRangeAt(0);
+                range.selectNode(element);
                 range.deleteContents();
                 range.insertNode(document.createTextNode(value));
                 selection.removeAllRanges();
