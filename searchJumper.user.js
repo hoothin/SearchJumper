@@ -5522,7 +5522,7 @@
                     return result;
                 }
                 dom.childNodes.forEach(ele => {
-                    if ((ele.classList && ele.classList.contains("searchJumper")) || /^(img|svg|picture|br|hr)$/i.test(ele.nodeName)) {
+                    if ((ele.classList && ele.classList.contains("searchJumper")) || /^(img|svg|picture|br|hr|textarea)$/i.test(ele.nodeName)) {
                         const start = result.text.length;
                         result.text += "\n";
                         result.data[start] = {node: ele, text: "\n"};
