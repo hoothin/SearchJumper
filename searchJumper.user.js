@@ -8886,7 +8886,7 @@
                         }
                     };
                     if (isFontIcon) {
-                        let cache = searchData.prefConfig.cacheSwitch && cacheIcon[icon.trim().replace(/ /g, '_')];
+                        let cache = cacheIcon[icon.trim().replace(/ /g, '_')];
                         if (cache === 'fail' || !cache) {
                             iEle.className = icon.indexOf("fa") === 0 ? icon : "fa fa-" + icon;
                             this.fontPool.push(iEle);
@@ -13207,7 +13207,6 @@
                     resolve(true);
                 }, 1);
             });
-            if (!searchData.prefConfig.cacheSwitch) return;
             if (target.nodeName.toUpperCase() == 'IMG') {
                 let src = target.src || target.dataset.src;
                 if (src) {
@@ -13237,7 +13236,7 @@
         }
 
         async function cacheFontManager(noti) {
-            if (searchData.prefConfig.cacheSwitch && !isAllPage) {
+            if (!isAllPage) {
                 searchBar.con.classList.add("in-input");
                 searchBar.con.style.visibility = "hidden";
                 searchBar.con.style.display = "";
