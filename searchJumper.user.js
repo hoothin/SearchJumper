@@ -7565,8 +7565,8 @@
                             hasFont = true;
                             cacheFontPool.unshift(font);
                         });
-                        if (hasFont && isInConfigPage) {
-                            setTimeout(() => {cacheFontManager()}, 5000);
+                        if (hasFont && (isInConfigPage || location.href === firstRunPage)) {
+                            setTimeout(() => {cacheFontManager()}, 3000);
                         }
                         this.buildAllPageGroupTab();
                     });
