@@ -14009,6 +14009,7 @@
                         }, 300);
                     };
                     document.addEventListener('touchstart', e => {
+                        if (e.isTrusted === false) return;
                         touchstartEvent = e;
                         document.addEventListener('selectionchange', selectionchange);
                     });
