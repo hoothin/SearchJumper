@@ -17074,43 +17074,41 @@
                 if (cb) cb();
                 return;
             }
-            if (!document.hidden) {
-                inited = true;
-                preAction();
-                await initData();
-                if (disableState) return;
-                if (searchData.prefConfig.blacklist && searchData.prefConfig.blacklist.length > 0) {
-                    let commentStart = false;
-                    for (let i = 0; i < searchData.prefConfig.blacklist.length; i++) {
-                        let curGlob = searchData.prefConfig.blacklist[i];
-                        if (!curGlob) continue;
-                        if (curGlob.indexOf("//") == 0) continue;
-                        if (commentStart) {
-                            if (/\*\/$/.test(curGlob)) {
-                                commentStart = false;
-                            }
-                            continue;
+            inited = true;
+            preAction();
+            await initData();
+            if (disableState) return;
+            if (searchData.prefConfig.blacklist && searchData.prefConfig.blacklist.length > 0) {
+                let commentStart = false;
+                for (let i = 0; i < searchData.prefConfig.blacklist.length; i++) {
+                    let curGlob = searchData.prefConfig.blacklist[i];
+                    if (!curGlob) continue;
+                    if (curGlob.indexOf("//") == 0) continue;
+                    if (commentStart) {
+                        if (/\*\/$/.test(curGlob)) {
+                            commentStart = false;
                         }
-                        if (curGlob.indexOf("/*") == 0) {
-                            commentStart = true;
-                            continue;
-                        }
-                        if (curGlob.indexOf("/") == 0) {
-                            let regMatch = curGlob.match(/^\/(.*)\/(\w*)$/);
-                            if (regMatch && new RegExp(regMatch[1], regMatch[2]).test(href)) {
-                                return;
-                            }
-                        } else if (globMatch(curGlob, href)) {
+                        continue;
+                    }
+                    if (curGlob.indexOf("/*") == 0) {
+                        commentStart = true;
+                        continue;
+                    }
+                    if (curGlob.indexOf("/") == 0) {
+                        let regMatch = curGlob.match(/^\/(.*)\/(\w*)$/);
+                        if (regMatch && new RegExp(regMatch[1], regMatch[2]).test(href)) {
                             return;
                         }
+                    } else if (globMatch(curGlob, href)) {
+                        return;
                     }
                 }
-                initView();
-                await initConfig();
-                initMycroft();
-                initRun();
-                if (cb) cb();
             }
+            initView();
+            await initConfig();
+            initMycroft();
+            initRun();
+            if (cb) cb();
             defaultTitle = document.title;
         }
 
