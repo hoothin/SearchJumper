@@ -11735,20 +11735,20 @@
                     let scrollLeft = document.documentElement.scrollLeft || document.body.scrollLeft;
                     let viewHeight = window.innerHeight || document.documentElement.clientHeight;
                     let tileOffset = searchData.prefConfig.tileOffset || 0;
-                    let clientX = pageX(e) - self.bar.clientWidth / 2 - (getComputedStyle(document.documentElement).position !== 'static' ? document.documentElement.offsetLeft : 0);
-                    if (clientX < 0) clientX = 5;
-                    else if (clientX + self.bar.clientWidth > viewWidth + scrollLeft) clientX = viewWidth + scrollLeft - self.bar.clientWidth - 20;
-                    let clientY = pageY(e);
-                    if (clientY > viewHeight / 5) clientY -= (self.bar.clientHeight + 20 + tileOffset);
-                    else clientY += (20 + tileOffset);
-                    if (pageX(e) < viewWidth / 2) {
-                        self.bar.style.left = clientX + scrollLeft + "px";
+                    let _clientX = pageX(e) - self.bar.clientWidth / 2 - (getComputedStyle(document.documentElement).position !== 'static' ? document.documentElement.offsetLeft : 0);
+                    if (_clientX < 0) _clientX = 5;
+                    else if (_clientX + self.bar.clientWidth > viewWidth + scrollLeft) _clientX = viewWidth + scrollLeft - self.bar.clientWidth - 20;
+                    let _clientY = pageY(e);
+                    if (clientY(e) > viewHeight / 5) _clientY -= (self.bar.clientHeight + 20 + tileOffset);
+                    else _clientY += (20 + tileOffset);
+                    if (clientX(e) < viewWidth / 2) {
+                        self.bar.style.left = _clientX + scrollLeft + "px";
                         self.bar.style.transformOrigin = '0 0';
                     } else {
-                        self.bar.style.right = viewWidth - clientX - self.bar.clientWidth - 15 + "px";
+                        self.bar.style.right = viewWidth - _clientX - self.bar.clientWidth - 15 + "px";
                         self.bar.style.transformOrigin = '100% 0';
                     }
-                    self.bar.style.top = clientY + "px";
+                    self.bar.style.top = _clientY + "px";
                     self.removeBar();
                     self.bar.style.opacity = 0;
                     setTimeout(() => {
