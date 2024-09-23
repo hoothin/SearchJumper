@@ -5368,8 +5368,13 @@
                     self.wPosBar.style.animationName = "fadeit";
                     self.hPosBar.style.animationName = "fadeit";
                     self.fixTimes = 0;
+                    let viewHeight = window.innerHeight || document.documentElement.clientHeight;
                     function fixPosBar() {
                         if (self.focusMark != ele) return;
+                        let rect = self.getRect(ele);
+                        self.wPosBar.style.top = rect.top + document.documentElement.scrollTop + getBody(document).scrollTop + "px";
+                        self.hPosBar.style.left = rect.left + "px";
+                        if (rect.top > viewHeight / 3 && rect.top < viewHeight / 3 * 2) return;
                         if (++self.fixTimes == 5) {
                             ele.scrollIntoView({behavior: "smooth", block: "center", inline: "nearest"});
                         } else if (self.fixTimes > 10) {
@@ -5378,9 +5383,6 @@
                             self.hPosBar.style.animationName = "";
                             return;
                         }
-                        let rect = self.getRect(ele);
-                        self.wPosBar.style.top = rect.top + document.documentElement.scrollTop + getBody(document).scrollTop + "px";
-                        self.hPosBar.style.left = rect.left + "px";
                         setTimeout(() => {
                             fixPosBar();
                         }, 200);
@@ -11592,7 +11594,7 @@
                                 children = _targetElement.parentNode.querySelectorAll("a");
                             }
                             if (children && children.length === 1) {
-                                if (children[0].offsetHeight && _targetElement.offsetHeight / children[0].offsetHeight < 2) {
+                                if (children[0].scrollHeight && _targetElement.scrollHeight / children[0].scrollHeight < 2) {
                                     _targetElement = children[0];
                                 }
                                 break;
