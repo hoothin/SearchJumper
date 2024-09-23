@@ -8432,6 +8432,7 @@
                 let self = this;
                 let list = document.createElement("div");
                 list.className = "sitelist";
+                list.style.visibility = "hidden";
                 let con = document.createElement("div");
                 con.className = "sitelistCon";
                 list.appendChild(con);
@@ -11125,7 +11126,7 @@
 
                         let allValue = [];
                         let calcJson = (json, template) => {
-                            let finalData = data;
+                            let finalData = data, allFailed = true;
                             while (template) {
                                 let templateArr = template[1].replace(/\\\|/g, "【searchJumperJsonSplit】").split("|");
                                 let props = templateArr[0].replace(/【searchJumperJsonSplit】/g, "|").replace(/\[(\d+)\]/g, ".$1").replace(/\[all\]/g, ".all").split("."), value = json, arrayValue = null;
@@ -11197,9 +11198,13 @@
                                     }
                                 }
                                 if (!value) value = "";
+                                else allFailed = false;
                                 allValue.push(value);
                                 finalData = finalData.replace(template[0], value);
                                 template = finalData.match(/{(.*?)}/);
+                            }
+                            if (allFailed) {
+                                console.log("Error:", json);
                             }
                             finalData = finalData.replace(/showTipsLeftBrace/g, "{").replace(/showTipsRightBrace/g, "}");
                             return finalData;
