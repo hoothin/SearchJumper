@@ -8616,6 +8616,7 @@
                     if (clientY > viewHeight - list.scrollHeight) clientY = viewHeight - list.scrollHeight;
                     if (clientY < 0) clientY = 0;
                     list.style.top = clientY + "px";
+                    list.style.maxHeight = "100vh";
                 }
             }
 
