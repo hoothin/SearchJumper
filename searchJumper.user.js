@@ -3971,6 +3971,7 @@
                 }
                 if (searchData.prefConfig.minSizeMode) {
                     bar.classList.add("minSizeMode");
+                    bar.classList.add("minSizeModeClose");
                 }
                 if (isMobile && !searchData.prefConfig.resizePage) {
                     let touchBodyHandler = e => {
@@ -7234,7 +7235,7 @@
                 this.searchInPageRule();
                 if (currentSite && wordParamReg.test(currentSite.url)) {
                     this.inSearchEngine();
-                } else if (searchData.prefConfig.alwaysShow && !inIframe) {
+                } else if (searchData.prefConfig.alwaysShow && !inIframe && !isInConfigPage) {
                     this.bar.style.display = "";
                     this.initPos();
                     this.appendBar();
