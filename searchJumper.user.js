@@ -13231,12 +13231,16 @@
             }
         }
 
+        async function cachePoolAction() {
+            while (cachePool.length > 0) {
+                await cacheAction(cachePool.shift());
+            }
+        }
+
         async function cacheImgManager(noti) {
             if (searchData.prefConfig.cacheSwitch) {
                 let needCache = cachePool.length > 0;
-                while (cachePool.length > 0) {
-                    await cacheAction(cachePool.shift());
-                }
+                await Promise.all([cachePoolAction(), cachePoolAction(), cachePoolAction(), cachePoolAction(), cachePoolAction()]);
                 if (needCache) {
                     if (noti) _GM_notification(i18n("cacheOver"));
                     debug(i18n("cacheOver"));
