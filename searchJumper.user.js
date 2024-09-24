@@ -5521,7 +5521,7 @@
 
             anylizeDomWithTextPos(dom, result) {
                 if (!result) result = {text: "", data:{}};
-                if (!dom || !dom.childNodes || !dom.childNodes.length) {
+                if (!dom || !dom.childNodes || !dom.childNodes.length || (!dom.offsetParent && !dom.offsetHeight)) {
                     return result;
                 }
                 dom.childNodes.forEach(ele => {
