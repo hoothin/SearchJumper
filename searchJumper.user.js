@@ -5,7 +5,7 @@
 // @name:ja      SearchJumper
 // @name:ru      SearchJumper
 // @namespace    hoothin
-// @version      1.9.30
+// @version      1.9.31
 // @description  Boost your search efficiency, quickly toggle between search engines like Google, Bing, and Yahoo, while supporting simultaneous keyword highlighting across results.
 // @description:zh-CN  最强搜索脚本，数倍提升搜索效率，一键在 Google、Bing、百度等搜索引擎之间快速切换，支持关键词高亮、右键 / 拖拽 / 全站搜索、以图搜图、页内查找与自定义引擎等功能。
 // @description:zh-TW  萬能搜尋輔助，單鍵切換任何搜尋引擎，並有右鍵 / 拖曳 / 全站搜尋、以圖搜圖、頁內正規表達式查找、醒目標示與自訂搜尋引擎等功能。
@@ -5521,7 +5521,7 @@
 
             anylizeDomWithTextPos(dom, result) {
                 if (!result) result = {text: "", data:{}};
-                if (!dom || !dom.childNodes || !dom.childNodes.length || (!dom.offsetParent && !dom.offsetHeight)) {
+                if (!dom || !dom.childNodes || !dom.childNodes.length || (dom.nodeType == 1 && !dom.offsetParent && !dom.offsetHeight)) {
                     return result;
                 }
                 dom.childNodes.forEach(ele => {
