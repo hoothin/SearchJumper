@@ -997,6 +997,9 @@
         var storage = {
             supportGM: typeof GM_getValue == 'function' && typeof GM_getValue('a', 'b') != 'undefined',
             supportGMPromise: typeof GM != 'undefined' && typeof GM.getValue == 'function' && typeof GM.getValue('a','b') != 'undefined',
+            supportCrossSave: function() {
+                return this.supportGM || this.supportGMPromise;
+            },
             listItemCache: [],
             mxAppStorage: (function() {
                 try {
@@ -16929,16 +16932,10 @@
                 lang = searchData.prefConfig.lang;
             }
             setLang();
-            if (searchData.prefConfig.firstRun) {
+            if (searchData.prefConfig.firstRun && (ext || storage.supportCrossSave())) {
                 searchData.prefConfig.firstRun = false;
                 storage.setItem("searchData", searchData);
-                setTimeout(() => {
-                    storage.getItem("searchData", data => {
-                        if (data.prefConfig.firstRun === false) {
-                            _GM_openInTab(firstRunPage, {active: true, insert: true});
-                        }
-                    });
-                }, 100);
+                _GM_openInTab(firstRunPage, {active: true, insert: true});
             }
             //旧版兼容
             if (typeof searchData.prefConfig.customSize === "undefined") {
