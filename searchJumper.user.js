@@ -4793,6 +4793,10 @@
                             option.innerHTML = createHTML('<b>Select option</b>');
                             options.appendChild(option);
                             option.addEventListener("click", e => {
+                                options.style.visibility = "hidden";
+                                setTimeout(() => {
+                                    options.style.visibility = "";
+                                }, 0);
                                 paramSelectInput.value = "";
                                 selectTips.innerText = 'Select option';
                                 geneFinalUrl();
@@ -4813,6 +4817,10 @@
                                     option.innerText = value;
                                 }
                                 option.addEventListener("click", e => {
+                                    options.style.visibility = "hidden";
+                                    setTimeout(() => {
+                                        options.style.visibility = "";
+                                    }, 0);
                                     paramSelectInput.value = option.getAttribute("value");
                                     selectTips.innerText = '';
                                     geneFinalUrl();
