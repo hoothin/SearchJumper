@@ -17171,13 +17171,13 @@
 
         var waiting = false;
         function visibilitychangeHandler() {
-            if (!document.head || !getBody(document) || inIframe) return;
+            if (!document.head || !getBody(document) || inIframe || disableState) return;
             if (searchData.prefConfig.globalSearchNow) {
                 clearInterval(checkGlobalIntv);
                 clearInterval(flashTitleIntv);
                 if (document.hidden) {
                     defaultTitle = document.title;
-                } else document.title = defaultTitle;
+                } else if (defaultTitle) document.title = defaultTitle;
             }
             if (waiting) return;
             waiting = true;
