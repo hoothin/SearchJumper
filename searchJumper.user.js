@@ -5,7 +5,7 @@
 // @name:ja      SearchJumper
 // @name:ru      SearchJumper
 // @namespace    hoothin
-// @version      1.9.31
+// @version      1.9.32
 // @description  Boost your search efficiency, quickly toggle between search engines like Google, Bing, and Yahoo, while supporting simultaneous keyword highlighting across results.
 // @description:zh-CN  最强搜索脚本，数倍提升搜索效率，一键在 Google、Bing、百度等搜索引擎之间快速切换，支持关键词高亮、右键 / 拖拽 / 全站搜索、以图搜图、页内查找与自定义引擎等功能。
 // @description:zh-TW  萬能搜尋輔助，單鍵切換任何搜尋引擎，並有右鍵 / 拖曳 / 全站搜尋、以圖搜圖、頁內正規表達式查找、醒目標示與自訂搜尋引擎等功能。
@@ -10444,6 +10444,11 @@
                             ctrl = true;
                             meta = false;
                             shift = false;
+                        } else if (e.button == 1) {
+                            alt = false;
+                            ctrl = true;
+                            meta = false;
+                            shift = false;
                         }
                     }
                     if (showTips) {
@@ -10787,21 +10792,23 @@
                         if (targetUrlData === false) return false;
                         let jumpFrom = data.url.match(/#(j(umpFrom|f)?|from){(.*?)}/);
                         let processPostUrl = _url => {
-                            storage.setItem("postUrl", [_url, data.charset]);
                             if (jumpFrom) {
+                                storage.setItem("postUrl", [_url, data.charset]);
                                 jumpFrom = jumpFrom[3];
                                 if (jumpFrom.indexOf("http") !== 0) {
                                     jumpFrom = _url.replace(/(:\/\/.*?\/)[\s\S]*/, "$1" + jumpFrom);
                                 }
                                 _url = jumpFrom;
                             } else {
-                                _url = _url.replace(/(:\/\/.*?)\/[\s\S]*/, "$1").replace(/[:%]p{[\s\S]*/, '');
+                                submitByForm(data.charset, _url, ele.target || '_self');
+                                return false;
                             }
                             return _url;
                         };
                         if (targetUrlData.indexOf('%input{') !== -1) {
                             self.showCustomInputWindow(targetUrlData, _url => {
                                 _url = processPostUrl(_url);
+                                if (!_url) return;
                                 ele.href = _url;
                                 if (ele.target === '_blank') {
                                     _GM_openInTab(ele.href, {active: true, insert: true});
@@ -10814,6 +10821,7 @@
                             return;
                         } else {
                             targetUrlData = processPostUrl(targetUrlData);
+                            if (!targetUrlData) return;
                             ele.href = targetUrlData;
                         }
                     }
@@ -10890,6 +10898,13 @@
                     if (e.stopPropagation) e.stopPropagation();
                 }, true);
                 ele.addEventListener('click', clickHandler, true);
+
+                ele.addEventListener('auxclick', e => {
+                    if (clicked && e.preventDefault) {
+                        e.preventDefault();
+                        return false;
+                    }
+                }, true);
 
                 let tipsStr = ele.dataset.name;
                 if (shortcut) {
