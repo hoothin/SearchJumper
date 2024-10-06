@@ -932,7 +932,7 @@
         }
         if (ext) {
             _GM_openInTab = (s, t) => {
-                chrome.runtime.sendMessage({action: "openInTab", detail: {url: s, incognito: t && t.incognito, active: t && t.active}});
+                chrome.runtime.sendMessage({action: "openInTab", detail: {url: s, incognito: t && t.incognito, active: t && t.active, close: t && t.close}});
             };
         } else if (typeof GM_openInTab != 'undefined') {
             _GM_openInTab = GM_openInTab;
@@ -10833,13 +10833,13 @@
                         }
                     }
                     if (shift && !ctrl && !meta && !alt && e.isTrusted) return;
-                    if (/^(chrome|edge|about):/.test(targetUrlData)) {
+                    if (/^(chrome|edge|about|extension|moz-extension)/.test(targetUrlData)) {
                         if (e.preventDefault) e.preventDefault();
                         if (e.stopPropagation) e.stopPropagation();
                         if (ctrl) {
                             _GM_openInTab(targetUrlData, {active: false, insert: true});
                         } else {
-                            _GM_openInTab(targetUrlData, {active: true, insert: true});
+                            _GM_openInTab(targetUrlData, {active: true, insert: true, close: true});
                         }
                         return false;
                     } else if ((alt || ctrl || meta || shift) && isPage) {
