@@ -16972,7 +16972,13 @@
             if (searchData.prefConfig.firstRun && (ext || storage.supportCrossSave())) {
                 searchData.prefConfig.firstRun = false;
                 storage.setItem("searchData", searchData);
-                _GM_openInTab(firstRunPage, {active: true, insert: true});
+                setTimeout(() => {
+                    storage.getItem("searchData", data => {
+                        if (data.prefConfig.firstRun === false) {
+                            _GM_openInTab(firstRunPage, {active: true, insert: true});
+                        }
+                    });
+                }, 100);
             }
             //旧版兼容
             if (typeof searchData.prefConfig.customSize === "undefined") {
