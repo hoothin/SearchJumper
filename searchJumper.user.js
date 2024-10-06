@@ -10429,7 +10429,12 @@
                     meta = e.metaKey;
                     shift = e.shiftKey;
                     if (!alt && !ctrl && !meta && !shift) {
-                        if (openInNewTab === 2) {//隱身窗口
+                        if (e.button == 1 || e.button == 2) {
+                            alt = false;
+                            ctrl = true;
+                            meta = false;
+                            shift = false;
+                        } else if (openInNewTab === 2) {//隱身窗口
                             alt = false;
                             ctrl = true;
                             meta = false;
@@ -10440,11 +10445,6 @@
                             meta = false;
                             shift = false;
                         } else if (openInNewTab === 4) {//后台标签页
-                            alt = false;
-                            ctrl = true;
-                            meta = false;
-                            shift = false;
-                        } else if (e.button == 1) {
                             alt = false;
                             ctrl = true;
                             meta = false;
@@ -10500,6 +10500,7 @@
                     }
                     ele.dispatchEvent(new Event("actionOver"));
                     if (clicked) {
+                        if (e.preventDefault) e.preventDefault();
                         ele.click();
                     }
                 };
@@ -10800,8 +10801,14 @@
                                 }
                                 _url = jumpFrom;
                             } else {
-                                submitByForm(data.charset, _url, ele.target || '_self');
-                                return false;
+                                if (ext) {
+                                    const jumpUrl = chrome.runtime.getURL('config/jump.html');
+                                    storage.setItem("postUrl", [_url + "#from{" + jumpUrl + "}", data.charset]);
+                                    _url = jumpUrl;
+                                } else {
+                                    storage.setItem("postUrl", [_url, data.charset]);
+                                    _url = _url.replace(/(:\/\/.*?)\/[\s\S]*/, "$1").replace(/[:%]p{[\s\S]*/, '');
+                                }
                             }
                             return _url;
                         };
@@ -10900,6 +10907,13 @@
                 ele.addEventListener('click', clickHandler, true);
 
                 ele.addEventListener('auxclick', e => {
+                    if (clicked && e.preventDefault) {
+                        e.preventDefault();
+                        return false;
+                    }
+                }, true);
+
+                ele.addEventListener('contextmenu', e => {
                     if (clicked && e.preventDefault) {
                         e.preventDefault();
                         return false;
