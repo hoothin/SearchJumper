@@ -10802,9 +10802,8 @@
                                 _url = jumpFrom;
                             } else {
                                 if (ext) {
-                                    const jumpUrl = chrome.runtime.getURL('config/jump.html');
-                                    storage.setItem("postUrl", [_url + "#from{" + jumpUrl + "}", data.charset]);
-                                    _url = jumpUrl;
+                                    storage.setItem("postUrl", [_url + "#from{" + jumpHtml + "}", data.charset]);
+                                    _url = jumpHtml;
                                 } else {
                                     storage.setItem("postUrl", [_url, data.charset]);
                                     _url = _url.replace(/(:\/\/.*?)\/[\s\S]*/, "$1").replace(/[:%]p{[\s\S]*/, '');
@@ -14363,11 +14362,15 @@
             showSiteAdd(document.title.replace(input ? input.value : "", "").replace(/^\s*[-_]\s*/, ""), "", url, icons, document.characterSet);
         }
 
-        const jumpHtml = "https://hoothin.github.io/SearchJumper/jump.html";
+        const jumpHtml = ext ? chrome.runtime.getURL('config/jump.html') : "https://hoothin.github.io/SearchJumper/jump.html";
         function jumpBySearchJumper() {
             let jumpTo = `${jumpHtml}#jump{url=${encodeURIComponent(currentFormParams.url)}&charset=${currentFormParams.charset}}`;
             if (currentFormParams.target == '_self') {
-                location.href = jumpTo;
+                if (ext) {
+                    _GM_openInTab(jumpTo, {active: true, insert: true, close: true});
+                } else {
+                    location.href = jumpTo;
+                }
             } else {
                 _GM_openInTab(jumpTo, {active: true, insert: true});
             }
