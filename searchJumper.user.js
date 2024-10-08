@@ -4311,7 +4311,7 @@
                             showWords = word;
                             let wordTemp = searchData.prefConfig.inPageRule && searchData.prefConfig.inPageRule[word];
                             if (wordTemp) word = wordTemp;
-                            else return;
+                            //else return;
                         } else {
                             word = word.replace(/^\\@/, "@");
                         }
