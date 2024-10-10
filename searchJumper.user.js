@@ -3432,21 +3432,36 @@
                  #searchInPage>.lockWords>span>em {
                      cursor: alias;
                  }
-                 #searchInPage>.lockWords .removeWord {
+                 #searchInPage>.lockWords .lockWordTool {
                      position: absolute;
                      right: 0;
                      top: 0;
                      display: none;
                      opacity: 0.3;
+                     height: 15px;
+                     width: 15px;
+                     text-align: center;
+                     line-height: 15px;
+                     border-radius: 50%;
+                     background: black;
+                     color: white;
                  }
-                 #searchInPage>.lockWords .removeWord:hover {
+                 #searchInPage>.lockWords .lockWordTool>span {
+                     cursor: pointer;
+                     font-size: 15px;
+                 }
+                 #searchInPage>.lockWords .modifyBtn {
+                     top: unset;
+                     bottom: 0;
+                 }
+                 #searchInPage>.lockWords .lockWordTool:hover {
                      opacity: 1;
                  }
-                 #searchInPage>.lockWords>span:hover .removeWord {
+                 #searchInPage>.lockWords>span:hover .lockWordTool {
                      display: block;
                      pointer-events: all;
                  }
-                 #searchInPage>.lockWords .removeWord>svg {
+                 #searchInPage>.lockWords .lockWordTool>svg {
                      width: 15px;
                      height: 15px;
                      fill: black;
@@ -4215,7 +4230,7 @@
 
             initSetInPageWords() {
                 if (this.searchInPageTab.checked && !this.searchJumperInPageInput.value) {
-                    let words = this.searchJumperInputKeyWords.value.replace(/^\*/, "") || getKeywords();
+                    let words = getSelectStr() || this.searchJumperInputKeyWords.value.replace(/^\*/, "") || getKeywords();
                     if (words) {
                         try {
                             words = decodeURIComponent(words);
@@ -4459,9 +4474,22 @@
                         wordSpan.parentNode.removeChild(wordSpan);
                         this.removeHighlightWord(word);
                     });
-                    removeBtn.className = "removeWord";
-                    removeBtn.innerHTML = createHTML(`<svg viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg"><title>${i18n("removeBtn")}</title>${closePath}</svg>`);
+                    removeBtn.className = "lockWordTool";
+                    removeBtn.innerHTML = createHTML(`<span title="${i18n("removeBtn")}">×</span>`);
                     wordSpan.appendChild(removeBtn);
+
+                    let modifyBtn = document.createElement("div");
+                    modifyBtn.addEventListener("mousedown", e => {
+                        e.stopPropagation();
+                        e.preventDefault();
+                        if (this.lockWords.indexOf(word.oriWord) === -1) {
+                            return;
+                        }
+                        this.showModifyWindow(word, wordSpan);
+                    });
+                    modifyBtn.className = "lockWordTool modifyBtn";
+                    modifyBtn.innerHTML = createHTML(`<span>+</span>`);
+                    wordSpan.appendChild(modifyBtn);
 
                     let curList = this.marks[word.showWords];
                     this.setHighlightSpan(wordSpan, -1, curList);
@@ -5784,7 +5812,6 @@
                                 normalizeSet.add(newNode.parentNode);
                             }
                         }
-                        await sleep(0);
                         normalizeSet.forEach(node => {node.normalize();});
                     });
                     [].forEach.call(ele.querySelectorAll(".searchJumper-hide"), hide => {
@@ -5834,7 +5861,7 @@
                         let dataRes = domTextResult.data;
                         let index = 0;
                         let nodeAndPos = [];
-                        //let validWord = (word.init || inWordMode) && /^[a-z]+$/i.test(word.content);
+                        let validWord = (word.init || inWordMode) && /^[a-z]+$/i.test(word.content);
                         function getNodePos(pos, len, matchedText) {
                             let keys = Object.keys(domTextResult.data);
                             let findNodes = [], leftLen = len;
@@ -5858,7 +5885,7 @@
                                 }
                                 if (type === "full") matchedText = "";
 
-                                /*if (validWord) {
+                                if (validWord) {
                                     if (type == "full") {
                                         pre = curpos == 0 ? "\n" : curnode.text[curpos - 1];
                                         after = (curpos + leftLen) == curnode.text.length ? "\n" : curnode.text[curpos + leftLen];
@@ -5878,7 +5905,7 @@
                                             break;
                                         }
                                     }
-                                }*/
+                                }
 
                                 if (curpos < 0) curpos = 0;
                                 let curlen = Math.min(leftLen, curnode.text.length - curpos);
