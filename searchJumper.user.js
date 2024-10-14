@@ -6717,6 +6717,7 @@
                           border-color: initial !important;
                           border-image: initial !important;
                           outline: none !important;
+                          position: unset !important;
                          }
                         `);
                         this.shadowContainer.appendChild(style);
