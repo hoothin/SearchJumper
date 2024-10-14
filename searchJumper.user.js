@@ -4221,6 +4221,8 @@
                 this.searchInPageTab.checked = true;
                 this.showSearchInput();
                 this.initSetInPageWords();
+                this.searchJumperInPageInput.value = "";
+                this.initShowSearchInput = true;
             }
 
             showFilterSearch() {
@@ -7733,6 +7735,16 @@
                 }
             }
 
+            searchEngineWords(words) {
+                words = words.replace(/-\S+/g, "");
+                if (/".+"/.test(words)) {
+                    return words.replace(/"(.+)"/g, (match, p, offset, string) => {
+                        return `◎${p}◎`;
+                    }).replace(/^◎|◎$/g, "");
+                }
+                return words;
+            }
+
             setInPageWords(inPageWords, cb) {
                 this.initInPageWords.push(inPageWords);
                 //this.searchInPageTab.checked = true;
@@ -7833,6 +7845,7 @@
                         inPageWords = cacheKeywords;
                         try {
                             inPageWords = decodeURIComponent(inPageWords);
+                            inPageWords = this.searchEngineWords(inPageWords);
                         } catch (e) {}
                         //storage.setItem("referrer", location.hostname);
                     } else {
@@ -7881,7 +7894,7 @@
                 this.wordModeBtn.classList.add("checked");
                 let inPageWords = searchData.prefConfig.showInSearchEngine ? localKeywords : globalInPageWords;
                 if (inPageWords) {
-                    this.setInPageWords(inPageWords.replace(/['";]/g, ' '));
+                    this.setInPageWords(this.searchEngineWords(inPageWords).replace(/['";]/g, ' '));
                 }
             }
 
