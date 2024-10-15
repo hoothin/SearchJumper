@@ -6610,7 +6610,7 @@
                     this.con.classList.add("in-find");
                     this.searchJumperInPageInput.focus();
                     setTimeout(() => {
-                        if (selStr) {
+                        if (selStr && this.lockWords.indexOf(selStr) == -1) {
                             this.searchJumperInPageInput.value = "";
                             if (!this.navMarks.innerHTML) {
                                 this.submitIgnoreSpace(selStr);
