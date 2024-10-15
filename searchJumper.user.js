@@ -6326,9 +6326,10 @@
                 this.searchInPageLockWords.innerHTML = createHTML();
                 this.searchJumperInPageInput.style.paddingLeft = "";
                 this.submitInPageWords();
-                if (newWords || globalInPageWords) {
-                    this.searchJumperInPageInput.value = newWords || globalInPageWords;
-                    this.submitInPageWords();
+                let words = newWords || globalInPageWords;
+                if (words) {
+                    this.searchJumperInPageInput.value = words;
+                    this.submitInPageWords(words == this.lastSearchEngineWords);
                     this.appendBar();
                 }
             }
@@ -7193,6 +7194,11 @@
                     e && e.stopPropagation && e.stopPropagation();
                     e && e.preventDefault && e.preventDefault();
                 });
+
+                this.con.addEventListener('dblclick', e=>{
+                    e.stopPropagation();
+                    e.preventDefault();
+                });
                 //Search in page
 
                 let expandTypeHandler = e => {
@@ -7736,12 +7742,13 @@
             }
 
             searchEngineWords(words) {
-                words = words.replace(/-\S+/g, "");
+                words = words.replace(/( |^)-\S+/g, "");
                 if (/".+"/.test(words)) {
-                    return words.replace(/"(.+)"/g, (match, p, offset, string) => {
+                    words = words.replace(/"(.+)"/g, (match, p, offset, string) => {
                         return `◎${p}◎`;
                     }).replace(/^◎|◎$/g, "");
                 }
+                this.lastSearchEngineWords = words;
                 return words;
             }
 
@@ -9640,8 +9647,14 @@
                             }
                         }
                     } else if (param[0] === '@call') {
-                        let func = window[param[1]] || new AsyncFunction('"use strict";' + param[1]);
-                        if (func) await func();
+                        let engine = self.getTargetSitesByName([param[1]])[0];
+                        if (engine) {
+                            await self.siteSetUrl(engine);
+                            engine.click();
+                        } else {
+                            let func = window[param[1]] || new AsyncFunction('"use strict";' + param[1]);
+                            if (func) await func();
+                        }
                     } else if (param[0] === '@open') {
                         let btn = await waitForElement(param[1]);
                         if (opened) {
@@ -9971,9 +9984,11 @@
                     }
                     if (keywords && !_keyWords) {
                         if (keywords != cacheKeywords) {
-                            cacheKeywords = keywords;
                             self.keywordIndex = 0;
-                            if (isPage) storage.setItem("cacheKeywords", keywords);
+                            if (isPage) {
+                                cacheKeywords = keywords;
+                                storage.setItem("cacheKeywords", keywords);
+                            }
                         }
                         inputString = keywords;
                     }
@@ -10376,7 +10391,7 @@
                         _host = href.replace(/^\w+:\/\/([^\/]+).*/, "$1");
                     }
                     if (inPagePost) {
-                        let postParams = [];
+                        let postParams = [], hasCall = false;
                         postMatch[1].replace(/([^\\])&/g, "$1SJ^PARAM").split("SJ^PARAM").forEach(pair => {//ios不支持零宽断言，哭唧唧
                             pair = pair.trim();
                             if (/^loopStart\(\d+\)$/.test(pair)) {
@@ -10408,6 +10423,7 @@
                                 let func = pair.slice(5, pair.length - 1);
                                 if (func) {
                                     postParams.push(['@call', func.replace(/\\([\=&])/g, "$1").trim()]);
+                                    hasCall = true;
                                 }
                             } else if (pair.startsWith("reload(") && pair.endsWith(')')) {
                                 let func = pair.slice(7, pair.length - 1);
@@ -10445,6 +10461,9 @@
                             return false;
                         } else {
                             storage.setListItem("inPagePostParams", resultUrl.replace(/^https?:\/\/([^\/:]+).*/, "$1"), postParams);
+                        }
+                        if (hasCall) {
+                            self.updateCacheKeywords();
                         }
                     }
                     resultUrl = customReplaceSingle(resultUrl, "%h", _host);
