@@ -3483,15 +3483,16 @@
                      position: fixed;
                      width: 20px;
                      z-index: 2147483647;
-                     background: #00000066;
+                     background: #00000026;
                      text-align: center;
                      pointer-events: none;
                      font-size: 0px;
                      opacity: 0;
-                     transition: width 0.3s;
+                     transition: width 0.3s, background 0.3s;
                  }
                  .searchJumperNavBar:hover {
                      width: 25px;
+                     background: #00000066;
                  }
                  .searchJumperNavBar.sjNavShow {
                      pointer-events: all;
@@ -7392,7 +7393,7 @@
                     }, 200);
                 });
                 this.searchJumperInputKeyWords.addEventListener("keydown", e => {
-                    e.stopPropagation();
+                    if (e.keyCode !== 27) e.stopPropagation();
                     switch(e.keyCode) {
                         case 9:
                             if (!this.inInput) {
