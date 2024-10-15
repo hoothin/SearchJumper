@@ -4383,12 +4383,12 @@
                     } else this.splitSep = "◎";
                     this.curWordIndex = 0;
                 }
+                this.searchJumperInPageInput.value = "";
                 let targetWords = this.anylizeInPageWords(words, this.initHighlight);
                 if (!targetWords || targetWords.length == 0) return wordSpans;
                 if (this.lockWords) {
                     this.lockWords += (this.lockWords.indexOf(this.splitSep) === this.lockWords.length - this.splitSep.length ? "" : this.splitSep) + words;
                 } else this.lockWords = words;
-                this.searchJumperInPageInput.value = "";
                 if (!this.splitSep) {
                     this.searchInPageLockWords.innerHTML = createHTML();
                     this.highlight("");
