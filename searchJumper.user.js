@@ -7748,8 +7748,8 @@
                         return `◎${p}◎`;
                     }).replace(/^◎|◎$/g, "");
                 }
-                this.lastSearchEngineWords = words;
-                return words;
+                this.lastSearchEngineWords = words.replace(/['";]/g, ' ');
+                return this.lastSearchEngineWords;
             }
 
             setInPageWords(inPageWords, cb) {
@@ -7899,9 +7899,9 @@
                 }
                 this.insertHistory(this.currentType, true);
                 this.wordModeBtn.classList.add("checked");
-                let inPageWords = searchData.prefConfig.showInSearchEngine ? localKeywords : globalInPageWords;
+                let inPageWords = searchData.prefConfig.showInSearchEngine ? this.searchEngineWords(localKeywords) : globalInPageWords;
                 if (inPageWords) {
-                    this.setInPageWords(this.searchEngineWords(inPageWords).replace(/['";]/g, ' '));
+                    this.setInPageWords(inPageWords);
                 }
             }
 
