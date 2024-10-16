@@ -9951,7 +9951,9 @@
                                 img.dataset.src = imgSrc;
                                 cacheIcon[imgSrc] = '';
                                 if (!isBookmark) {
-                                    cacheAction(img);
+                                    setTimeout(() => {
+                                        cacheAction(img);
+                                    }, 0);
                                 }
                             }
                         } else if (cache) {
@@ -13225,19 +13227,38 @@
         }
 
         async function image2Base64(img) {
-            if (!img || !img.src) return null;
+            if (!img) return null;
+            if (img.dataset.src) {
+                img.src = img.dataset.src;
+            }
+            if (!img.src) return null;
             let urlSplit = img.src.split("/");
             if (urlSplit[2] == document.domain) {
                 let imgStyle = getComputedStyle(img);
                 var canvas = document.createElement("canvas");
-                canvas.width = img.naturalWidth || img.width || parseInt(imgStyle.width);
-                canvas.height = img.naturalHeight || img.height || parseInt(imgStyle.height);
                 var ctx = canvas.getContext("2d");
-                ctx.drawImage(img, 0, 0);
-                try {
-                    return (canvas.toDataURL("image/png"));
-                } catch (e) {
-                    return await imageSrc2Base64(img.src);
+                if (img.complete) {
+                    canvas.width = img.naturalWidth || img.width || parseInt(imgStyle.width);
+                    canvas.height = img.naturalHeight || img.height || parseInt(imgStyle.height);
+                    ctx.drawImage(img, 0, 0);
+                    try {
+                        return (canvas.toDataURL("image/png"));
+                    } catch (e) {
+                        return await imageSrc2Base64(img.src);
+                    }
+                } else {
+                    return await new Promise((resolve) => {
+                        img.addEventListener("load", async e => {
+                            canvas.width = img.naturalWidth || img.width || parseInt(imgStyle.width);
+                            canvas.height = img.naturalHeight || img.height || parseInt(imgStyle.height);
+                            ctx.drawImage(img, 0, 0);
+                            try {
+                                resolve(canvas.toDataURL("image/png"));
+                            } catch (e) {
+                                resolve(await imageSrc2Base64(img.src));
+                            }
+                        });
+                    });
                 }
             } else {
                 return await imageSrc2Base64(img.src);
@@ -13311,16 +13332,11 @@
         }
 
         async function cacheAction(target) {
-            await new Promise((resolve) => {
-                setTimeout(() => {
-                    resolve(true);
-                }, 1);
-            });
             if (target.nodeName.toUpperCase() == 'IMG') {
                 let src = target.src || target.dataset.src;
                 if (src) {
                     if (cacheIcon[src]) return;
-                    let cache = await imageSrc2Base64(src);
+                    let cache = await image2Base64(target);
                     if (cache == 'data:,' || !cache) cache = 'fail';
                     cacheIcon[src] = cache;
                     storage.setItem("cacheIcon", cacheIcon);
@@ -13329,6 +13345,11 @@
             } else {
                 cacheFontIcon(target);
             }
+            await new Promise((resolve) => {
+                setTimeout(() => {
+                    resolve(true);
+                }, 1);
+            });
         }
 
         async function cachePoolAction() {
