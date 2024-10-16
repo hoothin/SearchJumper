@@ -13440,79 +13440,83 @@
             //if (localKeywords === '' && cacheKeywords) return cacheKeywords;
 
             let keywordsMatch, keywords = '', isUtf8 = !currentSite.charset || currentSite.charset == 'UTF-8';
-            if (currentSite.keywords) {
-                let rules = currentSite.keywords.split("\n");
-                for (let i = 0; i < rules.length; i++) {
-                    let rule = rules[i];
-                    if (!rule || !rule.trim()) continue;
-                    let ruleMatch = rules[i].match(/^(.*?)\.replace\(\//);
-                    if (ruleMatch) rule = ruleMatch[1];
-                    if (isUtf8) {
-                        if (/^\w[\w\|]*$/.test(rule)) {
-                            let keywordsList = rule.split("|");
-                            let urlParams = new URLSearchParams(location.search);
-                            for (let i = 0; i < keywordsList.length; i++) {
-                                keywords = urlParams.get(keywordsList[i]);
-                                if (keywords) break;
-                            }
-                        } else if (/\(.+\)/.test(rule) && rule.indexOf("@") !== 0) {
-                            try {
-                                keywordsMatch = href.match(new RegExp(rule));
-                                if (keywordsMatch) {
-                                    keywords = keywordsMatch[1];
+            try {
+                if (currentSite.keywords) {
+                    let rules = currentSite.keywords.split("\n");
+                    for (let i = 0; i < rules.length; i++) {
+                        let rule = rules[i];
+                        if (!rule || !rule.trim()) continue;
+                        let ruleMatch = rules[i].match(/^(.*?)\.replace\(\//);
+                        if (ruleMatch) rule = ruleMatch[1];
+                        if (isUtf8) {
+                            if (/^\w[\w\|]*$/.test(rule)) {
+                                let keywordsList = rule.split("|");
+                                let urlParams = new URLSearchParams(location.search);
+                                for (let i = 0; i < keywordsList.length; i++) {
+                                    keywords = urlParams.get(keywordsList[i]);
+                                    if (keywords) break;
                                 }
-                                if (keywords) {
-                                    keywords = decodeURIComponent(keywords);
+                            } else if (/\(.+\)/.test(rule) && rule.indexOf("@") !== 0) {
+                                try {
+                                    keywordsMatch = href.match(new RegExp(rule));
+                                    if (keywordsMatch) {
+                                        keywords = keywordsMatch[1];
+                                    }
+                                    if (keywords) {
+                                        keywords = decodeURIComponent(keywords);
+                                    }
+                                } catch (e) {
+                                    keywords = '';
+                                }
+                            }
+                        }
+                        if (!keywords && getBody(document)) {
+                            try {
+                                let targetEle = getElement(rule);
+                                if (targetEle) {
+                                    keywords = targetEle.value || targetEle.innerText;
                                 }
                             } catch (e) {
                                 keywords = '';
                             }
                         }
-                    }
-                    if (!keywords && getBody(document)) {
-                        try {
-                            let targetEle = getElement(rule);
-                            if (targetEle) {
-                                keywords = targetEle.value || targetEle.innerText;
-                            }
-                        } catch (e) {
-                            keywords = '';
+                        if (keywords && ruleMatch) {
+                            keywords = replaceSingle(rules[i], rule, keywords);
                         }
+                        if (keywords) break;
                     }
-                    if (keywords && ruleMatch) {
-                        keywords = replaceSingle(rules[i], rule, keywords);
-                    }
-                    if (keywords) break;
-                }
-            } else if (isUtf8 && wordParamReg.test(currentSite.url) && !/[#:%]p{/.test(currentSite.url)) {
-                if (href.indexOf("?") != -1) {
-                    keywordsMatch = currentSite.url.match(new RegExp(`[\\?&]([^&]*?)=${wordParam}.*`));
-                    if (keywordsMatch) {
-                        keywords = new URLSearchParams(location.search).get(keywordsMatch[1]);
-                    }
-                }
-                if (!keywords) {
-                    keywordsMatch = currentSite.url.match(new RegExp(`https?://[^/]*/(.*)${wordParam}`));
-                    if (keywordsMatch) {
-                        keywordsMatch = href.match(new RegExp((keywordsMatch[1] || (location.host.replace(/\./g, "\\.") + "/")) + "(.*?)(\/|$)"));
+                } else if (isUtf8 && wordParamReg.test(currentSite.url) && !/[#:%]p{/.test(currentSite.url)) {
+                    if (href.indexOf("?") != -1) {
+                        keywordsMatch = currentSite.url.match(new RegExp(`[\\?&]([^&]*?)=${wordParam}.*`));
                         if (keywordsMatch) {
-                            keywords = keywordsMatch[1];
+                            keywords = new URLSearchParams(location.search).get(keywordsMatch[1]);
                         }
-                        if (keywords) {
-                            try {
-                                keywords = decodeURIComponent(keywords);
-                            } catch (e) {
-                                keywords = '';
+                    }
+                    if (!keywords) {
+                        keywordsMatch = currentSite.url.match(new RegExp(`https?://[^/]*/(.*)${wordParam}`));
+                        if (keywordsMatch) {
+                            keywordsMatch = href.match(new RegExp((keywordsMatch[1].replace(/\?/g, "\\?") || (location.host.replace(/\./g, "\\.") + "/")) + "(.*?)(\/|$)"));
+                            if (keywordsMatch) {
+                                keywords = keywordsMatch[1];
+                            }
+                            if (keywords) {
+                                try {
+                                    keywords = decodeURIComponent(keywords);
+                                } catch (e) {
+                                    keywords = '';
+                                }
                             }
                         }
                     }
                 }
+                if (keywords == '' && getBody(document)) {
+                    let firstInput = getBody(document).querySelector('input[type=text]:not([readonly]),input:not([type])');
+                    if (firstInput) keywords = firstInput.value;
+                }
+                if (keywords) localKeywords = keywords;
+            } catch(e) {
+                debug(e);
             }
-            if (keywords == '' && getBody(document)) {
-                let firstInput = getBody(document).querySelector('input[type=text]:not([readonly]),input:not([type])');
-                if (firstInput) keywords = firstInput.value;
-            }
-            if (keywords) localKeywords = keywords;
             return localKeywords || "";//!localKeywords ? cacheKeywords : localKeywords;
         }
 
