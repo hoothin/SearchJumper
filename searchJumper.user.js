@@ -3043,11 +3043,11 @@
                      display: block;
                  }
                  .search-jumper-input {
-                     width: 80%;
+                     width: 50%;
                      min-width: 500px;
                      bottom: 2%;
                      left: 50%;
-                     margin: 0 0 0 -40%;
+                     margin: 0 0 0 -25%;
                      position: fixed;
                      font-family: Arial, sans-serif;
                      text-align: left;
