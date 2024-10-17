@@ -6412,7 +6412,7 @@
                 document.removeEventListener("mousedown", self.showAllMouseHandler);
                 document.removeEventListener("keydown", self.showAllKeydownHandler);
                 this.con.classList.remove("search-jumper-showall");
-                document.documentElement.style.overflow = this.preOverflow;
+                //document.documentElement.style.overflow = this.preOverflow;
                 this.searchJumperInputKeyWords.value = "";
                 this.historylist.innerHTML = createHTML();
                 /*this.historySiteBtns.slice(0, 10).forEach(btn => {
@@ -6457,8 +6457,8 @@
                 this.setFuncKeyCall(false);
                 this.hideSearchInput();
                 this.con.classList.add("search-jumper-showall");
-                this.preOverflow = document.documentElement.style.overflow || "";
-                document.documentElement.style.overflow = "hidden";
+                //this.preOverflow = document.documentElement.style.overflow || "";
+                //document.documentElement.style.overflow = "hidden";
                 clearInterval(this.showAllTimeTimer);
                 const days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
                 if (window.innerWidth < 1000) {
