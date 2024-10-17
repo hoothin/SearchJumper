@@ -10058,6 +10058,7 @@
                         _str = customReplaceSingle(_str, "%su", keywordsU);
                         _str = customReplaceSingle(_str, "%sl", keywordsL);
                         _str = customReplaceSingle(_str, "%sr", keywordsR);
+                        _str = customReplaceSingle(_str, "%S", cacheKeywords || keywordsR);
                         _str = customReplaceSingle(_str, "%ss", keywordsSC);
                         _str = customReplaceSingle(_str, "%st", keywordsTC);
                         _str = customReplaceSingle(_str, "%se", escape ? escape(keywordsR) : keywordsR);
@@ -10452,7 +10453,7 @@
                                 let pairArr = pair.split("SJ^PARAM");
                                 if (pairArr.length === 2) {
                                     let k = pairArr[0];
-                                    let v = customReplaceKeywords(pairArr[1].replace(/\\([\=&])/g, "$1").replace(/%e\b/g, document.characterSet).replace(/%i\b/g, imgBase64).replace(/%c\b/g, (isMobile?"mobile":"pc")).replace(/%U\b/g, encodeURIComponent(href)).replace(/%υ\b/g, encodeURIComponent(encodeURIComponent(href))).replace(/%h\b/g, _host).replace(/%T\b/g, encodeURIComponent(targetUrl)).replace(/%τ\b/g, encodeURIComponent(encodeURIComponent(targetUrl))).replace(/%b\b/g, targetBaseUrl).replace(/%B\b/g, encodeURIComponent(targetBaseUrl)).replace(/%β\b/g, encodeURIComponent(encodeURIComponent(targetBaseUrl))).replace(/%n\b/g, targetName).replace(/%S\b/g, (cacheKeywords || keywords)));
+                                    let v = customReplaceKeywords(pairArr[1].replace(/\\([\=&])/g, "$1").replace(/%e\b/g, document.characterSet).replace(/%i\b/g, imgBase64).replace(/%c\b/g, (isMobile?"mobile":"pc")).replace(/%U\b/g, encodeURIComponent(href)).replace(/%υ\b/g, encodeURIComponent(encodeURIComponent(href))).replace(/%h\b/g, _host).replace(/%T\b/g, encodeURIComponent(targetUrl)).replace(/%τ\b/g, encodeURIComponent(encodeURIComponent(targetUrl))).replace(/%b\b/g, targetBaseUrl).replace(/%B\b/g, encodeURIComponent(targetBaseUrl)).replace(/%β\b/g, encodeURIComponent(encodeURIComponent(targetBaseUrl))).replace(/%n\b/g, targetName));
                                     v = customReplaceSingle(v, "%t", targetUrl);
                                     v = customReplaceSingle(v, "%u", href);
                                     postParams.push([k, v]);
@@ -10475,7 +10476,7 @@
                     resultUrl = customReplaceSingle(resultUrl, "%h", _host);
                     resultUrl = customReplaceSingle(resultUrl, "%t", targetUrl);
                     resultUrl = customReplaceSingle(resultUrl, "%u", href);
-                    resultUrl = customReplaceKeywords(resultUrl.replace(/%U\b/g, encodeURIComponent(href)).replace(/%υ\b/g, encodeURIComponent(encodeURIComponent(href))).replace(/%T\b/g, encodeURIComponent(targetUrl)).replace(/%τ\b/g, encodeURIComponent(encodeURIComponent(targetUrl))).replace(/%b\b/g, targetBaseUrl).replace(/%B\b/g, encodeURIComponent(targetBaseUrl)).replace(/%β\b/g, encodeURIComponent(encodeURIComponent(targetBaseUrl))).replace(/%n\b/g, targetName).replace(/%S\b/g, (cacheKeywords || keywords)));
+                    resultUrl = customReplaceKeywords(resultUrl.replace(/%U\b/g, encodeURIComponent(href)).replace(/%υ\b/g, encodeURIComponent(encodeURIComponent(href))).replace(/%T\b/g, encodeURIComponent(targetUrl)).replace(/%τ\b/g, encodeURIComponent(encodeURIComponent(targetUrl))).replace(/%b\b/g, targetBaseUrl).replace(/%B\b/g, encodeURIComponent(targetBaseUrl)).replace(/%β\b/g, encodeURIComponent(encodeURIComponent(targetBaseUrl))).replace(/%n\b/g, targetName));
                     if (openInNewTab && /^(https?|ftp):/.test(resultUrl)) {
                         ele.setAttribute("target", "_blank");
                         ele.dataset.target = 1;
