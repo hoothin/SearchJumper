@@ -6528,7 +6528,7 @@
                             }
                         };
                     }
-                    document.addEventListener("keydown", self.showAllKeydownHandler);
+                    document.addEventListener("keydown", self.showAllKeydownHandler, true);
                     if (this.searchJumperInputKeyWords.value) {
                         this.searchJumperInputKeyWords.focus();
                         this.searchJumperInputKeyWords.select();
@@ -10460,15 +10460,15 @@
                                 }
                             }
                         });
+                        if (hasCall) {
+                            self.updateCacheKeywords();
+                        }
                         if (resultUrl === "" || resultUrl === location.href) {
                             inPagePostParams = postParams;
                             this.submitAction(postParams);
                             return false;
                         } else {
                             storage.setListItem("inPagePostParams", resultUrl.replace(/^https?:\/\/([^\/:]+).*/, "$1"), postParams);
-                        }
-                        if (hasCall) {
-                            self.updateCacheKeywords();
                         }
                     }
                     resultUrl = customReplaceSingle(resultUrl, "%h", _host);
