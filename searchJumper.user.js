@@ -9652,7 +9652,7 @@
                     } else if (param[0] === '@call') {
                         let engine = self.getTargetSitesByName([param[1]])[0];
                         if (engine) {
-                            extSelectionText = getKeywords() || cacheKeywords;
+                            extSelectionText = extSelectionText || getKeywords() || cacheKeywords;
                             await self.siteSetUrl(engine);
                             engine.click();
                         } else {
