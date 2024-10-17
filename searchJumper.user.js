@@ -3048,6 +3048,7 @@
                      bottom: 2%;
                      left: 50%;
                      margin: 0 0 0 -25%;
+                     margin-left: min(-25%, -250px);
                      position: fixed;
                      font-family: Arial, sans-serif;
                      text-align: left;
@@ -3312,6 +3313,7 @@
                      }
                      .search-jumper-input {
                          min-width: 300px;
+                         margin-left: min(-25%, -150px);
                      }
                      .inputGroup>.svgBtns {
                          width: 25px;
@@ -7446,7 +7448,7 @@
                 };
 
                 let grabMousemoveHandler = e => {
-                    let halfContainerWidth = 0.4 * window.innerWidth;
+                    let halfContainerWidth = 0.25 * window.innerWidth;
                     let left = startLeft + clientX(e) - startX;
                     self.searchInputDiv.style.top = 'unset';
                     self.searchInputDiv.style.left = left + "px";
