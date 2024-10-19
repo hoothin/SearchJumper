@@ -7509,6 +7509,8 @@
                         startY = e.clientY;
                         document.addEventListener("mouseup", grabMouseupHandler);
                         document.addEventListener("mousemove", grabMousemoveHandler);
+                        e.stopPropagation();
+                        e.preventDefault();
                     }
                 });
                 let initWidth, initX;
