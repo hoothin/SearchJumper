@@ -4066,14 +4066,18 @@
                     let curY = clientY(e) - startMouse.y;
                     if (Math.abs(curX) + Math.abs(curY) < 5) return;
                     if (tips.style.right === "") {
-                        tips.style.left = (startPos.left + curX) + "px";
+                        tips.style.setProperty("left", (startPos.left + curX) + "px", "important");
+                        //tips.style.left = (startPos.left + curX) + "px!important";
                     } else {
-                        tips.style.right = (startPos.right - curX) + "px";
+                        tips.style.setProperty("right", (startPos.right - curX) + "px", "important");
+                        //tips.style.right = (startPos.right - curX) + "px!important";
                     }
                     if (tips.style.bottom === "") {
-                        tips.style.top = (startPos.top + curY) + "px";
+                        tips.style.setProperty("top", (startPos.top + curY) + "px", "important");
+                        //tips.style.top = (startPos.top + curY) + "px!important";
                     } else {
-                        tips.style.bottom = (startPos.bottom - curY) + "px";
+                        tips.style.setProperty("bottom", (startPos.bottom - curY) + "px", "important");
+                        //tips.style.bottom = (startPos.bottom - curY) + "px!important";
                     }
                     tips.classList.add("draging");
                 };
@@ -4090,11 +4094,12 @@
                     e.preventDefault();
                     e.stopPropagation();
                     startMouse = {x: clientX(e), y: clientY(e)};
+                    let tipsStyle = getComputedStyle(tips);
                     startPos = {
-                        left: parseFloat(tips.style.left),
-                        right: parseFloat(tips.style.right),
-                        top: parseFloat(tips.style.top),
-                        bottom: parseFloat(tips.style.bottom)
+                        left: parseFloat(tipsStyle.left),
+                        right: parseFloat(tipsStyle.right),
+                        top: parseFloat(tipsStyle.top),
+                        bottom: parseFloat(tipsStyle.bottom)
                     };
                     cb && cb();
                 };
