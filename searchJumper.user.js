@@ -6,10 +6,10 @@
 // @name:ru      SearchJumper
 // @namespace    hoothin
 // @version      1.9.32
-// @description  Boost your search efficiency, quickly toggle between search engines like Google, Bing, and Yahoo, while supporting simultaneous keyword highlighting across results.
-// @description:zh-CN  全能搜索助手，数倍提升搜索效率，一键在 Google、Bing、百度等搜索引擎之间快速切换，支持关键词高亮、右键 / 拖拽 / 全站搜索、以图搜图、页内查找与自定义引擎等功能。
-// @description:zh-TW  萬能搜尋輔助，單鍵切換任何搜尋引擎，並有右鍵 / 拖曳 / 全站搜尋、以圖搜圖、頁內正規表達式查找、醒目標示與自訂搜尋引擎等功能。
-// @description:ja  任意の検索エンジンにすばやく簡単にジャンプします、300種類以上の機能を備えています。
+// @description  Instantly search selected text across multiple search engines. Highlight keywords and boost your research efficiency.
+// @description:zh-CN  一键即时搜索选定文本或在多个搜索引擎之间快速切换，支持关键词高亮、拖拽搜索、以图搜图、页内查找与自定义引擎。
+// @description:zh-TW  一鍵即時搜尋選定文字或在多個搜尋引擎之間快速切換，支援關鍵字高亮、拖曳搜尋、以圖搜圖、頁內尋找與自訂引擎。
+// @description:ja  選択したテキストをワンクリックで即座に検索したり、キーワードの強調表示、ドラッグアンドドロップ検索、画像検索、ページ内検索、カスタムエンジンをサポートする複数の検索エンジン間で素早く切り替えたりできます。
 // @description:ru  Легко проводите поиск по выбранному тексту/изображению/ссылке. Быстро переходите к любому поисковому движку. Выделяйте искомый текст.
 // @author       hoothin
 // @license      MPL-2.0
