@@ -6715,7 +6715,7 @@
                     if (this.shadowRoot) {
                         shadow = this.shadowRoot;
                     } else {
-                        this.shadowContainer.setAttribute('contenteditable', 'true');
+                        //this.shadowContainer.setAttribute('contenteditable', 'true');
                         this.shadowContainer.className = "search-jumper-shadow";
                         let style = _GM_addStyle(`
                          .search-jumper-shadow {
