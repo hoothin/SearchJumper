@@ -10056,7 +10056,6 @@
                                 str = str.replace(multiMatch[0], key);
                             }
                         }
-                        if (showTips) value = value.split(/[\n\r]/).join(" ");
                         return replaceSingle(str, key, value, after);
                     };
                     let needDecode = (!/^showTips:h/i.test(dataUrl) && /^c(opy)?:|[#:%]P{|^javascript:|^showTips:/i.test(dataUrl));
@@ -10231,6 +10230,7 @@
                                 if (/^data/.test(targetElement.src)) {
                                     imgBase64 = targetElement.src;
                                 } else {
+                                    self.tipsPos(ele, "<span class='loader'></span><font>Loading...</font>");
                                     imgBase64 = await image2Base64(targetElement);
                                 }
                                 resultUrl = resultUrl.replace(/%i\b/g, imgBase64);
@@ -10316,6 +10316,7 @@
                                     self.customInput = true;
                                     let src = window.prompt(i18n("targetUrl"), "https://www.google.com/favicon.ico");
                                     if (src) {
+                                        self.tipsPos(ele, "<span class='loader'></span><font>Loading...</font>");
                                         imgBase64 = await imageSrc2Base64(src);
                                     } else return false;
                                 }
