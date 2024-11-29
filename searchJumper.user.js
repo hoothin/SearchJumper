@@ -13401,7 +13401,9 @@
 
         function getSelectStr() {
             let selStr = extSelectionText || picker.getPickerStr() || window.getSelection().toString();
-            extSelectionText = "";
+            setTimeout(() => {
+                extSelectionText = "";
+            }, 1);
             if (!selStr) {
                 let tar = getActiveElement(document);
                 if (tar && /^(TEXTAREA|INPUT)$/i.test(tar.nodeName)) {
