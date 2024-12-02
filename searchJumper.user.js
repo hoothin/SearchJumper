@@ -830,7 +830,11 @@
                     return response.blob();
                 }
                 return response.text();
-            }).then(data => {f.onload && f.onload({status: res.status, response: data})}).catch(e => f.onerror && f.onerror(e))};
+            }).then(data => {
+                let doc = document.implementation.createHTMLDocument('');
+                doc.documentElement.innerHTML = createHTML(data);
+                f.onload && f.onload({status: res.status, response: data, responseXML: doc})
+            }).catch(e => f.onerror && f.onerror(e))};
         }
         if (GM_fetch) {
             GM_fetch = async (url, option) => {
