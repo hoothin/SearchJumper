@@ -5,7 +5,7 @@
 // @name:ja      SearchJumper
 // @name:ru      SearchJumper
 // @namespace    hoothin
-// @version      1.9.32
+// @version      1.9.33
 // @description  Instantly search selected text across multiple search engines. Highlight keywords and boost your research efficiency.
 // @description:zh-CN  一键即时搜索选定文本或在多个搜索引擎之间快速切换，支持关键词高亮、拖拽搜索、以图搜图、页内查找与自定义引擎。
 // @description:zh-TW  一鍵即時搜尋選定文字或在多個搜尋引擎之間快速切換，支援關鍵字高亮、拖曳搜尋、以圖搜圖、頁內尋找與自訂引擎。
@@ -9185,7 +9185,7 @@
                         self.bar.style.top = initTilePos.y + e.clientY - initMousePos.y + "px";
                     }
                 }
-                typeBtn.onmousedown = function (e) {
+                typeBtn.onmouseup = function (e) {
                     if (e && self.funcKeyCall && e.button === 0 && !(e.shiftKey || e.altKey || e.ctrlKey)) {
                         draged = false;
                         e.preventDefault && e.preventDefault();
@@ -10661,7 +10661,7 @@
                     if (targetElement) {
                         targetElement.focus && targetElement.focus();
                     }
-                    if (self.waitForShowTips) {
+                    if (showTips && self.waitForShowTips) {
                         showTipsHandler(ele, 0);
                         e && e.preventDefault && e.preventDefault();
                         return false;
@@ -10882,8 +10882,10 @@
                                 _url = jumpFrom;
                             } else {
                                 if (ext) {
-                                    storage.setItem("postUrl", [_url + "#from{" + jumpHtml + "}", data.charset]);
-                                    _url = jumpHtml;
+                                    _url = `${jumpHtml}#jump{url=${encodeURIComponent(_url.replace(/[:%]p{[\s\S]*/, ''))}&charset=${data.charset}}`;
+
+                                    //storage.setItem("postUrl", [_url + "#from{" + jumpHtml + "}", data.charset]);
+                                    //_url = jumpHtml;
                                 } else {
                                     storage.setItem("postUrl", [_url, data.charset]);
                                     _url = _url.replace(/(:\/\/.*?)\/[\s\S]*/, "$1").replace(/[:%]p{[\s\S]*/, '');
@@ -10918,7 +10920,7 @@
                         if (ctrl) {
                             _GM_openInTab(targetUrlData, {active: false, insert: true});
                         } else {
-                            _GM_openInTab(targetUrlData, {active: true, insert: true, close: true});
+                            _GM_openInTab(targetUrlData, {active: true, insert: true, close: ele.getAttribute("target") !== "_blank"});
                         }
                         return false;
                     } else if ((alt || ctrl || meta || shift) && isPage) {
@@ -11181,10 +11183,10 @@
                 let openType = this.bar.querySelector('.search-jumper-type.search-jumper-open>span');
                 if (openType) {
                     this.funcKeyCall = false;
-                    if (openType.onmousedown) {
-                        openType.onmousedown();
+                    if (openType.onmouseup) {
+                        openType.onmouseup();
                     } else {
-                        let mouseEvent = new PointerEvent("mousedown");
+                        let mouseEvent = new PointerEvent("mouseup");
                         openType.dispatchEvent(mouseEvent);
                     }
                 }
@@ -11676,14 +11678,14 @@
             }
 
             reopenType(type) {
-                let mouseEvent = new PointerEvent("mousedown");
+                let mouseEvent = new PointerEvent("mouseup");
                 if (type.parentNode.classList.contains('search-jumper-open')) {
-                    if (type.onmousedown) type.onmousedown();
+                    if (type.onmouseup) type.onmouseup();
                     else {
                         type.dispatchEvent(mouseEvent);
                     }
                 }
-                if (type.onmousedown) type.onmousedown();
+                if (type.onmouseup) type.onmouseup();
                 else {
                     type.dispatchEvent(mouseEvent);
                 }
@@ -13943,6 +13945,7 @@
             if (searchData.prefConfig.enableInPage) {
                 let shown = false;
                 let showToolbarTimer;
+                let tripleClick = false;
 
                 let clientRect;
                 document.addEventListener('selectionchange', (e) => {
@@ -14060,7 +14063,7 @@
                                 inputSign = !searchData.prefConfig.enableInInput && targetInput;
                                 if (!inputSign && (
                                     (matchKey && e.button === 2) ||
-                                    (moved && e.button === 0 && searchData.prefConfig.selectToShow && getSelectStr())
+                                    ((moved || tripleClick) && e.button === 0 && searchData.prefConfig.selectToShow && getSelectStr())
                                 )) {
                                     searchBar.showInPage(true, e);
                                 } else {
@@ -14084,6 +14087,11 @@
                             clearTimeout(showToolbarTimer);
                             setTimeout(() => {//wait for triple click
                                 searchBar.showInPage(true, e);
+                            }, 200);
+                        } else {
+                            tripleClick = true;
+                            setTimeout(() => {
+                                tripleClick = false;
                             }, 200);
                         }
                         return;
