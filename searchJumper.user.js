@@ -13298,7 +13298,7 @@
                         responseType:'blob',
                         headers: {
                             origin: urlSplit[0] + "//" + urlSplit[2],
-                            referer: src,
+                            referer: location.href,
                             accept: "*/*"
                         },
                         onload: function(d) {
