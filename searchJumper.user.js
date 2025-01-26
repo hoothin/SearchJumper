@@ -11941,22 +11941,22 @@
                         getBody(document).style.position = "absolute";
                         switch (className) {
                             case "search-jumper-left":
-                                getBody(document).style.width = `calc(100% - ${self.scale * 42}px)`;
+                                getBody(document).style.width = `calc(100vw - ${self.scale * 42}px)`;
                                 getBody(document).style.right = "0px";
                                 break;
                             case "search-jumper-right":
-                                getBody(document).style.width = `calc(100% - ${self.scale * 42}px)`;
+                                getBody(document).style.width = `calc(100vw - ${self.scale * 42}px)`;
                                 getBody(document).style.left = "0px";
                                 break;
                             case "search-jumper-bottom":
                                 getBody(document).style.width = "100%";
-                                getBody(document).style.height = `calc(100% - ${self.scale * 42}px)`;
+                                getBody(document).style.height = `calc(100vh - ${self.scale * 42}px)`;
                                 getBody(document).style.top = "0px";
                                 getBody(document).style.overflow = "auto";
                                 break;
                             default:
                                 getBody(document).style.width = "100%";
-                                getBody(document).style.height = `calc(100% - ${self.scale * 42}px)`;
+                                getBody(document).style.height = `calc(100vh - ${self.scale * 42}px)`;
                                 getBody(document).style.bottom = "0px";
                                 getBody(document).style.overflow = "auto";
                                 break;
