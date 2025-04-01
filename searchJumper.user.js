@@ -6823,7 +6823,7 @@
                 for (let i = searchTypes.length - 1; i >= 0; i--) {
                     let typeEle = searchTypes[i];
                     if (typeEle.dataset.type == siteName) {
-                        typeEle.firstChild.onmousedown({button: 2});
+                        typeEle.firstChild.onmouseup && typeEle.firstChild.onmouseup({button: 2});
                         return;
                     }
                 }
@@ -6833,7 +6833,7 @@
                 for (let i = searchTypes.length - 1; i >= 0; i--) {
                     let typeEle = searchTypes[i];
                     if (typeEle.dataset.type == siteName) {
-                        typeEle.firstChild.onmousedown({button: 2});
+                        typeEle.firstChild.onmouseup && typeEle.firstChild.onmouseup({button: 2});
                         return;
                     }
                 }
