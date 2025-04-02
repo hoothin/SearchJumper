@@ -2280,7 +2280,7 @@
                  #search-jumper.funcKeyCall>.search-jumper-searchBar>.search-jumper-type>.sitelist>.sitelistCon>div {
                      display: none;
                  }
-                 #search-jumper.funcKeyCall>.search-jumper-searchBar>.search-jumper-type>.sitelist>.sitelistCon>div:nth-of-type(${searchData.prefConfig.expandTypeLength || 12})~div {
+                 #search-jumper.funcKeyCall>.search-jumper-searchBar>.search-jumper-type>.sitelist>.sitelistCon>div:nth-of-type(${(searchData.prefConfig.expandTypeLength || 12) - 1 - (searchData.prefConfig.historyLength || 0)})~div {
                      display: block;
                  }
                  #search-jumper.funcKeyCall>.search-jumper-searchBar>.search-jumper-type>.sitelist>.sitelistCon>p {
