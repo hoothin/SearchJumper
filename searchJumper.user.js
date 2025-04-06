@@ -2372,6 +2372,9 @@
                  .searchJumperExpand {
                      opacity: 0.8;
                  }
+                 .search-jumper-type.not-expand:not(.search-jumper-open)>.searchJumperExpand {
+                     display: none;
+                 }
                  .searchJumperExpand:hover {
                      opacity: 1;
                  }
