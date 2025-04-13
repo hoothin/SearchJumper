@@ -146,6 +146,13 @@ Select the above text, PopClip will offer an "Install Extension" action. Click i
 
 ---
 
+## Pre-highlight 預高亮
+You can share highlighted links with SearchJumper users in the following ways:
+
+**#sjhl=**`highlight words` **&i=**`index of words`
+
+e.g.,`https://github.com/hoothin/SearchJumper#sjhl=SearchJumper&i=7`
+
 ## Search engine examples 搜尋引擎規則範例
 
 + Open link in the text, display only when a link is detected 打開文字中的鏈接，僅當檢測到鏈接時顯示
