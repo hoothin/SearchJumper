@@ -7653,6 +7653,22 @@
                     this.checkSearchJump();
                 }
 
+                if (/^#sjhl=/.test(location.hash)) {
+                    let sjhlMatch = location.hash.match(/^#sjhl=(.*?)(&i=(\d+))?$/);
+                    let sjhlText = sjhlMatch[1];
+                    let sjhlIndex = parseInt(sjhlMatch[3] || 1) - 1;
+                    try {
+                        sjhlText = decodeURIComponent(sjhlText);
+                    } catch(e) {
+                        console.log(e);
+                    }
+                    this.setInPageWords(sjhlText, () => {
+                        let hlEles = document.querySelectorAll("mark.searchJumper");
+                        let targetHl = hlEles[sjhlIndex];
+                        targetHl && targetHl.scrollIntoView({behavior: "smooth", block: "center", inline: "center"});
+                    });
+                }
+
                 let hasHighlightWords = this.initInPageWords && this.initInPageWords.length;
                 if (inMinMode || (this.bar.style.display === "none" && (!navEnable || !hasHighlightWords))) {
                     this.removeBar();
