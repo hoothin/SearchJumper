@@ -7667,6 +7667,9 @@
                         let targetHl = hlEles[sjhlIndex];
                         targetHl && targetHl.scrollIntoView({behavior: "smooth", block: "center", inline: "center"});
                     });
+                } else if (location.pathname === '/hoothin/SearchJumper/discussions/new' && location.search === '?category=search-engines') {
+                    let copyTarget = searchData.sitesConfig.filter(type => {return type && !(/^BM/.test(type.type) && type.icon === "bookmark")});
+                    emuInput('#discussion_body', "```json\n" + JSON.stringify(copyTarget, null, 2) + "\n```");
                 }
 
                 let hasHighlightWords = this.initInPageWords && this.initInPageWords.length;
