@@ -3782,6 +3782,7 @@
                      text-shadow: initial;
                      min-width: initial;
                      display: inline;
+                     margin: inherit;
                  }
                  mark.searchJumper:before,
                  a.searchJumper:before,
@@ -5431,7 +5432,7 @@
                         let rect = self.getRect(ele);
                         self.wPosBar.style.top = rect.top + document.documentElement.scrollTop + getBody(document).scrollTop + "px";
                         self.hPosBar.style.left = rect.left + "px";
-                        if (rect.top > viewHeight / 3 && rect.top < viewHeight / 3 * 2) return;
+                        if (self.fixTimes > 0 && rect.top > viewHeight / 3 && rect.top < viewHeight / 3 * 2) return;
                         if (++self.fixTimes == 5) {
                             ele.scrollIntoView({behavior: "smooth", block: "center", inline: "nearest"});
                         } else if (self.fixTimes > 10) {
@@ -5578,7 +5579,7 @@
 
             anylizeDomWithTextPos(dom, result) {
                 if (!result) result = {text: "", data:{}};
-                if (!dom || !dom.childNodes || !dom.childNodes.length || (dom.nodeType == 1 && !dom.offsetParent && !dom.offsetHeight)) {
+                if (!dom || !dom.childNodes || !dom.childNodes.length || (dom.nodeType == 1 && !dom.offsetParent && !dom.offsetHeight && (!dom.firstElementChild || !dom.firstElementChild.offsetParent))) {
                     return result;
                 }
                 dom.childNodes.forEach(ele => {
@@ -5586,7 +5587,7 @@
                         const start = result.text.length;
                         result.text += "\n";
                         result.data[start] = {node: ele, text: "\n"};
-                    } else if (ele.offsetParent || ele.offsetHeight) {
+                    } else if (ele.offsetParent || ele.offsetHeight || (ele.firstElementChild && ele.firstElementChild.offsetParent)) {
                         if (/^(div|h\d|p|form|ul|li|ol|dl|address|menu|table|fieldset|td)$/i.test(ele.nodeName)) {
                             let start = result.text.length;
                             result.text += "\n";
@@ -7428,6 +7429,9 @@
                         default:
                             break;
                     }
+                }, true);
+                this.con.addEventListener("keypress", e => {
+                    e.stopPropagation();
                 }, true);
                 this.closeBtn.addEventListener("mousedown", e => {
                     self.hideSearchInput();
