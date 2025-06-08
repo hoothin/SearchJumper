@@ -111,6 +111,11 @@ export default function General() {
     if (!window.searchData.prefConfig.suggestType) {
         window.searchData.prefConfig.suggestType = "google";
     }
+    if (window.searchData.prefConfig.shortcut === true) {
+        window.searchData.prefConfig.shortcut = 1;
+    } else if (window.searchData.prefConfig.shortcut === false) {
+        window.searchData.prefConfig.shortcut = 0;
+    }
     if (typeof window.searchData.prefConfig.shiftLastUsedType === "undefined") {
         window.searchData.prefConfig.shiftLastUsedType = true;
     }
@@ -1298,17 +1303,30 @@ export default function General() {
             </Paper>
             <Paper elevation={5} sx={{ padding: '20px', marginTop: '20px' }}>
                 <Box sx={{ flexGrow: 1, display: 'flex'}}>
-                    <Box>
+                    <Box sx={{marginRight: '50px'}}>
                         <Typography gutterBottom component="div">
-                            <h4>{window.i18n('enableShortcut')}</h4>
+                            <h4>{window.i18n('shortcutOption')}</h4>
                         </Typography>
                         <FormControl sx={{ m: 1, minWidth: 80 }}>
-                            <FormControlLabel
-                                control={
-                                    <Switch checked={state.shortcut} onChange={handleCheckChange} name="shortcut" />
-                                }
-                                label={window.i18n('enableShortcutTips')}
-                            />
+                            <InputLabel>{window.i18n('option')}</InputLabel>
+                            <Select
+                                value={state.shortcut}
+                                onChange={(event: SelectChangeEvent) => {
+                                    var newPref = {
+                                        ...state,
+                                        shortcut: event.target.value
+                                    };
+                                    setState(newPref);
+                                    window.searchData.prefConfig = newPref;
+                                    saveConfigToScript();
+                                }}
+                                autoWidth
+                                label={window.i18n('option')}
+                            >
+                                <MenuItem value={0}>{window.i18n("disable")}</MenuItem>
+                                <MenuItem value={1}>{window.i18n("enable")}</MenuItem>
+                                <MenuItem value={2}>{window.i18n("onEnginePage")}</MenuItem>
+                            </Select>
                         </FormControl>
                     </Box>
                     <Box>

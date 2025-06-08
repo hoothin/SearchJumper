@@ -9060,6 +9060,7 @@
                     let shortcurStr = data.shortcut.replace('Key', '').replace('Digit', '').toUpperCase();
                     if (shortcurStr.length == 1) ele.dataset.title += ` (${shortcurStr})`;
                     document.addEventListener('keydown', e => {
+                        if (searchData.prefConfig.shortcut == 2 && !currentSite) return;
                         if (e.target.id === "searchJumperInput") return;
                         if ((!data.ctrl == e.ctrlKey) ||
                             (!data.alt == e.altKey) ||
@@ -9952,6 +9953,7 @@
                         ele.appendChild(shortcutCover);
                     }
                     document.addEventListener('keydown', async e => {
+                        if (searchData.prefConfig.shortcut == 2 && !currentSite) return;
                         if (e.target.id === "searchJumperInput") return;
                         if (!self.hideTimeout) {
                             if ((!data.ctrl == e.ctrlKey) ||
