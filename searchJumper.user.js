@@ -5668,7 +5668,16 @@
                     return false;
                 });
                 spannode.dataset.content = word.showWords;
+                let longPressTimer;
+                let setLongPressTimer = () => {
+                    clearTimeout(longPressTimer);
+                    longPressTimer = setTimeout(() => {
+                        let highlightUrl = location.href.replace(/#.*/, "") + "#sjhl=" + encodeURIComponent(word.oriWord) + "&i=" + (index + 1);
+                        _unsafeWindow.history.replaceState('', '', highlightUrl);
+                    }, 800);
+                };
                 spannode.addEventListener("mousedown", e => {
+                    setLongPressTimer();
                     if (!e.altKey) return;
                     let target;
                     let newIndex = index;
@@ -5690,6 +5699,9 @@
                     self.focusHighlight(target);
                     self.setHighlightSpan(self.getHighlightSpanByText(word.showWords), self.focusIndex, curList);
                     self.focusText = word.showWords;
+                });
+                spannode.addEventListener("mouseup", e => {
+                    clearTimeout(longPressTimer);
                 });
                 return spannode;
             }
@@ -6003,13 +6015,14 @@
                                     let newTextNode = document.createTextNode(data.text);
                                     newTextNodeCon.appendChild(newTextNode);
                                     let matches = data.match.reverse();
-                                    let spannodes = [];
+                                    let spannodes = [], j = matches.length - 1;
                                     matches.forEach(d => {
-                                        spannode = self.createHighlightMark(word, index, curList);
+                                        spannode = self.createHighlightMark(word, index + j, curList);
                                         switch (d.type) {
                                             case "start":
                                                 spannode.style.borderTopRightRadius = 0;
                                                 spannode.style.borderBottomRightRadius = 0;
+                                                j--;
                                                 break;
                                             case "middle":
                                                 spannode.style.borderRadius = 0;
@@ -6019,6 +6032,7 @@
                                                 spannode.style.borderBottomLeftRadius = 0;
                                                 break;
                                             default:
+                                                j--;
                                                 break;
                                         }
                                         middlebit = newTextNode.splitText(d.pos);
@@ -7793,7 +7807,7 @@
                 return this.lastSearchEngineWords;
             }
 
-            setInPageWords(inPageWords, cb) {
+            setInPageWords(inPageWords, cb, init) {
                 this.initInPageWords.push(inPageWords);
                 //this.searchInPageTab.checked = true;
                 this.con.classList.add("in-find");
@@ -7810,7 +7824,7 @@
                             let word = this.initInPageWords.shift();
                             while (word) {
                                 this.searchJumperInPageInput.value = word;
-                                this.submitInPageWords(true);
+                                this.submitInPageWords(!!init);
                                 word = this.initInPageWords.shift();
                             }
                         }
@@ -7906,7 +7920,7 @@
                     let self = this;
                     this.setInPageWords(inPageWords, () => {
                         if (!self.navMarks.innerHTML && self.bar.style.display === "none") self.removeBar();
-                    });
+                    }, true);
                 } else if (!this.searchJumperInPageInput.value && curRef.indexOf(referrer) != -1 && cacheKeywords) {
                     inPageWords = cacheKeywords;
                     this.wordModeBtn.classList.add("checked");
@@ -7942,7 +7956,7 @@
                 this.wordModeBtn.classList.add("checked");
                 let inPageWords = searchData.prefConfig.showInSearchEngine ? this.searchEngineWords(localKeywords) : globalInPageWords;
                 if (inPageWords) {
-                    this.setInPageWords(inPageWords);
+                    this.setInPageWords(inPageWords, null, true);
                 }
             }
 
