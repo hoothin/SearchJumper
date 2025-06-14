@@ -1904,7 +1904,7 @@
                      color: white;
                      opacity: 0.45;
                      font-weight: bold;
-                     font-family: Arial,sans-serif,微软雅黑;
+                     font-family: Arial,sans-serif,微软雅黑,"Noto Sans SC";
                      overflow-wrap: normal;
                      white-space: nowrap;
                      margin: 20px;
@@ -2492,7 +2492,7 @@
                      width: 100%;
                      bottom: 0px;
                      color: black!important;
-                     font-family: Arial, sans-serif;
+                     font-family: Arial, sans-serif,微软雅黑,"Noto Sans SC";
                      text-shadow: 0 1px white, 1px 0 white, -1px 0 white, 0 -1px white;
                      font-size: ${12 * this.scale}px;
                      font-weight: normal;
@@ -2817,7 +2817,7 @@
                  #search-jumper .sitelist a>p {
                      display: inline-block;
                      font-size: 15px;
-                     font-family: Arial, sans-serif;
+                     font-family: Arial, sans-serif,微软雅黑,"Noto Sans SC";
                      line-height: 25px;
                      margin: 5px auto;
                      color: #6b6e74;
@@ -2846,7 +2846,7 @@
                      color: #565656;
                      text-align: center;
                      font-size: 16px;
-                     font-family: Arial, sans-serif;
+                     font-family: Arial, sans-serif,微软雅黑,"Noto Sans SC";
                      font-weight: bold;
                      background: #f6f6f6;
                      border-radius: 10px 10px 0 0;
@@ -2865,7 +2865,7 @@
                  .search-jumper-word {
                      background: black;
                      color: #ffffff!important;
-                     font-family: Arial, sans-serif;
+                     font-family: Arial, sans-serif,微软雅黑,"Noto Sans SC";
                      font-weight: 500;
                      font-size: ${13 * this.scale}px;
                      line-height: calc(${32 * this.scale}px * var(--scale));
@@ -2948,7 +2948,7 @@
                      text-align: center;
                      box-sizing: content-box;
                      overflow: hidden;
-                     font-family: Roboto,arial,sans-serif;
+                     font-family: Roboto,arial,sans-serif,微软雅黑,"Noto Sans SC";
                      cursor: grab;
                      max-height: 80vh;
                      overscroll-behavior: contain;
@@ -3058,7 +3058,7 @@
                      margin: 0 0 0 -25%;
                      margin-left: min(-25%, -250px);
                      position: fixed;
-                     font-family: Arial, sans-serif;
+                     font-family: Arial, sans-serif,微软雅黑,"Noto Sans SC";
                      text-align: left;
                      box-shadow: 0px 2px 10px rgb(0 0 0 / 80%);
                      border: 1px solid rgb(179 179 179 / 10%);
@@ -4584,7 +4584,7 @@
                          }
                          .customInputFrame-input-title {
                              font-size: 9pt;
-                             font-family: Arial, sans-serif;
+                             font-family: Arial, sans-serif,微软雅黑,"Noto Sans SC";
                              display: inline-block;
                              background-color: white;
                              position: relative;
@@ -4941,7 +4941,7 @@
                     }
                     .searchJumperModify-input-title {
                         font-size: 9pt;
-                        font-family: Arial, sans-serif;
+                        font-family: Arial, sans-serif,微软雅黑,"Noto Sans SC";
                         display: inline-block;
                         background-color: white;
                         position: relative;
@@ -15506,7 +15506,7 @@
                       height: 55px;
                       font-size: 12px;
                       font-weight: bold;
-                      font-family: Arial, sans-serif;
+                      font-family: Arial, sans-serif,微软雅黑,"Noto Sans SC";
                       display: flex;
                       flex-direction: column;
                       align-items: center;
@@ -15854,7 +15854,7 @@
                     }
                     .searchJumperFrame-input-title {
                         font-size: 9pt;
-                        font-family: Arial, sans-serif;
+                        font-family: Arial, sans-serif,微软雅黑,"Noto Sans SC";
                         display: inline-block;
                         background-color: white;
                         position: relative;
