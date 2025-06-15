@@ -7746,7 +7746,13 @@
 
             waitForHide(delay) {
                 let self = this;
-                if (this.bar.classList.contains("grabbing")) return;
+                if (this.bar.classList.contains("grabbing") || this.hiding) return;
+                if (delay === 0) {
+                    this.hiding = true;
+                    setTimeout(() => {
+                        self.hiding = false;
+                    }, 500);
+                }
                 this.touched = false;
                 var hideHandler = () => {
                     //self.bar.classList.remove("search-jumper-isInPage");
