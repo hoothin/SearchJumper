@@ -3782,7 +3782,7 @@
                      text-shadow: initial;
                      min-width: initial;
                      display: inline;
-                     margin: inherit;
+                     margin: initial;
                  }
                  mark.searchJumper:before,
                  a.searchJumper:before,
@@ -5578,7 +5578,7 @@
             }
 
             anylizeDomWithTextPos(dom, result) {
-                if (!result) result = {text: "", data:{}};
+                if (!result) result = {text: "", data:[]};
                 if (!dom || !dom.childNodes || !dom.childNodes.length || (dom.nodeType == 1 && !dom.offsetParent && !dom.offsetHeight && (!dom.firstElementChild || !dom.firstElementChild.offsetParent))) {
                     return result;
                 }
@@ -5586,16 +5586,16 @@
                     if ((ele.classList && ele.classList.contains("searchJumper")) || /^(img|svg|picture|br|hr|textarea)$/i.test(ele.nodeName)) {
                         const start = result.text.length;
                         result.text += "\n";
-                        result.data[start] = {node: ele, text: "\n"};
+                        result.data.push({index: start, node: ele, text: "\n"});
                     } else if (ele.offsetParent || ele.offsetHeight || (ele.firstElementChild && ele.firstElementChild.offsetParent)) {
                         if (/^(div|h\d|p|form|ul|li|ol|dl|address|menu|table|fieldset|td)$/i.test(ele.nodeName)) {
                             let start = result.text.length;
                             result.text += "\n";
-                            result.data[start] = {node: {}, text: "\n"};
+                            result.data.push({index: start, node: {}, text: "\n"});
                             result = this.anylizeDomWithTextPos(ele, result);
                             start = result.text.length;
                             result.text += "\n";
-                            result.data[start] = {node: {}, text: "\n"};
+                            result.data.push({index: start, node: {}, text: "\n"});
                         } else {
                             result = this.anylizeDomWithTextPos(ele, result);
                         }
@@ -5609,7 +5609,7 @@
                         if (!textData || !textData.trim()) return;
                         const start = result.text.length;
                         result.text += textData;
-                        result.data[result.text.length - 1] = {node: ele, text: textData};
+                        result.data.push({index: result.text.length - 1, node: ele, text: textData});
                     }
                 });
                 return result;
@@ -5894,12 +5894,10 @@
                         let nodeAndPos = [];
                         let validWord = (word.init || inWordMode) && /^[a-z]+$/i.test(word.content);
                         function getNodePos(pos, len, matchedText) {
-                            let keys = Object.keys(domTextResult.data);
                             let findNodes = [], leftLen = len;
                             let pre = "", after = "", after2 = "";
-                            for (let i = 0; i < keys.length; i++) {
-                                let end = parseInt(keys[i]);
-                                let curnode = domTextResult.data[end];
+                            for (const curnode of dataRes) {
+                                const end = curnode.index;
                                 if (pos > end) continue;
                                 let curpos = pos - (end - curnode.text.length) - 1;
                                 let type = "full";
