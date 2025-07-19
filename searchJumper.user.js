@@ -225,7 +225,7 @@
                         recoverBtn: '恢复查找文字',
                         pinBtn: '固定查找文字，在所有标签页中搜索',
                         locBtn: '定位侧边栏',
-                        filterSites: '筛选搜索引擎',
+                        filterSites: '搜索引擎',
                         searchInPage: '页内查找',
                         removeBtn: '移除搜索词',
                         saveRuleBtn: '保存当前站点的搜索词',
@@ -352,7 +352,7 @@
                         recoverBtn: '恢復查找文字',
                         pinBtn: '固定查找文字，在所有標籤頁中搜尋',
                         locBtn: '定位側邊欄',
-                        filterSites: '篩選搜尋引擎',
+                        filterSites: '搜尋引擎',
                         searchInPage: '頁內查找',
                         removeBtn: '移除搜尋詞',
                         saveRuleBtn: '保存當前站點的搜尋詞',
@@ -477,7 +477,7 @@
                         reverseBtn: '検索テキストを復元',
                         pinBtn: '検索テキストを修正、すべてのタブで検索',
                         locBtn: 'サイドバーを検索',
-                        filterSites: '検索エンジンをフィルタリング',
+                        filterSites: '検索エンジン',
                         searchInPage: 'ページ内を検索',
                         removeBtn: '検索語を削除',
                         saveRuleBtn: '現在のサイトの検索語を保存',
@@ -720,7 +720,7 @@
                         recoverBtn: 'Recover find text',
                         pinBtn: 'Pin search text to search in all tabs',
                         locBtn: 'Sidebar to locate',
-                        filterSites: 'Filter search engines',
+                        filterSites: 'Search engines',
                         searchInPage: 'Find in page',
                         removeBtn: 'Remove search term',
                         saveRuleBtn: 'Save the search term of the current site',
@@ -2740,6 +2740,32 @@
                      min-height: ${this.tilesZoom * 40}px;
                      min-width: ${this.tilesZoom * 40}px;
                  }
+                 #search-jumper-tileInput {
+                     display: none;
+                     opacity: 0.3;
+                     user-select: all;
+                     background-color: #212022;
+                     color: #adadad;
+                     border: none;
+                     font-size: 12px;
+                     margin-bottom: 3px;
+                     padding: 5px;
+                     border-radius: 10px;
+                     box-shadow: #adadad 0px 0px 2px;
+                     width: 100%;
+                     outline: none;
+                     box-sizing: border-box;
+                     cursor: text;
+                     -moz-transition: opacity 0.3s ease;
+                     -webkit-transition: opacity 0.3s ease;
+                     transition: opacity 0.3s ease;
+                 }
+                 #search-jumper-tileInput:hover {
+                     opacity: 0.85;
+                 }
+                 #search-jumper.funcKeyCall #search-jumper-tileInput {
+                     display: block;
+                 }
                  .search-jumper-right>.searchJumperNavBar {
                      right: unset;
                      left: 0;
@@ -3805,6 +3831,16 @@
                 `;
                 if (searchData.prefConfig.cssText) cssText += searchData.prefConfig.cssText;
 
+                let bar = document.createElement("span");
+                bar.className = "search-jumper-searchBar";
+
+                let tileInput = document.createElement("input");
+                tileInput.id = "search-jumper-tileInput";
+                tileInput.addEventListener("mousedown", e => {
+                    e && e.stopPropagation && e.stopPropagation();
+                }, true);
+                this.tileInput = tileInput;
+
                 let logoCon = document.createElement("span");
                 logoCon.className = "search-jumper-logo";
                 logoBtn = document.createElement("span");
@@ -3819,8 +3855,6 @@
 
                 logoCon.appendChild(logoBtn);
 
-                let bar = document.createElement("span");
-                bar.className = "search-jumper-searchBar";
                 bar.appendChild(logoCon);
 
                 let searchBarCon = document.createElement("div");
@@ -6480,6 +6514,7 @@
                 this.alllist.appendChild(this.filterSites);
                 this.filterGlob.innerHTML = createHTML();
                 let self = this;
+                let kw = this.tileInput.value;
                 this.setFuncKeyCall(false);
                 this.hideSearchInput();
                 this.con.classList.add("search-jumper-showall");
@@ -6535,7 +6570,7 @@
                      (targetElement.parentNode && targetElement.parentNode.nodeName.toUpperCase() == 'A'))) {
                     targetKw = targetElement.textContent.trim();
                 }
-                let kw = getKeywords() || targetKw || cacheKeywords;
+                kw = kw || getKeywords() || targetKw || cacheKeywords;
                 this.searchJumperInputKeyWords.value = kw;
                 setTimeout(() => {
                     if (!self.showAllMouseHandler) {
@@ -10042,7 +10077,7 @@
                     self.customInput = false;
                     dataUrl = data.url;
                     inputString = "";
-                    let keywords = _keyWords || self.searchJumperInputKeyWords.value || getSelectStr();
+                    let keywords = _keyWords || self.searchJumperInputKeyWords.value || self.tileInput.value || getSelectStr();
                     if (!keywords && !draging && !self.bar.classList.contains("search-jumper-isTargetLink")) {
                         keywords = getKeywords();
                     }
@@ -10401,7 +10436,7 @@
                         if (!needDecode) keywords = encodeURIComponent(keywords);
                     }
                     if (targetUrl === '') {
-                        let canBeUrl = getSelectStr() || self.searchJumperInputKeyWords.value;
+                        let canBeUrl = getSelectStr() || self.searchJumperInputKeyWords.value || self.tileInput.value;
                         if (!hasWordParam && canBeUrl && /^(http|ftp)/i.test(canBeUrl)) {
                             targetUrl = canBeUrl;
                             targetUrl = targetUrl.replace(/%(\w{2})/g, (match, letter) => `%${letter.toUpperCase()}`);
@@ -11181,7 +11216,7 @@
                             return;
                         }
                         if (hasWordParam) {
-                            let keywords = self.searchJumperInputKeyWords.value || getKeywords();
+                            let keywords = self.searchJumperInputKeyWords.value || self.tileInput.value || getKeywords();
                             if (!keywords) {
                                 self.waitForShowTips = true;
                                 self.tipsPos(ele, tipsStr);
@@ -11950,9 +11985,13 @@
                 this.funcKeyCall = value;
                 if (!this.con.classList.contains("search-jumper-showall")) {
                     if (value) {
+                        this.tileInput.value = getKeywords();
                         this.con.classList.add("funcKeyCall");
+                        this.bar.insertBefore(this.tileInput, this.bar.firstChild);
                     } else {
+                        this.tileInput.value = "";
                         this.con.classList.remove("funcKeyCall");
+                        this.tileInput.parentNode && this.tileInput.parentNode.removeChild(this.tileInput);
                     }
                 }
             }
