@@ -2145,7 +2145,7 @@
                      ${searchData.prefConfig.noAni ? "" : "transition:margin-top 0.25s ease, margin-left 0.25s, right 0.25s, opacity 0.25s, transform 0.25s;"}
                  }
                  .funcKeyCall>.search-jumper-searchBar.initShow {
-                     ${searchData.prefConfig.noAni ? "" : "transition:opacity 0.15s ease-out;"}
+                     ${searchData.prefConfig.noAni ? "" : "transition:opacity 0.15s ease-out, transform 0.25s ease;"}
                  }
                  #search-jumper.funcKeyCall {
                      overflow: visible;
@@ -2298,6 +2298,9 @@
                  #search-jumper.funcKeyCall>.search-jumper-searchBar>.search-jumper-type:hover>a.search-jumper-btn,
                  #search-jumper.funcKeyCall>.search-jumper-searchBar>.search-jumper-type:hover>.searchJumperExpand {
                      display: grid;
+                 }
+                 input#search-jumper-tileInput {
+                     opacity: 0;
                  }
                  ` : ''}
                  ${searchData.prefConfig.minPopup == 2 ? `
