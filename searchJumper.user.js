@@ -3842,6 +3842,14 @@
                 tileInput.addEventListener("mousedown", e => {
                     e && e.stopPropagation && e.stopPropagation();
                 }, true);
+                let tileInputTimer;
+                tileInput.addEventListener("input", e => {
+                    clearTimeout(tileInputTimer);
+                    tileInputTimer = setTimeout(() => {
+                        let targetType = self.bar.querySelector(`.search-jumper-open>span:first-child`);
+                        targetType && targetType.dispatchEvent(new CustomEvent("checkSites", {detail: tileInput.value}));
+                    }, 500);
+                }, true);
                 this.tileInput = tileInput;
 
                 let logoCon = document.createElement("span");
@@ -9142,6 +9150,63 @@
                         } else ele.appendChild(se);
                     }
                 }
+                let typeCheckSites = (keyWords, e) => {
+                    let leftRight = self.con.classList.contains("search-jumper-left") ||
+                        self.con.classList.contains("search-jumper-right");
+                    let targetInput = false;
+                    if (targetElement) {
+                        targetInput = isInput(targetElement);
+                    }
+
+                    let href = targetElement && (targetElement.href || targetElement.src);
+                    shownSitesNum = 0;
+                    siteEles.forEach((se, i) => {
+                        let data = sites[i];
+                        let pass = true;
+                        if (data.kwFilter) {
+                            let checkKw;
+                            if (se.dataset.link) {
+                                checkKw = href || keyWords;
+                            } else {
+                                checkKw = se.dataset.txt ? (keyWords || (targetElement && targetElement.innerText) || "") : (href || keyWords || location.href);
+                            }
+                            pass = self.checkKwFilter(data.kwFilter, checkKw);
+                        }
+                        if (pass && se.dataset.paste) {
+                            pass = targetInput;
+                            taggleHide(se, pass);
+                        } else if (data.kwFilter) {
+                            taggleHide(se, pass);
+                        }
+                        let si = se.querySelector("img");
+                        if (se.style.display != "none") {
+                            shownSitesNum++;
+                        }
+                        if (si && !si.src && si.dataset.src) {
+                            si.src = si.dataset.src;
+                            delete si.dataset.src;
+                        }
+                    });
+                    if (shownSitesNum > (searchData.prefConfig.expandTypeLength || 12) && !searchData.prefConfig.expandType) {
+                        ele.classList.add("not-expand");
+                        ele.appendChild(self.searchJumperExpand);
+                    }
+                    let scrollSize = Math.max(ele.scrollWidth, ele.scrollHeight) + 5 + "px";
+                    if (searchData.prefConfig.disableTypeOpen) {
+                        scrollSize = baseSize + "px";
+                        if (e) self.listPos(ele.children[0], siteList);
+                    }
+                    if (leftRight) {
+                        ele.style.height = scrollSize;
+                        ele.style.width = "";
+                    } else {
+                        ele.style.width = scrollSize;
+                        ele.style.height = "";
+                    }
+                };
+                typeBtn.addEventListener('checkSites', e => {
+                    typeCheckSites(e.detail);
+                }, false);
                 let typeAction = e => {
                     if (e) {
                         if (e.button === 2) {
@@ -9169,57 +9234,8 @@
                             self.bar.classList.remove("minSizeModeClose");
                         }
 
-                        let targetInput = false;
-                        if (targetElement) {
-                            targetInput = isInput(targetElement);
-                        }
-
-                        let href = targetElement && (targetElement.href || targetElement.src);
                         let keyWords = getKeywords();
-                        shownSitesNum = 0;
-                        siteEles.forEach((se, i) => {
-                            let data = sites[i];
-                            let pass = true;
-                            if (data.kwFilter) {
-                                let checkKw;
-                                if (se.dataset.link) {
-                                    checkKw = href || keyWords;
-                                } else {
-                                    checkKw = se.dataset.txt ? (keyWords || (targetElement && targetElement.innerText) || "") : (href || keyWords || location.href);
-                                }
-                                pass = self.checkKwFilter(data.kwFilter, checkKw);
-                            }
-                            if (pass && se.dataset.paste) {
-                                pass = targetInput;
-                                taggleHide(se, pass);
-                            } else if (data.kwFilter) {
-                                taggleHide(se, pass);
-                            }
-                            let si = se.querySelector("img");
-                            if (se.style.display != "none") {
-                                shownSitesNum++;
-                            }
-                            if (si && !si.src && si.dataset.src) {
-                                si.src = si.dataset.src;
-                                delete si.dataset.src;
-                            }
-                        });
-                        if (shownSitesNum > (searchData.prefConfig.expandTypeLength || 12) && !searchData.prefConfig.expandType) {
-                            ele.classList.add("not-expand");
-                            ele.appendChild(self.searchJumperExpand);
-                        }
-                        let scrollSize = Math.max(ele.scrollWidth, ele.scrollHeight) + 5 + "px";
-                        if (searchData.prefConfig.disableTypeOpen) {
-                            scrollSize = baseSize + "px";
-                            if (e) self.listPos(ele.children[0], siteList);
-                        }
-                        if (leftRight) {
-                            ele.style.height = scrollSize;
-                            ele.style.width = "";
-                        } else {
-                            ele.style.width = scrollSize;
-                            ele.style.height = "";
-                        }
+                        typeCheckSites(keyWords, e);
                         setTimeout(() => {
                             if (ele.classList.contains("search-jumper-open")) {
                                 ele.style.flexWrap = "nowrap";
@@ -10177,7 +10193,7 @@
                                 let debase64 = atob(keywordsR);
                                 _str = customReplaceSingle(_str, "%bd", debase64);
                             } catch(e) {
-                                console.log(e);
+                                console.log("No standard base64");
                             }
                         }
                         if (/%be\b/.test(_str)) {
