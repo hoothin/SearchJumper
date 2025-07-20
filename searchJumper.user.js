@@ -5171,6 +5171,11 @@
                             modifyFrame.parentNode.removeChild(modifyFrame);
                         }
                     });
+                    modifyFrame.addEventListener("keydown", e => {
+                        if (e.keyCode == 13 && e.target && e.target.nodeName == 'INPUT') {
+                            modifyBtn.click();
+                        }
+                    });
                 }
                 let wordContent = this.modifyFrame.querySelector("[name='wordContent']"),
                     wordStyle = this.modifyFrame.querySelector("[name='wordStyle']"),
@@ -6489,10 +6494,10 @@
                 if (!searchData.prefConfig.disableAutoOpen && !searchData.prefConfig.disableTypeOpen) {
                     let firstType = this.bar.querySelector('.search-jumper-type:nth-child(1)>span');
                     if (firstType && !firstType.classList.contains("search-jumper-open")) {
-                        if (firstType.onmousedown) {
-                            firstType.onmousedown();
+                        if (firstType.onmouseup) {
+                            firstType.onmouseup();
                         } else {
-                            let mouseEvent = new PointerEvent("mousedown");
+                            let mouseEvent = new PointerEvent("mouseup");
                             firstType.dispatchEvent(mouseEvent);
                         }
                     }
@@ -6660,10 +6665,10 @@
                     }
                     let firstType = this.bar.querySelector('.search-jumper-needInPage:not(.notmatch)>span');
                     if (firstType && !firstType.parentNode.classList.contains('search-jumper-open')) {
-                        if (firstType.onmousedown) {
-                            firstType.onmousedown();
+                        if (firstType.onmouseup) {
+                            firstType.onmouseup();
                         } else {
-                            let mouseEvent = new PointerEvent("mousedown");
+                            let mouseEvent = new PointerEvent("mouseup");
                             firstType.dispatchEvent(mouseEvent);
                         }
                     }
@@ -6927,14 +6932,14 @@
                 if (!firstType) firstType = this.bar.querySelector('.search-jumper-targetAll:not(.notmatch)') || this.bar.querySelector('.search-jumper-type');
                 if (firstType) {
                     this.setFuncKeyCall(false);
-                    let mouseEvent = new PointerEvent("mousedown");
+                    let mouseEvent = new PointerEvent("mouseup");
                     if (firstType.classList.contains('search-jumper-open')) {
-                        if (firstType.children[0].onmousedown) firstType.children[0].onmousedown();
+                        if (firstType.children[0].onmouseup) firstType.children[0].onmouseup();
                         else {
                             firstType.children[0].dispatchEvent(mouseEvent);
                         }
                     }
-                    if (firstType.children[0].onmousedown) firstType.children[0].onmousedown();
+                    if (firstType.children[0].onmouseup) firstType.children[0].onmouseup();
                     else {
                         firstType.children[0].dispatchEvent(mouseEvent);
                     }
@@ -7430,10 +7435,9 @@
                                     self.openSiteBtn(siteEle, forceTarget, !e.ctrlKey);
                                 }
                             } else {
+                                this.searchJumperInputKeyWords.focus();
                                 if (this.searchJumperInputKeyWords.value) {
                                     searchWithCurrentFilter(e);
-                                } else {
-                                    this.searchJumperInputKeyWords.focus();
                                 }
                                 saveCacheFilter();
                             }
@@ -7808,10 +7812,10 @@
                             self.initPos();
                             let firstType = self.bar.querySelector('.search-jumper-type:nth-child(1)>span');
                             if (firstType && !firstType.classList.contains("search-jumper-open")) {
-                                if (firstType.onmousedown) {
-                                    firstType.onmousedown();
+                                if (firstType.onmouseup) {
+                                    firstType.onmouseup();
                                 } else {
-                                    let mouseEvent = new PointerEvent("mousedown");
+                                    let mouseEvent = new PointerEvent("mouseup");
                                     firstType.dispatchEvent(mouseEvent);
                                 }
                             }
@@ -8196,10 +8200,10 @@
                 if (showType) {
                     if (!showType.classList.contains("search-jumper-open")) {
                         let typeBtn = showType.querySelector("span.search-jumper-btn");
-                        if (typeBtn.onmousedown) {
-                            typeBtn.onmousedown();
+                        if (typeBtn.onmouseup) {
+                            typeBtn.onmouseup();
                         } else {
-                            let mouseEvent = new PointerEvent("mousedown");
+                            let mouseEvent = new PointerEvent("mouseup");
                             typeBtn.dispatchEvent(mouseEvent);
                         }
                     }
@@ -8344,10 +8348,10 @@
                             if (typeBtn && !typeBtn.classList.contains("search-jumper-open")) {
                                 this.bar.insertBefore(typeBtn.parentNode, this.bar.children[0]);
                                 if (!searchData.prefConfig.disableAutoOpen && !searchData.prefConfig.disableTypeOpen) {
-                                    if (typeBtn.onmousedown) {
-                                        typeBtn.onmousedown();
+                                    if (typeBtn.onmouseup) {
+                                        typeBtn.onmouseup();
                                     } else {
-                                        let mouseEvent = new PointerEvent("mousedown");
+                                        let mouseEvent = new PointerEvent("mouseup");
                                         typeBtn.dispatchEvent(mouseEvent);
                                     }
                                 }
@@ -15422,9 +15426,9 @@
                 clearTimeout(openAllTimer);
                 if ((currentSite && !currentSite.hideNotMatch && !searchData.prefConfig.hideOnSearchEngine) || searchBar.con.classList.contains("resizePage")) {
                     if (preOpenType && !preOpenType.classList.contains('search-jumper-open')) {
-                        if (preOpenType.children[0].onmousedown) preOpenType.children[0].onmousedown();
+                        if (preOpenType.children[0].onmouseup) preOpenType.children[0].onmouseup();
                         else {
-                            let mouseEvent = new PointerEvent("mousedown");
+                            let mouseEvent = new PointerEvent("mouseup");
                             preOpenType.children[0].dispatchEvent(mouseEvent);
                         }
                     }
@@ -16754,6 +16758,11 @@
                         urlInput.value = location.href + '#p{' + actionUrl + '}';
                     }
                     addFrame.classList.remove("crawling");
+                });
+                addFrame.addEventListener("keydown", e => {
+                    if (e.keyCode == 13 && e.target && e.target.nodeName == 'INPUT') {
+                        addBtn.click();
+                    }
                 });
             }
             searchBar.addToShadow(addFrame);
