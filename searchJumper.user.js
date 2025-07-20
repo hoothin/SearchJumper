@@ -1951,6 +1951,7 @@
                  #search-jumper.search-jumper-showall #search-jumper-alllist.new-mode .sitelist {
                      width: 78%;
                      max-height: unset;
+                     height: auto !important;
                  }
                  #search-jumper.search-jumper-showall #search-jumper-alllist.new-mode .sitelist>.sitelistCon {
                      display: flex;
