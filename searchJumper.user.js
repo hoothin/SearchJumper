@@ -2500,7 +2500,7 @@
                      font-size: ${12 * this.tilesZoom}px;
                  }
                  .search-jumper-type>a.search-jumper-btn.historySite {
-                     box-shadow: 0px 0px 8px 0px #00000080;
+                     box-shadow: 0px 0px 6px 0px #00000099;
                  }
                  .search-jumper-btn>img {
                      width: ${32 * this.scale}px;
