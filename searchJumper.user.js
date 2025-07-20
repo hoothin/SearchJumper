@@ -8153,14 +8153,14 @@
                             if (!btn.dataset.host) {
                                 let hostReg = /^https?:\/\/([^\/]*)\/[\s\S]*$/;
                                 let href = data.url;
-                                btn.dataset.host = hostReg.test(href) ? href.replace(hostReg, "$1") : href;
-                                if (btn.dataset.host) btn.dataset.host = btn.dataset.host.toLowerCase();
+                                let host = hostReg.test(href) ? href.replace(hostReg, "$1") : href;
+                                btn.dataset.host = host && host.split("\n")[0].toLowerCase();
                             }
                             canMatch = this.globMatch(inputWords, btn.dataset.host);
                         }
                         if (!canMatch) {
                             btn.classList.add("input-hide");
-                        } else {
+                        } else if(btn.dataset.isPage) {
                             globMatchName += '^' + btn.dataset.host + '$';
                         }
                     }
@@ -8176,10 +8176,13 @@
                         }
                         if (listItem) listItem.classList.remove("input-hide");
                         if (optionNum < 50 && inputWords && this.searchInput.value !== globMatchName) {
-                            optionNum++;
-                            let option = document.createElement('option');
-                            option.value = globMatchName;
-                            this.filterGlob.appendChild(option);
+                            const isExist = this.filterGlob.querySelector(`option[value="${globMatchName}"]`);
+                            if (!isExist) {
+                                optionNum++;
+                                let option = document.createElement('option');
+                                option.value = globMatchName;
+                                this.filterGlob.appendChild(option);
+                            }
                         }
                     }
                 });
@@ -8547,7 +8550,7 @@
                         if (self.con.classList.contains("search-jumper-showall")) {
                             targetElement = a.parentNode;
                         } else self.waitForHide(0);
-                        siteEle.dispatchEvent(new CustomEvent('showTips'));
+                        siteEle.dispatchEvent(new CustomEvent('showTips', {detail: a}));
                     } else {
                         await self.siteSetUrl(siteEle, {button: e.button, altKey: e.altKey, ctrlKey: e.ctrlKey, shiftKey: e.shiftKey, metaKey: e.metaKey});
                         if (siteEle.href) a.href = siteEle.href;
@@ -8805,6 +8808,7 @@
                 let viewHeight = window.innerHeight || document.documentElement.clientHeight;
                 this.tips.style.position = "";
                 target.style.height = "";
+                target.style.position = "";
                 if (!clingEle || /^(body|html)$/i.test(clingEle.nodeName)) {
                     this.tips.style.transition = "none";
                     this.tips.style.position = "fixed";
@@ -8823,12 +8827,13 @@
                     target.style.bottom = "";
                     target.style.left = clientX + "px";
                     target.style.top = clientY + "px";
-                } else if (this.funcKeyCall) {
+                } else if (this.funcKeyCall || !clingEle.classList.contains("search-jumper-btn")) {
+                    target.style.position = "absolute";
                     let scrollTop = window.pageYOffset || document.documentElement.scrollTop || getBody(document).scrollTop;
                     let scrollLeft = window.pageXOffset || document.documentElement.scrollLeft || getBody(document).scrollLeft;
 
-                    clientX = clientRect.x + ew / 2 - this.con.scrollLeft + scrollLeft;
-                    clientY = clientRect.y + eh / 2 - this.con.scrollTop + scrollTop;
+                    clientX = clientRect.x + ew / 2 - (this.funcKeyCall ? this.con.scrollLeft : 0) + scrollLeft;
+                    clientY = clientRect.y + eh / 2 - (this.funcKeyCall ? this.con.scrollTop : 0) + scrollTop;
 
                     clientX -= target.clientWidth / 2;
                     let actualTop = clingEle.getBoundingClientRect().top;
@@ -9506,6 +9511,9 @@
             }
 
             async openSiteBtn(siteEle, forceTarget, active = false) {
+                this.lastTips = null;
+                let mouseDownEvent = new CustomEvent("mouseenter");
+                siteEle.dispatchEvent(mouseDownEvent);
                 await this.siteSetUrl(siteEle);
                 let isPage = siteEle.dataset.isPage;
                 if (!forceTarget) forceTarget = "_blank";
@@ -11241,8 +11249,8 @@
                     self.appendBar();
                     self.closeOpenType();
                     self.con.style.display = "";
-                    self.setFuncKeyCall(true);
-                    showTipsHandler(targetElement, 0);
+                    //self.setFuncKeyCall(true);
+                    showTipsHandler(e.detail || targetElement, 0);
                 }, false);
                 ele.addEventListener('mouseleave', e => {
                     if (!tipsShowing) {
