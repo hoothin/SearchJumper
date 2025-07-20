@@ -2278,12 +2278,6 @@
                      margin: 0;
                      padding: 5px;
                  }
-                 #search-jumper.funcKeyCall>.search-jumper-searchBar>.search-jumper-type>.sitelist>.sitelistCon>div {
-                     display: none;
-                 }
-                 #search-jumper.funcKeyCall>.search-jumper-searchBar>.search-jumper-type>.sitelist>.sitelistCon>div:nth-of-type(${Math.max(1, (searchData.prefConfig.expandTypeLength || 12) - 1 - (searchData.prefConfig.historyLength || 0))})~div {
-                     display: block;
-                 }
                  #search-jumper.funcKeyCall>.search-jumper-searchBar>.search-jumper-type>.sitelist>.sitelistCon>p {
                      display: none;
                  }
