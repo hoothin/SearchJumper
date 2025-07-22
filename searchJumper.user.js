@@ -2759,7 +2759,7 @@
                      transition: opacity 0.3s ease;
                  }
                  #search-jumper-tileInput:hover {
-                     opacity: 0.85;
+                     opacity: 0.95;
                  }
                  #search-jumper.funcKeyCall #search-jumper-tileInput {
                      display: block;
@@ -17206,7 +17206,7 @@
                 storage.setItem("searchData", searchData);
                 setTimeout(() => {
                     storage.getItem("searchData", data => {
-                        if (data.prefConfig.firstRun === false) {
+                        if (data.prefConfig.firstRun === false && !ext) {
                             _GM_openInTab(firstRunPage, {active: true, insert: true});
                         }
                     });
