@@ -7392,6 +7392,7 @@
                     }
                 };
                 let inputTimer;
+                let isComposing = false;
                 this.inInput = false;
                 let saveCacheFilter = () => {
                     if (cacheFilter !== self.searchInput.value) {
@@ -7402,8 +7403,14 @@
                 this.searchInput.addEventListener("input", e => {
                     clearTimeout(inputTimer);
                     inputTimer = setTimeout(() => {
-                        self.searchSiteBtns(self.searchInput.value)
+                        if (!isComposing) self.searchSiteBtns(self.searchInput.value)
                     }, 500);
+                });
+                this.searchInput.addEventListener('compositionstart', function() {
+                    isComposing = true;
+                });
+                this.searchInput.addEventListener('compositionend', function() {
+                    isComposing = false;
                 });
                 this.searchInput.addEventListener("click", e => {
                     self.searchInput.select();
@@ -7462,8 +7469,14 @@
                 this.searchJumperInputKeyWords.addEventListener("input", e => {
                     clearTimeout(inputTimer);
                     inputTimer = setTimeout(() => {
-                        self.getSuggest(self.searchJumperInputKeyWords.value)
+                        if (!isComposing) self.getSuggest(self.searchJumperInputKeyWords.value)
                     }, 200);
+                });
+                this.searchJumperInputKeyWords.addEventListener('compositionstart', function() {
+                    isComposing = true;
+                });
+                this.searchJumperInputKeyWords.addEventListener('compositionend', function() {
+                    isComposing = false;
                 });
                 this.searchJumperInputKeyWords.addEventListener("keydown", e => {
                     if (e.keyCode !== 27) e.stopPropagation();
