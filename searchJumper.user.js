@@ -3797,7 +3797,7 @@
                  mark.searchJumper,
                  a.searchJumper {
                      visibility: inherit;
-                     font-style: normal;
+                     font-style: inherit;
                      box-shadow: rgba(0, 0, 0, 0.3) 1px 1px 3px;
                      border-radius: 3px;
                      text-decoration: none;
@@ -14446,9 +14446,17 @@
                     for (let mutation of mutationsList) {
                         if (mutation.type === "characterData") {
                             let parentNode = mutation.target.parentNode;
-                            if (!parentNode ||
-                                (mutation.target.previousElementSibling && mutation.target.previousElementSibling.className === "searchJumper") ||
-                                (mutation.target.nextElementSibling && mutation.target.nextElementSibling.className === "searchJumper")) {
+                            if (!parentNode) {
+                                return;
+                            }
+                            let sibling = mutation.target.previousElementSibling;
+                            if (sibling && !sibling.dataset.inited && sibling.className === "searchJumper") {
+                                sibling.dataset.inited = true;
+                                return;
+                            }
+                            sibling = mutation.target.nextElementSibling;
+                            if (sibling && !sibling.dataset.inited && sibling.className === "searchJumper") {
+                                sibling.dataset.inited = true;
                                 return;
                             }
                             searchBar.checkCharacterData(parentNode);
