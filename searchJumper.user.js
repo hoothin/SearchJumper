@@ -10116,7 +10116,7 @@
                     self.customInput = false;
                     dataUrl = data.url;
                     inputString = "";
-                    let keywords = _keyWords || self.searchJumperInputKeyWords.value || self.tileInput.value || getSelectStr();
+                    let keywords = _keyWords || self.searchJumperInputKeyWords.value || getSelectStr() || self.tileInput.value;
                     if (!keywords && !draging && !self.bar.classList.contains("search-jumper-isTargetLink")) {
                         keywords = getKeywords();
                     }
@@ -13534,6 +13534,18 @@
             setTimeout(() => {
                 extSelectionText = "";
             }, 1);
+            if (!selStr) {
+                let temp = window.getSelection();
+                if (temp && temp.rangeCount) {
+                    temp = temp.getRangeAt(0);
+                    if (temp) {
+                        temp = temp.cloneContents();
+                        if (temp) {
+                            selStr = temp.textContent;
+                        }
+                    }
+                }
+            }
             if (!selStr) {
                 let tar = getActiveElement(document);
                 if (tar && /^(TEXTAREA|INPUT)$/i.test(tar.nodeName)) {
