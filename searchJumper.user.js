@@ -153,7 +153,7 @@
         callBarCtrl: false,
         callBarShift: false,
         callBarMeta: false,
-        defaultFindTab: false,
+        defaultFindTab: true,
         disableAutoOpen: false,
         hideOnSearchEngine: false,
         minSizeMode: false,
