@@ -10188,7 +10188,7 @@
                         let _str = str;
                         _str = customReplaceSingle(_str, "%su", keywordsU);
                         _str = customReplaceSingle(_str, "%sl", keywordsL);
-                        _str = customReplaceSingle(_str, "%sr", keywordsR);
+                        _str = customReplaceSingle(_str, "%sr", showTips ? keywordsR.replace(/\n/g, "【SearchJumperBreak】") : keywordsR);
                         _str = customReplaceSingle(_str, "%S", cacheKeywords || keywordsR);
                         _str = customReplaceSingle(_str, "%ss", keywordsSC);
                         _str = customReplaceSingle(_str, "%st", keywordsTC);
@@ -11344,8 +11344,8 @@
                     if (/^https?:/.test(data)) {
                         let url = data.split("\n");
                         if (url.length == 1) url = data.split(" ");
-                        url = url[0];
-                        data = data.replace(url, "").trim().replace(/\\{/g, "showTipsLeftBrace").replace(/\\}/g, "showTipsRightBrace").replace(/{url}/g, '【SEARCHJUMPERURL】');
+                        url = url[0].replace(/【SearchJumperBreak】/g, "\n");
+                        data = data.replace(/【SearchJumperBreak】/g, "\n").replace(url, "").trim().replace(/\\{/g, "showTipsLeftBrace").replace(/\\}/g, "showTipsRightBrace").replace(/{url}/g, '【SEARCHJUMPERURL】');
                         let cache = url.match(cacheReg);
                         if (cache) {
                             cache = parseInt(cache[1]);
@@ -11464,7 +11464,7 @@
                             let postMatch = url.match(postReg), fetchOption = {}, _url = url;
                             if (postMatch) {
                                 let braceNum = postMatch[1].length;
-                                postMatch = url.match(new RegExp(`%p\{+(.*?)\}{${braceNum}}`));
+                                postMatch = url.match(new RegExp(`%p\\{+([\\s\\S]*?)\\}{${braceNum}}`));
                                 if (postMatch) {
                                     let body = postMatch[1];
                                     if (body.indexOf("%") === 0) {
@@ -11698,6 +11698,7 @@
                             }
                         }
                     } else {
+                        data = data.replace(/【SearchJumperBreak】/g, "\n")
                         tipsResult = /\breturn\b/.test(data) ? await new AsyncFunction('fetch', 'storage', 'name', '"use strict";' + data)(GM_fetch, storage, name) : data;
                         tipsResult = this.calcResult(tipsResult);
                         if (targetElement && targetElement.href) {
