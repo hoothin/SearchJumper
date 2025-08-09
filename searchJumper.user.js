@@ -11466,7 +11466,7 @@
                                 let braceNum = postMatch[1].length;
                                 postMatch = url.match(new RegExp(`%p\\{+([\\s\\S]*?)\\}{${braceNum}}`));
                                 if (postMatch) {
-                                    let body = postMatch[1];
+                                    let body = postMatch[1].replace(/\n/g, "\\n");
                                     if (body.indexOf("%") === 0) {
                                         try {
                                             body = decodeURIComponent(body);
