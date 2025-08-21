@@ -1744,7 +1744,7 @@
                      position: static;
                      display: block!important;
                      height: fit-content;
-                     max-height: calc(100vh - 130px);
+                     max-height: calc(100vh - 110px);
                      overscroll-behavior: contain;
                      -ms-scroll-chaining: contain;
                  }
