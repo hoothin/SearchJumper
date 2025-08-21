@@ -8307,9 +8307,6 @@
                     clearTimeout(this.refreshInPageTimer);
                 }
                 this.refreshInPageTimer = setTimeout(() => {
-                    let oldWords = this.curHighlightWords;
-                    this.highlight("");
-                    this.highlight(oldWords);
                     if (this.bar.style.display == "none") {
                         currentSite = null;
                         let typeData;
@@ -8380,6 +8377,20 @@
                                 }
                             }
                         }
+                    }
+                    let oldWords = this.curHighlightWords;
+                    this.highlight("");
+                    if (currentSite && searchData.prefConfig.showInSearchEngine) {
+                        let oldKeywords = this.lastSearchEngineWords;
+                        let newKeywords = this.searchEngineWords(getKeywords());
+                        if (newKeywords && oldKeywords != newKeywords) {
+                            let targetWords = this.anylizeInPageWords(newKeywords, true);
+                            this.highlight(targetWords);
+                        } else {
+                            oldWords && this.highlight(oldWords);
+                        }
+                    } else if (oldWords) {
+                        this.highlight(oldWords);
                     }
                 }, 500);
             }
