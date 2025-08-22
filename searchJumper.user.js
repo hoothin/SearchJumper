@@ -4775,7 +4775,7 @@
                         this.customInputFrame = customInputFrame;
                         customInputFrame.innerHTML = createHTML(`
                          <div class="customInputFrame-body">
-                             <a href="${configPage}" class="customInputFrame-title" target="_blank">
+                             <a href="${homePage}" class="customInputFrame-title" target="_blank">
                                  <img width="32px" height="32px" src="${logoBase64}" />${i18n("customInputFrame")}
                              </a>
                              <div id="customGroup">
@@ -5083,7 +5083,7 @@
                     modifyFrame.id = "searchJumperModifyWord";
                     modifyFrame.innerHTML = createHTML(`
                      <div class="searchJumperModify-body">
-                         <a href="${configPage}" class="searchJumperModify-title" target="_blank">
+                         <a href="${homePage}" class="searchJumperModify-title" target="_blank">
                              <img onerror="this.style.display='none'" width="32px" height="32px" src="${logoBase64}" />${i18n("modifyWord")}
                          </a>
                          <div class="searchJumperModify-input-title">${i18n("wordContent")}</div>
@@ -14371,8 +14371,9 @@
                     quickAddByInput(e.target);
                 }, true);
             }
-            let changeHandler = e => {
-                setTimeout(() => {
+            let changeTimer, changeHandler = e => {
+                clearTimeout(changeTimer);
+                changeTimer = setTimeout(() => {
                     searchBar.refresh();
                 }, 100);
             }
@@ -14418,10 +14419,11 @@
                     return rv;
                 };
             };
-            history.pushState = _wr('pushState');
-            history.replaceState = _wr('replaceState');
+            //history.pushState = _wr('pushState');
+            //history.replaceState = _wr('replaceState');
             window.addEventListener('sj_pushState', changeHandler);
             window.addEventListener('sj_replaceState', changeHandler);
+
             window.addEventListener('yt-navigate-finish', changeHandler);
             window.addEventListener("securitypolicyviolation", (e) => {
                 if (e.violatedDirective === 'form-action') {
@@ -14448,6 +14450,7 @@
             });
             headObserver.observe(document.head, headObserverOptions);*/
 
+            let lastUrl = window.location.href;
             let removeMark = node => searchBar.removeMark(node);
             let highlight = (words, node) => searchBar.highlight(words, node);
             let appendBar = () => searchBar.appendBar();
@@ -14458,6 +14461,14 @@
             };
             let highlightTimes = 0;
             let bodyObserver = new MutationObserver((mutationsList, observer) => {
+                const hasRelevantMutation = mutationsList.some(mutation => mutation.type === 'childList' || mutation.type === 'attributes');
+                if (hasRelevantMutation) {
+                    const currentUrl = window.location.href;
+                    if (currentUrl !== lastUrl) {
+                        lastUrl = currentUrl;
+                        changeHandler();
+                    }
+                }
                 let lockWords = searchBar.lockWords;
                 if (lockWords) {
                     if (searchBar.initHighlight && highlightTimes > 100) return;
@@ -15242,7 +15253,7 @@
                 this.filterFrame.id = "searchJumperFilter";
                 this.filterFrame.innerHTML = createHTML(`
                 <div class="searchJumperFrame-body">
-                    <a href="${configPage}" class="searchJumperFrame-title" target="_blank">
+                    <a href="${homePage}" class="searchJumperFrame-title" target="_blank">
                         <img onerror="this.style.display='none'" width="32px" height="32px" src="${logoBase64}" />${i18n("addSearchEngine")}
                     </a>
                     <div class="searchJumperFrame-buttons">
@@ -16208,7 +16219,7 @@
                 addFrame = document.createElement("div");
                 addFrame.innerHTML = createHTML(`
                 <div class="searchJumperFrame-body">
-                    <a href="${configPage}" class="searchJumperFrame-title" target="_blank" draggable="false">
+                    <a href="${homePage}" class="searchJumperFrame-title" target="_blank" draggable="false">
                         <img width="32px" height="32px" src="${logoBase64}" />${i18n("addSearchEngine")}
                     </a>
                     <div class="searchJumperFrame-maxBtn">
@@ -16250,7 +16261,7 @@
                     </div>
                 </div>
                 <div class="searchJumperFrame-crawlBody searchJumperFrame-hide">
-                    <a href="${configPage}" class="searchJumperFrame-title" target="_blank">
+                    <a href="${homePage}" class="searchJumperFrame-title" target="_blank">
                         <img width="32px" height="32px" src="${logoBase64}" />${i18n("addAction")}
                     </a>
                     <svg class="searchJumperFrame-closeBtn" fill="white" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg"><title>Close crawl</title>${closePath}</svg>
