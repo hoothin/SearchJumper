@@ -5888,6 +5888,15 @@
                             } else {
                                 let newNode = document.createTextNode(mark.firstChild.data);
                                 mark.parentNode.replaceChild(newNode, mark);
+                                const pa = newNode.parentNode;
+                                if (pa && pa.nodeName === 'SPAN' && pa.style.cssText === 'all: unset;') {
+                                    const papa = pa.parentNode;
+                                    if (papa) {
+                                        const newTextNodeCon = document.createDocumentFragment();
+                                        newTextNodeCon.append(...pa.childNodes);
+                                        papa.replaceChild(newTextNodeCon, pa);
+                                    }
+                                }
                                 normalizeSet.add(newNode.parentNode);
                             }
                         }
