@@ -1738,7 +1738,7 @@
                  }
                  #search-jumper.search-jumper-showall #search-jumper-alllist .sitelist {
                      visibility: visible!important;
-                     opacity: 1!important;
+                     opacity: 0.7;
                      pointer-events: all;
                      text-align: left;
                      position: static;
@@ -1747,6 +1747,9 @@
                      max-height: calc(100vh - 110px);
                      overscroll-behavior: contain;
                      -ms-scroll-chaining: contain;
+                 }
+                 #search-jumper.search-jumper-showall #search-jumper-alllist .sitelist:hover {
+                     opacity: 1;
                  }
                  #search-jumper.search-jumper-showall #search-jumper-alllist .sitelist>.sitelistCon {
                      opacity: 1;
@@ -6043,7 +6046,7 @@
                                     let curList = self.marks[word.showWords];
                                     let index = curList.length;
                                     let spannode;
-                                    let newTextNodeCon;
+                                    /*let newTextNodeCon;
                                     let parentDisplay = "";
                                     if (data.node.parentNode.nodeType == 1) {
                                         let parentStyle = getComputedStyle(data.node.parentNode);
@@ -6054,7 +6057,9 @@
                                         newTextNodeCon.style.all = "unset";
                                     } else {
                                         newTextNodeCon = document.createDocumentFragment();
-                                    }
+                                    }*/
+                                    const newTextNodeCon = document.createElement("span");
+                                    newTextNodeCon.style.all = "unset";
                                     let newTextNode = document.createTextNode(data.text);
                                     newTextNodeCon.appendChild(newTextNode);
                                     let matches = data.match.reverse();
@@ -6581,7 +6586,7 @@
                      (targetElement.parentNode && targetElement.parentNode.nodeName.toUpperCase() == 'A'))) {
                     targetKw = targetElement.textContent.trim();
                 }
-                kw = kw || getKeywords() || targetKw || cacheKeywords;
+                kw = kw || getKeywords() || targetKw;
                 this.searchJumperInputKeyWords.value = kw;
                 setTimeout(() => {
                     if (!self.showAllMouseHandler) {
@@ -6664,7 +6669,7 @@
                         this.togglePicker();
                     }
                     if (!this.searchJumperInputKeyWords.value) {
-                        this.searchJumperInputKeyWords.value = getKeywords() || cacheKeywords;
+                        this.searchJumperInputKeyWords.value = getKeywords();
                     }
                     let firstType = this.bar.querySelector('.search-jumper-needInPage:not(.notmatch)>span');
                     if (firstType && !firstType.parentNode.classList.contains('search-jumper-open')) {
