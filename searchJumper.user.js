@@ -2743,7 +2743,7 @@
                  }
                  #search-jumper-tileInput {
                      display: none;
-                     opacity: 0.3;
+                     opacity: 0.1;
                      user-select: all;
                      background-color: #212022;
                      color: #adadad;
@@ -10173,6 +10173,7 @@
                     }
                     let host = location.host;
                     let href = location.href;
+                    let targetName;
                     let customReplaceSingle = (str, key, value, after) => {
                         if (str.indexOf(key + "[") !== -1) {
                             let multiMatch = str.match(keyToReg(key, "", "\\[(.*?)(\\|(.+))?\\]")), valueArr;
@@ -10215,6 +10216,7 @@
                     let keywordsU = "", keywordsL = "", keywordsR = "", keywordsSC = "", keywordsTC = "";
                     let customReplaceKeywords = str => {
                         let _str = str;
+                        _str = customReplaceSingle(_str, "%n", targetName);
                         _str = customReplaceSingle(_str, "%su", keywordsU);
                         _str = customReplaceSingle(_str, "%sl", keywordsL);
                         _str = customReplaceSingle(_str, "%sr", showTips ? keywordsR.replace(/\n/g, "【SearchJumperBreak】") : keywordsR);
@@ -10362,7 +10364,7 @@
                         ele.dataset.url = tempUrl.replace(/%e\b/g, document.characterSet).replace(/%c\b/g, (isMobile?"mobile":"pc"));
                     }
                     let targetUrl = '', targetLink = '';
-                    let targetName = inputString || document.title;
+                    targetName = inputString || document.title;
                     let imgBase64 = '', resultUrl = customVariable(ele.dataset.url);
                     if (targetElement && targetElement.nodeName) {
                         targetUrl = targetElement.href || (targetElement.parentNode && targetElement.parentNode.href) || '';
@@ -10615,7 +10617,7 @@
                                 let pairArr = pair.split("SJ^PARAM");
                                 if (pairArr.length === 2) {
                                     let k = pairArr[0];
-                                    let v = customReplaceKeywords(pairArr[1].replace(/\\([\=&])/g, "$1").replace(/%e\b/g, document.characterSet).replace(/%i\b/g, imgBase64).replace(/%c\b/g, (isMobile?"mobile":"pc")).replace(/%U\b/g, encodeURIComponent(href)).replace(/%υ\b/g, encodeURIComponent(encodeURIComponent(href))).replace(/%h\b/g, _host).replace(/%T\b/g, encodeURIComponent(targetUrl)).replace(/%τ\b/g, encodeURIComponent(encodeURIComponent(targetUrl))).replace(/%b\b/g, targetBaseUrl).replace(/%B\b/g, encodeURIComponent(targetBaseUrl)).replace(/%β\b/g, encodeURIComponent(encodeURIComponent(targetBaseUrl))).replace(/%n\b/g, targetName));
+                                    let v = customReplaceKeywords(pairArr[1].replace(/\\([\=&])/g, "$1").replace(/%e\b/g, document.characterSet).replace(/%i\b/g, imgBase64).replace(/%c\b/g, (isMobile?"mobile":"pc")).replace(/%U\b/g, encodeURIComponent(href)).replace(/%υ\b/g, encodeURIComponent(encodeURIComponent(href))).replace(/%h\b/g, _host).replace(/%T\b/g, encodeURIComponent(targetUrl)).replace(/%τ\b/g, encodeURIComponent(encodeURIComponent(targetUrl))).replace(/%b\b/g, targetBaseUrl).replace(/%B\b/g, encodeURIComponent(targetBaseUrl)).replace(/%β\b/g, encodeURIComponent(encodeURIComponent(targetBaseUrl))));
                                     v = customReplaceSingle(v, "%t", targetUrl);
                                     v = customReplaceSingle(v, "%u", href);
                                     postParams.push([k, v]);
@@ -10638,7 +10640,7 @@
                     resultUrl = customReplaceSingle(resultUrl, "%h", _host);
                     resultUrl = customReplaceSingle(resultUrl, "%t", targetUrl);
                     resultUrl = customReplaceSingle(resultUrl, "%u", href);
-                    resultUrl = customReplaceKeywords(resultUrl.replace(/%U\b/g, encodeURIComponent(href)).replace(/%υ\b/g, encodeURIComponent(encodeURIComponent(href))).replace(/%T\b/g, encodeURIComponent(targetUrl)).replace(/%τ\b/g, encodeURIComponent(encodeURIComponent(targetUrl))).replace(/%b\b/g, targetBaseUrl).replace(/%B\b/g, encodeURIComponent(targetBaseUrl)).replace(/%β\b/g, encodeURIComponent(encodeURIComponent(targetBaseUrl))).replace(/%n\b/g, targetName));
+                    resultUrl = customReplaceKeywords(resultUrl.replace(/%U\b/g, encodeURIComponent(href)).replace(/%υ\b/g, encodeURIComponent(encodeURIComponent(href))).replace(/%T\b/g, encodeURIComponent(targetUrl)).replace(/%τ\b/g, encodeURIComponent(encodeURIComponent(targetUrl))).replace(/%b\b/g, targetBaseUrl).replace(/%B\b/g, encodeURIComponent(targetBaseUrl)).replace(/%β\b/g, encodeURIComponent(encodeURIComponent(targetBaseUrl))));
                     if (openInNewTab && /^(https?|ftp):/.test(resultUrl)) {
                         ele.setAttribute("target", "_blank");
                         ele.dataset.target = 1;
@@ -10796,6 +10798,7 @@
                         if (window.getSelection().toString()) {
                             target = targetElement || ele;
                         } else target = getBody(document);
+                        self.tileInput.parentNode && self.tileInput.parentNode.removeChild(self.tileInput);
                     }
                     self.tipsPos(target, i18n('copyOver'));
                     clearTimeout(self.hideTips);
