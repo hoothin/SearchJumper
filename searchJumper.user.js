@@ -2743,7 +2743,7 @@
                  }
                  #search-jumper-tileInput {
                      display: none;
-                     opacity: 0.1;
+                     opacity: 0.2;
                      user-select: all;
                      background-color: #212022;
                      color: #adadad;
