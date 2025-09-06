@@ -7722,7 +7722,7 @@
                             cacheFontPool.unshift(font);
                         });
                         if (hasFont && (isInConfigPage || href === firstRunPage)) {
-                            setTimeout(() => {cacheFontManager()}, 3000);
+                            setTimeout(() => {cacheFontManager()}, 500);
                         }
                         this.buildAllPageGroupTab();
                     });
@@ -13551,6 +13551,7 @@
                 searchBar.con.style.visibility = "hidden";
                 searchBar.con.style.display = "";
                 searchBar.appendBar();
+                await sleep(2000);
                 let needCache = cacheFontPool.length > 0;
                 while (cacheFontPool.length > 0) {
                     await cacheAction(cacheFontPool.shift());
