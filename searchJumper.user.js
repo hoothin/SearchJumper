@@ -8881,8 +8881,8 @@
                     let scrollTop = window.pageYOffset || document.documentElement.scrollTop || getBody(document).scrollTop;
                     let scrollLeft = window.pageXOffset || document.documentElement.scrollLeft || getBody(document).scrollLeft;
 
-                    clientX = clientRect.x + ew / 2 - (this.funcKeyCall ? this.con.scrollLeft : 0) + scrollLeft;
-                    clientY = clientRect.y + eh / 2 - (this.funcKeyCall ? this.con.scrollTop : 0) + scrollTop;
+                    clientX = clientRect.x + ew / 2 - (this.funcKeyCall ? this.con.scrollLeft - scrollLeft : 0);
+                    clientY = clientRect.y + eh / 2 - (this.funcKeyCall ? this.con.scrollTop - scrollTop : 0);
 
                     clientX -= target.clientWidth / 2;
                     let actualTop = clingEle.getBoundingClientRect().top;
