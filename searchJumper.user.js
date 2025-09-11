@@ -2087,11 +2087,10 @@
                      -ms-overflow-style: none;
                      scrollbar-width: none;
                      box-sizing: border-box;
-                     z-index: 2147483647;
                      user-select: none;
                  }
                  .search-jumper-searchBar {
-                     z-index: 2147483647;
+                     z-index: 2147483646;
                      overflow-wrap: break-word;
                      background: #505050cc;
                      border-radius: ${this.scale * 21}px!important;
@@ -2955,7 +2954,7 @@
                      position: absolute;
                  }
                  .search-jumper-tips {
-                     z-index: 2147483647;
+                     z-index: 2147483646;
                      pointer-events: none;
                      position: fixed;
                      font-size: ${35 * this.tipsZoom}px;
@@ -6857,7 +6856,7 @@
                                 return;
                             }
                             if (!isAllPage && self.con.parentNode) {
-                                if (getComputedStyle(self.con).zIndex != "2147483647") {
+                                if (getComputedStyle(self.con).zIndex != "2147483646") {
                                     this.removeBar();
                                     if (disabled) {
                                         debug(i18n("cspDisabled"));
