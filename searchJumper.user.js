@@ -2975,11 +2975,16 @@
                      text-align: center;
                      box-sizing: content-box;
                      overflow: hidden;
+                     scrollbar-width: none;
                      font-family: Roboto,arial,sans-serif,微软雅黑,"Noto Sans SC";
                      cursor: grab;
                      max-height: 80vh;
                      overscroll-behavior: contain;
                      -ms-scroll-chaining: contain;
+                 }
+                 .search-jumper-tips::-webkit-scrollbar {
+                     width: 0 !important;
+                     height: 0 !important;
                  }
                  .search-jumper-tips:hover {
                      overflow: auto;
@@ -8970,6 +8975,11 @@
 
             tipsPos(ele, type) {
                 this.tips.innerHTML = createHTML(type);
+                if (location.protocol === 'https:') {
+                    [].forEach.call(this.tips.querySelectorAll("[src^='http:']"), ele => {
+                        ele.src = ele.src.replace("http:", "https:")
+                    });
+                }
                 this.tips.style.pointerEvents = "";
                 this.tips.style.display = "";
                 this.tips.style.opacity = 1;
