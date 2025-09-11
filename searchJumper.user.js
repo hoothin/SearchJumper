@@ -14238,6 +14238,7 @@
                         } else {
                             setTimeout(() => {
                                 if (shown) return;
+                                if (/^pv-/.test(e.target.className)) return;
                                 targetInput = isTargetInput(e.target);
                                 inputSign = !searchData.prefConfig.enableInInput && targetInput;
                                 if (!inputSign && (
