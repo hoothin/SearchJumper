@@ -21,7 +21,7 @@
 + UI: Material-UI
 + Icons: FontAwesome
 
-> *Just a personal work, maybe not suit you.*
+> *Just a personal work, maybe not suit you. 古法編碼，no Vibe*
 
 ## Install
 | Install via [Chrome web store](https://chromewebstore.google.com/detail/hgepmblbgodbilmfdjkalkgofdcipkhh) | Install via [Greasyfork](https://greasyfork.org/scripts/445274) | Install via [Firefox addons](https://addons.mozilla.org/firefox/addon/searchjumper/) |
