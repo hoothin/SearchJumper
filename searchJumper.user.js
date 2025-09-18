@@ -6619,7 +6619,12 @@
                         };
                     }
                     document.addEventListener("keydown", self.showAllKeydownHandler, true);
-                    if (this.searchJumperInputKeyWords.value) {
+                    if (cacheFilter) {
+                        this.searchInput.value = cacheFilter;
+                        this.searchInput.dispatchEvent(new Event("input"));
+                        this.searchInput.focus();
+                        this.searchInput.select();
+                    } else if (this.searchJumperInputKeyWords.value) {
                         this.searchJumperInputKeyWords.focus();
                         this.searchJumperInputKeyWords.select();
                     }
@@ -7465,7 +7470,7 @@
                             } else {
                                 this.searchJumperInputKeyWords.focus();
                                 if (this.searchJumperInputKeyWords.value) {
-                                    searchWithCurrentFilter(e);
+                                    //searchWithCurrentFilter(e);
                                 }
                                 saveCacheFilter();
                             }
@@ -7777,6 +7782,8 @@
                     if (type.classList.contains("notmatch")) return;
                     let typeName = type.dataset.type;
                     let icon = type.firstElementChild.cloneNode(true);
+                    icon.children[0] && (icon.children[0].style.display = "none");
+                    icon.children[1] && (icon.children[1].style.display = "");
                     let groupSpan = document.createElement("span");
                     groupSpan.appendChild(icon);
                     groupSpan.dataset.type = typeName;
