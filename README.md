@@ -317,6 +317,23 @@ const searchJumperEvent = new CustomEvent('searchJumper', {
 });
 document.dispatchEvent(searchJumperEvent);
 ```
++ Search by site name and specify string 以站點名和指定字符調用搜尋
+```
+const siteName = 'Google search';
+const query = 'your string 1234';
+const input = document.createElement('input');
+document.body.appendChild(input);
+input.value = query;
+input.select();
+const searchJumperEvent = new CustomEvent('searchJumper', {
+  detail: {
+    action: 'search',
+    name: siteName
+  }
+});
+document.dispatchEvent(searchJumperEvent);
+document.body.removeChild(input);
+```
 + Show search bar 顯示搜尋條
 ``` javascript
 const searchJumperEvent = new CustomEvent('searchJumper', {
