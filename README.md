@@ -303,7 +303,7 @@ Hide user by target id on xxxx.com 在某個網站上根據給定的用戶名或
 
 ---
  <details>
-<summary><h2>Call SearchJumper by event 透過鼠標手勢調用搜尋醬</h2></summary>
+<summary><h2>Call SearchJumper by event 透過發送事件（鼠標手勢）調用搜尋醬</h2></summary>
 
 + Search by site name 以站點名調用搜尋
 ``` javascript
