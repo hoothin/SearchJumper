@@ -7782,8 +7782,10 @@
                     if (type.classList.contains("notmatch")) return;
                     let typeName = type.dataset.type;
                     let icon = type.firstElementChild.cloneNode(true);
-                    icon.children[0] && (icon.children[0].style.display = "none");
-                    icon.children[1] && (icon.children[1].style.display = "");
+                    if (icon.children.length > 1) {
+                        icon.children[0].style.display = "none";
+                        icon.children[1].style.display = "";
+                    }
                     let groupSpan = document.createElement("span");
                     groupSpan.appendChild(icon);
                     groupSpan.dataset.type = typeName;
