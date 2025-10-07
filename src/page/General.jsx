@@ -1966,7 +1966,7 @@ export default function General() {
                             <TextField
                                 sx={{ width: 70, margin: '8px' }}
                                 label={"Px"}
-                                inputProps={{ inputMode: 'numeric', type:'number', pattern: '[\-0-9]*' }}
+                                inputProps={{ inputMode: 'numeric', type:'number', pattern: '[\\-0-9]*' }}
                                 value={state.tileOffset}
                                 onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
                                     let newValue = parseInt(event.target.value);

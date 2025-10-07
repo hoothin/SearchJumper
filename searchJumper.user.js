@@ -13869,6 +13869,9 @@
             document.addEventListener('searchJumper', e => {
                 switch (e.detail.action) {
                     case "search":
+                        if (e.detail.query) {
+                            extSelectionText = e.detail.query;
+                        }
                         if (e.detail.name) {
                             searchBar.searchBySiteName(e.detail.name, e.detail.key || {});
                         } else {
