@@ -14,6 +14,12 @@ window.setLang = (_lang) => {
           case 'zh-SG':
               config = {
                   name: '搜索酱',
+                  generalBehavior: '通用行为',
+                  appearance: '外观',
+                  searchRules: '搜索和规则',
+                  shortcuts: '快捷键',
+                  dragDropSearch: '拖拽搜索',
+                  inPage: '页内行为',
                   lang: '语言',
                   setLang: '设置语言',
                   outOfDate: '发现新版本，点击前往更新',
