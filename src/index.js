@@ -367,6 +367,12 @@ window.setLang = (_lang) => {
           case 'zh-HK':
               config = {
                   name: '搜尋醬',
+                  generalBehavior: '通用行為',
+                  appearance: '外觀',
+                  searchRules: '搜尋和規則',
+                  shortcuts: '快捷鍵',
+                  dragDropSearch: '拖拽搜尋',
+                  inPage: '頁內行為',
                   lang: '語言',
                   setLang: '設置語言',
                   outOfDate: '發現新版本，點擊前往更新',
@@ -713,6 +719,12 @@ window.setLang = (_lang) => {
           case 'ja':
               config = {
                   name: '検索ちゃん',
+                  generalBehavior: '一般動作',
+                  appearance: '外観',
+                  searchRules: '検索とルール',
+                  shortcuts: 'ショートカット',
+                  dragDropSearch: 'ドラッグ＆ドロップ検索',
+                  inPage: 'ページ内動作',
                   lang: '言語',
                   setLang: '言語を設定',
                   outOfDate: 'スクリプトが古くなっています。クリックして更新してください',
@@ -1057,6 +1069,12 @@ window.setLang = (_lang) => {
           case 'ru':
               config = {
                   name: 'SearchJumper',
+                  generalBehavior: 'Общее поведение',
+                  appearance: 'Внешний вид',
+                  searchRules: 'Поиск и правила',
+                  shortcuts: 'Горячие клавиши',
+                  dragDropSearch: 'Поиск перетаскиванием',
+                  inPage: 'Поведение на странице',
                   lang: 'Язык',
                   setLang: 'Язык приложения',
                   outOfDate: 'Скрипт устарел, нажмите, чтобы обновить',
@@ -1405,6 +1423,12 @@ window.setLang = (_lang) => {
           default:
               config = {
                   name: 'SearchJumper',
+                  generalBehavior: 'General Behavior',
+                  appearance: 'Appearance',
+                  searchRules: 'Search and Rules',
+                  shortcuts: 'Shortcuts',
+                  dragDropSearch: 'Drag & Drop Search',
+                  inPage: 'In-Page Behavior',
                   lang: 'Language',
                   setLang: 'Set language',
                   outOfDate: 'The script is out of date, click to update',
