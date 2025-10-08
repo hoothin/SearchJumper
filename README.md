@@ -321,18 +321,14 @@ document.dispatchEvent(searchJumperEvent);
 ``` javascript
 const siteName = 'Google search';
 const query = 'your string 1234';
-const input = document.createElement('input');
-document.body.appendChild(input);
-input.value = query;
-input.select();
 const searchJumperEvent = new CustomEvent('searchJumper', {
   detail: {
     action: 'search',
-    name: siteName
+    name: siteName,
+    query: query
   }
 });
 document.dispatchEvent(searchJumperEvent);
-document.body.removeChild(input);
 ```
 + Show search bar 顯示搜尋條
 ``` javascript
