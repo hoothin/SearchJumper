@@ -1228,12 +1228,112 @@
             await webDAV.write("inPageRule.json", JSON.stringify(searchData.prefConfig.inPageRule));
         }
 
-        var escapeHTMLPolicy;
-        if (_unsafeWindow.trustedTypes && _unsafeWindow.trustedTypes.createPolicy) {
-            escapeHTMLPolicy = _unsafeWindow.trustedTypes.createPolicy('searchjumper_default', {
-                createHTML: (string, sink) => string
+
+
+
+
+        function parseTrustedTypes(cspString) {
+            const policies = new Set();
+            const ttRegex = /trusted-types\s+([^;]+)/gi;
+            let match;
+            while ((match = ttRegex.exec(cspString)) !== null) {
+                match[1].trim().split(/\s+/)
+                    .forEach(name => {
+                    if (name !== "'allow-duplicates'" && name !== "'none'") {
+                        policies.add(name.replace(/'/g, ''));
+                    }
+                });
+            }
+            return Array.from(policies);
+        }
+
+        async function getAvailablePolicyNamesOptimized() {
+            if (_unsafeWindow.trustedTypes && _unsafeWindow.trustedTypes.getPolicyNames) {
+                const existingNames = _unsafeWindow.trustedTypes.getPolicyNames();
+                if (existingNames.length > 0) {
+                    return new Set(existingNames);
+                }
+            }
+
+            const meta = document.querySelector('meta[http-equiv="Content-Security-Policy"]');
+            if (meta) {
+                const metaNames = parseTrustedTypes(meta.content);
+                if (metaNames.length > 0) {
+                    return new Set(metaNames);
+                }
+            }
+
+            return new Promise((resolve) => {
+                GM_xmlhttpRequest({
+                    method: "HEAD",
+                    url: window.location.href,
+                    onload: function(response) {
+                        const cspHeader = response.responseHeaders.split('\r\n')
+                        .filter(h => h.toLowerCase().startsWith('content-security-policy:'))
+                        .map(h => h.substring(26).trim())
+                        .join('; ');
+
+                        const headerNames = parseTrustedTypes(cspHeader);
+                        if (headerNames.length > 0) {
+                            resolve(new Set(headerNames));
+                        } else {
+                            resolve(new Set());
+                        }
+                    },
+                    onerror: function(error) {
+                        resolve(new Set());
+                    }
+                });
             });
         }
+
+        function isTrustedTypesEnforced() {
+            try {
+                document.createElement('div').innerHTML = '';
+                return false;
+            } catch (e) {
+                return true;
+            }
+        }
+
+        async function createPolicy() {
+            if (_unsafeWindow.trustedTypes && _unsafeWindow.trustedTypes.createPolicy && isTrustedTypesEnforced()) {
+                const allowedNames = await getAvailablePolicyNamesOptimized();
+
+                if (allowedNames.size === 0) {
+                    escapeHTMLPolicy = _unsafeWindow.trustedTypes.createPolicy('pagetual_default', {
+                        createHTML: (string, sink) => string
+                    });
+                    return;
+                }
+
+                for (const name of allowedNames) {
+                    if (name === '*') continue;
+                    try {
+                        escapeHTMLPolicy = _unsafeWindow.trustedTypes.createPolicy(name, {
+                            createHTML: (string, sink) => string
+                        });
+                        break;
+                    } catch (e) {
+                        try {
+                            escapeHTMLPolicy = _unsafeWindow.trustedTypes.policies.get(name);
+                            if (escapeHTMLPolicy) {
+                                break;
+                            }
+                        } catch (e2) {
+                            console.warn(`create '${name}' failed`);
+                        }
+                    }
+                }
+            }
+        }
+
+
+
+
+
+
+        var escapeHTMLPolicy;
         const AsyncFunction = Object.getPrototypeOf(async function(){}).constructor;
 
         if (typeof String.prototype.replaceAll != 'function') {
@@ -17468,6 +17568,7 @@
         var inited = false;
         var checkGlobalIntv, flashTitleIntv, defaultTitle;
         async function init(cb) {
+            await createPolicy();
             if (inited) {
                 if (cb) cb();
                 return;
