@@ -2642,7 +2642,7 @@
                  }
                  #search-jumper.funcKeyCall .search-jumper-btn>div {
                      line-height: ${32 * this.tilesZoom}px;
-                     border-radius: ${20 * this.tilesZoom}px;
+                     border-radius: ${10 * this.tilesZoom}px;
                      font-size: ${30 * this.tilesZoom}px;
                  }
                  .search-jumper-isInPage .search-jumper-btn>div,
