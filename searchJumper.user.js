@@ -11424,6 +11424,7 @@
                     self.clingPos(ele, self.tips);
                 }, false);
                 ele.addEventListener('showTips', e => {
+                    self.waitForHide(0);
                     self.appendBar();
                     self.closeOpenType();
                     self.con.style.display = "";
@@ -14499,6 +14500,7 @@
                     }
                     if (targetElement.getAttribute && targetElement.getAttribute("draggable") == "true") return;
                     if (targetElement.parentNode && targetElement.parentNode.getAttribute && targetElement.parentNode.getAttribute("draggable") == "true") return;
+                    searchBar.funcKeyCall = true;
                     searchBar.waitForHide(0);
                     setTimeout(() => {
                         showDragSearch(e.clientX, e.clientY);
