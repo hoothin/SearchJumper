@@ -7819,7 +7819,7 @@
                             hasFont = true;
                             cacheFontPool.unshift(font);
                         });
-                        if (hasFont && (isInConfigPage || href === firstRunPage)) {
+                        if (hasFont && isInConfigPage) {
                             setTimeout(() => {cacheFontManager()}, 500);
                         }
                         this.buildAllPageGroupTab();
