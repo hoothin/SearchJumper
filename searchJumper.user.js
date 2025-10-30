@@ -2762,6 +2762,15 @@
                  .search-jumper-tips>div [data-drag] {
                      cursor: grab;
                  }
+                 .search-jumper-tips>div [data-copy] {
+                     display: inline-block;
+                     transition:all 0.2s ease;
+                 }
+                 .search-jumper-tips>div [data-copy]:hover {
+                     -webkit-transform: scale(1.1);
+                     -moz-transform: scale(1.1);
+                     transform: scale(1.1);
+                 }
                  .search-jumper-tips.draging {
                      cursor: grabbing;
                      transition: none;
@@ -2773,6 +2782,7 @@
                      display: flex;
                      flex-wrap: wrap;
                      text-align: left;
+                     justify-content: center;
                  }
                  .search-jumper-tips .showTips-input-title {
                      font-size: 9pt;
@@ -2812,6 +2822,10 @@
                      transition: transform 0.3s ease;
                      cursor: pointer;
                      margin-bottom: 5px;
+                 }
+                 .search-jumper-tips .showTips-inputGroup * {
+                     margin-left: 2px;
+                     margin-right: 2px;
                  }
                  .search-jumper-tips .showTips-inputGroup .searchBtn:hover {
                      -webkit-transform: scale(1.1);
@@ -9248,8 +9262,18 @@
                 }
             }
 
-            tipsPos(ele, type) {
+            tipsPos(ele, type, inputGroup) {
                 this.tips.innerHTML = createHTML(type);
+                let complexTipsCon = this.tips.querySelector('div');
+                if (complexTipsCon && !this.tips.querySelector('[data-close]')) {
+                    let closeBtn = document.createElement('span');
+                    closeBtn.dataset.close = true;
+                    closeBtn.innerText = '×';
+                    complexTipsCon.appendChild(closeBtn);
+                }
+                if (inputGroup) {
+                    this.tips.insertBefore(inputGroup, this.tips.firstChild);
+                }
                 if (location.protocol === 'https:') {
                     [].forEach.call(this.tips.querySelectorAll("[src^='http:']"), ele => {
                         ele.src = ele.src.replace("http:", "https:")
@@ -11452,7 +11476,7 @@
                             anylizing = true;
                             let inputGroup;
                             let setTipsUrl = async (url, force) => {
-                                let tipsResult = await self.anylizeShowTips(url, ele.dataset.name, target);
+                                let tipsResult = await self.anylizeShowTips(url, ele.dataset.name, target, inputGroup);
                                 anylizing = false;
                                 if (!force) {
                                     if (self.tips.style.opacity == 0 || self.tips.innerHTML.indexOf('<span class="loader">') !== 0) {
@@ -11470,10 +11494,7 @@
                                         tipsShowing = true;
                                     }
                                     //self.tips.style.transition = "none";
-                                    self.tipsPos(target, tipsResult);
-                                    if (inputGroup) {
-                                        this.tips.insertBefore(inputGroup, this.tips.firstChild);
-                                    }
+                                    self.tipsPos(target, tipsResult, inputGroup);
                                     addHistory();
                                     setTimeout(() => {
                                         self.tips.style.pointerEvents = "all";
@@ -11483,6 +11504,7 @@
 
                             if (/%input{/.test(url)) {
                                 inputGroup = this.createShowTipsInput(url, async newUrl => {
+                                    self.tipsPos(target, '<span class="loader"></span><font>Loading...</font>');
                                     await setTipsUrl(newUrl, true);
                                 });
                                 if (/%input{[^},]*}/.test(url)) {
@@ -11803,7 +11825,7 @@
                 return group;
             }
 
-            async anylizeShowTips(data, name, target) {
+            async anylizeShowTips(data, name, target, inputGroup) {
                 let tipsResult, self = this;
                 try {
                     const calcReg = /([^\\]|^)([\+\-*/])([\d\.]+)$/;
@@ -11976,7 +11998,7 @@
                                             if (!result) return;
                                             result = calcJson(result, template);
                                         } else result = data.text;
-                                        self.tipsPos(target, result);
+                                        self.tipsPos(target, result, inputGroup);
                                         self.tips.style.pointerEvents = "all";
                                         resolve && resolve(result);
                                     };
@@ -11987,7 +12009,7 @@
                                                 if (!data.json) return;
                                                 result = calcJson(data.json, template);
                                             } else result = data.text;
-                                            self.tipsPos(target, result);
+                                            self.tipsPos(target, result, inputGroup);
                                             self.tips.style.pointerEvents = "all";
                                             resolve && resolve(result);
                                         };
@@ -12006,7 +12028,7 @@
                                     fetchData.then(r => {
                                         let finalData = isJson ? (r && calcJson(r, template)) : r;
                                         if (!finalData) return;
-                                        self.tipsPos(target, finalData);
+                                        self.tipsPos(target, finalData, inputGroup);
                                         resolve && resolve(finalData);
                                     });
                                 });
