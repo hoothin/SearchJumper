@@ -1935,8 +1935,8 @@
                      height: 100%;
                      z-index: -1;
                      transform: translateZ(0);
-                     ${searchData.prefConfig.noAni ? "background-color: rgba(0, 0, 0, 0.1);" : (
-                    "background-color: rgba(0, 0, 0, 0.1);" +
+                     ${searchData.prefConfig.noAni ? "background-color: rgba(0, 0, 0, 0.6);" : (
+                    "background-color: rgba(0, 0, 0, 0.6);" +
                     //"backdrop-filter: blur(5px);" +
                     //"-webkit-backdrop-filter: blur(5px);" +
                     "transition:background-color .6s ease;")}
@@ -9631,6 +9631,7 @@
                 let mouseMoveHandler = e => {
                     if (!draged) {
                         self.tips.style.opacity = 0;
+                        self.tips.style.pointerEvents = '';
                         draged = true;
                         initMousePos = {x: e.clientX, y: e.clientY};
                         initTilePos = {x: parseInt(self.bar.style.left), y: parseInt(self.bar.style.top)};
@@ -9691,6 +9692,7 @@
                 }, false);
                 typeBtn.addEventListener('mouseleave', e => {
                     self.tips.style.opacity = 0;
+                    self.tips.style.pointerEvents = '';
                     if (searchData.prefConfig.overOpen) {
                         clearTimeout(showTimer);
                     }
@@ -11114,6 +11116,7 @@
                     self.hideTips = setTimeout(() => {
                         if (self.tips.style.opacity == "1") {
                             self.tips.style.opacity = 0;
+                            self.tips.style.pointerEvents = '';
                         }
                     }, 1500);
                 };
@@ -11335,12 +11338,17 @@
                         let jumpFrom = data.url.match(/#(j(umpFrom|f)?|from){(.*?)}/);
                         let processPostUrl = _url => {
                             if (jumpFrom) {
-                                storage.setItem("postUrl", [_url, data.charset]);
                                 jumpFrom = jumpFrom[3];
-                                if (jumpFrom.indexOf("http") !== 0) {
-                                    jumpFrom = _url.replace(/(:\/\/.*?\/)[\s\S]*/, "$1" + jumpFrom);
+                                if (jumpFrom === '') {
+                                    submitByForm(data.charset, _url, '_self');
+                                    return '';
+                                } else {
+                                    storage.setItem("postUrl", [_url, data.charset]);
+                                    if (jumpFrom.indexOf("http") !== 0) {
+                                        jumpFrom = _url.replace(/(:\/\/.*?\/)[\s\S]*/, "$1" + jumpFrom);
+                                    }
+                                    _url = jumpFrom;
                                 }
-                                _url = jumpFrom;
                             } else {
                                 if (ext) {
                                     _url = `${jumpHtml}#jump{url=${encodeURIComponent(_url.replace(/[:%]p{[\s\S]*/, ''))}&charset=${data.charset}}`;
@@ -11634,6 +11642,7 @@
                 ele.addEventListener('mouseleave', e => {
                     if (!tipsShowing) {
                         self.tips.style.opacity = 0;
+                        self.tips.style.pointerEvents = '';
                         clearTimeout(self.requestShowTipsTimer);
                     }
                 }, false);
