@@ -10197,11 +10197,15 @@
                         inPagePostParams.shift();
                         if (inPagePostParams && inPagePostParams.length) {
                             storage.setListItem("inPagePostParams", location.hostname, inPagePostParams);
-                            storage.setItem("copyStore", JSON.stringify(copyList));
+                            if (copyList && copyList.length) {
+                                storage.setItem("copyStore", JSON.stringify(copyList));
+                            }
                         } else {
-                            _GM_setClipboard(copyList.join("\n"));
                             storage.setListItem("inPagePostParams", location.hostname, "");
                             storage.setItem("copyStore", "");
+                            if (copyList && copyList.length) {
+                                _GM_setClipboard(copyList.join("\n"));
+                            }
                         }
                         if (param[0] === '@reload') {
                             location.reload(!!param[1]);
