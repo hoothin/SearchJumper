@@ -14819,8 +14819,8 @@
                     document.addEventListener('mouseup', inpageMouseUpHandler, true);
                     e.target.addEventListener('scroll', scrollHandler);
                 };
-                document.addEventListener('mousedown', mouseDownHandler);
-                document.addEventListener('dblclick', mouseDownHandler);
+                document.addEventListener('mousedown', mouseDownHandler, true);
+                document.addEventListener('dblclick', mouseDownHandler, true);
                 if (searchData.prefConfig.selectToShow) {
                     let touchTimer, touchstartEvent;
                     let selectionchange = e => {
