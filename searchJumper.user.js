@@ -4851,12 +4851,14 @@
                     this.customInputCallback = callback;
                     let geneFinalUrl = () => {
                         let finalValue = this.finalSearch.dataset.url;
+                        let index = 0;
                         [].forEach.call(this.customGroup.children, ele => {
                             let value = ele.value;
                             if (ele.className == "select") {
                                 value = ele.children[0].value;
                             } else if (/^DIV$/i.test(ele.nodeName)) return;
-                            finalValue = finalValue.replace('◎', value || '');
+                            finalValue = finalValue.replaceAll('◎' + index, value || '');
+                            index++;
                         });
                         this.finalSearch.value = finalValue;
                     };
@@ -5110,7 +5112,10 @@
                     this.customGroup.innerHTML = createHTML();
                     let tempUrl = url;
                     let inputMatch = tempUrl.match(/%input{(.*?[^\\])}/);
+                    let index = 0;
                     while (inputMatch) {
+                        let inputTitle = document.createElement('div');
+                        inputTitle.className = 'customInputFrame-input-title';
                         let param = inputMatch[1];
                         if (/^".*","/.test(param)) {
                             param = param.substr(1, param.length - 2).split('","');
@@ -5119,8 +5124,6 @@
                         }
                         if (param.length === 1) {//input
                             param = param[0].replace(/\\\|/g, "◎SJ").split("|").map(str => str.replace(/◎SJ/g, "|"));
-                            let inputTitle = document.createElement('div');
-                            inputTitle.className = 'customInputFrame-input-title';
                             inputTitle.innerText = param[0];
                             this.customGroup.appendChild(inputTitle);
                             let paramInput = document.createElement('input');
@@ -5141,8 +5144,6 @@
                                 optionSplit = optionSplit.replace(/\\\//g, "◎SJ").split("/").map(str => str.replace(/◎SJ/g, "/"));
                             }
                             let singleTitle = titleSplit.length === optionSplit.length + 1;
-                            let inputTitle = document.createElement('div');
-                            inputTitle.className = 'customInputFrame-input-title';
                             inputTitle.innerText = titleSplit[0];
                             this.customGroup.appendChild(inputTitle);
                             let paramSelectInput = document.createElement('input');
@@ -5207,7 +5208,8 @@
                             });
                             this.customGroup.appendChild(paramSelect);
                         }
-                        tempUrl = tempUrl.replace(inputMatch[0], '◎');
+                        tempUrl = tempUrl.replace(inputMatch[0], '◎' + index).replaceAll(`input{${inputTitle.innerText}}`, '◎' + index);
+                        index++;
                         inputMatch = tempUrl.match(/%input{(.*?[^\\])}/);
                     }
                     this.finalSearch.dataset.url = tempUrl;
@@ -11519,7 +11521,13 @@
                                     url = await this.showCustomInputWindow(url);
                                     if (!url) return;
                                 } else {
-                                    url = url.replace(/%input{[^},]+,\s*([^}/]*).*?}/g, "$1");
+                                    let inputMatch;
+                                    while(inputMatch = url.match(/%input{([^},]+),\s*([^}/]*).*?}/)) {
+                                        let inputName = inputMatch[1];
+                                        let defaultValue = inputMatch[2];
+                                        url = url.replace(inputMatch[0], defaultValue).replaceAll(`input{${inputName}}`, defaultValue);
+                                        inputMatch = url.match(/%input{([^},]+),\s*([^}/]*).*?}/);
+                                    }
                                 }
                             }
                             await setTipsUrl(url);
@@ -11703,19 +11711,24 @@
 
                 let geneFinalUrl = () => {
                     let finalValue = tempUrl;
+                    let index = 0;
                     [].forEach.call(inputChildren, ele => {
                         let value;
                         if (ele.className == "select") {
                             value = ele.children[0].value;
                         } else value = ele.value;
-                        finalValue = finalValue.replace('◎', value || '');
+                        finalValue = finalValue.replaceAll('◎' + index, value || '');
+                        index++;
                     });
                     cb(finalValue);
                 };
 
                 let inputMatch = tempUrl.match(/%input{(.*?[^\\])}/);
+                let index = 0;
                 while (inputMatch) {
                     let param = inputMatch[1];
+                    let inputTitle = document.createElement('div');
+                    inputTitle.className = 'showTips-input-title';
                     if (/^".*","/.test(param)) {
                         param = param.substr(1, param.length - 2).split('","');
                     } else {
@@ -11724,8 +11737,6 @@
                     if (param.length === 1) {//input
                         param = param[0].replace(/\\\|/g, "◎SJ").split("|").map(str => str.replace(/◎SJ/g, "|"));
                         let pa = document.createElement('div');
-                        let inputTitle = document.createElement('div');
-                        inputTitle.className = 'showTips-input-title';
                         inputTitle.innerText = param[0];
                         pa.appendChild(inputTitle);
                         let paramInput = document.createElement('input');
@@ -11749,8 +11760,6 @@
                         }
                         let singleTitle = titleSplit.length === optionSplit.length + 1;
                         let pa = document.createElement('div');
-                        let inputTitle = document.createElement('div');
-                        inputTitle.className = 'showTips-input-title';
                         inputTitle.innerText = titleSplit[0];
                         pa.appendChild(inputTitle);
                         let paramSelectInput = document.createElement('input');
@@ -11819,7 +11828,8 @@
                         group.appendChild(pa);
                         inputChildren.push(paramSelect);
                     }
-                    tempUrl = tempUrl.replace(inputMatch[0], '◎');
+                    tempUrl = tempUrl.replace(inputMatch[0], '◎' + index).replaceAll(`input{${inputTitle.innerText}}`, '◎' + index);
+                    index++;
                     inputMatch = tempUrl.match(/%input{(.*?[^\\])}/);
                 }
                 if (group.children.length) {
