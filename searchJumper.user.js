@@ -1945,7 +1945,7 @@
                      background-color: rgba(0, 0, 0, 0.8);
                  }
                  #search-jumper.search-jumper-showall #search-jumper-alllist>.sitelistBox:hover .sitelist {
-                     opacity: 0.3;
+                     opacity: 0.5;
                  }
                  #search-jumper.search-jumper-showall #search-jumper-alllist>.sitelistBox .sitelist:hover {
                      opacity: 1;
@@ -2162,7 +2162,7 @@
                      overflow: hidden;
                      text-overflow: ellipsis;
                      white-space: nowrap;
-                     transition: color 0.25s ease;
+                     transition: color 0.5s ease;
                  }
                  #search-jumper #search-jumper-alllist.new-mode .sitelist a:hover>p {
                      color: #f1404b;
@@ -3080,7 +3080,7 @@
                      border: 0;
                      pointer-events: none;
                      opacity: 0;
-                     ${searchData.prefConfig.noAni ? "" : "transition:opacity 0.25s ease;"}
+                     ${searchData.prefConfig.noAni ? "" : "transition:opacity 0.5s ease;"}
                      scrollbar-width: none;
                      box-sizing: content-box;
                      overscroll-behavior: contain;
@@ -4061,7 +4061,7 @@
 
                      .search-jumper-showall a.search-jumper-word,
                      .search-jumper-showall a.search-jumper-word > span {
-                         background-color: #292A2D !important;
+                         background-color: #252B32 !important;
                          border-radius: 20px !important;
                      }
 
