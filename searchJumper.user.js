@@ -4021,6 +4021,7 @@
 
                      #search-jumper .sitelist > .sitelistCon {
                          background-color: #1C2127ee !important;
+                         box-shadow: 0px 0px 10px 0px #1c1c1c;
                      }
 
                      #search-jumper .sitelist > .sitelistCon > div:hover {
@@ -4059,22 +4060,12 @@
                          filter: drop-shadow(0px 0px 2px #ffffff80);
                      }
 
-                     .search-jumper-showall a.search-jumper-word,
-                     .search-jumper-showall a.search-jumper-word > span {
-                         background-color: #252B32 !important;
-                         border-radius: 20px !important;
-                     }
-
                      .search-jumper-tips {
                          background-color: #3F4042f0;
                          color: #DADADA;
                      }
                      .search-jumper-tips>*:not(font) {
                          color: white;
-                     }
-
-                     .search-jumper-showall a.search-jumper-word > span {
-                         color: #DADADA !important;
                      }
 
                      .search-jumper-showall .search-jumper-word:hover {
