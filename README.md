@@ -1,4 +1,4 @@
-<h1 align="center" title="Install from Chrome web store 搜尋引擎輔助增強瀏覽器插件，一键切换搜尋引擎，支援拖拽搜尋/劃詞搜尋/快捷鍵等。検索機能強化。">🔎SearchJumper</h1>
+<h1 align="center" title="Completely open-source, with no privacy collection, ads, or shady third-party libraries. Make search great again.">🔎SearchJumper</h1>
 <h2 align="center"><i>Your open-source search hub. Fast, smart, and private.</i></h2>
 <p align="center">
  <a href="https://chromewebstore.google.com/detail/hgepmblbgodbilmfdjkalkgofdcipkhh"><img src="https://img.shields.io/chrome-web-store/rating/hgepmblbgodbilmfdjkalkgofdcipkhh?logo=chromewebstore" alt="chrome"/></a>
