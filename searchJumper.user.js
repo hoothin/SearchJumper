@@ -1867,7 +1867,7 @@
                  }
                  #search-jumper.search-jumper-showall #search-jumper-alllist .sitelist {
                      visibility: visible!important;
-                     opacity: 0.7;
+                     opacity: 1;
                      pointer-events: all;
                      text-align: left;
                      position: static;
@@ -1943,6 +1943,12 @@
                  }
                  #search-jumper.search-jumper-showall>#search-jumper-alllist:hover~.search-jumper-showallBg {
                      background-color: rgba(0, 0, 0, 0.8);
+                 }
+                 #search-jumper.search-jumper-showall #search-jumper-alllist>.sitelistBox:hover .sitelist {
+                     opacity: 0.3;
+                 }
+                 #search-jumper.search-jumper-showall #search-jumper-alllist>.sitelistBox .sitelist:hover {
+                     opacity: 1;
                  }
                  #search-jumper.search-jumper-showall>.search-jumper-showallBg {
                      display: block;
@@ -2020,8 +2026,7 @@
                      display: block;
                  }
                  #search-jumper-alllist>.sitelistBox {
-                     display: flex;
-                     min-width: 100%;
+                     display: inline-flex;
                      justify-content: center;
                      width: fit-content;
                      min-height: 100%;
@@ -2093,7 +2098,7 @@
                  #search-jumper.search-jumper-showall #search-jumper-alllist.new-mode .sitelist>.sitelistCon>p {
                      text-align: left;
                      font-size: large;
-                     padding: 10px 30px;
+                     padding: 15px 30px;
                      display: table-caption;
                      width: 100%;
                  }
@@ -2122,7 +2127,7 @@
                  #search-jumper #search-jumper-alllist.new-mode .sitelist>.sitelistCon>div:before {
                      content: attr(title);
                      margin-left: 41px;
-                     color: #abb0bd;
+                     color: #93959a;
                      font-size: 12px;
                      height: 3em;
                      line-height: 1.5em;
@@ -2141,12 +2146,14 @@
                      height: 48px;
                      float: left;
                      margin-left: -20px;
+                     transform: scale(1);
+                     transition: transform 0.5s ease;
                  }
                  #search-jumper #search-jumper-alllist.new-mode .sitelist a>p {
                      -webkit-line-clamp: 2;
                      -webkit-box-orient: vertical;
                      display: block;
-                     font-size: 16px;
+                     font-weight: bold;
                      height: 21px;
                      line-height: 21px;
                      margin-bottom: 8px;
@@ -2155,6 +2162,10 @@
                      overflow: hidden;
                      text-overflow: ellipsis;
                      white-space: nowrap;
+                     transition: color 0.25s ease;
+                 }
+                 #search-jumper #search-jumper-alllist.new-mode .sitelist a:hover>p {
+                     color: #f1404b;
                  }
                  #search-jumper .sitelist a+p {
                      display: none;
@@ -2179,13 +2190,15 @@
                      padding: 2px 6px;
                      background: rgb(160 160 160 / 10%);
                      color: #888;
-                     border-radius: 10px;
+                     border-radius: 5px;
                      transition: .3s;
                      cursor: pointer;
                  }
                  #search-jumper #search-jumper-alllist.new-mode .sitelist a+p>span:hover {
-                     color: white;
-                     background: rgb(160 160 160 / 30%);
+                     background: rgb(160 160 160 / 20%);
+                 }
+                 #search-jumper #search-jumper-alllist.new-mode .sitelist a:hover>img {
+                     transform: scale(1.1);
                  }
                  #search-jumper #search-jumper-alllist.new-mode .sitelistCon>div:hover>p {
                      opacity: 1;
@@ -3083,9 +3096,15 @@
                      border-radius: 10px;
                      box-shadow: 0px 0px 10px 0px #7a7a7a;
                      padding: 0 0 10px 0;
-                     background: #ffffffee;
+                     background-color: rgba(255, 255, 255, 0.8);
+                     -moz-transition: background-color 0.3s ease;
+                     -webkit-transition: background-color 0.3s ease;
+                     transition: background-color 0.3s ease;
                      opacity: 1;
                      border: 0;
+                 }
+                 #search-jumper .sitelistBox:hover>.sitelist>.sitelistCon {
+                     background-color: rgba(255, 255, 255, 1);
                  }
                  #search-jumper .sitelist>.sitelistCon:hover {
                      opacity: 1;
@@ -3122,7 +3141,7 @@
                      font-family: Arial, sans-serif,微软雅黑,"Noto Sans SC";
                      line-height: 25px;
                      margin: 5px auto;
-                     color: #6b6e74;
+                     color: #484b4f;
                      flex: 1;
                      text-align: left;
                      white-space: nowrap;
@@ -3150,7 +3169,7 @@
                      font-size: 16px;
                      font-family: Arial, sans-serif,微软雅黑,"Noto Sans SC";
                      font-weight: bold;
-                     background: #f6f6f6;
+                     background: #f6f6f6cc;
                      border-radius: 10px 10px 0 0;
                      overflow: hidden;
                      white-space: nowrap;
@@ -4010,7 +4029,10 @@
 
                      #search-jumper .sitelist > .sitelistCon > p,
                      #search-jumper .sitelist a > p {
-                         color: #DADADA !important;
+                         color: #b4b8bf !important;
+                     }
+                     #search-jumper #search-jumper-alllist.new-mode .sitelist a:hover>p {
+                         color: #f1404b !important;
                      }
                      #search-jumper .listArrow {
                          border-bottom-color: #1C2127;
@@ -4034,7 +4056,7 @@
                      }
 
                      .search-jumper-historylist>a.search-jumper-btn {
-                         filter: drop-shadow(0px 0px 3px #ffffff50);
+                         filter: drop-shadow(0px 0px 2px #ffffff80);
                      }
 
                      .search-jumper-showall a.search-jumper-word,
