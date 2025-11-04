@@ -2763,7 +2763,6 @@
                      right: 0px;
                      width: 20px;
                      height: 20px;
-                     color: white;
                      transition:all 0.2s ease;
                  }
                  .search-jumper-tips>div [data-close]:hover {
