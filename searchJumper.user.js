@@ -4054,6 +4054,7 @@
                      /* 历史列表 */
                      .search-jumper-historylistcon {
                          background-color: #181C20e0 !important;
+                         border-bottom: 1px solid #252b32;
                      }
 
                      .search-jumper-historylist>a.search-jumper-btn {
