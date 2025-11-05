@@ -2186,7 +2186,7 @@
                  }
                  #search-jumper #search-jumper-alllist.new-mode .sitelist a+p>span {
                      flex-shrink: 0;
-                     font-size: 14px;
+                     font-size: 12px;
                      padding: 2px 6px;
                      background: rgb(160 160 160 / 10%);
                      color: #888;
@@ -6896,7 +6896,7 @@
                 setTimeout(() => {
                     if (!self.showAllMouseHandler) {
                         self.showAllMouseHandler = e => {
-                            if (e.isTrusted == false || e.target.className === 'sitelistBox' || e.target.className === 'search-jumper-showallBg') {
+                            if (e.isTrusted == false || e.target.className === 'sitelistBox' || e.target.className === 'search-jumper-showallBg' || e.target.id === 'search-jumper-alllist') {
                                 self.closeShowAll();
                             }
                         };
