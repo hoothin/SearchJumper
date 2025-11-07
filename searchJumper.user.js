@@ -3049,6 +3049,9 @@
                      transition: opacity 0.3s ease;
                  }
                  #search-jumper-tileInput:hover {
+                     opacity: 0.5;
+                 }
+                 #search-jumper-tileInput:focus {
                      opacity: 0.95;
                  }
                  #search-jumper.funcKeyCall #search-jumper-tileInput {
