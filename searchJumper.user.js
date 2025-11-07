@@ -2051,7 +2051,7 @@
                  }
                  #search-jumper-alllist>.dayInAll {
                      left: 50px;
-                     font-size: ${lang.indexOf("zh") == 0 ? '1.5' : '2'}vw;
+                     font-size: ${(lang.indexOf("zh") == 0 || lang.indexOf("ja") == 0) ? '1.5' : '2'}vw;
                  }
                  #search-jumper-alllist>.timeInAll {
                      right: 50px;
@@ -4258,7 +4258,6 @@
                 alllist.addEventListener(getSupportWheelEventName(), e => {
                     self.tips.style.display = "none";
                     clearTimeout(self.requestShowTipsTimer);
-                    if (e.target != alllist && e.target != showallBg && e.target != sitelistBox) return;
                     if (alllist.classList.contains("new-mode")) return;
                     var deltaX, deltaY;
                     if(e.type !== 'wheel'){
@@ -4283,10 +4282,11 @@
                         deltaX = e.deltaX;
                         deltaY = e.deltaY;
                     }
+                    if (e.target != alllist && e.target != showallBg && e.target != sitelistBox && deltaY) return;
                     e.preventDefault();
                     e.stopPropagation();
 
-                    alllist.scrollLeft += deltaY;
+                    alllist.scrollLeft += (deltaX || deltaY);
                 }, { passive: false, capture: false });
 
 
@@ -6853,7 +6853,7 @@
                 let now = new Date();
                 let year = now.getFullYear(), month = now.getMonth(), date = now.getDate();
                 let dayLabelStr = i18n(days[now.getDay()]) + "<br/>" + year + '-' + (++month < 10 ? '0' + month : month) + '-' + (date < 10 ? '0' + date : date);
-                if (lang.indexOf("zh") == 0) {
+                if (lang.indexOf("zh") == 0 || lang.indexOf("ja") == 0) {
                     let lunar = sloarToLunar(year, month, date);
                     if (lunar) {
                         let lunarStr = `${lunar.lunarYear}年${lunar.lunarMonth}月${lunar.lunarDay}`;
@@ -6872,6 +6872,7 @@
                     if (type.style.display != 'none') {
                         let sitelist = type.querySelector('.sitelist');
                         if (sitelist) {
+                            sitelist.style.opacity = "";
                             self.sitelistBox.appendChild(sitelist);
                             self.initList(sitelist);
                         }
