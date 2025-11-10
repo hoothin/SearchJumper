@@ -15177,6 +15177,7 @@
 
         const jumpHtml = ext ? chrome.runtime.getURL('config/jump.html') : "https://hoothin.github.io/SearchJumper/jump.html";
         function jumpBySearchJumper() {
+            if (!currentFormParams || !currentFormParams.url) return;
             let jumpTo = `${jumpHtml}#jump{url=${encodeURIComponent(currentFormParams.url)}&charset=${currentFormParams.charset}}`;
             if (currentFormParams.target == '_self') {
                 if (ext) {
