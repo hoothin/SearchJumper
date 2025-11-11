@@ -68,7 +68,9 @@
     const inIframe = window.top !== window.self;
     if (inIframe) {
         try {
-            if (window.self.innerWidth === 0 && window.self.innerHeight === 0) {
+            if (window.name === 'pagetual-iframe' || (window.frameElement && window.frameElement.name === 'pagetual-iframe')) {
+                return;
+            } else if (window.self.innerWidth === 0 && window.self.innerHeight === 0) {
                 let ignore = await new Promise(resolve => {
                     window.addEventListener('load', e => {
                         setTimeout(() => {
