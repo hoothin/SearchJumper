@@ -1946,10 +1946,10 @@
                  #search-jumper.search-jumper-showall>#search-jumper-alllist:hover~.search-jumper-showallBg {
                      background-color: rgba(0, 0, 0, 0.8);
                  }
-                 #search-jumper.search-jumper-showall #search-jumper-alllist>.sitelistBox:hover .sitelist {
+                 #search-jumper.search-jumper-showall #search-jumper-alllist.new-mode>.sitelistBox:hover .sitelist {
                      opacity: 0.5;
                  }
-                 #search-jumper.search-jumper-showall #search-jumper-alllist>.sitelistBox .sitelist:hover {
+                 #search-jumper.search-jumper-showall #search-jumper-alllist.new-mode>.sitelistBox .sitelist:hover {
                      opacity: 1;
                  }
                  #search-jumper.search-jumper-showall>.search-jumper-showallBg {
@@ -15134,7 +15134,9 @@
                 }
                 if (parentForm.method.toLowerCase() == "post") {
                     url += "%p{" + params.join("&") + "}";
-                    if (parentForm.action.indexOf(location.origin) == 0 && location.pathname && location.pathname !== "/") url += `#from{${location.pathname.slice(1)}}`;
+                    if (!ext) {
+                        if (parentForm.action.indexOf(location.origin) == 0 && location.pathname && location.pathname !== "/") url += `#from{${location.pathname.slice(1)}}`;
+                    }
                 } else {
                     let existParams = url.match(/\?(.*)/);
                     if (existParams) {
