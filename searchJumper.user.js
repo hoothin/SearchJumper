@@ -2144,17 +2144,14 @@
                      position: absolute;
                      pointer-events: none;
                  }
-                 #search-jumper #search-jumper-alllist.new-mode .sitelist a>img {
+                 #search-jumper #search-jumper-alllist.new-mode .sitelist a>div>img {
                      width: 38px;
                      height: 38px;
-                     float: left;
-                     margin-left: -10px;
-                     margin-top: 5px;
                      transform: scale(1);
                      border-radius: 10%;
                      transition: transform 0.25s ease;
                  }
-                 #search-jumper #search-jumper-alllist.new-mode .sitelist a:before {
+                 #search-jumper #search-jumper-alllist.new-mode .sitelist a>div {
                      content: '';
                      position: absolute;
                      width: 38px;
@@ -2442,7 +2439,7 @@
                  #search-jumper.funcKeyCall>.search-jumper-searchBar>.search-jumper-type>.sitelist>.sitelistCon>p {
                      display: none;
                  }
-                 #search-jumper.funcKeyCall>.search-jumper-searchBar>.search-jumper-type>.sitelist>.sitelistCon a>img {
+                 #search-jumper.funcKeyCall>.search-jumper-searchBar>.search-jumper-type>.sitelist>.sitelistCon a>div>img {
                      width: 20px;
                      height: 20px;
                  }
@@ -3144,7 +3141,7 @@
                      text-decoration: none;
                      cursor: pointer;
                  }
-                 #search-jumper .sitelist a>img {
+                 #search-jumper .sitelist a>div>img {
                      width: 20px;
                      height: 20px;
                      margin-right: 10px;
@@ -3644,7 +3641,7 @@
                          width: 100px;
                          margin-left: 68px;
                      }
-                     #search-jumper #search-jumper-alllist.new-mode .sitelist a>img {
+                     #search-jumper #search-jumper-alllist.new-mode .sitelist a>div>img {
                          margin-left: 0;
                      }
                  }
@@ -6917,7 +6914,7 @@
                      (targetElement.parentNode && targetElement.parentNode.nodeName.toUpperCase() == 'A'))) {
                     targetKw = targetElement.textContent.trim();
                 }
-                kw = kw || getKeywords() || targetKw;
+                kw = kw || getKeywords() || targetKw || cacheKeywords;
                 this.searchJumperInputKeyWords.value = kw;
                 setTimeout(() => {
                     if (!self.showAllMouseHandler) {
@@ -9002,7 +8999,9 @@
                     if (icon && !searchData.prefConfig.noIcons) {
                         let iconSrc = icon.src || icon.dataset.src;
                         let img = document.createElement("img");
-                        a.appendChild(img);
+                        let imgCon = document.createElement("div");
+                        imgCon.appendChild(img);
+                        a.appendChild(imgCon);
                         img.onload = e => {
                             img.style.width = "";
                             img.style.height = "";
@@ -9057,7 +9056,7 @@
                 if (!list.dataset.inited) {
                     list.style.display = "none";
                     list.dataset.inited = true;
-                    [].forEach.call(list.querySelectorAll("div>a>img"), img => {
+                    [].forEach.call(list.querySelectorAll("div>a>div>img"), img => {
                         if (img.dataset.src) {
                             img.src = img.dataset.src;
                             delete img.dataset.src;
