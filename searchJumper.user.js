@@ -6894,11 +6894,14 @@
                     if (type.style.display != 'none') {
                         let sitelist = type.querySelector('.sitelist');
                         if (sitelist) {
-                            sitelist.style.opacity = "";
                             self.sitelistBox.appendChild(sitelist);
-                            self.initList(sitelist);
                         }
                     }
+                });
+                [].forEach.call(self.sitelistBox.querySelectorAll('.sitelist'), sitelist => {
+                    sitelist.style.opacity = "";
+                    sitelist.style.height = "";
+                    self.initList(sitelist);
                 });
                 this.historySiteBtns.slice(0, 20).forEach(btn => {
                     let siteImg = btn.querySelector('img');
