@@ -12571,6 +12571,9 @@
                             }
                         });
                     }
+                    self.allLists.forEach(list => {
+                        list.style.visibility = "hidden";
+                    });
                     self.con.classList.remove("search-jumper-scroll");
                     self.bar.style.cssText = "";
                     self.con.style.cssText = "";
