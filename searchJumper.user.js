@@ -1638,7 +1638,7 @@
         const logoBtnSvg = `<svg class="search-jumper-logoBtnSvg" viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg"><title>${_GM_info.script.name}</title><path d="M.736 510.464c0-281.942 228.335-510.5 510-510.5 135.26 0 264.981 53.784 360.625 149.522 95.643 95.737 149.375 225.585 149.375 360.978 0 281.94-228.335 510.5-510 510.5-281.665 0-510-228.56-510-510.5zm510-510.5v1021m-510-510.5h1020" fill="#fefefe"/><path d="M237.44 346.624a48.64 48.64 0 1 0 97.28 0 48.64 48.64 0 1 0-97.28 0zM699.904 346.624a48.64 48.64 0 1 0 97.28 0 48.64 48.64 0 1 0-97.28 0zM423.296 759.296c-64 0-115.712-52.224-115.712-115.712 0-26.624 9.216-52.224 25.6-72.704 9.216-11.776 26.112-13.312 37.888-4.096s13.312 26.112 4.096 37.888c-9.216 11.264-13.824 24.576-13.824 38.912 0 34.304 27.648 61.952 61.952 61.952s61.952-27.648 61.952-61.952c0-4.096-.512-8.192-1.024-11.776-2.56-14.848 6.656-28.672 21.504-31.744 14.848-2.56 28.672 6.656 31.744 21.504 1.536 7.168 2.048 14.336 2.048 22.016-.512 63.488-52.224 115.712-116.224 115.712z" fill="#333"/><path d="M602.08 760.296c-64 0-115.712-52.224-115.712-115.712 0-14.848 12.288-27.136 27.136-27.136s27.136 12.288 27.136 27.136c0 34.304 27.648 61.952 61.952 61.952s61.952-27.648 61.952-61.952c0-15.36-5.632-30.208-15.872-41.472-9.728-11.264-9.216-28.16 2.048-37.888 11.264-9.728 28.16-9.216 37.888 2.048 19.456 21.504 29.696 48.64 29.696 77.824 0 62.976-52.224 115.2-116.224 115.2z" fill="#333"/><ellipse ry="58" rx="125" cy="506.284" cx="201.183" fill="#faf"/><ellipse ry="58" rx="125" cy="506.284" cx="823.183" fill="#faf"/></svg>`;
         const searchSvg = `<svg width="25" height="25" xmlns="http://www.w3.org/2000/svg" fill="currentcolor" viewBox="0 0 52.966 52.966"><path d="M51.704 51.273L36.844 35.82c3.79-3.8 6.14-9.04 6.14-14.82 0-11.58-9.42-21-21-21s-21 9.42-21 21 9.42 21 21 21c5.082 0 9.747-1.817 13.383-4.832l14.895 15.49c.196.206.458.308.72.308.25 0 .5-.093.694-.28.398-.382.41-1.015.028-1.413zM21.984 40c-10.478 0-19-8.523-19-19s8.522-19 19-19 19 8.523 19 19-8.525 19-19 19z"></path></svg>`;
         const logoBase64 = "data:image/svg+xml;base64,PHN2ZyBjbGFzcz0ic2VhcmNoLWp1bXBlci1sb2dvQnRuU3ZnIiB2aWV3Qm94PSIwIDAgMTAyNCAxMDI0IiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPjxwYXRoIGQ9Ik0uNzM2IDUxMC40NjRjMC0yODEuOTQyIDIyOC4zMzUtNTEwLjUgNTEwLTUxMC41IDEzNS4yNiAwIDI2NC45ODEgNTMuNzg0IDM2MC42MjUgMTQ5LjUyMiA5NS42NDMgOTUuNzM3IDE0OS4zNzUgMjI1LjU4NSAxNDkuMzc1IDM2MC45NzggMCAyODEuOTQtMjI4LjMzNSA1MTAuNS01MTAgNTEwLjUtMjgxLjY2NSAwLTUxMC0yMjguNTYtNTEwLTUxMC41em01MTAtNTEwLjV2MTAyMW0tNTEwLTUxMC41aDEwMjAiIGZpbGw9IiNmZWZlZmUiLz48cGF0aCBkPSJNMjM3LjQ0IDM0Ni42MjRhNDguNjQgNDguNjQgMCAxIDAgOTcuMjggMCA0OC42NCA0OC42NCAwIDEgMC05Ny4yOCAwek02OTkuOTA0IDM0Ni42MjRhNDguNjQgNDguNjQgMCAxIDAgOTcuMjggMCA0OC42NCA0OC42NCAwIDEgMC05Ny4yOCAwek00MjMuMjk2IDc1OS4yOTZjLTY0IDAtMTE1LjcxMi01Mi4yMjQtMTE1LjcxMi0xMTUuNzEyIDAtMjYuNjI0IDkuMjE2LTUyLjIyNCAyNS42LTcyLjcwNCA5LjIxNi0xMS43NzYgMjYuMTEyLTEzLjMxMiAzNy44ODgtNC4wOTZzMTMuMzEyIDI2LjExMiA0LjA5NiAzNy44ODhjLTkuMjE2IDExLjI2NC0xMy44MjQgMjQuNTc2LTEzLjgyNCAzOC45MTIgMCAzNC4zMDQgMjcuNjQ4IDYxLjk1MiA2MS45NTIgNjEuOTUyczYxLjk1Mi0yNy42NDggNjEuOTUyLTYxLjk1MmMwLTQuMDk2LS41MTItOC4xOTItMS4wMjQtMTEuNzc2LTIuNTYtMTQuODQ4IDYuNjU2LTI4LjY3MiAyMS41MDQtMzEuNzQ0IDE0Ljg0OC0yLjU2IDI4LjY3MiA2LjY1NiAzMS43NDQgMjEuNTA0IDEuNTM2IDcuMTY4IDIuMDQ4IDE0LjMzNiAyLjA0OCAyMi4wMTYtLjUxMiA2My40ODgtNTIuMjI0IDExNS43MTItMTE2LjIyNCAxMTUuNzEyeiIgZmlsbD0iIzMzMyIvPjxwYXRoIGQ9Ik02MDIuMDggNzYwLjI5NmMtNjQgMC0xMTUuNzEyLTUyLjIyNC0xMTUuNzEyLTExNS43MTIgMC0xNC44NDggMTIuMjg4LTI3LjEzNiAyNy4xMzYtMjcuMTM2czI3LjEzNiAxMi4yODggMjcuMTM2IDI3LjEzNmMwIDM0LjMwNCAyNy42NDggNjEuOTUyIDYxLjk1MiA2MS45NTJzNjEuOTUyLTI3LjY0OCA2MS45NTItNjEuOTUyYzAtMTUuMzYtNS42MzItMzAuMjA4LTE1Ljg3Mi00MS40NzItOS43MjgtMTEuMjY0LTkuMjE2LTI4LjE2IDIuMDQ4LTM3Ljg4OCAxMS4yNjQtOS43MjggMjguMTYtOS4yMTYgMzcuODg4IDIuMDQ4IDE5LjQ1NiAyMS41MDQgMjkuNjk2IDQ4LjY0IDI5LjY5NiA3Ny44MjQgMCA2Mi45NzYtNTIuMjI0IDExNS4yLTExNi4yMjQgMTE1LjJ6IiBmaWxsPSIjMzMzIi8+PGVsbGlwc2Ugcnk9IjU4IiByeD0iMTI1IiBjeT0iNTA2LjI4NCIgY3g9IjIwMS4xODMiIGZpbGw9IiNmYWYiLz48ZWxsaXBzZSByeT0iNTgiIHJ4PSIxMjUiIGN5PSI1MDYuMjg0IiBjeD0iODIzLjE4MyIgZmlsbD0iI2ZhZiIvPjwvc3ZnPg==";
-        const noImgBase64 = "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTAyNCIgaGVpZ2h0PSIxMDI0IiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPgo8cGF0aCBkPSJNNDI5LjAxMzMzMyA2NDBBMzIgMzIgMCAwIDEgMzg0IDU5NC45ODY2NjdsMzcuNzYtMzcuNzYtMjIuODI2NjY3LTIyLjYxMzMzNC0xMzUuNjggMTM1LjY4IDkwLjQ1MzMzNCA5MC40NTMzMzQgMTM1LjY4LTEzNS42OC0yMi42MTMzMzQtMjIuNjEzMzM0ek01MzQuNjEzMzMzIDM5OC45MzMzMzNsMjIuNjEzMzM0IDIyLjYxMzMzNEw1OTQuOTg2NjY3IDM4NEEzMiAzMiAwIDAgMSA2NDAgNDI5LjAxMzMzM2wtMzcuNzYgMzcuNzYgMjIuNjEzMzMzIDIyLjYxMzMzNCAxMzUuNjgtMTM1LjY4LTkwLjQ1MzMzMy05MC40NTMzMzR6IiBmaWxsPSIjNUU1QzVDIj48L3BhdGg+PHBhdGggZD0iTTUxMiAyMS4zMzMzMzNhNDkwLjY2NjY2NyA0OTAuNjY2NjY3IDAgMSAwIDQ5MC42NjY2NjcgNDkwLjY2NjY2N0E0OTAuNjY2NjY3IDQ5MC42NjY2NjcgMCAwIDAgNTEyIDIxLjMzMzMzM3ogbTMxNi44IDM1NC45ODY2NjdsLTE4MS4xMiAxODEuMTJhMzIgMzIgMCAwIDEtNDUuMjI2NjY3IDBMNTU3LjIyNjY2NyA1MTIgNTEyIDU1Ny4yMjY2NjdsNDUuMjI2NjY3IDQ1LjIyNjY2NmEzMiAzMiAwIDAgMSAwIDQ1LjIyNjY2N2wtMTgxLjEyIDE4MS4xMmEzMiAzMiAwIDAgMS00NS4yMjY2NjcgMGwtMTM1LjY4LTEzNS42OGEzMiAzMiAwIDAgMSAwLTQ1LjIyNjY2N2wxODEuMTItMTgxLjEyYTMyIDMyIDAgMCAxIDQ1LjIyNjY2NyAwTDQ2Ni43NzMzMzMgNTEyIDUxMiA0NjYuNzczMzMzbC00NS4yMjY2NjctNDUuMjI2NjY2YTMyIDMyIDAgMCAxIDAtNDUuMjI2NjY3bDE4MS4xMi0xODEuMTJhMzIgMzIgMCAwIDEgNDUuMjI2NjY3IDBsMTM1LjY4IDEzNS42OGEzMiAzMiAwIDAgMSAwIDQ1LjIyNjY2N3oiIGZpbGw9IiM1RTVDNUMiPjwvcGF0aD4KPC9zdmc+";
+        const noImgBase64 = "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDI0IiBoZWlnaHQ9IjEwMjQiPjxwYXRoIGQ9Ik00MjkuMDEzMzMzIDY0MEEzMiAzMiAwIDAgMSAzODQgNTk0Ljk4NjY2N2wzNy43Ni0zNy43Ni0yMi44MjY2NjctMjIuNjEzMzM0LTEzNS42OCAxMzUuNjggOTAuNDUzMzM0IDkwLjQ1MzMzNCAxMzUuNjgtMTM1LjY4LTIyLjYxMzMzNC0yMi42MTMzMzR6TTUzNC42MTMzMzMgMzk4LjkzMzMzM2wyMi42MTMzMzQgMjIuNjEzMzM0TDU5NC45ODY2NjcgMzg0QTMyIDMyIDAgMCAxIDY0MCA0MjkuMDEzMzMzbC0zNy43NiAzNy43NiAyMi42MTMzMzMgMjIuNjEzMzM0IDEzNS42OC0xMzUuNjgtOTAuNDUzMzMzLTkwLjQ1MzMzNHoiIGZpbGw9IiNhMGEwYTAiLz48cGF0aCBkPSJNNTEyIDIxLjMzMzMzM2E0OTAuNjY2NjY3IDQ5MC42NjY2NjcgMCAxIDAgNDkwLjY2NjY2NyA0OTAuNjY2NjY3QTQ5MC42NjY2NjcgNDkwLjY2NjY2NyAwIDAgMCA1MTIgMjEuMzMzMzMzeiBtMzE2LjggMzU0Ljk4NjY2N2wtMTgxLjEyIDE4MS4xMmEzMiAzMiAwIDAgMS00NS4yMjY2NjcgMEw1NTcuMjI2NjY3IDUxMiA1MTIgNTU3LjIyNjY2N2w0NS4yMjY2NjcgNDUuMjI2NjY2YTMyIDMyIDAgMCAxIDAgNDUuMjI2NjY3bC0xODEuMTIgMTgxLjEyYTMyIDMyIDAgMCAxLTQ1LjIyNjY2NyAwbC0xMzUuNjgtMTM1LjY4YTMyIDMyIDAgMCAxIDAtNDUuMjI2NjY3bDE4MS4xMi0xODEuMTJhMzIgMzIgMCAwIDEgNDUuMjI2NjY3IDBMNDY2Ljc3MzMzMyA1MTIgNTEyIDQ2Ni43NzMzMzNsLTQ1LjIyNjY2Ny00NS4yMjY2NjZhMzIgMzIgMCAwIDEgMC00NS4yMjY2NjdsMTgxLjEyLTE4MS4xMmEzMiAzMiAwIDAgMSA0NS4yMjY2NjcgMGwxMzUuNjggMTM1LjY4YTMyIDMyIDAgMCAxIDAgNDUuMjI2NjY3eiIgZmlsbD0iI2EwYTBhMCIvPjwvc3ZnPg==";
         const closePath = '<path d="M512 64C264.6 64 64 264.6 64 512s200.6 448 448 448 448-200.6 448-448S759.4 64 512 64z m165.4 618.2l-66-0.3L512 563.4l-99.3 118.4-66.1 0.3c-4.4 0-8-3.5-8-8 0-1.9 0.7-3.7 1.9-5.2l130.1-155L340.5 359c-1.2-1.5-1.9-3.3-1.9-5.2 0-4.4 3.6-8 8-8l66.1 0.3L512 464.6l99.3-118.4 66-0.3c4.4 0 8 3.5 8 8 0 1.9-0.7 3.7-1.9 5.2L553.5 514l130 155c1.2 1.5 1.9 3.3 1.9 5.2 0 4.4-3.6 8-8 8z"></path>';
         const wordParam = "%s[lurest]?\\b";
         const wordParamReg = new RegExp(wordParam);
@@ -1951,6 +1951,7 @@
                  }
                  #search-jumper.search-jumper-showall #search-jumper-alllist.new-mode>.sitelistBox .sitelist:hover {
                      opacity: 1;
+                     backdrop-filter: blur(5px);
                  }
                  #search-jumper.search-jumper-showall>.search-jumper-showallBg {
                      display: block;
@@ -2009,7 +2010,7 @@
                      justify-content: center;
                      left: 0;
                      top: 60px;
-                     background: #ffffffee;
+                     background: #ffffffdd;
                      border-bottom: 1px solid #ddd;
                      pointer-events: all;
                      min-height: 40px;
@@ -2144,12 +2145,26 @@
                      pointer-events: none;
                  }
                  #search-jumper #search-jumper-alllist.new-mode .sitelist a>img {
-                     width: 48px;
-                     height: 48px;
+                     width: 38px;
+                     height: 38px;
+                     float: left;
+                     margin-left: -10px;
+                     margin-top: 5px;
+                     transform: scale(1);
+                     border-radius: 10%;
+                     transition: transform 0.25s ease;
+                 }
+                 #search-jumper #search-jumper-alllist.new-mode .sitelist a:before {
+                     content: '';
+                     position: absolute;
+                     width: 38px;
+                     height: 38px;
                      float: left;
                      margin-left: -20px;
-                     transform: scale(1);
-                     transition: transform 0.5s ease;
+                     margin-top: -5px;
+                     background: #ffffff30;
+                     border-radius: 50%;
+                     padding: 10px;
                  }
                  #search-jumper #search-jumper-alllist.new-mode .sitelist a>p {
                      -webkit-line-clamp: 2;
@@ -2160,11 +2175,11 @@
                      line-height: 21px;
                      margin-bottom: 8px;
                      margin-top: 0px;
-                     margin-left: 40px;
+                     margin-left: 45px;
                      overflow: hidden;
                      text-overflow: ellipsis;
                      white-space: nowrap;
-                     transition: color 0.5s ease;
+                     transition: color 0.25s ease;
                  }
                  #search-jumper #search-jumper-alllist.new-mode .sitelist a:hover>p {
                      color: #f1404b;
@@ -3100,7 +3115,7 @@
                      border-radius: 10px;
                      box-shadow: 0px 0px 10px 0px #7a7a7a;
                      padding: 0 0 10px 0;
-                     background-color: rgba(255, 255, 255, 0.8);
+                     background-color: #ffffffbb;
                      -moz-transition: background-color 0.3s ease;
                      -webkit-transition: background-color 0.3s ease;
                      transition: background-color 0.3s ease;
@@ -3108,7 +3123,7 @@
                      border: 0;
                  }
                  #search-jumper .sitelistBox:hover>.sitelist>.sitelistCon {
-                     background-color: rgba(255, 255, 255, 1);
+                     background-color: rgba(255, 255, 255, 0.8);
                  }
                  #search-jumper .sitelist>.sitelistCon:hover {
                      opacity: 1;
@@ -3145,7 +3160,7 @@
                      font-family: Arial, sans-serif,微软雅黑,"Noto Sans SC";
                      line-height: 25px;
                      margin: 5px auto;
-                     color: #484b4f;
+                     color: #282a2d;
                      flex: 1;
                      text-align: left;
                      white-space: nowrap;
@@ -3168,12 +3183,12 @@
                      pointer-events: none;
                  }
                  #search-jumper .sitelist>.sitelistCon>p {
-                     color: #565656;
+                     color: #282a2d;
                      text-align: center;
                      font-size: 16px;
                      font-family: Arial, sans-serif,微软雅黑,"Noto Sans SC";
                      font-weight: bold;
-                     background: #f6f6f6cc;
+                     border-bottom: 1px solid #9e9e9e1a;
                      border-radius: 10px 10px 0 0;
                      overflow: hidden;
                      white-space: nowrap;
@@ -4010,10 +4025,6 @@
                      border-top-color: white;
                  }
                  @media (prefers-color-scheme: dark) {
-                     /* 站点列表 */
-                     #search-jumper .sitelist > .sitelistCon > p {
-                         background-color: #252B32 !important;
-                     }
                      #search-jumper.search-jumper-showall #filterSites {
                          background-color: #2a282cc0;
                      }
@@ -4026,6 +4037,15 @@
                      #search-jumper .sitelist > .sitelistCon {
                          background-color: #1C2127ee !important;
                          box-shadow: 0px 0px 10px 0px #1c1c1c;
+                     }
+                     #search-jumper.search-jumper-showall .sitelist > .sitelistCon {
+                         background-color: #1C212760 !important;
+                     }
+                     #search-jumper.search-jumper-showall .sitelist > .sitelistCon:hover {
+                         background-color: #1C2127dd !important;
+                     }
+                     #search-jumper.search-jumper-showall #search-jumper-alllist.new-mode .sitelist>.sitelistCon:hover {
+                         background-color: #1C212788 !important;
                      }
 
                      #search-jumper .sitelist > .sitelistCon > div:hover {
@@ -4057,7 +4077,7 @@
 
                      /* 历史列表 */
                      .search-jumper-historylistcon {
-                         background-color: #181C20e0 !important;
+                         background-color: #181C2060 !important;
                          border-bottom: 1px solid #252b32;
                      }
 
@@ -10277,6 +10297,35 @@
                 return null;
             }
 
+            async switchChinese(target, str) {
+                const windowScatcFunc = target === "sc" ? _unsafeWindow.tc2sc : _unsafeWindow.sc2tc;
+                if (windowScatcFunc) {
+                    return windowScatcFunc(str);
+                }
+                let self = this;
+                if (!self.switchChineseResolve) {
+                    window.addEventListener("message", function(event) {
+                        if (event.data && event.data.type === "switchChineseResult") {
+                            const receivedData = event.data.payload;
+                            self.switchChineseResolve(receivedData);
+                        }
+                    });
+                }
+                return new Promise(resolve => {
+                    self.switchChineseResolve = resolve;
+                    window.postMessage({
+                        type: "switchChineseRequest",
+                        payload: {
+                            target,
+                            str
+                        }
+                    }, "*");
+                    setTimeout(() => {
+                        resolve("");
+                    }, 300);
+                });
+            }
+
             async createSiteBtn(icon, data, openInNewTab, isBookmark, typeData, isHistoryBtn) {
                 let self = this;
                 let ele = document.createElement("a");
@@ -10471,6 +10520,7 @@
                     } else ele.setAttribute("target", "_self");
                 }
                 let dataUrl = data.url;
+                let needSwitchChinese = /%s[st]\b/.test(dataUrl);
                 let hasWordParam = wordParamReg.test(dataUrl);
                 if (hasWordParam) ele.dataset.txt = true;
                 if (/%[tb]\b/i.test(dataUrl)) {
@@ -10829,16 +10879,20 @@
                         keywordsR = keywords;
                         keywordsU = keywordsR.toUpperCase();
                         keywordsL = keywordsR.toLowerCase();
-                        keywordsSC = _unsafeWindow.tc2sc ? _unsafeWindow.tc2sc(keywordsR) : keywordsR;
-                        keywordsTC = _unsafeWindow.sc2tc ? _unsafeWindow.sc2tc(keywordsR) : keywordsR;
+                        if (needSwitchChinese) {
+                            keywordsSC = await self.switchChinese("sc", keywordsR);
+                            keywordsTC = await self.switchChinese("tc", keywordsR);
+                        }
                         if (!needDecode) keywords = encodeURIComponent(keywords);
                         resultUrl = customReplaceKeywords(resultUrl);
                     } else if (keywords && (!keywordsU && !keywordsL && !keywordsR)) {
                         keywordsR = keywords;
                         keywordsU = keywordsR.toUpperCase();
                         keywordsL = keywordsR.toLowerCase();
-                        keywordsSC = _unsafeWindow.tc2sc ? _unsafeWindow.tc2sc(keywordsR) : keywordsR;
-                        keywordsTC = _unsafeWindow.sc2tc ? _unsafeWindow.sc2tc(keywordsR) : keywordsR;
+                        if (needSwitchChinese) {
+                            keywordsSC = await self.switchChinese("sc", keywordsR);
+                            keywordsTC = await self.switchChinese("tc", keywordsR);
+                        }
                         if (!needDecode) keywords = encodeURIComponent(keywords);
                     }
                     if (targetUrl === '') {
