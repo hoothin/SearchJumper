@@ -3195,6 +3195,7 @@
                      top: 0;
                      pointer-events: none;
                      margin: -1px 0 0 0;
+                     backdrop-filter: blur(5px);
                  }
                  .search-jumper-searchBar.disable-pointer>.search-jumper-type {
                      pointer-events: none;
