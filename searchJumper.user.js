@@ -559,9 +559,9 @@
                     break;
                 case 'ru':
                     config = {
-                        import: 'Импортировать', //????????????????????????????????????????????????????????????
-                        filter: 'Фильтровать', //????????????????????????????????????????????????????????????
-                        selectAll: 'Выбрать всё', //????????????????????????????????????????????????????????????
+                        import: 'Импортировать',
+                        filter: 'Фильтровать',
+                        selectAll: 'Выбрать всё',
                         importOrNot: 'Импортировать эту конфигурацию?',
                         settings: 'Настройки',
                         batchOpen: 'Групповой поиск',
@@ -582,7 +582,7 @@
                         siteExist: 'Движок уже существует. Добавить его как клон?',
                         siteAddOver: 'Движок успешно добавлен',
                         multiline: 'Использовать многострочный поиск?',
-                        multilineTooMuch: 'Количество строк превышает 10. Продолжить поиск?', //????????????????????????????????????????????????????????????
+                        multilineTooMuch: 'Количество строк превышает 10. Продолжить поиск?',
                         inputPlaceholder: 'Фильтры',
                         inputTitle: 'Filter engines, support * ? wildcards, $ means end, ^ means start, type name**site name to filter type like "image**google", tab to next. ',
                         inputKeywords: 'Ввести ключевые слова поиска',
@@ -610,25 +610,25 @@
                         saveRuleBtn: 'Сохранить правило поиска текущего сайта',
                         wordContent: 'Слово или фраза для поиска',
                         wordHide: 'Hide parent element',
-                        wordHideTips: 'Глубина элемента, 0 - это текущее значение', //????????????????????????????????????????????????????????????
+                        wordHideTips: 'Глубина элемента, 0 - это текущее значение',
                         wordStyle: 'Стиль выделения слова',
                         wordTitle: 'Аннотация к искомому слову',
                         re: 'RegExp',
                         ignoreCase: 'Игнорировать регистр',
-                        filterLink: 'Фильтровать ссылку', //????????????????????????????????????????????????????????????
+                        filterLink: 'Фильтровать ссылку',
                         modify: 'Готово',
                         cancel: 'Отменить',
                         modifyWord: 'Изменить параметры',
                         addSearchEngine: 'Добавить движок',
                         noValidItemAsk: 'Не найден подходящий элемент. Хотите вручную добавить сайт?',
-                        expand: 'Развернуть другие сайты', //????????????????????????????????????????????????????????????
+                        expand: 'Развернуть другие сайты',
                         add: 'Добавить',
                         addWord: 'Добавить новое слово',
                         wordRange: 'Выделить область поиска',
                         customInputFrame: 'Пользовательские параметры поиска',
                         customSubmit: 'Принять',
                         finalSearch: 'Целевая строка поиска',
-                        search: 'Искать это', //????????????????????????????????????????????????????????????
+                        search: 'Искать это',
                         siteKeywords: 'Ключевые слова (разделитель |)',
                         siteMatch: 'Regexp для соответствия URL сайта',
                         openSelect: 'Открыть в',
@@ -7944,7 +7944,7 @@
                 });
                 let initWidth, initX;
                 let sizeChangeMouseMove = e => {
-                    let width = e.clientX - initX + initWidth + 20;
+                    let width = e.clientX - initX + initWidth - 10;
                     this.searchInputDiv.style.width = width + "px";
                 };
                 let sizeChangeMouseUp = e => {
@@ -7953,7 +7953,7 @@
                 };
                 this.rightSizeChange.addEventListener("mousedown", e => {
                     initX = e.clientX;
-                    initWidth = this.searchInput.clientWidth * 2 + 2;
+                    initWidth = this.searchInputDiv.clientWidth;
                     document.addEventListener("mousemove", sizeChangeMouseMove);
                     document.addEventListener("mouseup", sizeChangeMouseUp);
                     e.stopPropagation();
@@ -10645,9 +10645,16 @@
                             if (!selector) {
                                 try {
                                     let selectEles = window.getSelection();
+                                    let pickerElements = picker.getElements();
                                     let container = document.createElement('div');
-                                    for (let i = 0, len = selectEles.rangeCount; i < len; ++i) {
-                                        container.appendChild(selectEles.getRangeAt(i).cloneContents());
+                                    if (pickerElements) {
+                                        pickerElements.forEach(ele => {
+                                            container.appendChild(ele.cloneNode(true));
+                                        });
+                                    } else {
+                                        for (let i = 0, len = selectEles.rangeCount; i < len; ++i) {
+                                            container.appendChild(selectEles.getRangeAt(i).cloneContents());
+                                        }
                                     }
                                     [].forEach.call(container.querySelectorAll("style,script,svg,canvas"), ele => {
                                         let textNode = document.createTextNode('');
@@ -13350,6 +13357,11 @@
                 } catch(e) {
                     _GM_setClipboard(text);
                 }
+            }
+
+            getElements() {
+                if (!this.inPicker || !this.signList || this.signList.length === 0) return null;
+                return this.signList.map(sign => sign[1]);
             }
 
             openLinks() {
