@@ -1567,6 +1567,28 @@
             }
         }
 
+        function preloadImage(url, onSuccess) {
+            let img = new Image();
+            const cleanup = () => {
+                img.onload = null;
+                img.onerror = null;
+                img = null;
+            };
+
+            img.onload = function() {
+                if (typeof onSuccess === 'function') {
+                    onSuccess();
+                }
+                cleanup();
+            };
+
+            img.onerror = function() {
+                cleanup();
+            };
+
+            img.src = url;
+        }
+
         function isInput(ele) {
             if (ele &&
                 ((/INPUT|TEXTAREA/i.test(ele.nodeName) &&
@@ -9006,32 +9028,9 @@
                         let imgCon = document.createElement("div");
                         imgCon.appendChild(img);
                         a.appendChild(imgCon);
-                        img.onload = e => {
-                            img.style.width = "";
-                            img.style.height = "";
-                            img.style.display = "";
-                        };
-                        img.onerror = e => {
-                            img.src = noImgBase64;
-                        };
-                        img.style.width = "1px";
-                        img.style.height = "1px";
-                        img.style.display = "none";
+                        img.src = noImgBase64;
                         if (iconSrc) {
-                            if (!/^data:/.test(iconSrc)) {
-                                img.οnerrοr = e => {
-                                    img.src = noImgBase64;
-                                    img.onerror = null;
-                                    img.style.width = "";
-                                    img.style.height = "";
-                                    img.style.display = "";
-                                };
-                                img.dataset.src = iconSrc;
-                            } else {
-                                img.dataset.src = iconSrc;
-                            }
-                        } else {
-                            img.dataset.src = noImgBase64;
+                            img.dataset.src = iconSrc;
                         }
                     }
                     let p = document.createElement("p");
@@ -9062,7 +9061,10 @@
                     list.dataset.inited = true;
                     [].forEach.call(list.querySelectorAll("div>a>div>img"), img => {
                         if (img.dataset.src) {
-                            img.src = img.dataset.src;
+                            const imgSrc = img.dataset.src;
+                            preloadImage(imgSrc, () => {
+                                img.src = imgSrc;
+                            });
                             delete img.dataset.src;
                         }
                     });
