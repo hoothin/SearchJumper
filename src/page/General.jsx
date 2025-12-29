@@ -1178,6 +1178,19 @@ export default function General() {
                                 </FormControl>
                             </Box>
                         </Box>
+                        <Box>
+                            <Typography gutterBottom component="div">
+                                <h4>{window.i18n('staticPosition')}</h4>
+                            </Typography>
+                            <FormControl sx={{ m: 1, minWidth: 80 }}>
+                                <FormControlLabel
+                                    control={
+                                        <Switch checked={state.staticPosition} onChange={handleCheckChange} name="staticPosition" />
+                                    }
+                                    label={window.i18n('staticPositionTips')}
+                                />
+                            </FormControl>
+                        </Box>
                     </Box>
                     <Box sx={{ flexGrow: 1, display: 'flex'}}>
                         <Box>

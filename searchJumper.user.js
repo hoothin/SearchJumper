@@ -2233,7 +2233,7 @@
                  #search-jumper #search-jumper-alllist.new-mode .sitelist a+p>span:hover {
                      background: rgb(160 160 160 / 20%);
                  }
-                 #search-jumper #search-jumper-alllist.new-mode .sitelist a:hover>img {
+                 #search-jumper #search-jumper-alllist.new-mode .sitelist a:hover>div>img {
                      transform: scale(1.1);
                  }
                  #search-jumper #search-jumper-alllist.new-mode .sitelistCon>div:hover>p {
@@ -2650,6 +2650,9 @@
                      text-align: center;
                      background-image: initial;
                      filter: drop-shadow(1px 1px 3px #00000030);
+                 }
+                 .search-jumper-btn[data-disable] {
+                     opacity: 0.5;
                  }
                  #search-jumper.funcKeyCall .search-jumper-btn {
                      padding: ${1 * this.tilesZoom}px!important;
@@ -9532,6 +9535,14 @@
                 let shownSitesNum = 0;
                 let baseSize = this.scale * 40;
                 let taggleHide = (se, show) => {
+                    if (searchData.prefConfig.staticPosition) {
+                        if (show) {
+                            delete se.dataset.disable;
+                        } else {
+                            se.dataset.disable = 'true';
+                        }
+                        return;
+                    }
                     if (show) {
                         se.style.display = '';
                         if (ele.children.length > 2) ele.insertBefore(se, ele.children[2]);
@@ -9858,14 +9869,7 @@
 
                             if (data && localKeywords && data.kwFilter) {
                                 let pass = self.checkKwFilter(data.kwFilter, localKeywords);
-                                if (pass) {
-                                    se.style.display = '';
-                                } else {
-                                    se.style.display = 'none';
-                                    if (self.searchJumperExpand.parentNode == ele) {
-                                        ele.insertBefore(se, self.searchJumperExpand);
-                                    } else ele.appendChild(se);
-                                }
+                                taggleHide(se, pass);
                             }
                             if (se.style.display != 'none' && si && !si.src && si.dataset.src) {
                                 if (shownIconNum >= 0 && !/^data/.test(si.dataset.src)) {
@@ -11055,6 +11059,7 @@
                 let clicked = false;
                 let alt, ctrl, meta, shift;
                 let action = async e => {
+                    if (ele.dataset.disable) return;
                     delete ele.href;
                     if (!e) e = {};
                     alt = e.altKey;
@@ -11213,6 +11218,7 @@
                 };
                 let clickHandler = e => {
                     e && e.stopPropagation && e.stopPropagation();
+                    if (ele.dataset.disable) return;
                     if (targetElement) {
                         targetElement.focus && targetElement.focus();
                     }
@@ -11625,6 +11631,7 @@
                     }
                 };
                 let showTipsHandler = async (target, time = 1000) => {
+                    if (ele.dataset.disable) return;
                     if (!target || target.nodeType !== 1) return;
                     if (self.preList) {
                         self.preList.style.visibility = "hidden";
@@ -11704,6 +11711,7 @@
                 };
                 ele.addEventListener('mouseenter', e => {
                     if (e.stopPropagation) e.stopPropagation();
+                    if (ele.dataset.disable) return;
                     if (tipsShowing && self.lastTips === ele && self.tips.style.opacity == 1) {
                         return;
                     }
@@ -11725,10 +11733,12 @@
                     showTipsHandler(ele);
                 }, true);
                 ele.addEventListener('mousemove', e => {
+                    if (ele.dataset.disable) return;
                     scaleMove(e);
                     self.clingPos(ele, self.tips);
                 }, false);
                 ele.addEventListener('showTips', e => {
+                    if (ele.dataset.disable) return;
                     self.waitForHide(0);
                     self.appendBar();
                     self.closeOpenType();
@@ -11737,6 +11747,7 @@
                     showTipsHandler(e.detail || targetElement, 0);
                 }, false);
                 ele.addEventListener('mouseleave', e => {
+                    if (ele.dataset.disable) return;
                     if (!tipsShowing) {
                         self.tips.style.opacity = 0;
                         self.tips.style.pointerEvents = '';
@@ -14591,6 +14602,7 @@
             }, { passive: false, capture: false });
 
             searchBar.bar.addEventListener(getSupportWheelEventName(), e => {
+                e.stopPropagation();
                 if (e.target.parentNode && (e.target.parentNode.className == "sitelistCon" ||
                                             (e.target.parentNode.parentNode && e.target.parentNode.parentNode.className == "sitelistCon"))) return;
                 let targetClassList = searchBar.con.classList;
@@ -14621,7 +14633,6 @@
                     deltaY = e.deltaY;
                 }
                 e.preventDefault();
-                e.stopPropagation();
 
                 searchBar.con.scrollLeft += deltaY;
             }, { passive: false, capture: false });
