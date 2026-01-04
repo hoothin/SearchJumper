@@ -6,6 +6,48 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
+body[data-theme="dark"] .unfold .Mui-selected {
+  background: #26374a;
+}
+body[data-theme="dark"] input.filterEngine {
+  background: #1f1f1f;
+  color: #e6e6e6;
+}
+body[data-theme="dark"] input.filterEngine::placeholder {
+  color: #9aa0a6;
+}
+body[data-theme="dark"] .MuiAccordionSummary-root,
+body[data-theme="dark"] .MuiAccordionSummary-root .MuiTypography-root,
+body[data-theme="dark"] .MuiAccordionSummary-expandIconWrapper {
+  color: #e6e6e6;
+}
+body[data-theme="dark"] .MuiAccordionSummary-root {
+  background-color: #151515;
+}
+body[data-theme="dark"] .MuiAccordionSummary-root.Mui-expanded {
+  background-color: #1f1f1f;
+}
+body[data-theme="dark"] .MuiAccordionSummary-root:hover {
+  background-color: #2a2a2a;
+}
+body[data-theme="dark"] {
+  scrollbar-color: #555 #1a1a1a;
+}
+body[data-theme="dark"] *::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+body[data-theme="dark"] *::-webkit-scrollbar-track {
+  background: #1a1a1a;
+}
+body[data-theme="dark"] *::-webkit-scrollbar-thumb {
+  background-color: #555;
+  border-radius: 8px;
+  border: 2px solid #1a1a1a;
+}
+body[data-theme="dark"] *::-webkit-scrollbar-thumb:hover {
+  background-color: #6b6b6b;
+}
 
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',

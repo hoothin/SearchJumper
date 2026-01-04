@@ -15,6 +15,8 @@ import ListItem from '@mui/material/ListItem';
 import ListItemText from '@mui/material/ListItemText';
 import ListItemAvatar from '@mui/material/ListItemAvatar';
 import Divider from '@mui/material/Divider';
+import CssBaseline from '@mui/material/CssBaseline';
+import IconButton from '@mui/material/IconButton';
 import React from 'react';
 import General from './page/General.jsx';
 import Engines from './page/Engines.jsx';
@@ -24,6 +26,9 @@ import FindInPage from './page/FindInPage.jsx';
 import Link from '@mui/material/Link';
 import Snackbar from '@mui/material/Snackbar';
 import MuiAlert from '@mui/material/Alert';
+import { ThemeProvider, createTheme } from '@mui/material/styles';
+import DarkModeIcon from '@mui/icons-material/DarkMode';
+import WbSunnyIcon from '@mui/icons-material/WbSunny';
 import { createClient } from "webdav";
 import { version } from './Version.js';
 
@@ -141,11 +146,36 @@ function a11yProps(index: number) {
 export default function App() {
   const [value, setValue] = React.useState(4);
   const [inited, setInited] = React.useState(false);
+  const [darkMode, setDarkMode] = React.useState(() => {
+    try {
+      return localStorage.getItem('sj-dark-mode') === '1';
+    } catch (e) {
+      return false;
+    }
+  });
 
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
     setValue(newValue);
     document.documentElement.scrollTop = 0;
   };
+  const handleDarkModeToggle = () => {
+    setDarkMode(prev => {
+      const nextMode = !prev;
+      try {
+        localStorage.setItem('sj-dark-mode', nextMode ? '1' : '0');
+      } catch (e) {
+        // Ignore storage failures (private mode, disabled storage).
+      }
+      return nextMode;
+    });
+  };
+  const theme = React.useMemo(() => {
+    return createTheme({
+      palette: {
+        mode: darkMode ? 'dark' : 'light'
+      }
+    });
+  }, [darkMode]);
   const [alertBody, setAlert] = React.useState({openAlert: false, alertContent: '', alertType: 'error'});
   const handleAlertOpen = (content, type) => {
       switch (type) {
@@ -210,87 +240,104 @@ export default function App() {
       return true;
     }, true);
   }, [])
+  React.useEffect(() => {
+    document.body.dataset.theme = darkMode ? 'dark' : 'light';
+  }, [darkMode]);
 
   return (
-    <Box
-      inited={inited}
-      sx={{ flexGrow: 1, bgcolor: 'background.paper', display: 'flex', height: '100vh', marginLeft: '200px' }}
-    >
-      <List
-        id="tabs"
-        component={Paper}
-        elevation={5}
-        sx={{
-          width: '200px',
-          height: '100%',
-          left: 0,
-          maxWidth: 200,
-          position: 'fixed'
-        }}
+    <ThemeProvider theme={theme}>
+      <CssBaseline />
+      <Box
+        inited={inited}
+        sx={{ flexGrow: 1, bgcolor: 'background.paper', display: 'flex', height: '100vh', marginLeft: '200px' }}
       >
-        <ListItem
-          onClick={() => {
-            document.querySelector('#tabs').classList.remove('hide');
+        <List
+          id="tabs"
+          component={Paper}
+          elevation={5}
+          sx={{
+            width: '200px',
+            height: '100%',
+            left: 0,
+            maxWidth: 200,
+            position: 'fixed'
           }}
         >
-          <ListItemAvatar>
-            <Link href='https://github.com/hoothin/SearchJumper' target="_blank">
-              <Avatar alt="SearchJumper" component={Paper} elevation={5} src={logo}/>
-            </Link>
-          </ListItemAvatar>
-          <ListItemText 
-            primary={window.i18n('name')} 
-            secondary={window.version ? ("Ver " + window.version) : (window.version === 0 ? "" : "Not installed")} 
-            sx={{cursor: 'pointer'}}
-            onClick={e => {inited && window.version !== 0 && window.version !== version && window.open("https://greasyfork.org/scripts/445274-searchjumper/code/SearchJumper.user.js")}}
-            secondaryTypographyProps={inited && window.version !== version ? {
-              sx:{color: 'red'},
-              title:window.i18n('outOfDate')
-            } : (!inited ? {
-              sx:{color: 'red'}
-            } : {})}/>
-        </ListItem>
-        <Divider component="li" variant="inset" sx={{marginRight: 3}}/>
-        <ListItem sx={{flexFlow: 'column', height: 'calc(100% - 75px)', overflowY: 'auto', overflowX: 'hidden'}}>
-          <Tabs
-            orientation="vertical"
-            variant="scrollable"
-            scrollButtons="auto"
-            value={value}
-            onChange={handleChange}
-            onClick={()=>{document.querySelector('#tabs').classList.add('hide')}}
-            aria-label="Vertical tabs example"
-            sx={{ borderRight: 1, borderColor: 'divider', width: '100%', flexShrink: 0 }}
+          <ListItem
+            onClick={() => {
+              document.querySelector('#tabs').classList.remove('hide');
+            }}
           >
-            <Tab label={window.i18n('general')} {...a11yProps(0)} />
-            <Tab label={window.i18n('searchEngines')} {...a11yProps(1)} />
-            <Tab label={window.i18n('findInPage')} {...a11yProps(2)} />
-            <Tab label={window.i18n('exportConfig')} {...a11yProps(3)} />
-            <Tab label={window.i18n('about')} {...a11yProps(4)} />
-          </Tabs>
-          {/^(http|ftp)/i.test(window.location.protocol) ? <embed className="sponsors" wmode="transparent" src="https://search.hoothin.com/sjsponsors.svg"/> : <div id="sponsors" className="sponsors"></div>}
-        </ListItem>
-      </List>
-      <TabPanel value={value} index={0} sx={{width:1}}>
-        {window.searchData ? <General/> : <About/>}
-      </TabPanel>
-      <TabPanel value={value} index={1}>
-        {window.searchData ? <Engines/> : <About/>}
-      </TabPanel>
-      <TabPanel value={value} index={2}>
-        {window.searchData ? <FindInPage/> : <About/>}
-      </TabPanel>
-      <TabPanel value={value} index={3}>
-        {window.searchData ? <Export/> : <About/>}
-      </TabPanel>
-      <TabPanel value={value} index={4}>
-        <About/>
-      </TabPanel>
-      <Snackbar open={alertBody.openAlert} autoHideDuration={5000} anchorOrigin={{vertical: 'top', horizontal: 'center'}} onClose={handleAlertClose}>
-          <MuiAlert elevation={6} variant="filled" onClose={handleAlertClose} severity={alertBody.alertType} sx={{ width: '100%' }} >
-            {alertBody.alertContent}
-          </MuiAlert>
-      </Snackbar>
-    </Box>
+            <ListItemAvatar>
+              <Link href='https://github.com/hoothin/SearchJumper' target="_blank">
+                <Avatar alt="SearchJumper" component={Paper} elevation={5} src={logo}/>
+              </Link>
+            </ListItemAvatar>
+            <ListItemText 
+              primary={window.i18n('name')} 
+              secondary={window.version ? ("Ver " + window.version) : (window.version === 0 ? "" : "Not installed")} 
+              sx={{cursor: 'pointer'}}
+              onClick={e => {inited && window.version !== 0 && window.version !== version && window.open("https://greasyfork.org/scripts/445274-searchjumper/code/SearchJumper.user.js")}}
+              secondaryTypographyProps={inited && window.version !== version ? {
+                sx:{color: 'red'},
+                title:window.i18n('outOfDate')
+              } : (!inited ? {
+                sx:{color: 'red'}
+              } : {})}/>
+          </ListItem>
+          <Divider component="li" variant="inset" sx={{marginRight: 3}}/>
+          <ListItem sx={{flexFlow: 'column', height: 'calc(100% - 75px)', overflowY: 'auto', overflowX: 'hidden'}}>
+            <Tabs
+              orientation="vertical"
+              variant="scrollable"
+              scrollButtons="auto"
+              value={value}
+              onChange={handleChange}
+              onClick={()=>{document.querySelector('#tabs').classList.add('hide')}}
+              aria-label="Vertical tabs example"
+              sx={{ borderRight: 1, borderColor: 'divider', width: '100%', flexShrink: 0 }}
+            >
+              <Tab label={window.i18n('general')} {...a11yProps(0)} />
+              <Tab label={window.i18n('searchEngines')} {...a11yProps(1)} />
+              <Tab label={window.i18n('findInPage')} {...a11yProps(2)} />
+              <Tab label={window.i18n('exportConfig')} {...a11yProps(3)} />
+              <Tab label={window.i18n('about')} {...a11yProps(4)} />
+            </Tabs>
+            <Box sx={{width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '4px 8px'}}>
+              <IconButton
+                size="small"
+                onClick={handleDarkModeToggle}
+                disabled={!inited}
+                aria-label="Dark mode"
+                title="Dark mode"
+              >
+                {darkMode ? <WbSunnyIcon fontSize="small" /> : <DarkModeIcon fontSize="small" />}
+              </IconButton>
+            </Box>
+            {/^(http|ftp)/i.test(window.location.protocol) ? <embed className="sponsors" wmode="transparent" src="https://search.hoothin.com/sjsponsors.svg"/> : <div id="sponsors" className="sponsors"></div>}
+          </ListItem>
+        </List>
+        <TabPanel value={value} index={0} sx={{width:1}}>
+          {window.searchData ? <General/> : <About/>}
+        </TabPanel>
+        <TabPanel value={value} index={1}>
+          {window.searchData ? <Engines/> : <About/>}
+        </TabPanel>
+        <TabPanel value={value} index={2}>
+          {window.searchData ? <FindInPage/> : <About/>}
+        </TabPanel>
+        <TabPanel value={value} index={3}>
+          {window.searchData ? <Export/> : <About/>}
+        </TabPanel>
+        <TabPanel value={value} index={4}>
+          <About/>
+        </TabPanel>
+        <Snackbar open={alertBody.openAlert} autoHideDuration={5000} anchorOrigin={{vertical: 'top', horizontal: 'center'}} onClose={handleAlertClose}>
+            <MuiAlert elevation={6} variant="filled" onClose={handleAlertClose} severity={alertBody.alertType} sx={{ width: '100%' }} >
+              {alertBody.alertContent}
+            </MuiAlert>
+        </Snackbar>
+      </Box>
+    </ThemeProvider>
   );
 }

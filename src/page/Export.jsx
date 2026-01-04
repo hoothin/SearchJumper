@@ -929,12 +929,12 @@ export default function Export() {
             </Box>
             <Accordion defaultExpanded={true} sx={{ maxHeight: '50vh', overflow: 'auto' }}>
                 <AccordionSummary
-                  sx={{background: '#f9f9f9', position: 'sticky', top: 0, minHeight: '45px!important', maxHeight: '45px!important', zIndex: 2}}
+                  sx={{backgroundColor: 'background.paper', color: 'text.primary', position: 'sticky', top: 0, minHeight: '45px!important', maxHeight: '45px!important', zIndex: 2}}
                   expandIcon={<ExpandMoreIcon />}
                   id="template-header"
                 >
                     <Typography sx={{display: 'block', width: '100%', textAlign: 'center', fontWeight: 'bold', fontSize: '1.1em'}} title={window.i18n("templateTips")}>{window.i18n("templateTitle")}</Typography>
-                    <IconButton sx={{fontSize: '30px', height: '24px', position: "absolute", color: "rgba(0, 0, 0, 0.54)"}} key='addTemplate' 
+                    <IconButton sx={{fontSize: '30px', height: '24px', position: "absolute", color: "text.secondary"}} key='addTemplate' 
                         onClick={e => {
                             e.preventDefault();
                             e.stopPropagation();
