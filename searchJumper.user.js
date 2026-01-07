@@ -10540,8 +10540,9 @@
                     self.customInput = false;
                     dataUrl = data.url;
                     inputString = "";
+                    const isTargetLink = self.bar.classList.contains("search-jumper-isTargetLink");
                     let keywords = _keyWords || self.searchJumperInputKeyWords.value || getSelectStr() || self.tileInput.value;
-                    if (!keywords && !draging && !self.bar.classList.contains("search-jumper-isTargetLink")) {
+                    if (!keywords && !draging && !isTargetLink) {
                         keywords = getKeywords();
                     }
                     if (keywords && !_keyWords) {
@@ -10840,6 +10841,7 @@
                         targetLink = targetLink.replace(/%(\w{2})/g, (match, letter) => `%${letter.toUpperCase()}`);
                     }
                     let targetBaseUrl = targetUrl.replace(/^https?:\/\//i, "");
+                    if (!keywords && isTargetLink) keywords = targetUrl;
                     if (!keywords) keywords = (currentSite && cacheKeywords);
                     try {
                         if (typeof navigator.clipboard.readText !== "undefined") {
