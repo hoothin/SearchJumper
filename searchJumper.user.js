@@ -10913,7 +10913,7 @@
                     }
                     if (targetUrl === '') {
                         let canBeUrl = getSelectStr() || self.searchJumperInputKeyWords.value || self.tileInput.value;
-                        if (!hasWordParam && canBeUrl && /^(http|ftp)/i.test(canBeUrl)) {
+                        if (!hasWordParam && canBeUrl && /^\w{1,8}:/i.test(canBeUrl)) {
                             targetUrl = canBeUrl;
                             targetUrl = targetUrl.replace(/%(\w{2})/g, (match, letter) => `%${letter.toUpperCase()}`);
                         } else {
