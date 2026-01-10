@@ -198,14 +198,6 @@ e.g.,`https://github.com/hoothin/SearchJumper#sjhl=SearchJumper&i=7`
   "url": "showTips:http://apilayer.net/api/convert?from=%input{From currency/US Dollar/Euro/Japanese Yen/China Yuan,USD/EUR/JPY/CNY}&to=%input{Target currency/US Dollar/Euro/Japanese Yen/China Yuan,USD/EUR/JPY/CNY}&amount=1&access_key=%template{apilayer key}\n{name}<br/><i>%sr {json.query.from} = {json.result|*%sr.replace(/\\D/,'')} {json.query.to}</i>"
 }
 ```
-+ Preview Japan AV 框選番號預覽AV such as ABW-345
-``` json
-{
-  "name": "💞 AV預覽",
-  "url": "showTips:https://www.javbus.com/%sr.replace(/^(\\w+?)[\\-_]?(\\d+)$/,\"$1-$2\") \n<span style='font-size:22px;line-height:1.2;'>{h3}</span>\n<p style=\"margin: 0; font-size: 18px; font-weight: normal;\">{.info>p:nth-child(2)}</p>\n<p style=\"margin: 0; font-size: 18px; font-weight: normal;\">{.info>p:nth-child(6)}</p>\n<p style=\"margin: 0;\">{.genre a|<mark style=\"white-space: nowrap;margin: 5px; font-size: 16px; border-radius: 5px; padding: 2px; box-shadow: 0px 0px 10px 0px #000;\">()</mark>}</p>\n<img src='https://www.javbus.com{a.bigImage>img|src}' referrerpolicy='no-referrer'/>",
-  "kwFilter": "^[0-9a-zA-Z]+[\\-_]?\\d+$"
-}
-```
 + Show Romaji of japanese 顯示日語對應羅馬音/羅馬字
 ``` json
 {
@@ -253,10 +245,10 @@ Highlight all text URL on any site 在任意網頁上高亮文字網址
 Highlight all avID on t66y 在草榴上高亮番號
 ``` json
 {
-    "/^https://t66y\\.com/htm_data//i": {
+    "//htm_data//i": {
         "sep": "#",
         "words": [
-            "/(?<![a-zA-Z0-9])([a-z]\\w+\\-?|\\d{5,}\\-)\\d{2,}(?![a-zA-Z0-9])/i$s{unset;border-radius:unset;border-bottom:5px dotted red;}$t{@popup(💞 AV预览)}$in{.tpc_content }"
+            "/(?<![a-zA-Z0-9])([a-z]\\w+\\-?|\\d{5,}\\-)\\d{2,}(?![a-zA-Z0-9])/i$s{unset;border-radius:unset;border-bottom:5px dotted red;}$t{@popup(💞 预览)}$in{.tpc_content }"
         ]
     }
 }
