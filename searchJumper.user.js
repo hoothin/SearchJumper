@@ -3128,6 +3128,10 @@
                      -ms-scroll-chaining: contain;
                      z-index: 1;
                  }
+                 #search-jumper>#search-jumper-alllist.new-mode .sitelist {
+                     overscroll-behavior: auto;
+                     -ms-scroll-chaining: auto;
+                 }
                  #search-jumper .search-jumper-type:hover>.sitelist {
                      pointer-events: all;
                      opacity: 1;
