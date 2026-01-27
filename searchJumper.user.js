@@ -8064,25 +8064,67 @@
                     });
                 }
                 if (this.fontPool.length > 0 || isInConfigPage) {
-                    let linkEle = document.createElement("link");
-                    linkEle.rel="stylesheet";
-                    linkEle.href = searchData.prefConfig.fontAwesomeCss || "https://lib.baomitu.com/font-awesome/6.1.2/css/all.css";
-                    document.documentElement.insertBefore(linkEle, document.documentElement.children[0]);
-                    this.addToShadow(linkEle.cloneNode());
-                    waitForFontAwesome(() => {
-                        let hasFont = false;
-                        this.fontPool.forEach(font => {
-                            font.innerText = '';
-                            font.style.fontSize = '';
-                            font.style.color = '';
-                            hasFont = true;
-                            cacheFontPool.unshift(font);
-                        });
-                        if (hasFont && isInConfigPage) {
-                            setTimeout(() => {cacheFontManager()}, 500);
+                    const baomituUrl = "https://lib.baomitu.com/font-awesome/6.1.2/css/all.css";
+                    let fontAwesomeUrls = [
+                        "https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.2/css/all.min.css",
+                        "https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.1.2/css/all.min.css"
+                    ];
+                    let langLower = (lang || '').toLowerCase();
+                    let isZhHans = langLower === "zh-cn";
+                    if (isZhHans) {
+                        fontAwesomeUrls.unshift(baomituUrl);
+                    }
+                    let customFontAwesomeCss = (searchData.prefConfig.fontAwesomeCss || "").trim();
+                    if (customFontAwesomeCss) {
+                        fontAwesomeUrls.unshift(customFontAwesomeCss);
+                    }
+                    let tryLoadFontAwesome = (index = 0) => {
+                        if (index >= fontAwesomeUrls.length) {
+                            this.buildAllPageGroupTab();
+                            return;
                         }
-                        this.buildAllPageGroupTab();
-                    });
+                        let linkEle = document.createElement("link");
+                        linkEle.rel = "stylesheet";
+                        linkEle.href = fontAwesomeUrls[index];
+                        document.documentElement.insertBefore(linkEle, document.documentElement.children[0]);
+                        let shadowLink = linkEle.cloneNode();
+                        this.addToShadow(shadowLink);
+                        let settled = false;
+                        let fail = () => {
+                            if (settled) return;
+                            settled = true;
+                            clearTimeout(failTimer);
+                            linkEle.remove();
+                            shadowLink.remove();
+                            tryLoadFontAwesome(index + 1);
+                        };
+                        let failTimer = setTimeout(fail, 16000);
+                        linkEle.onerror = fail;
+                        let applyFontAwesome = () => {
+                            if (settled) return;
+                            settled = true;
+                            clearTimeout(failTimer);
+                            let hasFont = false;
+                            this.fontPool.forEach(font => {
+                                font.innerText = '';
+                                font.style.fontSize = '';
+                                font.style.color = '';
+                                hasFont = true;
+                                cacheFontPool.unshift(font);
+                            });
+                            if (hasFont && isInConfigPage) {
+                                setTimeout(() => {cacheFontManager()}, 500);
+                            }
+                            this.buildAllPageGroupTab();
+                        };
+                        linkEle.onload = () => {
+                            if (settled) return;
+                            waitForFontAwesome(() => {
+                                applyFontAwesome();
+                            });
+                        };
+                    };
+                    tryLoadFontAwesome();
                 } else {
                     this.buildAllPageGroupTab();
                 }
