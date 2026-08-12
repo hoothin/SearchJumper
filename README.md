@@ -484,4 +484,10 @@ users:
 
 ## Star History
 
-[![Star History Chart](https://api.star-history.com/svg?repos=hoothin/SearchJumper&type=Date)](https://star-history.com/#hoothin/SearchJumper&Date)
+<a href="https://www.star-history.com/?repos=hoothin%2FSearchJumper&type=date&legend=top-left">
+ <picture>
+   <source media="(prefers-color-scheme: dark)" srcset="https://api.star-history.com/chart?repos=hoothin/SearchJumper&type=date&theme=dark&legend=top-left&sealed_token=iCwYj-Gtf9RxJRAIVS5ivZTU664ZHacpQ68jfTeUcXf5LnGbP09n99T3Av7_pdVnQtLfubl0pp_5zKqxrHD8r0WdR1EYD4-r5OfiqxvgcjvMMvgvJK5hQQ" />
+   <source media="(prefers-color-scheme: light)" srcset="https://api.star-history.com/chart?repos=hoothin/SearchJumper&type=date&legend=top-left&sealed_token=iCwYj-Gtf9RxJRAIVS5ivZTU664ZHacpQ68jfTeUcXf5LnGbP09n99T3Av7_pdVnQtLfubl0pp_5zKqxrHD8r0WdR1EYD4-r5OfiqxvgcjvMMvgvJK5hQQ" />
+   <img alt="Star History Chart" src="https://api.star-history.com/chart?repos=hoothin/SearchJumper&type=date&legend=top-left&sealed_token=iCwYj-Gtf9RxJRAIVS5ivZTU664ZHacpQ68jfTeUcXf5LnGbP09n99T3Av7_pdVnQtLfubl0pp_5zKqxrHD8r0WdR1EYD4-r5OfiqxvgcjvMMvgvJK5hQQ" />
+ </picture>
+</a>
