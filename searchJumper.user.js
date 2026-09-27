@@ -2004,8 +2004,6 @@
                      transform: translateZ(0);
                      ${searchData.prefConfig.noAni ? "background-color: rgba(0, 0, 0, 0.6);" : (
                     "background-color: rgba(0, 0, 0, 0.6);" +
-                    //"backdrop-filter: blur(5px);" +
-                    //"-webkit-backdrop-filter: blur(5px);" +
                     "transition:background-color .6s ease;")}
                  }
                  #search-jumper.search-jumper-showall>#search-jumper-alllist:hover~.search-jumper-showallBg {
@@ -6940,6 +6938,7 @@
                 this.setFuncKeyCall(false);
                 this.hideSearchInput();
                 this.con.classList.add("search-jumper-showall");
+                this.con.querySelector('.search-jumper-showallBg').style.backdropFilter = isAllPage ? 'none' : 'blur(8px)';
                 this.preScrollbarWidth = document.documentElement.style.scrollbarWidth || "";
                 document.documentElement.style.scrollbarWidth = "none";
                 clearInterval(this.showAllTimeTimer);
@@ -8668,7 +8667,7 @@
                         }
                         if (listItem) listItem.classList.remove("input-hide");
                         if (optionNum < 50 && inputWords && this.searchInput.value !== globMatchName) {
-                            const isExist = this.filterGlob.querySelector(`option[value="${globMatchName}"]`);
+                            const isExist = this.filterGlob.querySelector(`option[value="${CSS.escape(globMatchName)}"]`);
                             if (!isExist) {
                                 optionNum++;
                                 let option = document.createElement('option');

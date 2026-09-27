@@ -1540,7 +1540,7 @@ function createData(
   return { param, info };
 }
 
-var verifyArray, filterDataListTimer, filterHighlightTimer, inited = false;
+var verifyArray, filterHighlightFrame, inited = false;
 
 function sendVerifyRequest() {
     if (!verifyArray || !verifyArray.length) {
@@ -1571,38 +1571,29 @@ function forwordToSite(inputWord) {
     if (filterEngine) {
         filterEngine.classList.remove('filter');
     }
-    clearTimeout(filterDataListTimer);
-    clearTimeout(filterHighlightTimer);
-    if (!inputWord) return true;
-    let filterEngineName = "";
-    let filterGroup = false;
-    if (inputWord.indexOf(`【${window.i18n('category')}】`) === 0) {
-        filterGroup = true;
-        inputWord = inputWord.replace(`【${window.i18n('category')}】`, '');
+    cancelAnimationFrame(filterHighlightFrame);
+    if (!inputWord) return false;
+    let typeIndex, siteIndex = -1;
+    if (typeof inputWord === 'object') {
+        ({typeIndex, siteIndex} = inputWord);
+    } else {
+        const groupPrefix = `【${window.i18n('category')}】`;
+        const filterGroup = inputWord.startsWith(groupPrefix);
+        typeIndex = window.searchData.sitesConfig.findIndex(data => {
+            if (filterGroup) return inputWord.slice(groupPrefix.length) === data.type;
+            siteIndex = data.sites.findIndex(site => site.name === inputWord || site.url.replace(/\n/g, "") === inputWord);
+            return siteIndex > -1;
+        });
     }
-    let typeIndex = window.searchData.sitesConfig.findIndex((data, index) => {
-        if (filterGroup) return inputWord === data.type;
-        return data.sites.findIndex((site, i) => {
-            if (site.name === inputWord || site.url.replace(/\n/g, "") === inputWord) {
-                filterEngineName = site.name;
-                return true;
-            }
-            return false;
-        }) > -1;
-    });
     if (typeIndex > -1) {
-        if (filterGroup) return typeIndex;
-        filterHighlightTimer = setInterval(() => {
-            [].every.call(document.querySelectorAll(".site-icon"), icon => {
-                if (icon.childNodes[1].title === filterEngineName) {
-                    icon.classList.add("filter");
-                    icon.scrollIntoView({ behavior: "smooth", block: "nearest", inline: "nearest" });
-                    clearTimeout(filterHighlightTimer);
-                    return false;
-                }
-                return true;
-            });
-        }, 500);
+        if (siteIndex < 0) return typeIndex;
+        filterHighlightFrame = requestAnimationFrame(() => {
+            const icon = document.getElementById(`vertical-tabpanel-${typeIndex}`)?.querySelectorAll('.site-icon')[siteIndex];
+            if (icon) {
+                icon.classList.add("filter");
+                icon.scrollIntoView({ behavior: "smooth", block: "nearest", inline: "nearest" });
+            }
+        });
         return typeIndex;
     }
     return false;
@@ -1678,6 +1669,17 @@ export default function Engines() {
         if (selectPage === -1) selectPage = selectAll;
     }
     const [value, setValue] = React.useState(0);
+    const [filterWord, setFilterWord] = React.useState('');
+    const filterKeyword = filterWord.toLowerCase();
+    const filterResults = filterKeyword ? window.searchData.sitesConfig.flatMap((data, typeIndex) => [
+        {label: `【${window.i18n('category')}】${data.type}`, searchText: data.type, typeIndex, siteIndex: -1},
+        ...data.sites.map((site, siteIndex) => ({
+            label: site.name,
+            searchText: `${site.name}\n${site.url.length < 1000 ? site.url : ''}`,
+            typeIndex,
+            siteIndex
+        }))
+    ]).filter(option => option.searchText.toLowerCase().includes(filterKeyword)).slice(0, 10) : [];
 
     const [editTypeOpen, setTypeOpen] = React.useState(false);
     const [editTypeData, setTypeData] = React.useState(typeObject(false));
@@ -2020,66 +2022,32 @@ export default function Engines() {
                 </MuiAlert>
             </Snackbar>
             <Box sx={{ mt:1, textAlign:'center', whiteSpace:'nowrap'}}>
-                <input placeholder={window.i18n('filterEngine')} className={'filterEngine'} list="filterlist"
-                    onChange={e => {
-                        clearTimeout(filterDataListTimer);
-                        clearTimeout(filterHighlightTimer);
-                        filterDataListTimer = setTimeout(() => {
-                            let list = e.target.list;
-                            let inputWord = e.target.value, inputWordLc;
-                            [].find.call(list.children, option => {
-                                if(option.value === inputWord) {
-                                    let typeIndex = forwordToSite(inputWord);
-                                    if (typeIndex !== false) {
-                                        setValue(typeIndex);
-                                    }
-                                    return true;
-                                }
-                                return false;
-                            });
-                            list.innerHTML = "";
-                            if (inputWord) inputWordLc = inputWord.toLowerCase();
-                            else return;
-                            window.searchData.sitesConfig.every((data, index) => {
-                                if (data.type.toLowerCase().indexOf(inputWordLc) !== -1) {
-                                    if (`【${window.i18n('category')}】` + data.type !== inputWord) {
-                                        let option = document.createElement('option');
-                                        option.value = `【${window.i18n('category')}】` + data.type;
-                                        list.appendChild(option);
-                                    }
-                                }
-                                return data.sites.every((site, i) => {
-                                    if (site.name.toLowerCase().indexOf(inputWordLc) !== -1) {
-                                        if (site.name !== inputWord) {
-                                            let option = document.createElement('option');
-                                            option.value = site.name;
-                                            list.appendChild(option);
-                                        }
-                                    } else if (site.url.length < 1000 && site.url.indexOf(inputWordLc) !== -1) {
-                                        if (site.url !== inputWord) {
-                                            let option = document.createElement('option');
-                                            option.value = site.url;
-                                            list.appendChild(option);
-                                        }
-                                    }
-                                    return list.children.length < 10;
-                                });
-                            });
-                        }, 500);
+                <Autocomplete
+                    freeSolo
+                    autoHighlight
+                    size="small"
+                    value={null}
+                    inputValue={filterWord}
+                    onInputChange={(event, inputWord) => setFilterWord(inputWord)}
+                    options={filterResults}
+                    filterOptions={options => options}
+                    getOptionLabel={option => typeof option === 'string' ? option : option.label}
+                    renderOption={(props, option) => <li {...props} key={`${option.typeIndex}-${option.siteIndex}`}>{option.label}</li>}
+                    onChange={(event, option) => {
+                        const target = typeof option === 'string' ? filterResults[0] : option;
+                        if (!target) return;
+                        setFilterWord(target.label);
+                        const typeIndex = forwordToSite(target);
+                        if (typeIndex !== false) setValue(typeIndex);
                     }}
-                    onKeyDown={e => {
-                        if (e.key === 'Enter' && e.target.value) {
-                            let inputWord = e.target.value;
-                            let typeIndex = forwordToSite(inputWord);
-                            if (typeIndex !== false) {
-                                setValue(typeIndex);
-                                let list = e.target.list;
-                                if (list) list.innerHTML = "";
-                            }
-                        }
-                    }}
+                    sx={{display: 'inline-flex', verticalAlign: 'middle', width: 180, mx: 1, textAlign: 'left',
+                        '&:focus-within': {width: '90%', '& ~ button': {display: 'none'}}}}
+                    renderInput={params => <TextField {...params}
+                        placeholder={window.i18n('filterEngine')}
+                        inputProps={{...params.inputProps, 'aria-label': window.i18n('filterEngine')}}
+                        InputProps={{...params.InputProps, startAdornment: <InputAdornment position="start"><SearchIcon fontSize="small"/></InputAdornment>}}
+                    />}
                 />
-                <SearchIcon/>
                 <Button variant="contained" id="verifyBtn" title={window.i18n('verifyBtn')} endIcon={<DomainVerificationIcon sx={{mr: '-4px', mt: '-2px'}}/>}
                     onClick={() => {
                         verifyArray = [];
@@ -2105,7 +2073,6 @@ export default function Engines() {
                         }
                     }}
                 ></Button>
-                <datalist id="filterlist"></datalist>
             </Box>
             <Paper sx={{ pt: 1, pb: 2, boxShadow: 'unset', textAlign:'center', borderRadius:'3px', overflow: 'auto', whiteSpace: 'nowrap' }}>
                 <span
