@@ -120,7 +120,7 @@ code {
     height: unset;
   }
   #root>.MuiBox-root>.MuiList-root:not(.hide):hover~div {
-    margin-top: 295px;
+    margin-top: 340px;
   }
   #root>.MuiBox-root>.MuiList-root:not(.hide):hover a {
     pointer-events: none;

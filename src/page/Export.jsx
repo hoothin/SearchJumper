@@ -8,10 +8,7 @@ import SpeedDialAction from '@mui/material/SpeedDialAction';
 import FileCopyIcon from '@mui/icons-material/FileCopyOutlined';
 import SaveIcon from '@mui/icons-material/Save';
 import InputLabel from '@mui/material/InputLabel';
-import MenuItem from '@mui/material/MenuItem';
-import FormHelperText from '@mui/material/FormHelperText';
 import FormControl from '@mui/material/FormControl';
-import Select, { SelectChangeEvent } from '@mui/material/Select';
 import FileUploadIcon from '@mui/icons-material/FileUpload';
 import FileDownloadIcon from '@mui/icons-material/FileDownload';
 import BookmarksIcon from '@mui/icons-material/Bookmarks';
@@ -151,90 +148,6 @@ function saveConfigToScript (notification) {
     window.saveToWebdav();
 }
 
-const presetCssList = [
-`.search-jumper-searchBarCon {
-}
-.search-jumper-searchBar {
- background: #505050;
- border-radius: 20px!important;
- border: 1px solid #b3b3b3;
- opacity: 0.3;
-}
-.search-jumper-btn {
-}
-.search-jumper-btn>i {
-}
-.search-jumper-logoBtnSvg {
-}
-.search-jumper-type {
- background: #c5c5c5;
- border-radius: 20px!important;
-}
-.search-jumper-word {
- background: black;
- color: white!important;
-}
-.search-jumper-tips {
- font-size: xx-large;
- background: #f5f5f5e0;
- border-radius: 10px!important;
- box-shadow: 0px 0px 10px 0px #000;
- color: black;
-}
-.search-jumper-searchBar .search-jumper-btn:hover {
- color: white;
-}`,
-`.search-jumper-searchBarCon {
-}
-.search-jumper-searchBar {
- background: rgb(153 153 153 / 50%);
- border-radius: 20px!important;
- border: 1px solid #c9c9c9;
- opacity: 0.3;
-}
-.search-jumper-btn {
-}
-.search-jumper-type {
- background: rgb(255 255 255 / 38%);
-}
-.search-jumper-word,a.search-jumper-word {
- background: rgb(255 255 255 / 70%);
- color: #282828!important;
-}
-.search-jumper-tips {
- background: #0A0A0Ae0;
- border-radius: 10px!important;
- box-shadow: 0px 0px 10px 0px #FFFFFF;
- font-weight: bold;
- color: white;
-}
-.search-jumper-searchBar .search-jumper-btn:hover {
- color: black;
-}
-.search-jumper-searchBar .search-jumper-btn.search-jumper-word:hover{
- background:white;
-}`,
-`.search-jumper-searchBar {
-    border-radius: 3px !important;
-}
-.search-jumper-type, .search-jumper-logo {
-    border-radius: 3px !important;
-}
-.search-jumper-word {
-    border-radius: 3px !important;
-}
-.searchJumperExpand>svg {
-    background: black;
-    border-radius: 3px;
-}
-.search-jumper-logoBtnSvg {
-    background: white;
-    border-radius: 3px;
-}
-#search-jumper.funcKeyCall .search-jumper-word {
-    border-radius: 3px !important;
-}`
-];
 
 function UploadSpeedDialAction(props) {
     return (
@@ -616,14 +529,10 @@ function SyncEdit(props) {
 let longHoldState = 0;
 let inputingTimer;
 export default function Export() {
-    const [presetCss, setPresetCss] = React.useState('');
     const [openSync, setOpenSync] = React.useState(false);
     const [openFreeWebDav, setFreeWebDav] = React.useState(false);
-    const [cssText, setCssText] = React.useState(window.searchData.prefConfig.cssText || '');
     const [blacklist, setBlacklist] = React.useState(window.searchData.prefConfig.blacklist && window.searchData.prefConfig.blacklist.join ? window.searchData.prefConfig.blacklist.join("\n") : "");
     const [templateData, setTemplateData] = React.useState(window.searchData.prefConfig.templateData || {});
-    const [fontAwesomeCss, setFontAwesomeCss] = React.useState(window.searchData.prefConfig.fontAwesomeCss);
-    const [bgUrl, setBgUrl] = React.useState(window.searchData.prefConfig.bgUrl || '');
 
     const [refresh, setRefresh] = React.useState(false);
     React.useEffect(() => {
@@ -681,10 +590,7 @@ export default function Export() {
                     window.searchData.sitesConfig = JSON.parse(editor.get().text);
                 }
             }
-            window.searchData.prefConfig.cssText = cssText;
             window.searchData.prefConfig.blacklist = blacklist ? blacklist.trim().split("\n") : false;
-            window.searchData.prefConfig.fontAwesomeCss = fontAwesomeCss;
-            window.searchData.prefConfig.bgUrl = bgUrl;
             saveConfigToScript(true);
         } catch (e) {
             alert(e);
@@ -909,13 +815,6 @@ export default function Export() {
       document.dispatchEvent(exportMessage);
     }
 
-    const handleChange = (event: SelectChangeEvent) => {
-        setPresetCss(event.target.value);
-        if (!cssText || window.confirm(window.i18n('replaceCss'))) {
-            if (event.target.value === '') setCssText('');
-            else setCssText(presetCssList[event.target.value]);
-        }
-    };
     return (
         <Box sx={{pb : 5}}>
             <Paper elevation={5} sx={{textAlign:'center', borderRadius:'10px'}}>
@@ -993,34 +892,6 @@ export default function Export() {
                 )}
                 </AccordionDetails>
             </Accordion>
-            <FormControl fullWidth sx={{ mt: 1 }}>
-                <InputLabel>{window.i18n('presetCss')}</InputLabel>
-                <Select
-                    value={presetCss}
-                    label={window.i18n('presetCss')}
-                    onChange={handleChange}
-                >
-                    <MenuItem value="">
-                        <em>None</em>
-                    </MenuItem>
-                    <MenuItem value={0}>Default</MenuItem>
-                    <MenuItem value={1}>Light</MenuItem>
-                    <MenuItem value={2}>嫩牛五方</MenuItem>
-                </Select>
-                <FormHelperText>{window.i18n('presetCssTips')}</FormHelperText>
-            </FormControl>
-            <TextField
-                id="styleText"
-                label={window.i18n('customCss')}
-                multiline
-                fullWidth
-                sx={{mb: 1, mt: 1}}
-                rows={10}
-                value={cssText}
-                onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
-                    setCssText(event.target.value);
-                }}
-            />
             <TextField
                 id="blacklist"
                 label={window.i18n('blacklist')}
@@ -1033,28 +904,6 @@ export default function Export() {
                     setBlacklist(event.target.value);
                 }}
                 placeholder={"http://*.xxx.com/*/y\n/^https?://.*\\.xxx\\.com/i \t\t<= Regexp\n//http://*.aaa.com/ \t\t\t<= Disable\n/*http://*.bbb.com\nhttp://*.ccc.com*/ \t\t\t<= Block comment"}
-            />
-            <TextField
-                id="fontAwesomeCss"
-                label={window.i18n('fontAwesomeCss')}
-                fullWidth
-                sx={{mb : 1}}
-                value={fontAwesomeCss}
-                placeholder="https://cdn.bootcdn.net/ajax/libs/font-awesome/6.1.1/css/all.min.css"
-                onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
-                    setFontAwesomeCss(event.target.value);
-                }}
-            />
-            <TextField
-                id="bgUrl"
-                label={window.i18n('bgUrl')}
-                fullWidth
-                sx={{mb : 1}}
-                value={bgUrl}
-                placeholder="https://x.y/z.jpg"
-                onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
-                    setBgUrl(event.target.value);
-                }}
             />
             <DefaultOpenSpeedDial
                 ariaLabel="SpeedDial"

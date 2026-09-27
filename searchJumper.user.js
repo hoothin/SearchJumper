@@ -2742,9 +2742,9 @@
                      line-height: ${32 * this.scale}px;
                      font-size: ${14 * this.scale}px;
                      letter-spacing: 0;
-                     color: white;
+                     color: inherit;
                      opacity: 0.9;
-                     text-shadow: 0 0 1px #d9d9d9cc;
+                     text-shadow: inherit;
                  }
                  #search-jumper.funcKeyCall .search-jumper-btn>b {
                      line-height: ${32 * this.tilesZoom}px;
@@ -2855,6 +2855,8 @@
                  }
                  .search-jumper-tips>div [data-drag] {
                      cursor: grab;
+                     touch-action: none;
+                     user-select: none;
                  }
                  .search-jumper-tips>div [data-copy] {
                      display: inline-block;
@@ -2869,7 +2871,7 @@
                      cursor: grabbing;
                      transition: none;
                  }
-                 .search-jumper-tips.draging * {
+                 .search-jumper-tips.draging iframe {
                      pointer-events: none;
                  }
                  .search-jumper-tips .showTips-inputGroup {
@@ -4218,6 +4220,7 @@
                      to {border-color: transparent;}
                  }
                 `;
+                this.appearanceCssText = cssText;
                 if (searchData.prefConfig.cssText) cssText += searchData.prefConfig.cssText;
 
                 let bar = document.createElement("span");
@@ -4465,6 +4468,12 @@
                     }
                 }, false);
                 tips.addEventListener('click', e => {
+                    if (dragMoved && e.detail) {
+                        dragMoved = false;
+                        e.preventDefault();
+                        e.stopPropagation();
+                        return;
+                    }
                     let dataset = e.target.dataset;
                     let text = e.target.innerText;
                     if (!dataset) return;
@@ -4501,7 +4510,8 @@
                         setHTML(self.tips, "");
                     }
                 }, false);
-                let startMouse, startPos, mouseMoveHandler = e => {
+                let startMouse, startPos, dragTarget, dragMoved = false, mouseMoveHandler = e => {
+                    if (!dragTarget || e.pointerId !== startMouse.id) return;
                     let curX = clientX(e) - startMouse.x;
                     let curY = clientY(e) - startMouse.y;
                     if (Math.abs(curX) + Math.abs(curY) < 5) return;
@@ -4519,21 +4529,22 @@
                         tips.style.setProperty("bottom", (startPos.bottom - curY) + "px", "important");
                         //tips.style.bottom = (startPos.bottom - curY) + "px!important";
                     }
-                    tips.classList.add("draging");
+                    dragMoved = true;
                 };
                 let mouseUpHandler = e => {
-                    document.removeEventListener('mouseup', mouseUpHandler, false);
-                    document.removeEventListener('mousemove', mouseMoveHandler, false);
-                    document.removeEventListener('touchend', mouseUpHandler, false);
-                    document.removeEventListener('touchmove', mouseMoveHandler, false);
+                    if (!dragTarget || e.pointerId !== startMouse.id) return;
+                    if (dragTarget.hasPointerCapture(e.pointerId)) dragTarget.releasePointerCapture(e.pointerId);
+                    dragTarget = null;
                     tips.classList.remove("draging");
                 };
-                let dragTips = (e, cb) => {
-                    if (!e.target) return;
-                    if (e.target !== tips && typeof e.target.dataset.drag === 'undefined') return;
+                tips.addEventListener('pointerdown', e => {
+                    if (e.button !== 0 || !e.isPrimary) return;
+                    dragMoved = false;
+                    if (e.target !== tips && !e.target.closest('[data-drag]')) return;
+                    if (e.target.closest('button, input, textarea, select, [data-close]')) return;
                     e.preventDefault();
                     e.stopPropagation();
-                    startMouse = {x: clientX(e), y: clientY(e)};
+                    startMouse = {x: clientX(e), y: clientY(e), id: e.pointerId};
                     let tipsStyle = getComputedStyle(tips);
                     startPos = {
                         left: parseFloat(tipsStyle.left),
@@ -4541,20 +4552,15 @@
                         top: parseFloat(tipsStyle.top),
                         bottom: parseFloat(tipsStyle.bottom)
                     };
-                    cb && cb();
-                };
-                tips.addEventListener('mousedown', e => {
-                    dragTips(e, () => {
-                        document.addEventListener('mouseup', mouseUpHandler, false);
-                        document.addEventListener('mousemove', mouseMoveHandler, false);
-                    });
-                }, false);
-                tips.addEventListener('touchstart', e => {
-                    dragTips(e, () => {
-                        document.addEventListener('touchend', mouseUpHandler, false);
-                        document.addEventListener('touchmove', mouseMoveHandler, false);
-                    });
-                }, { passive: false, capture: false });
+                    // Keep receiving movement and release when the pointer crosses an iframe.
+                    dragTarget = e.target;
+                    tips.classList.add("draging");
+                    dragTarget.setPointerCapture(e.pointerId);
+                });
+                tips.addEventListener('pointermove', mouseMoveHandler);
+                tips.addEventListener('pointerup', mouseUpHandler);
+                tips.addEventListener('pointercancel', mouseUpHandler);
+                tips.addEventListener('lostpointercapture', mouseUpHandler);
                 this.tips = tips;
 
                 //this.appendBar();
@@ -8127,6 +8133,8 @@
                             return;
                         }
                         let linkEle = document.createElement("link");
+                        linkEle.id = "search-jumper-font-awesome";
+                        linkEle.dataset.configuredUrl = customFontAwesomeCss;
                         linkEle.rel = "stylesheet";
                         linkEle.href = fontAwesomeUrls[index];
                         document.documentElement.insertBefore(linkEle, document.documentElement.children[0]);
@@ -9553,10 +9561,10 @@
                             iEle.className = icon.indexOf("fa") === 0 ? icon : "fa fa-" + icon;
                             this.fontPool.push(iEle);
                         } else {
-                            img.src = cache;
-                            img.style.width = '100%';
-                            img.style.height = '100%';
-                            typeBtn.appendChild(img);
+                            // Use the cached glyph's alpha so its color still follows the theme.
+                            iEle.innerText = '';
+                            iEle.style.backgroundColor = 'currentColor';
+                            iEle.style.mask = 'url(' + JSON.stringify(cache) + ') center / contain no-repeat';
                         }
                     } else {
                         let isBase64 = /^data:/.test(icon);
@@ -15055,15 +15063,33 @@
                     if (targetElement.shadowRoot) {
                         targetElement = targetElement.shadowRoot.activeElement || targetElement;
                     }
-                    if (targetElement.getAttribute && targetElement.getAttribute("draggable") == "true") return;
-                    if (targetElement.parentNode && targetElement.parentNode.getAttribute && targetElement.parentNode.getAttribute("draggable") == "true") return;
-                    searchBar.funcKeyCall = true;
-                    searchBar.waitForHide(0);
-                    setTimeout(() => {
-                        showDragSearch(e.clientX, e.clientY);
-                    }, 2);
-                    if (clickHandler) document.removeEventListener('click', clickHandler, true);
-                    draging = true;
+                    const draggableElement = targetElement.closest('[draggable="true"]');
+                    if (draggableElement && draggableElement.nodeName !== 'A') return;
+                    const startDrag = event => {
+                        searchBar.funcKeyCall = true;
+                        searchBar.waitForHide(0);
+                        setTimeout(() => {
+                            showDragSearch(event.clientX, event.clientY);
+                        }, 2);
+                        if (clickHandler) document.removeEventListener('click', clickHandler, true);
+                        draging = true;
+                    };
+                    if (draggableElement) {
+                        // Leave short link drags to the page; open the dial after 100px.
+                        const controller = new AbortController();
+                        const options = {capture: true, signal: controller.signal};
+                        const cancel = () => controller.abort();
+                        document.addEventListener('dragend', cancel, options);
+                        document.addEventListener('drop', cancel, options);
+                        document.addEventListener('dragstart', cancel, options);
+                        document.addEventListener('dragover', move => {
+                            if (Math.hypot(move.clientX - e.clientX, move.clientY - e.clientY) <= 100) return;
+                            cancel();
+                            startDrag(move);
+                        }, options);
+                    } else {
+                        startDrag(e);
+                    }
                 });
             }
             if (searchData.prefConfig.quickAddRule) {
@@ -15512,6 +15538,51 @@
                 });
 
                 loadConfig();
+                document.addEventListener('getAppearancePreview', async () => {
+                    try {
+                        await searchBar.ready;
+                        const tileGroup = searchBar.bar.querySelector('.search-jumper-targetAll:has(a.search-jumper-btn)') ||
+                            searchBar.bar.querySelector('.search-jumper-type:has(a.search-jumper-btn)');
+                        const createPreview = sidebar => {
+                            const preview = searchBar.con.cloneNode(false);
+                            preview.className = 'search-jumper-searchBarCon ' + (sidebar ? 'search-jumper-left resizePage' : 'funcKeyCall');
+                            preview.removeAttribute('style');
+                            const bar = searchBar.bar.cloneNode(false);
+                            bar.className = 'search-jumper-searchBar' + (sidebar ? ' initShow' : '');
+                            bar.removeAttribute('style');
+                            const groups = sidebar
+                                ? [...searchBar.bar.querySelectorAll(':scope > .search-jumper-logo, :scope > .search-jumper-type')].slice(0, 5)
+                                : [tileGroup].filter(Boolean);
+                            groups.forEach(source => {
+                                const group = source.cloneNode(true);
+                                group.removeAttribute('style');
+                                group.classList.remove('notmatch', 'input-hide', 'not-expand', 'search-jumper-open');
+                                if (sidebar) group.style.display = 'inline-flex';
+                                else group.classList.add('search-jumper-open');
+                                group.querySelectorAll('.sitelist, .searchJumperExpand').forEach(node => node.remove());
+                                [...group.querySelectorAll(':scope > a.search-jumper-btn')].slice(8).forEach(node => node.remove());
+                                group.querySelectorAll('a').forEach(node => {
+                                    node.removeAttribute('href');
+                                    node.removeAttribute('target');
+                                    node.classList.remove('notmatch', 'input-hide');
+                                    node.style.removeProperty('display');
+                                });
+                                group.querySelectorAll('img[data-src]').forEach(img => { img.src = img.dataset.src; });
+                                bar.appendChild(group);
+                            });
+                            preview.appendChild(bar);
+                            return preview.outerHTML;
+                        };
+                        window.postMessage({
+                            command: 'appearancePreview',
+                            cssText: searchBar.appearanceCssText,
+                            html: createPreview(false),
+                            sidebarHtml: createPreview(true)
+                        }, '*');
+                    } catch (error) {
+                        window.postMessage({command: 'appearancePreview', error: error.message}, '*');
+                    }
+                });
                 document.addEventListener('dataChanged', e => {
                     loadConfig();
                 });
@@ -18168,7 +18239,7 @@
             initView();
             await initConfig();
             initMycroft();
-            initRun();
+            searchBar.ready = initRun();
             if (cb) cb();
             defaultTitle = document.title;
         }

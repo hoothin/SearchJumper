@@ -1,0 +1,214 @@
+body {
+  --sj-font: system-ui, "Microsoft YaHei", "Noto Sans SC", sans-serif;
+  --sj-page: #f5f6f8;
+  --sj-surface: #fff;
+  --sj-text: #282a2d;
+  --sj-muted: #6b7280;
+  --sj-line: #282a2d1a;
+  --sj-hover: #f0f4f9;
+  --sj-accent: #1976d2;
+  --sj-selected: #1976d20d;
+  --sj-shadow: 0 2px 10px #2026310a;
+  color-scheme: light;
+  background: var(--sj-page);
+  color: var(--sj-text);
+  font-family: var(--sj-font);
+}
+body[data-theme="dark"] {
+  --sj-page: #181c20;
+  --sj-surface: #1c2127;
+  --sj-text: #d3d8df;
+  --sj-muted: #9aa4b1;
+  --sj-line: #ffffff1a;
+  --sj-hover: #283340;
+  --sj-accent: #90caf9;
+  --sj-selected: #90caf912;
+  --sj-shadow: 0 2px 12px #00000020;
+  --group-icon-bg: #283340;
+  color-scheme: dark;
+}
+body :is(.MuiTypography-root, .MuiButtonBase-root, .MuiInputBase-root, .MuiFormLabel-root) {
+  font-family: var(--sj-font);
+  letter-spacing: normal;
+}
+#root > .MuiBox-root {
+  min-height: 100vh;
+  height: auto;
+  background: var(--sj-page);
+}
+#root > .MuiBox-root > [role="tabpanel"] { min-width: 0; }
+#root > .MuiBox-root > [role="tabpanel"] > .MuiContainer-root { padding: 24px; }
+body :is(.MuiPaper-elevation5, .MuiAccordion-root, .MuiDialog-paper, .MuiPopover-paper) {
+  background: var(--sj-surface);
+  color: var(--sj-text);
+  background-image: none;
+  border: 1px solid var(--sj-line);
+  border-radius: 10px;
+  box-shadow: var(--sj-shadow);
+}
+#tabs {
+  border: 0;
+  border-right: 1px solid var(--sj-line);
+  border-radius: 0;
+  box-shadow: none;
+}
+#tabs .MuiTabs-root { border-right: 0; }
+#tabs .MuiTab-root {
+  align-items: flex-start;
+  min-height: 44px;
+  margin: 2px 0;
+  padding: 10px 16px;
+  border-radius: 8px;
+  color: var(--sj-muted);
+  transition: background-color .15s, color .15s;
+}
+#tabs .MuiTab-root:hover { background: var(--sj-hover); color: var(--sj-text); }
+#tabs .MuiTab-root.Mui-selected { background: var(--sj-selected); color: var(--sj-accent); }
+#tabs .MuiTabs-indicator { border-radius: 2px; }
+#tabs .MuiAvatar-root { box-shadow: 0 2px 8px #20263116; }
+body [role="tabpanel"] > .MuiContainer-root > .MuiBox-root > .MuiPaper-root:has(> h2) {
+  margin: 0 0 24px;
+  padding: 4px 0 20px;
+  text-align: left;
+  background: transparent;
+  border: 0;
+  border-bottom: 1px solid var(--sj-line);
+  border-radius: 0;
+  box-shadow: none;
+}
+body [role="tabpanel"] h2 {
+  margin: 0;
+  padding: 0 !important;
+  font-family: var(--sj-font);
+  font-size: clamp(24px, 2.5vw, 32px);
+  font-weight: 700;
+  line-height: 1.3;
+  color: var(--sj-text);
+}
+body [role="tabpanel"] h4 {
+  margin: 20px 0 8px;
+  font-size: 15px;
+  font-weight: 600;
+  line-height: 1.6;
+}
+body .MuiAccordion-root { padding: 0; margin-bottom: 14px; }
+body .MuiAccordion-root::before { display: none; }
+body .MuiAccordionSummary-root,
+body[data-theme="dark"] .MuiAccordionSummary-root,
+body[data-theme="dark"] .MuiAccordionSummary-root.Mui-expanded {
+  background: transparent;
+  border-radius: 10px;
+  min-height: 58px;
+}
+body .MuiAccordionSummary-root:hover,
+body[data-theme="dark"] .MuiAccordionSummary-root:hover { background: var(--sj-hover); }
+body .MuiAccordionSummary-content,
+body .MuiAccordionSummary-content.Mui-expanded { margin: 14px 0; }
+body .MuiAccordionSummary-root .MuiTypography-h6 { font-size: 17px; font-weight: 600; }
+body .MuiAccordionDetails-root { padding: 4px 20px 20px; }
+body .MuiButton-root {
+  border-radius: 8px;
+  text-transform: none;
+  box-shadow: none;
+}
+body .MuiButton-contained:hover { box-shadow: 0 2px 6px #2026311a; }
+body .MuiOutlinedInput-root { border-radius: 8px; }
+body .MuiOutlinedInput-notchedOutline { border-color: var(--sj-line); }
+body .MuiDialog-paper { box-shadow: 0 16px 48px #00000026; }
+body .MuiDialogTitle-root { font-size: 20px; font-weight: 600; }
+body .MuiDialogActions-root { padding: 12px 24px 20px; gap: 4px; }
+body .MuiMenuItem-root { border-radius: 5px; margin: 2px 6px; }
+body :is(.MuiButtonBase-root, a):focus-visible,
+body input.filterEngine:focus {
+  outline: 2px solid var(--sj-accent);
+  outline-offset: 2px;
+}
+body .MuiTab-root:focus-visible { outline-offset: -3px; }
+body .MuiButtonBase-root.Mui-disabled { outline: none; }
+body input.filterEngine,
+body[data-theme="dark"] input.filterEngine {
+  border: 1px solid var(--sj-line);
+  border-radius: 8px;
+  box-shadow: none;
+  background: var(--sj-surface);
+  color: var(--sj-text);
+}
+body input.filterEngine:hover,
+body input.filterEngine:focus { box-shadow: none; }
+body .keyboardBtn > .MuiFormControlLabel-label {
+  background: var(--sj-hover);
+  color: var(--sj-text);
+  border: 1px solid var(--sj-line);
+  border-radius: 5px;
+  box-shadow: 0 2px 0 var(--sj-line);
+}
+body .MuiPaper-root:has(> span.selectTxt) {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 10px;
+  padding: 12px 0;
+  background: transparent;
+}
+body span:is(.selectTxt, .selectImg, .selectLink, .selectPage) {
+  margin: 0;
+  padding: 6px 12px;
+  border-radius: 8px;
+  font-size: 14px;
+  box-shadow: none;
+}
+body #verifyResultList > tr > td { color: var(--sj-text); border-color: var(--sj-line); }
+body[data-theme="dark"] #root .site-icon.filter { background: var(--sj-selected) !important; }
+#vertical-tabpanel-4 pre {
+  font-family: var(--sj-font);
+  font-size: 15px;
+  line-height: 1.8 !important;
+  color: var(--sj-text);
+  overflow-wrap: anywhere;
+}
+#vertical-tabpanel-4 pre.MuiCard-root {
+  border: 1px solid var(--sj-line);
+  border-radius: 10px;
+  box-shadow: none;
+  background: var(--sj-surface);
+}
+#vertical-tabpanel-4 pre > img { border-radius: 8px; box-shadow: var(--sj-shadow) !important; }
+body .MuiLink-root { text-underline-offset: 3px; }
+body .donateLinks { box-shadow: none; }
+body .donateLinks:hover { box-shadow: var(--sj-shadow); }
+@media (max-width: 600px) {
+  #root > .MuiBox-root > [role="tabpanel"] > .MuiContainer-root { padding: 0 12px 20px; }
+  #tabs { border-bottom: 1px solid var(--sj-line); box-shadow: var(--sj-shadow); }
+  #tabs .MuiTab-root { min-height: 40px; }
+  body .MuiAccordionDetails-root { padding: 4px 14px 16px; }
+  body .MuiDialog-paper { margin: 12px; max-width: calc(100% - 24px); }
+  body .MuiDialogContent-root { padding: 16px; }
+  body .MuiDialogActions-root { padding: 12px 16px; flex-wrap: wrap; }
+}
+@media (prefers-reduced-motion: reduce) {
+  #tabs .MuiTab-root, body input.filterEngine { transition: none; }
+}
+.appearance-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1.1fr) minmax(280px, .9fr);
+  gap: 24px;
+  align-items: start;
+}
+.appearance-editor { display: flex; flex-direction: column; gap: 20px; padding: 20px; }
+.appearance-css textarea { font-family: ui-monospace, Consolas, monospace; font-size: 13px; line-height: 1.6; }
+.appearance-preview { position: sticky; top: 24px; padding: 20px; min-width: 0; }
+.appearance-preview-stage {
+  display: grid;
+  grid-template-columns: 82px minmax(0, 1fr);
+  background-color: var(--sj-hover);
+  background-size: cover;
+  background-position: center;
+  border: 1px solid var(--sj-line);
+  border-radius: 8px;
+  overflow: hidden;
+}
+.appearance-preview iframe { display: block; width: 100%; height: 340px; border: 0; }
+@media (max-width: 1000px) {
+  .appearance-layout { grid-template-columns: minmax(0, 1fr); gap: 20px; }
+  .appearance-preview { position: static; grid-row: 1; }
+}

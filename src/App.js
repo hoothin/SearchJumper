@@ -19,6 +19,7 @@ import CssBaseline from '@mui/material/CssBaseline';
 import IconButton from '@mui/material/IconButton';
 import React from 'react';
 import General from './page/General.jsx';
+import Appearance from './page/Appearance.jsx';
 import Engines from './page/Engines.jsx';
 import About from './page/About.jsx';
 import Export from './page/Export.jsx';
@@ -297,11 +298,12 @@ export default function App() {
               aria-label="Vertical tabs example"
               sx={{ borderRight: 1, borderColor: 'divider', width: '100%', flexShrink: 0 }}
             >
-              <Tab label={window.i18n('general')} {...a11yProps(0)} />
-              <Tab label={window.i18n('searchEngines')} {...a11yProps(1)} />
-              <Tab label={window.i18n('findInPage')} {...a11yProps(2)} />
-              <Tab label={window.i18n('exportConfig')} {...a11yProps(3)} />
-              <Tab label={window.i18n('about')} {...a11yProps(4)} />
+              <Tab value={0} label={window.i18n('general')} {...a11yProps(0)} />
+              <Tab value={5} label={window.i18n('customAppearance')} {...a11yProps(5)} />
+              <Tab value={1} label={window.i18n('searchEngines')} {...a11yProps(1)} />
+              <Tab value={2} label={window.i18n('findInPage')} {...a11yProps(2)} />
+              <Tab value={3} label={window.i18n('exportConfig')} {...a11yProps(3)} />
+              <Tab value={4} label={window.i18n('about')} {...a11yProps(4)} />
             </Tabs>
             <Box sx={{width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '4px 8px'}}>
               <IconButton
@@ -322,6 +324,9 @@ export default function App() {
         </TabPanel>
         <TabPanel value={value} index={1}>
           {window.searchData ? <Engines/> : <About/>}
+        </TabPanel>
+        <TabPanel value={value} index={5}>
+          {window.searchData ? <Appearance/> : <About/>}
         </TabPanel>
         <TabPanel value={value} index={2}>
           {window.searchData ? <FindInPage/> : <About/>}
