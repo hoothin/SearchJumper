@@ -1860,6 +1860,21 @@
             }
         }
 
+        const iconCacheRequests = new Map();
+
+        async function loadIcon(img, src = img.dataset.src) {
+            if (!src) return;
+            if (ext && !/^data:/.test(src)) {
+                // Keep the URL available to clones while the background request is pending.
+                img.dataset.src = src;
+                // Cache may be enabled later, after src has become a data URL.
+                img.dataset.iconSrc = src;
+                src = await cacheAction(img);
+            }
+            if (src && src !== 'fail') img.src = src;
+            delete img.dataset.src;
+        }
+
         function preloadImage(url, onSuccess) {
             let img = new Image();
             const cleanup = () => {
@@ -7302,8 +7317,7 @@
                 this.historySiteBtns.slice(0, 20).forEach(btn => {
                     let siteImg = btn.querySelector('img');
                     if (siteImg && siteImg.dataset.src) {
-                        siteImg.src = siteImg.dataset.src;
-                        delete siteImg.dataset.src;
+                        loadIcon(siteImg);
                     }
                     self.historylist.appendChild(btn);
                 });
@@ -8545,8 +8559,13 @@
                     let typeName = type.dataset.type;
                     let icon = type.firstElementChild.cloneNode(true);
                     if (icon.children.length > 1) {
-                        icon.children[0].style.display = "none";
-                        icon.children[1].style.display = "";
+                        const img = icon.children[1];
+                        img.onload = () => {
+                            icon.children[0].style.display = "none";
+                            img.style.display = "";
+                        };
+                        if (img.complete && img.naturalWidth) img.onload();
+                        if (img.dataset.src) loadIcon(img);
                     }
                     let groupSpan = document.createElement("span");
                     groupSpan.appendChild(icon);
@@ -9302,8 +9321,7 @@
                     if (btn.style.display == "none") continue;
                     let siteImg = btn.querySelector('img');
                     if (siteImg && siteImg.dataset.src) {
-                        siteImg.src = siteImg.dataset.src;
-                        delete siteImg.dataset.src;
+                        loadIcon(siteImg);
                     }
                     if (btn.parentNode != typeEle) {
                         let sites = typeEle.querySelectorAll("a.search-jumper-btn");
@@ -9491,6 +9509,10 @@
                     list.dataset.inited = true;
                     [].forEach.call(list.querySelectorAll("div>a>div>img"), img => {
                         if (img.dataset.src) {
+                            if (ext) {
+                                loadIcon(img);
+                                return;
+                            }
                             const imgSrc = img.dataset.src;
                             preloadImage(imgSrc, () => {
                                 img.src = imgSrc;
@@ -9886,7 +9908,7 @@
                         }
                     };
                     if (isFontIcon) {
-                        let cache = cacheIcon[icon.trim().replace(/ /g, '_')];
+                        let cache = (!ext || searchData.prefConfig.cacheSwitch) && cacheIcon[icon.trim().replace(/ /g, '_')];
                         if (cache === 'fail' || !cache) {
                             iEle.className = icon.indexOf("fa") === 0 ? icon : "fa fa-" + icon;
                             this.fontPool.push(iEle);
@@ -9906,7 +9928,7 @@
                             } else if (cache) {
                                 img.src = cache;
                             } else {
-                                img.src = icon;
+                                loadIcon(img, icon);
                                 if (!cacheIcon[icon] && !isBookmark) cachePool.push(img);
                             }
                         }
@@ -10013,8 +10035,7 @@
                             shownSitesNum++;
                         }
                         if (si && !si.src && si.dataset.src) {
-                            si.src = si.dataset.src;
-                            delete si.dataset.src;
+                            loadIcon(si);
                         }
                     });
                     if (shownSitesNum > (searchData.prefConfig.expandTypeLength || 12) && !searchData.prefConfig.expandType) {
@@ -10280,8 +10301,7 @@
                                     window.removeEventListener('load', loadHandler);
                                     waitIconList.forEach(icon => {
                                         if (icon && !icon.src && icon.dataset.src) {
-                                            icon.src = icon.dataset.src;
-                                            delete icon.dataset.src;
+                                            loadIcon(icon);
                                         }
                                     });
                                     waitIconList = [];
@@ -10307,8 +10327,7 @@
                                         return;
                                     }
                                 }
-                                si.src = si.dataset.src;
-                                delete si.dataset.src;
+                                loadIcon(si);
                             }
                         });
                     }
@@ -13083,8 +13102,7 @@
                     if (targetSiteImgs) {
                         [].forEach.call(targetSiteImgs, siteImg => {
                             if (siteImg.parentNode.style.display != "none" && siteImg.dataset.src) {
-                                siteImg.src = siteImg.dataset.src;
-                                delete siteImg.dataset.src;
+                                loadIcon(siteImg);
                             }
                         });
                     }
@@ -14549,7 +14567,7 @@
             return new Promise((resolve) => {
                 if (ext) {
                     chrome.runtime.sendMessage({action: "getImgBase64", detail: {img: src}}, function(r) {
-                        resolve(r);
+                        resolve(chrome.runtime.lastError ? null : r);
                     });
                 } else {
                     _GM_xmlhttpRequest({
@@ -14602,6 +14620,7 @@
         }
 
         function cacheFontIcon(icon) {
+            if (ext && !searchData.prefConfig.cacheSwitch) return;
             let iconName = icon.className.trim().replace('fa fa-', '').replace(/ /g, '_');
             if (cacheIcon[iconName]) return;
             let cache = icon2Base64(icon);
@@ -14611,15 +14630,29 @@
         }
 
         async function cacheAction(target) {
+            let cache;
             if (target.nodeName.toUpperCase() == 'IMG') {
-                let src = target.src || target.dataset.src;
+                let src = target.dataset.src || target.dataset.iconSrc || target.src;
                 if (src) {
-                    if (cacheIcon[src]) return;
-                    let cache = await image2Base64(target);
+                    if ((!ext || searchData.prefConfig.cacheSwitch) && cacheIcon[src]) return cacheIcon[src];
+                    if (ext) {
+                        if (/^data:/.test(src)) return src;
+                        if (!iconCacheRequests.has(src)) {
+                            iconCacheRequests.set(src, imageSrc2Base64(src).catch(() => null));
+                        }
+                        cache = await iconCacheRequests.get(src);
+                        iconCacheRequests.delete(src);
+                        if (searchData.prefConfig.cacheSwitch && cacheIcon[src]) return cacheIcon[src];
+                        if (cache && !/^data:/.test(cache)) cache = null;
+                    } else {
+                        cache = await image2Base64(target);
+                    }
                     if (cache == 'data:,' || !cache) cache = 'fail';
-                    cacheIcon[src] = cache;
-                    storage.setItem("cacheIcon", cacheIcon);
-                    debug(src + " cached, left " + cachePool.length + " icons");
+                    if (!ext || searchData.prefConfig.cacheSwitch) {
+                        cacheIcon[src] = cache;
+                        storage.setItem("cacheIcon", cacheIcon);
+                        debug(src + " cached, left " + cachePool.length + " icons");
+                    }
                 }
             } else {
                 cacheFontIcon(target);
@@ -14629,6 +14662,7 @@
                     resolve(true);
                 }, 1);
             });
+            return cache;
         }
 
         async function cachePoolAction() {
@@ -14649,7 +14683,7 @@
         }
 
         async function cacheFontManager(noti) {
-            if (!isAllPage) {
+            if (!isAllPage && (!ext || searchData.prefConfig.cacheSwitch)) {
                 searchBar.con.classList.add("in-input");
                 searchBar.con.style.visibility = "hidden";
                 searchBar.con.style.display = "";
@@ -16051,6 +16085,7 @@
                                     node.classList.remove('notmatch', 'input-hide');
                                     node.style.removeProperty('display');
                                 });
+                                // Settings previews already load under the extension's own origin.
                                 group.querySelectorAll('img[data-src]').forEach(img => { img.src = img.dataset.src; });
                                 bar.appendChild(group);
                             });
@@ -16138,7 +16173,8 @@
                                 if (typeCache) {
                                     if (typeCache === 'fail') {
                                         let img = document.createElement("img");
-                                        img.src = type.icon;
+                                        if (ext) img.dataset.src = type.icon;
+                                        else img.src = type.icon;
                                         cachePool.push(img);
                                     } else {
                                         newCache[type.icon] = typeCache;
@@ -16153,7 +16189,8 @@
                                     if (siteCache) {
                                         if (siteCache === 'fail') {
                                             let img = document.createElement("img");
-                                            img.src = icon;
+                                            if (ext) img.dataset.src = icon;
+                                            else img.src = icon;
                                             cachePool.push(img);
                                         } else {
                                             newCache[icon] = siteCache;
@@ -16162,6 +16199,7 @@
                                 }
                             });
                         });
+                        cacheIcon = newCache;
                         storage.setItem("cacheIcon", newCache);
                         if (searchData.prefConfig.cacheSwitch) {
                             if (cachePool.length > 0) {
@@ -17112,7 +17150,7 @@
                 let targetIcon = targetSite.querySelector("img");
                 if (targetIcon) {
                     let src = targetIcon.src || targetIcon.dataset.src;
-                    if (src) img.src = src;
+                    if (src) loadIcon(img, src);
                 }
             };
             dragSiteCurSpans.forEach((span, i) => {
@@ -17171,8 +17209,7 @@
                 if (!targetSite) return;
                 let siteImg = targetSite.querySelector('img');
                 if (siteImg && siteImg.dataset.src) {
-                    siteImg.src = siteImg.dataset.src;
-                    delete siteImg.dataset.src;
+                    loadIcon(siteImg);
                 }
                 span.parentNode.parentNode.style.opacity = 1;
                 filldragSpan(span, targetSite);
