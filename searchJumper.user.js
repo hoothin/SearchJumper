@@ -61,21 +61,28 @@
 (async function() {
     'use strict';
     const ext = false;
+    const extensionApi = ext && (globalThis.browser || chrome);
     const _unsafeWindow = (typeof unsafeWindow == 'undefined') ? window : unsafeWindow;
     if (_unsafeWindow.searchJumperInited) return;
     _unsafeWindow.searchJumperInited = true;
     const clipboard = navigator && navigator.clipboard;
     const inIframe = window.top !== window.self;
-    const splitEnabled = ext && chrome.runtime.getManifest().permissions.includes('declarativeNetRequestWithHostAccess');
+    const splitEnabled = ext && chrome.runtime.getManifest().permissions.some(permission =>
+        permission === 'declarativeNetRequestWithHostAccess' || permission === 'webRequestBlocking');
     const isSplitPage = splitEnabled && location.href.split(/[?#]/)[0] === chrome.runtime.getURL('split/index.html');
     let splitFrame = null;
+    const splitFrameAdapter = ext && globalThis.searchJumperSplitFrame;
     if (splitEnabled && inIframe && window.name.startsWith('sj-split-')) {
         try {
-            splitFrame = await chrome.runtime.sendMessage({action: 'splitFrameHello', paneId: window.name.slice(9)});
-            if (splitFrame?.ok) window.postMessage({
-                action: 'searchjumper-split-worker', paneId: splitFrame.paneId,
-                parentOrigin: chrome.runtime.getURL('').slice(0, -1)
-            }, location.origin);
+            splitFrame = await extensionApi.runtime.sendMessage({action: 'splitFrameHello', paneId: window.name.slice(9),
+                ...splitFrameAdapter?.identity});
+            if (splitFrame?.ok) {
+                if (splitFrameAdapter) await splitFrameAdapter.confirmed();
+                else window.postMessage({
+                    action: 'searchjumper-split-worker', paneId: splitFrame.paneId,
+                    parentOrigin: chrome.runtime.getURL('').slice(0, -1)
+                }, location.origin);
+            }
         } catch (error) {
             console.warn('SearchJumper split frame:', error);
         }
@@ -1449,7 +1456,7 @@
             setItem: function (key, value, merge = false) {
                 if (ext) {
                     if (key === 'cacheIcon') {
-                        return chrome.runtime.sendMessage({action: 'setIconCache', detail: {value, merge}}).then(result => {
+                        return extensionApi.runtime.sendMessage({action: 'setIconCache', detail: {value, merge}}).then(result => {
                             if (!result?.ok) throw new Error(result?.error || 'Could not save icon cache');
                             return true;
                         }).catch(error => {
@@ -1479,7 +1486,7 @@
             getItem: async function (key, cb) {
                 var value;
                 if (ext) {
-                    let result = await chrome.storage.local.get([key]);
+                    let result = await extensionApi.storage.local.get([key]);
                     value = result && result[key];
                 } else if (this.supportGMPromise) {
                     value = await GM.getValue(key);
@@ -1496,6 +1503,16 @@
                 return value;
             },
             getListItem: async function(list, key) {
+                if (ext && list === 'inPagePostParams') {
+                    try {
+                        const result = await extensionApi.runtime.sendMessage({action: 'getPageActions', detail: {host: key}});
+                        if (!result?.ok) throw new Error(result?.error || 'Could not read page actions');
+                        return result.value;
+                    } catch (error) {
+                        console.warn('SearchJumper page actions:', error);
+                        return null;
+                    }
+                }
                 var listData = this.listItemCache[list];
                 if (typeof listData === 'undefined') {
                     listData = await this.getItem(list);
@@ -1511,6 +1528,11 @@
                 return null;
             },
             setListItem: async function(list, key, value) {
+                if (ext && list === 'inPagePostParams') {
+                    const result = await extensionApi.runtime.sendMessage({action: 'setPageActions', detail: {host: key, value}});
+                    if (!result?.ok) throw new Error(result?.error || 'Could not save page actions');
+                    return;
+                }
                 var listData = this.listItemCache[list];
                 if (typeof listData === 'undefined') {
                     listData = await this.getItem(list);
@@ -8130,9 +8152,9 @@
                 lastSign = false;
 
                 if (inPagePostParams) {
-                    this.submitAction(inPagePostParams);
+                    this.submitAction(inPagePostParams).catch(error => window.alert(error.message));
                     setTimeout(() => {
-                        storage.setListItem("inPagePostParams", location.hostname, "");
+                        storage.setListItem("inPagePostParams", location.hostname, "").catch(error => console.warn('SearchJumper page actions:', error));
                     }, 10000);
                 }
                 let searchWithCurrentFilter = e => {
@@ -10416,7 +10438,7 @@
                         type: button.splitType, request});
                 }
                 if (!entries.length) throw new Error(i18n('split').noEngines);
-                const response = await chrome.runtime.sendMessage({action: 'splitOpen', query, context, entries, skipped, lang});
+                const response = await extensionApi.runtime.sendMessage({action: 'splitOpen', query, context, entries, skipped, lang});
                 if (!response?.ok) throw new Error(i18n('split')[response?.error] || response?.error || i18n('split').ended);
             }
 
@@ -10690,7 +10712,7 @@
                             if (customInputStr) {
                                 inputStr = customInputStr;
                             } else {
-                                storage.setListItem("inPagePostParams", location.hostname, "");
+                                await storage.setListItem("inPagePostParams", location.hostname, "");
                                 return true;
                             }
                         }
@@ -10729,12 +10751,12 @@
                     if (inPagePostParams) {
                         inPagePostParams.shift();
                         if (inPagePostParams && inPagePostParams.length) {
-                            storage.setListItem("inPagePostParams", location.hostname, inPagePostParams);
+                            await storage.setListItem("inPagePostParams", location.hostname, inPagePostParams);
                             if (copyList && copyList.length) {
                                 storage.setItem("copyStore", JSON.stringify(copyList));
                             }
                         } else {
-                            storage.setListItem("inPagePostParams", location.hostname, "");
+                            await storage.setListItem("inPagePostParams", location.hostname, "");
                             storage.setItem("copyStore", "");
                             if (copyList && copyList.length) {
                                 _GM_setClipboard(copyList.join("\n"));
@@ -11535,10 +11557,15 @@
                             if (!resultUrl) resultUrl = splitContext.pageUrl;
                         } else if (resultUrl === "" || resultUrl === location.href) {
                             inPagePostParams = postParams;
-                            this.submitAction(postParams);
+                            this.submitAction(postParams).catch(error => window.alert(error.message));
                             return false;
                         } else {
-                            storage.setListItem("inPagePostParams", resultUrl.replace(/^https?:\/\/([^\/:]+).*/, "$1"), postParams);
+                            try {
+                                await storage.setListItem("inPagePostParams", new URL(resultUrl, location.href).hostname, postParams);
+                            } catch (error) {
+                                window.alert(error.message);
+                                return false;
+                            }
                         }
                     }
                     resultUrl = customReplaceSingle(resultUrl, "%h", _host);
@@ -11652,6 +11679,7 @@
                                     self.stopInput = false;
                                 }, 1);
                             }
+                            ele.dispatchEvent(new Event("actionOver"));
                             return;
                         }
                         ele.href = targetUrlData;
@@ -16013,7 +16041,7 @@
             }
             if (isInConfigPage && !isAllPage) {
                 if (ext) {
-                    cacheIcon = await chrome.runtime.sendMessage({action: 'getIconCache'}) || {};
+                    cacheIcon = await extensionApi.runtime.sendMessage({action: 'getIconCache'}) || {};
                     chrome.storage.onChanged.addListener((changes, area) => {
                         if (area === 'local' && changes.cacheIcon) cacheIcon = changes.cacheIcon.newValue || {};
                     });
@@ -18497,12 +18525,15 @@
 
         async function initData() {
             const keys = ['searchData', 'cacheKeywords', 'cacheFilter', 'disableState', 'tipsStorage',
-                'lastSign', 'inPagePostParams', 'historySites', 'historyType', 'sortTypeNames',
+                'lastSign', 'historySites', 'historyType', 'sortTypeNames',
                 'sortSiteNames', 'globalInPageWords', 'navEnable', 'referrer', 'clickLink', 'disableHighlight',
                 'lastHighlight', 'allPageNewMode', 'lastAddType'];
-            if (!ext) keys.push('cacheIcon');
-            const data = ext ? await chrome.storage.local.get(keys) :
-                Object.fromEntries(await Promise.all(keys.map(async key => [key, await storage.getItem(key)])));
+            if (!ext) keys.push('cacheIcon', 'inPagePostParams');
+            const [data, pageActions] = await Promise.all([
+                ext ? extensionApi.storage.local.get(keys) :
+                    Promise.all(keys.map(async key => [key, await storage.getItem(key)])).then(Object.fromEntries),
+                ext ? storage.getListItem("inPagePostParams", location.hostname) : null
+            ]);
             let _searchData = data.searchData;
             cacheKeywords = data.cacheKeywords || '';
             cacheFilter = data.cacheFilter || '';
@@ -18513,7 +18544,7 @@
             if (typeof storage.listItemCache.inPagePostParams === 'undefined') {
                 storage.listItemCache.inPagePostParams = data.inPagePostParams || null;
             }
-            inPagePostParams = await storage.getListItem("inPagePostParams", location.hostname);
+            inPagePostParams = ext ? pageActions : await storage.getListItem("inPagePostParams", location.hostname);
             cacheIcon = data.cacheIcon || {};
             historySites = data.historySites || [];
             historyType = data.historyType || '';
@@ -18537,7 +18568,7 @@
             if (ext && searchData.prefConfig.cacheSwitch) {
                 const keys = searchData.sitesConfig.filter(type => /^[a-z\- ]+$/.test(type.icon || ''))
                     .map(type => type.icon.trim().replace(/ /g, '_'));
-                if (keys.length) cacheIcon = await chrome.runtime.sendMessage({action: 'getIconCache', detail: {keys}}) || {};
+                if (keys.length) cacheIcon = await extensionApi.runtime.sendMessage({action: 'getIconCache', detail: {keys}}) || {};
             }
             if (searchData.prefConfig.lang && searchData.prefConfig.lang != '0') {
                 lang = searchData.prefConfig.lang;
@@ -18729,11 +18760,11 @@
             }
             let controller;
             let running = Promise.resolve();
-            const report = message => chrome.runtime.sendMessage({
-                action: 'splitFrameResult', paneId: splitFrame.paneId, ...message
+            const report = message => extensionApi.runtime.sendMessage({
+                action: 'splitFrameResult', paneId: splitFrame.paneId, ...splitFrameAdapter?.identity, ...message
             }).catch(error => console.warn('SearchJumper split:', error.message));
             chrome.runtime.onMessage.addListener((request, sender, respond) => {
-                if (sender.id !== chrome.runtime.id) return;
+                if (sender.id !== chrome.runtime.id || (splitFrameAdapter && !splitFrameAdapter.accepts(request))) return;
                 if (request.command === 'splitCancel') {
                     controller?.abort(new DOMException('Cancelled', 'AbortError'));
                     respond({ok: true});
@@ -18759,7 +18790,7 @@
                     respond({ok: true});
                 }
             });
-            await chrome.runtime.sendMessage({action: 'splitFrameReady', paneId: splitFrame.paneId});
+            await extensionApi.runtime.sendMessage({action: 'splitFrameReady', paneId: splitFrame.paneId, ...splitFrameAdapter?.identity});
         }
 
         var inited = false;
