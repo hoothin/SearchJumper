@@ -2380,6 +2380,7 @@
                      position: absolute!important;
                      background: none;
                      border: none;
+                     box-shadow: none;
                      max-width: unset!important;
                      margin: unset;
                      ${searchData.prefConfig.minPopup && !searchData.prefConfig.noAni ? 'transition: transform 0.25s ease;' : ''}
@@ -3139,24 +3140,6 @@
                  #search-jumper.funcKeyCall #search-jumper-tileInput {
                      display: block;
                  }
-
-                 ${searchData.prefConfig.minPopup && !searchData.prefConfig.hideTileType ? '' : `
-                 #search-jumper.funcKeyCall>.search-jumper-searchBar:has(>#search-jumper-tileInput) {
-                     box-shadow: var(--appearance-shadow, 0 4px 16px #00000026);
-                 }
-                 #search-jumper.funcKeyCall>.search-jumper-searchBar>#search-jumper-tileInput {
-                     margin-bottom: 0;
-                     border-radius: inherit;
-                     border-bottom-left-radius: 0;
-                     border-bottom-right-radius: 0;
-                     box-shadow: none;
-                 }
-                 #search-jumper.funcKeyCall>.search-jumper-searchBar>#search-jumper-tileInput~.search-jumper-type {
-                     border-top-left-radius: 0!important;
-                     border-top-right-radius: 0!important;
-                     box-shadow: none!important;
-                 }
-                 `}
                  .search-jumper-right>.searchJumperNavBar {
                      right: unset;
                      left: 0;
