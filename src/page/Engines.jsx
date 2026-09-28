@@ -1,4 +1,5 @@
 import React from 'react';
+import locateResult from '../locateResult';
 import Paper from '@mui/material/Paper';
 import Box from '@mui/material/Box';
 import Avatar from '@mui/material/Avatar';
@@ -409,6 +410,7 @@ function TypeEdit(props) {
                                 <MenuItem value={4}>{window.i18n("openInBackOption")}</MenuItem>
                                 <MenuItem value={2}>{window.i18n("openInIncognitoOption")}</MenuItem>
                                 <MenuItem value={3}>{window.i18n("openInMinWindowOption")}</MenuItem>
+                                {window.splitEnabled && <MenuItem value={5}>{window.i18n("openInSplitOption")}</MenuItem>}
                             </Select>
                         </FormControl>
                     </AccordionDetails>
@@ -1431,8 +1433,8 @@ const allCharset = [
 
 function a11yProps(index: number) {
     return {
-        id: `vertical-tab-${index}`,
-        'aria-controls': `vertical-tabpanel-${index}`,
+        id: `engine-tab-${index}`,
+        'aria-controls': `engine-tabpanel-${index}`,
     };
 }
 
@@ -1519,8 +1521,8 @@ function TabPanel(props: TabPanelProps) {
         <div
             role="tabpanel"
             hidden={value !== index}
-            id={`vertical-tabpanel-${index}`}
-            aria-labelledby={`vertical-tab-${index}`}
+            id={`engine-tabpanel-${index}`}
+            aria-labelledby={`engine-tab-${index}`}
             style={{width: '100%'}}
             {...other}
         >
@@ -1567,10 +1569,7 @@ function sendVerifyRequest() {
 }
 
 function forwordToSite(inputWord) {
-    let filterEngine = document.querySelector('.site-icon.filter');
-    if (filterEngine) {
-        filterEngine.classList.remove('filter');
-    }
+    locateResult();
     cancelAnimationFrame(filterHighlightFrame);
     if (!inputWord) return false;
     let typeIndex, siteIndex = -1;
@@ -1588,11 +1587,8 @@ function forwordToSite(inputWord) {
     if (typeIndex > -1) {
         if (siteIndex < 0) return typeIndex;
         filterHighlightFrame = requestAnimationFrame(() => {
-            const icon = document.getElementById(`vertical-tabpanel-${typeIndex}`)?.querySelectorAll('.site-icon')[siteIndex];
-            if (icon) {
-                icon.classList.add("filter");
-                icon.scrollIntoView({ behavior: "smooth", block: "nearest", inline: "nearest" });
-            }
+            const icon = document.getElementById(`engine-tabpanel-${typeIndex}`)?.querySelectorAll('.site-icon')[siteIndex];
+            locateResult(icon);
         });
         return typeIndex;
     }

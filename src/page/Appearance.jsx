@@ -24,6 +24,7 @@ const colorPresetCss = ({light, dark, radius, tileRadius, shadow, tileShadow, bl
   --appearance-ink: ${light[2]};
   --appearance-line: ${light[3]};
   --appearance-accent: ${light[2]};
+  --appearance-shadow: ${shadow};
 }
 @media (prefers-color-scheme: dark) {
   #search-jumper {

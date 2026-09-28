@@ -158,7 +158,15 @@ body span:is(.selectTxt, .selectImg, .selectLink, .selectPage) {
   box-shadow: none;
 }
 body #verifyResultList > tr > td { color: var(--sj-text); border-color: var(--sj-line); }
-body[data-theme="dark"] #root .site-icon.filter { background: var(--sj-selected) !important; }
+body #root .site-icon.filter,
+body #root .MuiAccordion-root .filter {
+  position: relative;
+  z-index: 1;
+  border-radius: 10px;
+  background: color-mix(in srgb, var(--sj-accent) 10%, var(--sj-surface)) !important;
+}
+body #root .MuiAccordion-root .filter,
+body #root .site-icon.filter > button { color: var(--sj-accent); }
 #vertical-tabpanel-4 pre {
   font-family: var(--sj-font);
   font-size: 15px;

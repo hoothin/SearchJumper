@@ -3139,6 +3139,24 @@
                  #search-jumper.funcKeyCall #search-jumper-tileInput {
                      display: block;
                  }
+
+                 ${searchData.prefConfig.minPopup && !searchData.prefConfig.hideTileType ? '' : `
+                 #search-jumper.funcKeyCall>.search-jumper-searchBar:has(>#search-jumper-tileInput) {
+                     box-shadow: var(--appearance-shadow, 0 4px 16px #00000026);
+                 }
+                 #search-jumper.funcKeyCall>.search-jumper-searchBar>#search-jumper-tileInput {
+                     margin-bottom: 0;
+                     border-radius: inherit;
+                     border-bottom-left-radius: 0;
+                     border-bottom-right-radius: 0;
+                     box-shadow: none;
+                 }
+                 #search-jumper.funcKeyCall>.search-jumper-searchBar>#search-jumper-tileInput~.search-jumper-type {
+                     border-top-left-radius: 0!important;
+                     border-top-right-radius: 0!important;
+                     box-shadow: none!important;
+                 }
+                 `}
                  .search-jumper-right>.searchJumperNavBar {
                      right: unset;
                      left: 0;
@@ -14250,6 +14268,72 @@
             }
         }
 
+        function captureStartupSelection() {
+            const controller = new AbortController();
+            const options = {capture: true, signal: controller.signal};
+            let start, pending, timer, ready = false;
+            const cancel = () => {
+                controller.abort();
+                clearTimeout(timer);
+                start = pending = null;
+            };
+            const reset = () => {
+                start = pending = null;
+                if (ready) cancel();
+            };
+            const flush = () => {
+                if (!ready || start) return;
+                const saved = pending;
+                cancel();
+                if (!saved || !saved.text || document.hidden || !saved.target.isConnected ||
+                    !saved.event.target.isConnected || searchBar.contains(saved.target) ||
+                    /^pv-/.test(saved.event.target.className) || getSelectStr() !== saved.text) return;
+                const selection = window.getSelection();
+                if (['anchorNode', 'anchorOffset', 'focusNode', 'focusOffset'].some(key => selection[key] !== saved[key])) return;
+                const targetInput = inputActive(document) || isInput(saved.event.target);
+                if (!searchData.prefConfig.enableInInput && targetInput) return;
+                targetElement = saved.target;
+                if (searchData.prefConfig.minPopup == 2) searchBar.con.classList.toggle('targetInput', targetInput);
+                searchBar.showInPage(true, saved.event);
+            };
+            document.addEventListener('mousedown', e => {
+                if (!e.isTrusted) return;
+                if (ready) return cancel();
+                pending = null;
+                start = e.button === 0 ? {event: e, moved: false} : null;
+            }, options);
+            document.addEventListener('mousemove', e => {
+                if (start && Math.abs(start.event.clientX - e.clientX) + Math.abs(start.event.clientY - e.clientY) > 2) {
+                    start.moved = true;
+                }
+            }, options);
+            document.addEventListener('mouseup', e => {
+                if (!e.isTrusted || !start || e.button !== 0) return;
+                if (start.moved || e.detail > 1) {
+                    const selection = window.getSelection();
+                    pending = {event: e, target: start.event.target, text: getSelectStr(),
+                        anchorNode: selection.anchorNode, anchorOffset: selection.anchorOffset,
+                        focusNode: selection.focusNode, focusOffset: selection.focusOffset};
+                }
+                start = null;
+                if (ready) timer = setTimeout(flush, 0);
+            }, options);
+            // A double click handled by the normal listener supersedes the pending mouseup.
+            document.addEventListener('dblclick', () => { if (ready) cancel(); }, options);
+            for (const type of ['keydown', 'dragstart', 'pointercancel']) document.addEventListener(type, reset, options);
+            window.addEventListener('blur', reset, options);
+            document.addEventListener('visibilitychange', () => { if (document.hidden) reset(); }, options);
+            return {cancel, resume() {
+                if (controller.signal.aborted) return;
+                ready = true;
+                if (!searchData.prefConfig.enableInPage || !searchData.prefConfig.selectToShow || isInConfigPage || isAllPage) {
+                    cancel();
+                    return;
+                }
+                flush();
+            }};
+        }
+
         function getSelectStr() {
             let selStr = extSelectionText || picker.getPickerStr() || window.getSelection().toString();
             setTimeout(() => {
@@ -15063,6 +15147,8 @@
                         targetElement = targetElement.shadowRoot.activeElement || targetElement;
                     }
                     const draggableElement = targetElement.closest('[draggable="true"]');
+                    if (!e.altKey && !e.ctrlKey && !e.shiftKey && !e.metaKey &&
+                        !/^(auto|default)$/.test(getComputedStyle(targetElement).cursor)) return;
                     if (draggableElement && draggableElement.nodeName !== 'A') return;
                     const startDrag = event => {
                         searchBar.funcKeyCall = true;
@@ -17924,9 +18010,15 @@
         }
 
         async function initRun() {
-            await searchBar.initRun();
-            initListener();
-            initAllPage();
+            try {
+                await searchBar.initRun();
+                initListener();
+                initAllPage();
+                startupSelection.resume();
+            } catch (error) {
+                startupSelection.cancel();
+                throw error;
+            }
         }
 
         async function sleep(time) {
@@ -17938,103 +18030,36 @@
         }
 
         async function initData() {
-            let _searchData = await new Promise((resolve) => {
-                storage.getItem("searchData", data => {
-                    resolve(data);
-                });
-            });
-            cacheKeywords = await new Promise((resolve) => {
-                storage.getItem("cacheKeywords", data => {
-                    resolve(data || '');
-                });
-            });
-            cacheFilter = await new Promise((resolve) => {
-                storage.getItem("cacheFilter", data => {
-                    resolve(data || '');
-                });
-            });
-            disableState = await new Promise((resolve) => {
-                storage.getItem("disableState", data => {
-                    resolve(data || false);
-                });
-            });
-            tipsStorage = await new Promise((resolve) => {
-                storage.getItem("tipsStorage", data => {
-                    resolve(data || []);
-                });
-            });
-            lastSign = await new Promise((resolve) => {
-                storage.getItem("lastSign", data => {
-                    resolve(data || false);
-                });
-            });
+            const keys = ['searchData', 'cacheKeywords', 'cacheFilter', 'disableState', 'tipsStorage',
+                'lastSign', 'inPagePostParams', 'cacheIcon', 'historySites', 'historyType', 'sortTypeNames',
+                'sortSiteNames', 'globalInPageWords', 'navEnable', 'referrer', 'clickLink', 'disableHighlight',
+                'lastHighlight', 'allPageNewMode', 'lastAddType'];
+            const data = ext ? await chrome.storage.local.get(keys) :
+                Object.fromEntries(await Promise.all(keys.map(async key => [key, await storage.getItem(key)])));
+            let _searchData = data.searchData;
+            cacheKeywords = data.cacheKeywords || '';
+            cacheFilter = data.cacheFilter || '';
+            disableState = data.disableState || false;
+            tipsStorage = data.tipsStorage || [];
+            lastSign = data.lastSign || false;
             storage.setItem("lastSign", false);
+            if (typeof storage.listItemCache.inPagePostParams === 'undefined') {
+                storage.listItemCache.inPagePostParams = data.inPagePostParams || null;
+            }
             inPagePostParams = await storage.getListItem("inPagePostParams", location.hostname);
-            cacheIcon = await new Promise((resolve) => {
-                storage.getItem("cacheIcon", data => {
-                    resolve(data || {});
-                });
-            });
-            historySites = await new Promise((resolve) => {
-                storage.getItem("historySites", data => {
-                    resolve(data || []);
-                });
-            });
-            historyType = await new Promise((resolve) => {
-                storage.getItem("historyType", data => {
-                    resolve(data || '');
-                });
-            });
-            sortTypeNames = await new Promise((resolve) => {
-                storage.getItem("sortTypeNames", data => {
-                    resolve(data || {});
-                });
-            });
-            sortSiteNames = await new Promise((resolve) => {
-                storage.getItem("sortSiteNames", data => {
-                    resolve(data || {});
-                });
-            });
-            globalInPageWords = await new Promise((resolve) => {
-                storage.getItem("globalInPageWords", data => {
-                    resolve(data || '');
-                });
-            });
-            navEnable = await new Promise((resolve) => {
-                storage.getItem("navEnable", data => {
-                    resolve(typeof data === "undefined" ? true : data);
-                });
-            });
-            referrer = await new Promise((resolve) => {
-                storage.getItem("referrer", data => {
-                    resolve(data || "");
-                });
-            });
-            clickLink = await new Promise((resolve) => {
-                storage.getItem("clickLink", data => {
-                    resolve(data || "");
-                });
-            });
-            disableHighlight = await new Promise((resolve) => {
-                storage.getItem("disableHighlight", data => {
-                    resolve(data || "");
-                });
-            });
-            lastHighlight = await new Promise((resolve) => {
-                storage.getItem("lastHighlight", data => {
-                    resolve(data || "");
-                });
-            });
-            allPageNewMode = await new Promise((resolve) => {
-                storage.getItem("allPageNewMode", data => {
-                    resolve(data || false);
-                });
-            });
-            lastAddType = await new Promise((resolve) => {
-                storage.getItem("lastAddType", data => {
-                    resolve(data || "");
-                });
-            });
+            cacheIcon = data.cacheIcon || {};
+            historySites = data.historySites || [];
+            historyType = data.historyType || '';
+            sortTypeNames = data.sortTypeNames || {};
+            sortSiteNames = data.sortSiteNames || {};
+            globalInPageWords = data.globalInPageWords || '';
+            navEnable = typeof data.navEnable === 'undefined' ? true : data.navEnable;
+            referrer = data.referrer || '';
+            clickLink = data.clickLink || '';
+            disableHighlight = data.disableHighlight || '';
+            lastHighlight = data.lastHighlight || '';
+            allPageNewMode = data.allPageNewMode || false;
+            lastAddType = data.lastAddType || '';
             if (_searchData) {
                 searchData = _searchData;
                 lastModified = searchData.lastModified;
@@ -18206,41 +18231,45 @@
                 return;
             }
             inited = true;
-            preAction();
-            await initData();
-            if (disableState) return;
-            if (searchData.prefConfig.blacklist && searchData.prefConfig.blacklist.length > 0) {
-                let commentStart = false;
-                for (let i = 0; i < searchData.prefConfig.blacklist.length; i++) {
-                    let curGlob = searchData.prefConfig.blacklist[i];
-                    if (!curGlob) continue;
-                    if (curGlob.indexOf("//") == 0) continue;
-                    if (commentStart) {
-                        if (/\*\/$/.test(curGlob)) {
-                            commentStart = false;
+            try {
+                preAction();
+                await initData();
+                if (disableState) return;
+                if (searchData.prefConfig.blacklist && searchData.prefConfig.blacklist.length > 0) {
+                    let commentStart = false;
+                    for (let i = 0; i < searchData.prefConfig.blacklist.length; i++) {
+                        let curGlob = searchData.prefConfig.blacklist[i];
+                        if (!curGlob) continue;
+                        if (curGlob.indexOf("//") == 0) continue;
+                        if (commentStart) {
+                            if (/\*\/$/.test(curGlob)) {
+                                commentStart = false;
+                            }
+                            continue;
                         }
-                        continue;
-                    }
-                    if (curGlob.indexOf("/*") == 0) {
-                        commentStart = true;
-                        continue;
-                    }
-                    if (curGlob.indexOf("/") == 0) {
-                        let regMatch = curGlob.match(/^\/(.*)\/(\w*)$/);
-                        if (regMatch && new RegExp(regMatch[1], regMatch[2]).test(href)) {
+                        if (curGlob.indexOf("/*") == 0) {
+                            commentStart = true;
+                            continue;
+                        }
+                        if (curGlob.indexOf("/") == 0) {
+                            let regMatch = curGlob.match(/^\/(.*)\/(\w*)$/);
+                            if (regMatch && new RegExp(regMatch[1], regMatch[2]).test(href)) {
+                                return;
+                            }
+                        } else if (globMatch(curGlob, href)) {
                             return;
                         }
-                    } else if (globMatch(curGlob, href)) {
-                        return;
                     }
                 }
+                initView();
+                await initConfig();
+                initMycroft();
+                searchBar.ready = initRun();
+                if (cb) cb();
+                defaultTitle = document.title;
+            } finally {
+                if (!searchBar || !searchBar.ready) startupSelection.cancel();
             }
-            initView();
-            await initConfig();
-            initMycroft();
-            searchBar.ready = initRun();
-            if (cb) cb();
-            defaultTitle = document.title;
         }
 
         function checkVisibility() {
@@ -18307,8 +18336,10 @@
             }, 500);
         }
 
+        const startupSelection = captureStartupSelection();
         storage.getItem("postUrl", postUrl => {
             if (postUrl && postUrl[0].indexOf(location.hostname.replace(/.*\.(\w+\.\w+)/, "$1")) != -1) {
+                startupSelection.cancel();
                 storage.setItem("postUrl", '');
                 submitByForm(postUrl[1], postUrl[0], '_self');
             } else {

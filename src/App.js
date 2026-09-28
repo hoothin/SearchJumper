@@ -220,6 +220,7 @@ export default function App() {
     window.addEventListener('message',function(e){
       if (e.data.command === 'loadConfig') {
         window.searchData = e.data.searchData;
+        window.splitEnabled = !!e.data.splitEnabled;
         window.version = e.data.version;
         window.cacheIcon = e.data.cacheIcon || [];
         if (window.searchData.prefConfig.lang && window.searchData.prefConfig.lang !== '0') {

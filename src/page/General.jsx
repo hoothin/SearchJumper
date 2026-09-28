@@ -1,4 +1,7 @@
 import React from 'react';
+import locateResult from '../locateResult';
+import Autocomplete from '@mui/material/Autocomplete';
+import SearchIcon from '@mui/icons-material/Search';
 import Paper from '@mui/material/Paper';
 import Box from '@mui/material/Box';
 import InputLabel from '@mui/material/InputLabel';
@@ -144,6 +147,39 @@ export default function General() {
     const [state, setState] = React.useState(
         window.searchData.prefConfig
     );
+    const settingsRef = React.useRef(null);
+    const pendingTarget = React.useRef(null);
+    const [filterWord, setFilterWord] = React.useState('');
+    const [settingOptions, setSettingOptions] = React.useState([]);
+    const filterKeyword = filterWord.trim().toLowerCase();
+    const filterResults = filterKeyword ? settingOptions.filter(option => option.searchText.includes(filterKeyword)).slice(0, 10) : [];
+
+    React.useEffect(() => {
+        const options = [];
+        settingsRef.current.querySelectorAll('.MuiAccordion-root').forEach(section => {
+            const summary = section.querySelector('.MuiAccordionSummary-root');
+            const headings = [summary, ...section.querySelectorAll('h4')];
+            headings.forEach((target, index) => {
+                // Collapsed sections still have layout; settings hidden by a prerequisite do not.
+                if (!target.getClientRects().length) return;
+                const label = target.textContent.trim();
+                const range = document.createRange();
+                range.setStartAfter(target);
+                if (headings[index + 1]) range.setEndBefore(headings[index + 1]);
+                else range.setEnd(section, section.childNodes.length);
+                options.push({label, target, group: summary.textContent.trim(),
+                    searchText: `${label}\n${index ? range.toString() : ''}`.toLowerCase()});
+            });
+        });
+        setSettingOptions(options);
+    }, [state]);
+
+    const handleSectionEntered = node => {
+        if (pendingTarget.current && node.closest('.MuiAccordion-root').contains(pendingTarget.current)) {
+            locateResult(pendingTarget.current);
+            pendingTarget.current = null;
+        }
+    };
 
     const handleSelectChange = (event: SelectChangeEvent) => {
         var newPref = {
@@ -209,13 +245,46 @@ export default function General() {
         saveConfigToScript();
     };
     return (
-        <Box sx={{paddingBottom: '20px'}}>
+        <Box ref={settingsRef} sx={{paddingBottom: '20px'}}>
             <Paper elevation={5} sx={{textAlign:'center', borderRadius:'10px', marginBottom: '20px'}}>
                 <h2 style={{padding:'5px'}}>{window.i18n('general')}</h2>
             </Paper>
+            <Autocomplete
+                freeSolo
+                autoHighlight
+                size="small"
+                value={null}
+                inputValue={filterWord}
+                onInputChange={(event, inputWord) => setFilterWord(inputWord)}
+                options={filterResults}
+                filterOptions={options => options}
+                getOptionLabel={option => typeof option === 'string' ? option : option.label}
+                renderOption={(props, option) => <li {...props} key={`${option.group}-${option.label}`}>
+                    <Box>
+                        <Typography>{option.label}</Typography>
+                        {option.group !== option.label && <Typography variant="caption" color="text.secondary">{option.group}</Typography>}
+                    </Box>
+                </li>}
+                onChange={(event, option) => {
+                    const result = typeof option === 'string' ? filterResults[0] : option;
+                    if (!result) return;
+                    setFilterWord(result.label);
+                    pendingTarget.current = result.target;
+                    const section = result.target.closest('.MuiAccordion-root');
+                    const summary = section.querySelector('.MuiAccordionSummary-root');
+                    if (summary.getAttribute('aria-expanded') !== 'true') summary.click();
+                    else if (section.querySelector('.MuiCollapse-entered')) handleSectionEntered(section);
+                }}
+                sx={{mb: 3, maxWidth: 600}}
+                renderInput={params => <TextField {...params}
+                    placeholder={window.i18n('filterSettings')}
+                    inputProps={{...params.inputProps, 'aria-label': window.i18n('filterSettings')}}
+                    InputProps={{...params.InputProps, startAdornment: <InputAdornment position="start"><SearchIcon fontSize="small"/></InputAdornment>}}
+                />}
+            />
 
             {/* 1. Language */}
-            <Accordion elevation={5} sx={{ padding: '10px', borderRadius: '4px', marginBottom: '20px' }}>
+            <Accordion TransitionProps={{onEntered: handleSectionEntered}} elevation={5} sx={{ padding: '10px', borderRadius: '4px', marginBottom: '20px' }}>
                 <AccordionSummary expandIcon={<ExpandMoreIcon />}>
                     <Typography variant="h6">{window.i18n('setLang')}</Typography>
                 </AccordionSummary>
@@ -241,7 +310,7 @@ export default function General() {
             </Accordion>
 
             {/* 2. General Behavior */}
-            <Accordion elevation={5} sx={{ padding: '10px', borderRadius: '4px', marginBottom: '20px' }}>
+            <Accordion TransitionProps={{onEntered: handleSectionEntered}} elevation={5} sx={{ padding: '10px', borderRadius: '4px', marginBottom: '20px' }}>
                 <AccordionSummary expandIcon={<ExpandMoreIcon />}>
                     <Typography variant="h6">{window.i18n('generalBehavior')}</Typography>
                 </AccordionSummary>
@@ -477,7 +546,7 @@ export default function General() {
             </Accordion>
 
             {/* 3. Appearance */}
-            <Accordion elevation={5} sx={{ padding: '10px', borderRadius: '4px', marginBottom: '20px' }}>
+            <Accordion TransitionProps={{onEntered: handleSectionEntered}} elevation={5} sx={{ padding: '10px', borderRadius: '4px', marginBottom: '20px' }}>
                 <AccordionSummary expandIcon={<ExpandMoreIcon />}>
                     <Typography variant="h6">{window.i18n('appearance')}</Typography>
                 </AccordionSummary>
@@ -961,7 +1030,7 @@ export default function General() {
 
 
             {/* 4. Search and Rules */}
-            <Accordion elevation={5} sx={{ padding: '10px', borderRadius: '4px', marginBottom: '20px' }}>
+            <Accordion TransitionProps={{onEntered: handleSectionEntered}} elevation={5} sx={{ padding: '10px', borderRadius: '4px', marginBottom: '20px' }}>
                 <AccordionSummary expandIcon={<ExpandMoreIcon />}>
                     <Typography variant="h6">{window.i18n('searchRules')}</Typography>
                 </AccordionSummary>
@@ -1317,7 +1386,7 @@ export default function General() {
             </Accordion>
 
             {/* 5. Shortcuts */}
-            <Accordion elevation={5} sx={{ padding: '10px', borderRadius: '4px', marginBottom: '20px' }}>
+            <Accordion TransitionProps={{onEntered: handleSectionEntered}} elevation={5} sx={{ padding: '10px', borderRadius: '4px', marginBottom: '20px' }}>
                 <AccordionSummary expandIcon={<ExpandMoreIcon />}>
                     <Typography variant="h6">{window.i18n('shortcuts')}</Typography>
                 </AccordionSummary>
@@ -1612,7 +1681,7 @@ export default function General() {
             </Accordion>
 
             {/* 6. Drag & Drop Search */}
-            <Accordion elevation={5} sx={{ padding: '10px', borderRadius: '4px', marginBottom: '20px' }}>
+            <Accordion TransitionProps={{onEntered: handleSectionEntered}} elevation={5} sx={{ padding: '10px', borderRadius: '4px', marginBottom: '20px' }}>
                 <AccordionSummary expandIcon={<ExpandMoreIcon />}>
                     <Typography variant="h6">{window.i18n('dragDropSearch')}</Typography>
                 </AccordionSummary>
@@ -1758,7 +1827,7 @@ export default function General() {
             </Accordion>
 
             {/* 7. In-Page Find */}
-            <Accordion elevation={5} sx={{ padding: '10px', borderRadius: '4px', marginBottom: '20px' }}>
+            <Accordion TransitionProps={{onEntered: handleSectionEntered}} elevation={5} sx={{ padding: '10px', borderRadius: '4px', marginBottom: '20px' }}>
                 <AccordionSummary expandIcon={<ExpandMoreIcon />}>
                     <Typography variant="h6">{window.i18n('inPage')}</Typography>
                 </AccordionSummary>
