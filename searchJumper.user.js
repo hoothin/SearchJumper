@@ -1446,8 +1446,17 @@
                 } catch(e) {
                 }
             })(),
-            setItem: function (key, value) {
+            setItem: function (key, value, merge = false) {
                 if (ext) {
+                    if (key === 'cacheIcon') {
+                        return chrome.runtime.sendMessage({action: 'setIconCache', detail: {value, merge}}).then(result => {
+                            if (!result?.ok) throw new Error(result?.error || 'Could not save icon cache');
+                            return true;
+                        }).catch(error => {
+                            console.warn('SearchJumper icon cache:', error);
+                            return false;
+                        });
+                    }
                     chrome.storage.local.set({ [key]: value }, () => {});
                 } else if (this.supportGMPromise) {
                     GM.setValue(key, value);
@@ -1859,8 +1868,6 @@
                 return activeEl;
             }
         }
-
-        const iconCacheRequests = new Map();
 
         async function loadIcon(img, src = img.dataset.src) {
             if (!src) return;
@@ -9922,6 +9929,9 @@
                         let isBase64 = /^data:/.test(icon);
                         if (isBase64) {
                             img.src = icon;
+                        } else if (ext) {
+                            loadIcon(img, icon);
+                            if (!isBookmark) cachePool.push(img);
                         } else {
                             let cache = searchData.prefConfig.cacheSwitch && cacheIcon[icon];
                             if (cache === 'fail') {
@@ -10978,6 +10988,9 @@
                     let isBase64 = /^data:/.test(imgSrc);
                     if (isBase64) {
                         img.dataset.src = imgSrc;
+                    } else if (ext) {
+                        img.dataset.src = imgSrc;
+                        if (!isBookmark) cachePool.push(img);
                     } else {
                         let cache = searchData.prefConfig.cacheSwitch && cacheIcon[imgSrc];
                         if (cache === 'fail') {
@@ -14562,11 +14575,11 @@
             }
         }
 
-        async function imageSrc2Base64(src) {
+        async function imageSrc2Base64(src, icon = false) {
             let urlSplit = src.split("/");
             return new Promise((resolve) => {
                 if (ext) {
-                    chrome.runtime.sendMessage({action: "getImgBase64", detail: {img: src}}, function(r) {
+                    chrome.runtime.sendMessage({action: "getImgBase64", detail: {img: src, icon}}, function(r) {
                         resolve(chrome.runtime.lastError ? null : r);
                     });
                 } else {
@@ -14619,12 +14632,16 @@
             return canvas.toDataURL("image/png");
         }
 
-        function cacheFontIcon(icon) {
+        async function cacheFontIcon(icon) {
             if (ext && !searchData.prefConfig.cacheSwitch) return;
             let iconName = icon.className.trim().replace('fa fa-', '').replace(/ /g, '_');
             if (cacheIcon[iconName]) return;
             let cache = icon2Base64(icon);
             if (cache == 'data:,' || !cache) return;
+            if (ext) {
+                await storage.setItem('cacheIcon', {[iconName]: cache}, true);
+                return;
+            }
             cacheIcon[iconName] = cache;
             storage.setItem("cacheIcon", cacheIcon);
         }
@@ -14634,28 +14651,18 @@
             if (target.nodeName.toUpperCase() == 'IMG') {
                 let src = target.dataset.src || target.dataset.iconSrc || target.src;
                 if (src) {
-                    if ((!ext || searchData.prefConfig.cacheSwitch) && cacheIcon[src]) return cacheIcon[src];
                     if (ext) {
                         if (/^data:/.test(src)) return src;
-                        if (!iconCacheRequests.has(src)) {
-                            iconCacheRequests.set(src, imageSrc2Base64(src).catch(() => null));
-                        }
-                        cache = await iconCacheRequests.get(src);
-                        iconCacheRequests.delete(src);
-                        if (searchData.prefConfig.cacheSwitch && cacheIcon[src]) return cacheIcon[src];
-                        if (cache && !/^data:/.test(cache)) cache = null;
-                    } else {
-                        cache = await image2Base64(target);
+                        return imageSrc2Base64(src, true);
                     }
+                    if (cacheIcon[src]) return cacheIcon[src];
+                    cache = await image2Base64(target);
                     if (cache == 'data:,' || !cache) cache = 'fail';
-                    if (!ext || searchData.prefConfig.cacheSwitch) {
-                        cacheIcon[src] = cache;
-                        storage.setItem("cacheIcon", cacheIcon);
-                        debug(src + " cached, left " + cachePool.length + " icons");
-                    }
+                    cacheIcon[src] = cache;
+                    storage.setItem("cacheIcon", cacheIcon);
                 }
             } else {
-                cacheFontIcon(target);
+                await cacheFontIcon(target);
             }
             await new Promise((resolve) => {
                 setTimeout(() => {
@@ -16005,6 +16012,12 @@
                 webDAV = new WebDAV(searchData.webdavConfig.host + "/SearchJumper" + (searchData.webdavConfig.path || "").replace(/^\/*/, "/").replace(/\/*$/, "/"), searchData.webdavConfig.username, searchData.webdavConfig.password);
             }
             if (isInConfigPage && !isAllPage) {
+                if (ext) {
+                    cacheIcon = await chrome.runtime.sendMessage({action: 'getIconCache'}) || {};
+                    chrome.storage.onChanged.addListener((changes, area) => {
+                        if (area === 'local' && changes.cacheIcon) cacheIcon = changes.cacheIcon.newValue || {};
+                    });
+                }
                 let sendMessageTimer, received = false;
                 let loadConfig = () => {
                     sendMessageTimer = setTimeout(() => {
@@ -18484,9 +18497,10 @@
 
         async function initData() {
             const keys = ['searchData', 'cacheKeywords', 'cacheFilter', 'disableState', 'tipsStorage',
-                'lastSign', 'inPagePostParams', 'cacheIcon', 'historySites', 'historyType', 'sortTypeNames',
+                'lastSign', 'inPagePostParams', 'historySites', 'historyType', 'sortTypeNames',
                 'sortSiteNames', 'globalInPageWords', 'navEnable', 'referrer', 'clickLink', 'disableHighlight',
                 'lastHighlight', 'allPageNewMode', 'lastAddType'];
+            if (!ext) keys.push('cacheIcon');
             const data = ext ? await chrome.storage.local.get(keys) :
                 Object.fromEntries(await Promise.all(keys.map(async key => [key, await storage.getItem(key)])));
             let _searchData = data.searchData;
@@ -18519,6 +18533,11 @@
             }
             if (!searchData.lastModified) {
                 searchData.sitesConfig = sitesConfig;
+            }
+            if (ext && searchData.prefConfig.cacheSwitch) {
+                const keys = searchData.sitesConfig.filter(type => /^[a-z\- ]+$/.test(type.icon || ''))
+                    .map(type => type.icon.trim().replace(/ /g, '_'));
+                if (keys.length) cacheIcon = await chrome.runtime.sendMessage({action: 'getIconCache', detail: {keys}}) || {};
             }
             if (searchData.prefConfig.lang && searchData.prefConfig.lang != '0') {
                 lang = searchData.prefConfig.lang;
