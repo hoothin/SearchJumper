@@ -66,7 +66,21 @@
     _unsafeWindow.searchJumperInited = true;
     const clipboard = navigator && navigator.clipboard;
     const inIframe = window.top !== window.self;
-    if (inIframe) {
+    const splitEnabled = ext && chrome.runtime.getManifest().permissions.includes('declarativeNetRequestWithHostAccess');
+    const isSplitPage = splitEnabled && location.href.split(/[?#]/)[0] === chrome.runtime.getURL('split/index.html');
+    let splitFrame = null;
+    if (splitEnabled && inIframe && window.name.startsWith('sj-split-')) {
+        try {
+            splitFrame = await chrome.runtime.sendMessage({action: 'splitFrameHello', paneId: window.name.slice(9)});
+            if (splitFrame?.ok) window.postMessage({
+                action: 'searchjumper-split-worker', paneId: splitFrame.paneId,
+                parentOrigin: chrome.runtime.getURL('').slice(0, -1)
+            }, location.origin);
+        } catch (error) {
+            console.warn('SearchJumper split frame:', error);
+        }
+    }
+    if (inIframe && !splitFrame?.ok) {
         try {
             if (window.name === 'pagetual-iframe' || (window.frameElement && window.frameElement.name === 'pagetual-iframe')) {
                 return;
@@ -188,6 +202,52 @@
                         importOrNot: '是否导入配置？',
                         settings: '配置脚本',
                         batchOpen: '批量打开',
+                        split: {
+                            locale: "zh-CN",
+                            title: "搜索酱 · 分屏搜索",
+                            button: "分屏搜索",
+                            query: "输入关键词或问题，发送到所有窗格",
+                            search: "搜索 / 提问",
+                            layout: "布局",
+                            columns2: "左右双栏",
+                            rows2: "上下双栏",
+                            columns3: "三栏",
+                            columns4: "四栏",
+                            previous: "上一页",
+                            next: "下一页",
+                            refresh: "刷新",
+                            open: "新标签",
+                            close: "关闭",
+                            retry: "重试",
+                            loading: "正在加载…",
+                            running: "正在发送…",
+                            done: "已就绪",
+                            error: "加载失败",
+                            empty: "所有窗格已关闭，可从搜索分组重新发起分屏。",
+                            timeout: "页面尚未就绪，请在新标签页登录，或检查引擎规则后重试。",
+                            skipped: "这些引擎请使用原入口：",
+                            divider: "调整窗格大小",
+                            pages: "翻页",
+                            results: "搜索结果",
+                            ended: "分屏会话无法打开，请从搜索分组重新发起。",
+                            noEngines: "此分组没有可分屏的网页引擎。",
+                            httpOnly: "分屏仅支持不含用户名和密码的 HTTP(S) 网页。",
+                            invalidRequest: "搜索请求无效，请检查引擎规则。",
+                            invalidActions: "自动操作规则无效，请检查引擎规则。",
+                            missingForm: "缺少表单提交地址。",
+                            formMismatch: "表单提交地址与窗格地址不一致。",
+                            unsupportedBrowser: "当前浏览器无法隔离嵌入规则，需要 Chrome 145 或更新版本。",
+                            invalidTab: "分屏标签页无效。",
+                            pageClosed: "分屏页已关闭。",
+                            pageOnly: "只有分屏页可以修改自己的会话。",
+                            invalidSender: "请求不是来自本扩展。",
+                            invalidSearch: "分屏搜索参数无效。",
+                            invalidEngine: "搜索引擎信息无效。",
+                            invalidUpdate: "搜索更新请求无效。",
+                            missingPane: "窗格已关闭。",
+                            unknownCommand: "无法识别分屏操作。",
+                            pageChanged: "页面在确认提交前发生了跳转，请按需重试。"
+                        },
                         batchOpenConfirm: '确定要批量打开吗？',
                         postOver: '发送成功：',
                         postError: '发送失败：',
@@ -315,6 +375,52 @@
                         importOrNot: '是否導入配置？',
                         settings: '配置脚本',
                         batchOpen: '批量打開',
+                        split: {
+                            locale: "zh-TW",
+                            title: "搜尋醬 · 分割畫面搜尋",
+                            button: "分割畫面搜尋",
+                            query: "輸入關鍵字或問題，傳送至所有窗格",
+                            search: "搜尋 / 提問",
+                            layout: "版面配置",
+                            columns2: "左右雙欄",
+                            rows2: "上下雙欄",
+                            columns3: "三欄",
+                            columns4: "四欄",
+                            previous: "上一頁",
+                            next: "下一頁",
+                            refresh: "重新整理",
+                            open: "新分頁",
+                            close: "關閉",
+                            retry: "重試",
+                            loading: "載入中…",
+                            running: "傳送中…",
+                            done: "已就緒",
+                            error: "載入失敗",
+                            empty: "所有窗格已關閉，請從搜尋群組重新啟動分割畫面搜尋。",
+                            timeout: "頁面尚未就緒，請在新分頁登入，或檢查引擎規則後重試。",
+                            skipped: "這些引擎請使用原入口：",
+                            divider: "調整窗格大小",
+                            pages: "換頁",
+                            results: "搜尋結果",
+                            ended: "無法開啟分割畫面工作階段，請從搜尋群組重新啟動。",
+                            noEngines: "此群組沒有可供分割畫面搜尋的網頁引擎。",
+                            httpOnly: "分割畫面僅支援不含使用者名稱與密碼的 HTTP(S) 網頁。",
+                            invalidRequest: "搜尋請求無效，請檢查引擎規則。",
+                            invalidActions: "自動操作規則無效，請檢查引擎規則。",
+                            missingForm: "缺少表單提交網址。",
+                            formMismatch: "表單提交網址與窗格網址不一致。",
+                            unsupportedBrowser: "目前的瀏覽器無法隔離嵌入規則，需要 Chrome 145 或更新版本。",
+                            invalidTab: "分割畫面的分頁無效。",
+                            pageClosed: "分割畫面分頁已關閉。",
+                            pageOnly: "只有分割畫面分頁可以修改自己的工作階段。",
+                            invalidSender: "請求並非來自本擴充功能。",
+                            invalidSearch: "分割畫面搜尋參數無效。",
+                            invalidEngine: "搜尋引擎資訊無效。",
+                            invalidUpdate: "搜尋更新請求無效。",
+                            missingPane: "窗格已關閉。",
+                            unknownCommand: "無法辨識分割畫面操作。",
+                            pageChanged: "頁面在確認提交前已跳轉，請視需要重試。"
+                        },
                         batchOpenConfirm: '確定要批量打開嗎？',
                         postOver: '發送成功：',
                         postError: '發送失敗：',
@@ -433,6 +539,7 @@
                     };
                     break;
                 case 'ja':
+                case 'ja-JP':
                     config = {
                         import: 'インポート',
                         filter: 'フィルター',
@@ -440,6 +547,52 @@
                         importOrNot: '設定をインポートしますか? ',
                         settings: '構成スクリプト',
                         batchOpen: 'バッチオープン',
+                        split: {
+                            locale: "ja",
+                            title: "SearchJumper · 分割検索",
+                            button: "分割検索",
+                            query: "キーワードや質問をすべてのペインに送信",
+                            search: "検索 / 質問",
+                            layout: "レイアウト",
+                            columns2: "左右2列",
+                            rows2: "上下2段",
+                            columns3: "3列",
+                            columns4: "4列",
+                            previous: "前へ",
+                            next: "次へ",
+                            refresh: "再読み込み",
+                            open: "別タブ",
+                            close: "閉じる",
+                            retry: "再試行",
+                            loading: "読み込み中…",
+                            running: "送信中…",
+                            done: "準備完了",
+                            error: "読み込み失敗",
+                            empty: "すべてのペインを閉じました。検索エンジングループから分割検索を開始してください。",
+                            timeout: "ページの準備ができていません。別のタブでログインするか、エンジンのルールを確認して再試行してください。",
+                            skipped: "次のエンジンは元のメニューから開いてください：",
+                            divider: "ペインのサイズを変更",
+                            pages: "ページ切り替え",
+                            results: "検索結果",
+                            ended: "分割検索セッションを開けません。検索エンジングループから新しく開始してください。",
+                            noEngines: "このグループには分割検索で使えるウェブエンジンがありません。",
+                            httpOnly: "分割検索では、ユーザー名やパスワードを含まない HTTP(S) ページのみ使用できます。",
+                            invalidRequest: "検索リクエストが無効です。エンジンのルールを確認してください。",
+                            invalidActions: "自動操作が無効です。エンジンのルールを確認してください。",
+                            missingForm: "フォームの送信先がありません。",
+                            formMismatch: "フォームの送信先がペインの URL と一致しません。",
+                            unsupportedBrowser: "このブラウザでは埋め込みルールを分離できません。Chrome 145 以降が必要です。",
+                            invalidTab: "分割検索タブが無効です。",
+                            pageClosed: "分割検索ページは閉じられました。",
+                            pageOnly: "分割検索ページだけが自身のセッションを変更できます。",
+                            invalidSender: "この拡張機能以外からのリクエストです。",
+                            invalidSearch: "分割検索のパラメーターが無効です。",
+                            invalidEngine: "検索エンジンの情報が無効です。",
+                            invalidUpdate: "検索の更新リクエストが無効です。",
+                            missingPane: "ペインは閉じられました。",
+                            unknownCommand: "不明な分割検索操作です。",
+                            pageChanged: "送信を確認する前にページが移動しました。必要に応じて再試行してください。"
+                        },
                         batchOpenConfirm: 'バッチオープンしてもよろしいですか? ',
                         postOver: '正常に送信されました:',
                         postError: '送信に失敗しました:',
@@ -558,6 +711,7 @@
                     };
                     break;
                 case 'ru':
+                case 'ru-RU':
                     config = {
                         import: 'Импортировать',
                         filter: 'Фильтровать',
@@ -565,6 +719,52 @@
                         importOrNot: 'Импортировать эту конфигурацию?',
                         settings: 'Настройки',
                         batchOpen: 'Групповой поиск',
+                        split: {
+                            locale: "ru",
+                            title: "SearchJumper · Поиск в панелях",
+                            button: "Поиск в панелях",
+                            query: "Введите запрос или вопрос для всех панелей",
+                            search: "Найти / Спросить",
+                            layout: "Расположение",
+                            columns2: "2 столбца",
+                            rows2: "2 строки",
+                            columns3: "3 столбца",
+                            columns4: "4 столбца",
+                            previous: "Назад",
+                            next: "Вперёд",
+                            refresh: "Обновить",
+                            open: "Вкладка",
+                            close: "Закрыть",
+                            retry: "Повторить",
+                            loading: "Загрузка…",
+                            running: "Отправка…",
+                            done: "Готово",
+                            error: "Ошибка загрузки",
+                            empty: "Все панели закрыты. Запустите новый поиск в панелях из группы поисковиков.",
+                            timeout: "Страница ещё не готова. Войдите в аккаунт в новой вкладке или проверьте правило поисковика и повторите попытку.",
+                            skipped: "Откройте эти поисковики через обычное меню: ",
+                            divider: "Изменить размер панелей",
+                            pages: "Страницы",
+                            results: "Результаты поиска",
+                            ended: "Не удалось открыть сеанс. Запустите новый поиск в панелях из группы поисковиков.",
+                            noEngines: "В этой группе нет веб-поисковиков для поиска в панелях.",
+                            httpOnly: "В панелях можно открывать только HTTP(S)-страницы без имени пользователя и пароля в адресе.",
+                            invalidRequest: "Недопустимый поисковый запрос. Проверьте правило поисковика.",
+                            invalidActions: "Недопустимые автоматические действия. Проверьте правило поисковика.",
+                            missingForm: "Не указан адрес отправки формы.",
+                            formMismatch: "Адрес отправки формы не совпадает с адресом панели.",
+                            unsupportedBrowser: "Браузер не поддерживает изоляцию правил встраивания. Требуется Chrome 145 или новее.",
+                            invalidTab: "Недопустимая вкладка поиска в панелях.",
+                            pageClosed: "Страница поиска в панелях уже закрыта.",
+                            pageOnly: "Только страница поиска в панелях может изменять свой сеанс.",
+                            invalidSender: "Запрос поступил не из этого расширения.",
+                            invalidSearch: "Недопустимые параметры поиска в панелях.",
+                            invalidEngine: "Недопустимые данные поисковика.",
+                            invalidUpdate: "Недопустимый запрос на обновление поиска.",
+                            missingPane: "Панель уже закрыта.",
+                            unknownCommand: "Неизвестная команда поиска в панелях.",
+                            pageChanged: "Страница изменилась до подтверждения отправки. При необходимости повторите попытку."
+                        },
                         batchOpenConfirm: 'Искать с помощью всех движков группы?',
                         postOver: 'Post over: ',
                         postError: 'Post fail: ',
@@ -683,6 +883,52 @@
                         importOrNot: 'Do you want to import this config?',
                         settings: 'Settings',
                         batchOpen: 'Batch open',
+                        split: {
+                            locale: "en",
+                            title: "SearchJumper · Split search",
+                            button: "Split search",
+                            query: "Search or ask all engines",
+                            search: "Search / Ask",
+                            layout: "Layout",
+                            columns2: "2 columns",
+                            rows2: "2 rows",
+                            columns3: "3 columns",
+                            columns4: "4 columns",
+                            previous: "Previous",
+                            next: "Next",
+                            refresh: "Refresh",
+                            open: "Open tab",
+                            close: "Close",
+                            retry: "Retry",
+                            loading: "Loading…",
+                            running: "Sending…",
+                            done: "Ready",
+                            error: "Unable to load",
+                            empty: "All panes are closed. Start another split search from an engine group.",
+                            timeout: "The page is not ready. Sign in in a new tab, or check the engine rule and retry.",
+                            skipped: "These engines use their original entry: ",
+                            divider: "Resize panes",
+                            pages: "Pages",
+                            results: "Search results",
+                            ended: "Unable to open this split session. Start another split search from an engine group.",
+                            noEngines: "No web engines are available for split search in this group.",
+                            httpOnly: "Only HTTP(S) web pages without a username or password in the URL can be embedded.",
+                            invalidRequest: "Invalid search request. Check the engine rule.",
+                            invalidActions: "Invalid automation actions. Check the engine rule.",
+                            missingForm: "Missing form destination.",
+                            formMismatch: "Form destination does not match the pane.",
+                            unsupportedBrowser: "This browser cannot isolate embedding rules. Chrome 145 or newer is required.",
+                            invalidTab: "Invalid split tab.",
+                            pageClosed: "The split page is no longer open.",
+                            pageOnly: "Only the split page can change its session.",
+                            invalidSender: "The request is not from this extension.",
+                            invalidSearch: "Invalid split search parameters.",
+                            invalidEngine: "Invalid engine information.",
+                            invalidUpdate: "Invalid search update.",
+                            missingPane: "The pane has already been closed.",
+                            unknownCommand: "Unknown split command.",
+                            pageChanged: "The page changed before submission was confirmed. Retry if needed."
+                        },
                         batchOpenConfirm: 'Batch open urls?',
                         postOver: 'Post over: ',
                         postError: 'Post fail: ',
@@ -799,7 +1045,11 @@
             return config[name] ? (param ? config[name].replace(/#t#/g, param).replace(/#t1#/g, param[0]).replace(/#t2#/g, param[1]) : config[name]) : name;
         };
         const isMobile = ('ontouchstart' in document.documentElement);
-        var enableDebug = true;
+        var enableDebug = !isSplitPage && !splitFrame?.ok;
+        let splitTaskSignal = null;
+        function checkSplitTask() {
+            if (splitTaskSignal) splitTaskSignal.throwIfAborted();
+        }
         var debug = (str, title) => {
             if(enableDebug) {
                 console.log(
@@ -1876,6 +2126,7 @@
                  }
                  #search-jumper-root {
                      font-size: initial;
+                     font-family: Arial, "Microsoft YaHei", "Noto Sans SC", sans-serif;
                  }
                  #search-jumper.search-jumper-showall {
                      overflow-y: hidden;
@@ -1897,13 +2148,13 @@
                      display: none!important;
                  }
                  #search-jumper.search-jumper-showall #filterSites {
-                     background-color: #f5f5f5e0;
+                     background-color: #f5f6f8f0;
                      border: none;
                      height: 40px;
                      margin-bottom: 0;
                      padding: 5px;
                      margin: 0 10px;
-                     box-shadow: #ddd 0px 0px 3px;
+                     box-shadow: 0 2px 12px #20263114, inset 0 0 0 1px #282a2d1a;
                      outline: none;
                      box-sizing: border-box;
                      cursor: default;
@@ -1922,12 +2173,22 @@
                  #search-jumper.search-jumper-showall #filterSites>input,
                  #search-jumper.search-jumper-showall #filterSites>textarea {
                      background-color: white;
-                     color: black;
+                     color: #282a2d;
+                     border-radius: 16px;
+                     padding: 0 12px;
                      border: none;
                      outline: none;
                      box-sizing: border-box;
-                     font-size: 20px;
+                     font-size: 17px;
                      cursor: text;
+                 }
+                 #search-jumper.search-jumper-showall #filterSites:focus-within {
+                     outline: 2px solid #d73340;
+                     outline-offset: 2px;
+                 }
+                 #search-jumper :is(button, a):focus-visible {
+                     outline: 2px solid #d73340;
+                     outline-offset: -2px;
                  }
                  #search-jumper.search-jumper-showall #filterSites>span {
                      display: none;
@@ -2099,29 +2360,37 @@
                      position: initial;
                      transition: all 0.3s ease;
                  }
-                 #search-jumper-alllist>.timeInAll,
-                 #search-jumper-alllist>.dayInAll {
+                 #search-jumper-alllist>.clockInAll {
                      position: fixed;
-                     bottom: 0;
-                     line-height: 1.5;
-                     color: white;
-                     opacity: 0.45;
-                     font-weight: bold;
-                     font-family: Arial,sans-serif,微软雅黑,"Noto Sans SC";
-                     overflow-wrap: normal;
-                     white-space: nowrap;
-                     margin: 20px;
+                     right: 24px;
+                     bottom: 18px;
+                     display: flex;
+                     flex-direction: column;
+                     gap: 4px;
+                     max-width: calc(100vw - 48px);
+                     color: #f5f6f8;
+                     text-shadow: 0 1px 4px #00000080;
+                     font-family: Arial, "Microsoft YaHei", "Noto Sans SC", sans-serif;
+                     font-variant-numeric: tabular-nums;
+                     text-align: right;
                      pointer-events: none;
-                     text-shadow: 0 0 5px black;
-                     background-image: initial;
                  }
-                 #search-jumper-alllist>.dayInAll {
-                     left: 50px;
-                     font-size: ${(lang.indexOf("zh") == 0 || lang.indexOf("ja") == 0) ? '1.5' : '2'}vw;
+                 #search-jumper-alllist .timeInAll {
+                     font-size: clamp(24px, 2.2vw, 32px);
+                     line-height: 1.1;
+                     font-weight: 500;
+                     letter-spacing: .02em;
+                     white-space: nowrap;
                  }
-                 #search-jumper-alllist>.timeInAll {
-                     right: 50px;
-                     font-size: 2vw;
+                 #search-jumper-alllist .dayInAll {
+                     font-size: 13px;
+                     line-height: 1.5;
+                     font-weight: normal;
+                     opacity: .75;
+                 }
+                 #search-jumper-alllist .dayInAll small {
+                     display: block;
+                     font-size: 12px;
                  }
                  #search-jumper-alllist>.modeSwitch {
                      position: fixed;
@@ -2165,7 +2434,6 @@
                      text-align: left;
                      font-size: large;
                      padding: 15px 30px;
-                     display: table-caption;
                      width: 100%;
                  }
                  #search-jumper #search-jumper-alllist.new-mode .sitelist a {
@@ -2313,7 +2581,8 @@
                      overflow-wrap: break-word;
                      background: #505050cc;
                      border-radius: ${this.scale * 21}px!important;
-                     border: 1px solid #b3b3b3;
+                     border: 1px solid #ffffff40;
+                     box-shadow: 0 4px 16px #00000026;
                      display: inline-flex;
                      pointer-events: all;
                      margin-top: -${this.scale * 25}px;
@@ -3183,9 +3452,9 @@
                  #search-jumper .sitelist>.sitelistCon {
                      margin: 10px;
                      border-radius: 10px;
-                     box-shadow: 0px 0px 10px 0px #7a7a7a;
+                     box-shadow: 0 4px 16px #20263126, inset 0 0 0 1px #282a2d1a;
                      padding: 0 0 10px 0;
-                     background-color: #ffffffbb;
+                     background-color: #ffffffdd;
                      -moz-transition: background-color 0.3s ease;
                      -webkit-transition: background-color 0.3s ease;
                      transition: background-color 0.3s ease;
@@ -3203,7 +3472,9 @@
                      height: 0 !important;
                  }
                  #search-jumper .sitelist>.sitelistCon>div {
-                     padding: 0 10px;
+                     margin: 0 4px;
+                     padding: 0 8px;
+                     border-radius: 6px;
                  }
                  #search-jumper .sitelist>.sitelistCon>div:hover {
                      background: #f5f7fa;
@@ -3253,6 +3524,8 @@
                      pointer-events: none;
                  }
                  #search-jumper .sitelist>.sitelistCon>p {
+                     display: flex;
+                     align-items: center;
                      color: #282a2d;
                      text-align: center;
                      font-size: 16px;
@@ -3262,13 +3535,43 @@
                      border-radius: 10px 10px 0 0;
                      overflow: hidden;
                      white-space: nowrap;
-                     text-overflow: ellipsis;
-                     padding: 3px 10px;
+                     padding: 6px 10px;
                      position: sticky;
                      top: 0;
                      pointer-events: none;
                      margin: -1px 0 0 0;
-                     backdrop-filter: blur(5px);
+                     backdrop-filter: blur(8px);
+                 }
+                 #search-jumper .sitelist>.sitelistCon>p>span {
+                     flex: 1;
+                     min-width: 0;
+                     overflow: hidden;
+                     text-overflow: ellipsis;
+                 }
+                 #search-jumper .search-jumper-split-btn {
+                     display: none;
+                     flex: none;
+                     white-space: nowrap;
+                     font: inherit;
+                     font-size: 12px;
+                     font-weight: normal;
+                     padding: 2px 6px;
+                     margin: 0 4px;
+                     border: 0;
+                     border-radius: 5px;
+                     background: rgb(160 160 160 / 10%);
+                     color: inherit;
+                     cursor: pointer;
+                 }
+                 #search-jumper.search-jumper-showall #search-jumper-alllist .search-jumper-split-btn {
+                     display: inline-block;
+                 }
+                 #search-jumper .search-jumper-split-btn:hover {
+                     background: rgb(160 160 160 / 20%);
+                 }
+                 #search-jumper .search-jumper-split-btn:focus-visible {
+                     outline: 2px solid currentColor;
+                     outline-offset: 2px;
                  }
                  .search-jumper-searchBar.disable-pointer>.search-jumper-type {
                      pointer-events: none;
@@ -3346,7 +3649,7 @@
                      background: #f5f5f5f0;
                      border-radius: ${10 * this.tipsZoom}px!important;
                      padding: 6px;
-                     box-shadow: 0px 0px 10px 0px #000;
+                     box-shadow: 0 8px 24px #20263133, inset 0 0 0 1px #282a2d1a;
                      font-weight: bold;
                      ${searchData.prefConfig.noAni ? "" : "transition: all 0.2s ease;"}
                      color: black;
@@ -3704,31 +4007,44 @@
                      }
                      #search-jumper.search-jumper-showall #search-jumper-alllist.new-mode .sitelist>.sitelistCon {
                          width: calc(100% - 20px);
+                         display: grid;
+                         grid-template-columns: repeat(2, minmax(0, 1fr));
                      }
-                     #search-jumper-alllist>.timeInAll, #search-jumper-alllist>.dayInAll {
-                         margin: 10px;
+                     #search-jumper.search-jumper-showall #search-jumper-alllist.new-mode .sitelist>.sitelistCon>p {
+                         grid-column: 1 / -1;
+                         box-sizing: border-box;
+                         padding: 12px 16px;
+                     }
+                     #search-jumper #search-jumper-alllist.new-mode .sitelist>.sitelistCon>div {
+                         position: relative;
+                         min-width: 0;
+                     }
+                     #search-jumper-alllist>.clockInAll {
+                         right: 16px;
+                         bottom: 16px;
+                         max-width: calc(100vw - 32px);
                      }
                      #search-jumper #search-jumper-alllist.new-mode .sitelist a {
-                         width: calc(50vw - 45px);
+                         width: 100%;
+                         padding: 10px 0;
                      }
                      #search-jumper #search-jumper-alllist.new-mode .sitelist>.sitelistCon>div:before {
-                         width: 100px;
-                         margin-left: 68px;
+                         width: calc(100% - 64px);
+                         margin-left: 44px;
+                     }
+                     #search-jumper #search-jumper-alllist.new-mode .sitelist a>div {
+                         width: 28px;
+                         height: 28px;
+                         padding: 6px;
+                         margin: 0;
                      }
                      #search-jumper #search-jumper-alllist.new-mode .sitelist a>div>img {
+                         width: 28px;
+                         height: 28px;
                          margin-left: 0;
                      }
-                 }
-                 @media screen and (max-width: 380px) {
-                     #search-jumper #search-jumper-alllist.new-mode .sitelist a {
-                         width: calc(100vw - 60px);
-                     }
-                     #search-jumper #search-jumper-alllist.new-mode .sitelist>.sitelistCon>div:before {
-                         width: calc(100vw - 150px);
-                         margin-left: 85px;
-                     }
-                     #search-jumper #search-jumper-alllist.new-mode .sitelist a+p {
-                         width: calc(100vw - 60px);
+                     #search-jumper #search-jumper-alllist.new-mode .sitelist a>p {
+                         margin-left: 44px;
                      }
                  }
                  @media screen and (max-width: 800px) {
@@ -4097,20 +4413,21 @@
                  }
                  @media (prefers-color-scheme: dark) {
                      #search-jumper.search-jumper-showall #filterSites {
-                         background-color: #2a282cc0;
+                         background-color: #1c2127ee;
+                         box-shadow: 0 2px 12px #00000026, inset 0 0 0 1px #ffffff1a;
                      }
                      #search-jumper.search-jumper-showall #filterSites>input,
                      #search-jumper.search-jumper-showall #filterSites>textarea {
-                         background-color: #000000;
-                         color: white;
+                         background-color: #181c20;
+                         color: #d3d8df;
                      }
 
                      #search-jumper .sitelist > .sitelistCon {
                          background-color: #1C2127ee !important;
-                         box-shadow: 0px 0px 10px 0px #1c1c1c;
+                         box-shadow: 0 4px 16px #00000033, inset 0 0 0 1px #ffffff1a;
                      }
                      #search-jumper.search-jumper-showall .sitelist > .sitelistCon {
-                         background-color: #1C212760 !important;
+                         background-color: #1C2127b3 !important;
                      }
                      #search-jumper.search-jumper-showall .sitelist > .sitelistCon:hover {
                          background-color: #1C2127dd !important;
@@ -4125,7 +4442,7 @@
 
                      #search-jumper .sitelist > .sitelistCon > p,
                      #search-jumper .sitelist a > p {
-                         color: #b4b8bf !important;
+                         color: #d3d8df !important;
                      }
                      #search-jumper #search-jumper-alllist.new-mode .sitelist a:hover>p {
                          color: #f1404b !important;
@@ -4307,9 +4624,12 @@
                     target.initedTag = true;
                 });
 
+                const clockInAll = document.createElement('div');
+                clockInAll.className = 'clockInAll';
+                alllist.appendChild(clockInAll);
                 let timeInAll = document.createElement("span");
                 timeInAll.className = "timeInAll";
-                alllist.appendChild(timeInAll);
+                clockInAll.appendChild(timeInAll);
                 this.timeInAll = timeInAll;
 
                 this.modeSwitch = document.createElement("div");
@@ -4349,7 +4669,7 @@
 
                 let dayInAll = document.createElement("span");
                 dayInAll.className = "dayInAll";
-                alllist.appendChild(dayInAll);
+                clockInAll.appendChild(dayInAll);
                 this.dayInAll = dayInAll;
 
                 alllist.addEventListener(getSupportWheelEventName(), e => {
@@ -4988,12 +5308,13 @@
                              margin-left: -150px;
                              z-index: 2147483647;
                              background-color: #ffffff;
-                             border: 1px solid #afb3b6;
+                             border: 1px solid #282a2d1a;
                              border-radius: 10px;
-                             opacity: 0.95;
-                             filter: alpha(opacity=95);
-                             box-shadow: 5px 5px 20px 0px #000;
-                             color: #6e7070;
+                             opacity: 1;
+                             color-scheme: light dark;
+                             box-shadow: 0 12px 40px #20263133;
+                             color: #282a2d;
+                             font-family: Arial, "Microsoft YaHei", "Noto Sans SC", sans-serif;
                              font-size: initial;
                          }
                          .customInputFrame-body #customGroup {
@@ -5006,13 +5327,13 @@
                              height: 0 !important;
                          }
                          .customInputFrame-title {
-                             background: #458bd1!important;
+                             background: #357dc5!important;
                              display: flex!important;
                              align-items: center!important;
                              justify-content: center!important;
                              color: white!important;
                              font-weight: bold;
-                             font-size: 18px!important;
+                             font-size: 16px!important;
                              border-radius: 10px 10px 0 0!important;
                          }
                          .customInputFrame-title>img {
@@ -5041,8 +5362,8 @@
                              resize: both;
                              font-size: 11pt;
                              font-weight: normal;
-                             border-radius: 4px;
-                             border: 1px solid rgba(0, 0, 0, 0.23);
+                             border-radius: 8px;
+                             border: 1px solid #282a2d26;
                              margin: 4px;
                              font-family: inherit;
                              background-color: #FFF;
@@ -5055,20 +5376,21 @@
                          }
                          .customInputFrame-buttons {
                              text-align: center;
-                             margin-bottom: 5px;
+                             margin: 8px 4px;
                              display: flex;
                              justify-content: space-evenly;
                          }
                          .customInputFrame-buttons>button {
                              width: 32%;
-                             font-size: 16px;
+                             font-size: 14px;
                              cursor: pointer;
                              border: 1px solid #1976d2;
-                             border-radius: 4px;
-                             transition: all .3s;
+                             border-radius: 8px;
+                             transition: background-color .15s, box-shadow .15s;
                              color: #fff;
-                             background-color: #458bd1;
+                             background-color: #357dc5;
                              line-height: 25px;
+                             min-height: 32px;
                          }
                          .customInputFrame-buttons>button:hover {
                              color: #e3f2fd;
@@ -5103,8 +5425,8 @@
                              transition: opacity .1s;
                              background-color: #FFF;
                              color: #4A4A4A;
-                             border: 1px solid rgba(0, 0, 0, 0.23);
-                             border-radius: 4px;
+                             border: 1px solid #282a2d26;
+                             border-radius: 8px;
                              z-index: 10;
                              width: auto;
                              max-width: 35%;
@@ -5141,31 +5463,31 @@
                            .customInputFrame-body input,
                            .customInputFrame-body textarea,
                            .customInputFrame-body .select {
-                             background-color: black!important;
-                             color: #d5d5d5!important;
+                             background-color: #1c2127!important;
+                             color: #d3d8df!important;
                            }
                            .customInputFrame-body input:focus,
                            .customInputFrame-body textarea:focus,
                            .customInputFrame-body .select:focus {
-                             background-color: #1e1e1e!important;
+                             background-color: #283340!important;
                            }
                            .customInputFrame-body input,
                            .customInputFrame-body textarea,
                            .customInputFrame-body .select {
-                             border: 1px solid rgb(255 255 255 / 36%)!important;
-                             background-color: #0c0c0c!important;
+                             border: 1px solid #ffffff33!important;
+                             background-color: #181c20!important;
                            }
                            .customInputFrame-title,
                            .customInputFrame-buttons>button {
-                             background: #245d8f!important;
+                             background: #2a5c8d!important;
                            }
                            .customInputFrame-body .select>.options {
-                             border: 1px solid rgb(255 255 255 / 36%)!important;
-                             background-color: black;
-                             color: #d5d5d5;
+                             border: 1px solid #ffffff33!important;
+                             background-color: #1c2127;
+                             color: #d3d8df;
                            }
                            .customInputFrame-body .select>.options>p:hover {
-                             background: #1e1e1e;
+                             background: #283340;
                            }
                          }
                         `;
@@ -5356,21 +5678,22 @@
                         margin-left: -150px;
                         z-index: 100000;
                         background-color: #ffffff;
-                        border: 1px solid #afb3b6;
+                        border: 1px solid #282a2d1a;
                         border-radius: 10px;
-                        opacity: 0.95;
-                        filter: alpha(opacity=95);
-                        box-shadow: 5px 5px 20px 0px #000;
-                        color: #6e7070;
+                        opacity: 1;
+                        color-scheme: light dark;
+                        box-shadow: 0 12px 40px #20263133;
+                        color: #282a2d;
+                        font-family: Arial, "Microsoft YaHei", "Noto Sans SC", sans-serif;
                     }
                     .searchJumperModify-title {
-                        background: #458bd1!important;
+                        background: #357dc5!important;
                         display: flex!important;
                         align-items: center!important;
                         justify-content: center!important;
                         color: white!important;
                         font-weight: bold;
-                        font-size: 18px!important;
+                        font-size: 16px!important;
                         border-radius: 10px 10px 0 0!important;
                     }
                     .searchJumperModify-title>img {
@@ -5395,8 +5718,8 @@
                         resize: both;
                         font-size: 11pt;
                         font-weight: normal;
-                        border-radius: 4px;
-                        border: 1px solid rgba(0, 0, 0, 0.23);
+                        border-radius: 8px;
+                        border: 1px solid #282a2d26;
                         margin: 4px;
                         font-family: inherit;
                         background-color: #FFF;
@@ -5409,20 +5732,21 @@
                     }
                     .searchJumperModify-buttons {
                         text-align: center;
-                        margin-bottom: 5px;
+                        margin: 8px 4px;
                         display: flex;
                         justify-content: space-evenly;
                     }
                     .searchJumperModify-buttons>button {
                         width: 32%;
-                        font-size: 16px;
+                        font-size: 14px;
                         cursor: pointer;
                         border: 1px solid #1976d2;
-                        border-radius: 4px;
-                        transition: all .3s;
+                        border-radius: 8px;
+                        transition: background-color .15s, box-shadow .15s;
                         color: #fff;
-                        background-color: #458bd1;
+                        background-color: #357dc5;
                         line-height: 25px;
+                        min-height: 32px;
                     }
                     .searchJumperModify-buttons>button:hover {
                         color: #e3f2fd;
@@ -5453,22 +5777,22 @@
                       .searchJumperModify-body>input[type=number],
                       .searchJumperModify-body>textarea,
                       .searchJumperModify-body>select {
-                        background-color: black!important;
-                        color: #d5d5d5!important;
+                        background-color: #1c2127!important;
+                        color: #d3d8df!important;
                       }
                       .searchJumperModify-body>input:focus,
                       .searchJumperModify-body>textarea:focus,
                       .searchJumperModify-body>select:focus {
-                        background-color: #1e1e1e!important;
+                        background-color: #283340!important;
                       }
                       .searchJumperModify-body>input[type=text],
                       .searchJumperModify-body>input[type=number],
                       .searchJumperModify-body>textarea {
-                        border: 1px solid rgb(255 255 255 / 36%)!important;
+                        border: 1px solid #ffffff33!important;
                       }
                       .searchJumperModify-title,
                       .searchJumperModify-buttons>button {
-                        background: #245d8f!important;
+                        background: #2a5c8d!important;
                       }
                       #rangePickerBtn {
                         background: rgb(0 0 0 / 80%);
@@ -6944,21 +7268,14 @@
                 document.documentElement.style.scrollbarWidth = "none";
                 clearInterval(this.showAllTimeTimer);
                 const days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
-                if (window.innerWidth < 1000) {
-                    self.timeInAll.style.fontSize = "15px";
-                    self.dayInAll.style.fontSize = "15px";
-                } else {
-                    self.timeInAll.style.fontSize = "";
-                    self.dayInAll.style.fontSize = "";
-                }
                 let now = new Date();
                 let year = now.getFullYear(), month = now.getMonth(), date = now.getDate();
-                let dayLabelStr = i18n(days[now.getDay()]) + "<br/>" + year + '-' + (++month < 10 ? '0' + month : month) + '-' + (date < 10 ? '0' + date : date);
+                let dayLabelStr = year + '-' + (++month < 10 ? '0' + month : month) + '-' + (date < 10 ? '0' + date : date) + ' · ' + i18n(days[now.getDay()]);
                 if (lang.indexOf("zh") == 0 || lang.indexOf("ja") == 0) {
                     let lunar = sloarToLunar(year, month, date);
                     if (lunar) {
                         let lunarStr = `${lunar.lunarYear}年${lunar.lunarMonth}月${lunar.lunarDay}`;
-                        dayLabelStr = dayLabelStr + "<br/>" + lunarStr;
+                        dayLabelStr = dayLabelStr + '<small>' + lunarStr + '</small>';
                     }
                 }
                 setHTML(self.dayInAll, dayLabelStr);
@@ -9106,13 +9423,26 @@
                     self.listArrow.style.cssText = "";
                 });
                 let title = document.createElement("p");
-                title.innerText = type.dataset.title;
+                const titleText = document.createElement('span');
+                titleText.textContent = type.dataset.title;
+                title.appendChild(titleText);
                 title.title = i18n('batchOpen');
                 title.addEventListener('click', e => {
                     self.batchOpen(batchSiteNames, {ctrlKey: e.ctrlKey, shiftKey: e.shiftKey, altKey: e.altKey, metaKey: e.metaKey, button: (e.ctrlKey || e.shiftKey || e.altKey || e.metaKey) ? 0 : 2});
                 });
                 list.dataset.type = type.dataset.type;
                 con.appendChild(title);
+                if (splitEnabled && !isSplitPage) {
+                    const splitButton = document.createElement('button');
+                    splitButton.type = 'button';
+                    splitButton.textContent = i18n('split').button;
+                    splitButton.className = 'search-jumper-split-btn';
+                    splitButton.addEventListener('click', event => {
+                        event.stopPropagation();
+                        self.openSplitSearch(batchSiteNames).catch(error => window.alert(error.message));
+                    });
+                    title.appendChild(splitButton);
+                }
                 function createItem(siteEle, index) {
                     let li = document.createElement("div");
                     li.id = "list" + index;
@@ -10039,12 +10369,42 @@
                 siteEle.setAttribute("target", siteEle.dataset.target == 1 ? "_blank" : "_self");
             }
 
+            async openSplitSearch(siteNames) {
+                const query = this.searchJumperInputKeyWords.value || getKeywords() || this.tileInput.value || window.prompt(i18n('keywords'));
+                if (!query || !query.trim()) return;
+                const context = {
+                    pageUrl: location.href, title: document.title, charset: document.characterSet, elements: {},
+                    target: targetElement && {nodeName: targetElement.nodeName, href: targetElement.href, src: targetElement.src,
+                        title: targetElement.title, alt: targetElement.alt, textContent: targetElement.nodeName === 'A' ? targetElement.textContent : ''}
+                };
+                const entries = [];
+                const skipped = [];
+                for (const button of this.getTargetSitesByName(siteNames)) {
+                    if (!button.resolveSplit) { skipped.push(button.dataset.name); continue; }
+                    const request = await button.resolveSplit(query, context);
+                    if (!request) { skipped.push(button.dataset.name); continue; }
+                    entries.push({id: crypto.randomUUID(), name: button.dataset.name, site: button.splitSite,
+                        type: button.splitType, request});
+                }
+                if (!entries.length) throw new Error(i18n('split').noEngines);
+                const response = await chrome.runtime.sendMessage({action: 'splitOpen', query, context, entries, skipped, lang});
+                if (!response?.ok) throw new Error(i18n('split')[response?.error] || response?.error || i18n('split').ended);
+            }
+
             async batchOpen(siteNames, e, newTab) {
+                const targetSites = this.getTargetSitesByName(siteNames);
+                const groupSplit = !isSplitPage && newTab !== true && targetSites.length &&
+                    targetSites.every(button => button.splitType?.openInNewTab === 5);
+                if (splitEnabled && ((e.altKey && e.shiftKey) ||
+                    ((newTab === 5 || groupSplit) && !e.altKey && !e.ctrlKey && !e.shiftKey && !e.metaKey))) {
+                    try { await this.openSplitSearch(siteNames); }
+                    catch (error) { window.alert(error.message); }
+                    return;
+                }
                 let self = this;
                 self.batchOpening = true;
                 self.customInput = false;
                 if (e.altKey && e.shiftKey) {
-                    let targetSites = self.getTargetSitesByName(siteNames);
                     let viewWidth = window.innerWidth || document.documentElement.clientWidth;
                     let html = '<title>SearchJumper Multi</title><style>body{background: black; margin: 0;}iframe{box-sizing: border-box;padding: 5px}</style>';
                     let c = window.open("", "_blank"), i = 1;
@@ -10104,7 +10464,6 @@
                     c.document.write(html);
                     c.document.close();
                 } else if ((e.ctrlKey || e.metaKey) && e.shiftKey) {
-                    let targetSites = self.getTargetSitesByName(siteNames);
                     for (let siteEle of targetSites) {
                         await self.siteSetUrl(siteEle);
                         if (self.stopInput) return;
@@ -10125,7 +10484,6 @@
                         }
                     }
                 } else if (e.altKey) {
-                    let targetSites = self.getTargetSitesByName(siteNames);
                     let urls=[];
                     for (let siteEle of targetSites) {
                         if (siteEle.dataset.isPage) {
@@ -10147,7 +10505,6 @@
                         window.open(urls[i] + "#searchJumperMin", "_blank", `width=${_width-10}, height=${_height}, location=0, resizable=1, status=0, toolbar=0, menubar=0, scrollbars=0, left=${left}, top=${top}`);
                     }
                 } else if (e.shiftKey) {
-                    let targetSites = self.getTargetSitesByName(siteNames);
                     for (let siteEle of targetSites) {
                         await self.siteSetUrl(siteEle);
                         if (self.stopInput) return;
@@ -10166,7 +10523,7 @@
                         }
                     }
                 } else if (e.ctrlKey || e.metaKey) {
-                    let targetSites = self.getTargetSitesByName(siteNames).reverse();
+                    targetSites.reverse();
                     for (let siteEle of targetSites) {
                         await self.siteSetUrl(siteEle);
                         let isPage = siteEle.dataset.isPage;
@@ -10178,7 +10535,6 @@
                         siteEle.click();
                     }
                 } else if (e.button === 2) {
-                    let targetSites = self.getTargetSitesByName(siteNames);
                     targetSites.reverse().forEach(siteEle => {
                         if (siteEle.dataset.current) return;
                         self.openSiteBtn(siteEle, "_blank", !!newTab);
@@ -10228,17 +10584,17 @@
                 params = params.slice();
                 if (document.readyState !== 'complete' && document.readyState !== 'interactive') {
                     await sleep(300);
-                    this.submitAction(params);
-                    return;
+                    return this.submitAction(params);
                 }
                 let form, input, clicked = false, self = this, inLoop = false, loopTimes = 0, loopArr = [];
                 let opened = false, copyList = [];
-                let copyStore = await storage.getItem("copyStore");
+                let copyStore = splitTaskSignal ? null : await storage.getItem("copyStore");
                 if (copyStore) {
                     copyList = JSON.parse(copyStore);
                 }
 
                 let singleAction = async (param, eleIndex) => {
+                    checkSplitTask();
                     let result = true;
                     if (param[0] === "sleep" || param[0] === "@sleep") {
                         await sleep(param[1]);
@@ -10279,11 +10635,14 @@
                         }
                     } else if (param[0] === '@open') {
                         let btn = await waitForElement(param[1]);
+                        checkSplitTask();
+                        const signal = splitTaskSignal;
                         if (opened) {
                             _GM_openInTab(btn.href);
                         } else {
                             opened = true;
                             setTimeout(() => {
+                                if (signal?.aborted) return;
                                 location.href = btn.href;
                             }, 50);
                         }
@@ -10373,6 +10732,7 @@
                     }
                 }
 
+                checkSplitTask();
                 if (!clicked && input) {
                     form = input.parentNode;
                     while (form.nodeName.toUpperCase() != 'FORM') {
@@ -10633,7 +10993,7 @@
                     ele.dataset.link = true;
                 }
                 let inputString;
-                let getUrl = async (_keyWords) => {
+                let getUrl = async (_keyWords, splitContext) => {
                     self.customInput = false;
                     dataUrl = data.url;
                     inputString = "";
@@ -10664,8 +11024,8 @@
                         }
                         postMatch = dataUrl.match(/#p{([\s\S]*[^\\])}/);
                     }
-                    let host = location.host;
-                    let href = location.href;
+                    let href = splitContext?.pageUrl || location.href;
+                    let host = new URL(href).host;
                     let targetName;
                     let customReplaceSingle = (str, key, value, after) => {
                         if (str.indexOf(key + "[") !== -1) {
@@ -10815,6 +11175,10 @@
                                     }
                                 }
                             }
+                            if (splitContext) {
+                                if (isSplitPage) value = splitContext.elements[customMatch[0]] || '';
+                                else splitContext.elements[customMatch[0]] = value;
+                            }
                             str = customReplaceSingle(str, customMatch[0], needDecode ? value : encodeURIComponent(value));
                             customMatch = str.match(/%element{(.*?)}(\.prop\((.*?)\))?/);
                         }
@@ -10861,10 +11225,10 @@
                         if (inPagePost) {
                             tempUrl = tempUrl.replace(postMatch[0], "");
                         }
-                        ele.dataset.url = tempUrl.replace(/%e\b/g, document.characterSet).replace(/%c\b/g, (isMobile?"mobile":"pc"));
+                        ele.dataset.url = tempUrl.replace(/%e\b/g, splitContext?.charset || document.characterSet).replace(/%c\b/g, (isMobile?"mobile":"pc"));
                     }
                     let targetUrl = '', targetLink = '';
-                    targetName = inputString || document.title;
+                    targetName = inputString || splitContext?.title || document.title;
                     let imgBase64 = '', resultUrl = customVariable(ele.dataset.url);
                     if (targetElement && targetElement.nodeName) {
                         targetUrl = targetElement.href || (targetElement.parentNode && targetElement.parentNode.href) || '';
@@ -10879,7 +11243,7 @@
                             }
                             if (targetUrl) targetUrl = targetUrl.replace(/^blob:/, "");
                         }
-                        targetName = targetElement.title || targetElement.alt || document.title;
+                        targetName = targetElement.title || targetElement.alt || splitContext?.title || document.title;
                         if (targetElement.nodeName.toUpperCase() == 'IMG' && /%i\b/.test(dataUrl)) {
                             if (targetElement.src) {
                                 if (/^data/.test(targetElement.src)) {
@@ -11134,7 +11498,10 @@
                         if (hasCall) {
                             self.updateCacheKeywords();
                         }
-                        if (resultUrl === "" || resultUrl === location.href) {
+                        if (splitContext) {
+                            splitContext.request.actions = postParams;
+                            if (!resultUrl) resultUrl = splitContext.pageUrl;
+                        } else if (resultUrl === "" || resultUrl === location.href) {
                             inPagePostParams = postParams;
                             this.submitAction(postParams);
                             return false;
@@ -11154,6 +11521,31 @@
                     }
                     return resultUrl;
                 };
+                if (splitEnabled) ele.splitType = {...typeData, sites: undefined};
+                if (splitEnabled && /^(https?:|#p\{)/i.test(data.url) && !/[:%]P\{/.test(data.url)) {
+                    ele.splitSite = {...data};
+                    ele.resolveSplit = async (query, context) => {
+                        const request = {};
+                        const savedTarget = targetElement;
+                        if (isSplitPage) targetElement = context.target || getBody(document);
+                        delete ele.dataset.url;
+                        let url;
+                        try { url = await getUrl(query, {...context, request}); }
+                        finally { targetElement = savedTarget; }
+                        if (!url) return null;
+                        url = url.trim();
+                        const targetUrl = url.replace(/[:%]p\{[\s\S]*?\}/, '').replace(/#(j(umpFrom|f)?|from)\{.*?\}/, '');
+                        if (!/^https?:\/\//i.test(targetUrl)) return null;
+                        request.url = targetUrl;
+                        request.kind = request.actions ? 'automation' :
+                            (/[:%]p\{/.test(url) || (data.charset && data.charset.toLowerCase() !== 'utf-8')) ? 'form' : 'get';
+                        if (request.kind === 'form') {
+                            request.formUrl = url;
+                            request.charset = data.charset || 'utf-8';
+                        }
+                        return request;
+                    };
+                }
                 let targetUrlData;
                 let clicked = false;
                 let alt, ctrl, meta, shift;
@@ -11336,6 +11728,11 @@
                     if (!self.batchOpening && !isBookmark) {
                         addHistory();
                     }
+                    if (splitEnabled && !isSplitPage && openInNewTab === 5 && ele.resolveSplit && !alt && !ctrl && !meta && !shift) {
+                        e.preventDefault && e.preventDefault();
+                        self.openSplitSearch([data.name]).catch(error => window.alert(error.message));
+                        return false;
+                    }
                     if (searchData.prefConfig.multiline == 1 || searchData.prefConfig.multiline == 2) {
                         if (inputString &&
                             wordParamReg.test(ele.dataset.url) &&
@@ -11485,7 +11882,7 @@
                         if (e.preventDefault) e.preventDefault();
                         if (e.stopPropagation) e.stopPropagation();
                         let siteNames = JSON.parse(data.url);
-                        self.batchOpen(siteNames, {button: 2, altKey: alt || e.altKey, ctrlKey: ctrl || e.ctrlKey, shiftKey: shift || e.shiftKey, metaKey: meta || e.metaKey}, openInNewTab === 1);
+                        self.batchOpen(siteNames, {button: 2, altKey: alt || e.altKey, ctrlKey: ctrl || e.ctrlKey, shiftKey: shift || e.shiftKey, metaKey: meta || e.metaKey}, openInNewTab === 5 ? 5 : openInNewTab === 1);
                         return false;
                     } else if (/[:%]P{/.test(data.url)) {
                         if (e.preventDefault) e.preventDefault();
@@ -13663,8 +14060,14 @@
         }
 
         async function waitForElement(sel) {
-            return new Promise((resolve) => {
+            return new Promise((resolve, reject) => {
+                const signal = splitTaskSignal;
                 let checkInv = setInterval(() => {
+                    if (signal?.aborted) {
+                        clearInterval(checkInv);
+                        reject(signal.reason);
+                        return;
+                    }
                     let result = null;
                     if (!sel) {
                         result = document.readyState === "complete";
@@ -13682,8 +14085,14 @@
 
         async function waitForElementHide(sel) {
             if (!sel) return null;
-            return new Promise((resolve) => {
+            return new Promise((resolve, reject) => {
+                const signal = splitTaskSignal;
                 let checkInv = setInterval(() => {
+                    if (signal?.aborted) {
+                        clearInterval(checkInv);
+                        reject(signal.reason);
+                        return;
+                    }
                     let result = getElement(sel);
                     if (!result) {
                         clearInterval(checkInv);
@@ -13695,6 +14104,7 @@
 
         let reachLast = false;
         async function startInput(input, v) {
+            checkSplitTask();
             if (!input) return true;
             targetElement = input;
             let event = new FocusEvent('focusin', { bubbles: true });
@@ -13741,7 +14151,8 @@
                     contentEditableParent.dispatchEvent(new InputEvent('beforeinput', {inputType: "insertText", data: v}));
                     await sleep(1);
                     if (input.innerText !== v) {
-                        setHTML(input, v);
+                        if (splitTaskSignal) input.innerText = v;
+                        else setHTML(input, v);
                     }
                 } else {
                     let file = v;
@@ -13773,6 +14184,7 @@
         }
 
         async function returnElement(sel, eleIndex = -1) {
+            checkSplitTask();
             reachLast = false;
             let ele;
             if (eleIndex >= 0) {
@@ -13796,11 +14208,13 @@
                 ele = await waitForElement(sel);
                 if (!ele) return true;
             }
+            checkSplitTask();
             return ele;
         }
 
         async function emuInput(sel, v, eleIndex = -1) {
             let input = await returnElement(sel, eleIndex);
+            checkSplitTask();
             if (input === true) return true;
             await startInput(input, v);
             return reachLast;
@@ -13808,6 +14222,7 @@
 
         async function emuClick(sel, eleIndex = -1) {
             let btn = await returnElement(sel, eleIndex);
+            checkSplitTask();
             if (btn === true) return true;
             targetElement = btn;
             if(!PointerEvent) return btn.click();
@@ -15567,6 +15982,7 @@
                         searchData: searchData,
                         cacheIcon: cacheIcon,
                         version: _GM_info.script.version || 0,
+                        splitEnabled,
                         command: 'loadConfig'
                     }, '*');
                 }
@@ -15995,24 +16411,25 @@
                         width: 350px;
                         text-align: left;
                         background-color: #ffffff;
-                        border: 1px solid #afb3b6;
+                        border: 1px solid #282a2d1a;
                         border-radius: 10px;
-                        opacity: 0.95;
-                        filter: alpha(opacity=95);
-                        box-shadow: 5px 5px 20px 0px #000;
-                        color: #6e7070;
+                        opacity: 1;
+                        color-scheme: light dark;
+                        box-shadow: 0 12px 40px #20263133;
+                        color: #282a2d;
+                        font-family: Arial, "Microsoft YaHei", "Noto Sans SC", sans-serif;
                         transition: all 0.25s ease;
                         border: 0;
                         font-size: initial;
                     }
                     .searchJumperFrame-title {
-                        background: #458bd1!important;
+                        background: #357dc5!important;
                         display: flex!important;
                         align-items: center!important;
                         justify-content: center!important;
                         color: white!important;
                         font-weight: bold;
-                        font-size: 18px!important;
+                        font-size: 16px!important;
                         border-radius: 10px 10px 0 0!important;
                     }
                     .searchJumperFrame-title>img {
@@ -16028,14 +16445,15 @@
                     }
                     .searchJumperFrame-buttons>button {
                         width: 32%;
-                        font-size: 16px;
+                        font-size: 14px;
                         cursor: pointer;
                         border: 1px solid #1976d2;
-                        border-radius: 4px;
-                        transition: all .3s;
+                        border-radius: 8px;
+                        transition: background-color .15s, box-shadow .15s;
                         color: #fff;
-                        background-color: #458bd1;
+                        background-color: #357dc5;
                         line-height: 25px;
+                        min-height: 32px;
                         padding: 3px;
                     }
                     .searchJumperFrame-buttons>button:hover {
@@ -16054,6 +16472,7 @@
                     .searchJumperFrame-body>.sitesCon>details>summary>span,
                     .searchJumperFrame-body>.sitesCon>details>div>span {
                         line-height: 25px;
+                        min-height: 32px;
                         overflow: hidden;
                         text-overflow: ellipsis;
                         max-width: 180px;
@@ -16086,12 +16505,12 @@
                       .searchJumperFrame-inputs>textarea,
                       .searchJumperFrame-inputs>select,
                       .searchJumperFrame-body select {
-                        background-color: black;
-                        color: #d5d5d5;
+                        background-color: #1c2127;
+                        color: #d3d8df;
                       }
                       .searchJumperFrame-title,
                       .searchJumperFrame-buttons>button {
-                        background: #245d8f!important;
+                        background: #2a5c8d!important;
                       }
                     }
                 `;
@@ -16800,24 +17219,25 @@
                         margin-left: -150px;
                         z-index: 100000;
                         background-color: #ffffff;
-                        border: 1px solid #afb3b6;
+                        border: 1px solid #282a2d1a;
                         border-radius: 10px;
-                        opacity: 0.95;
-                        filter: alpha(opacity=95);
-                        box-shadow: 5px 5px 20px 0px #000;
-                        color: #6e7070;
+                        opacity: 1;
+                        color-scheme: light dark;
+                        box-shadow: 0 12px 40px #20263133;
+                        color: #282a2d;
+                        font-family: Arial, "Microsoft YaHei", "Noto Sans SC", sans-serif;
                         transition: all 0.25s ease;
                         border: 0;
                         font-size: initial;
                     }
                     .searchJumperFrame-title {
-                        background: #458bd1!important;
+                        background: #357dc5!important;
                         display: flex!important;
                         align-items: center!important;
                         justify-content: center!important;
                         color: white!important;
                         font-weight: bold;
-                        font-size: 18px!important;
+                        font-size: 16px!important;
                         border-radius: 10px 10px 0 0!important;
                     }
                     .draging .searchJumperFrame-body,
@@ -16848,8 +17268,8 @@
                         resize: both;
                         font-size: 11pt;
                         font-weight: normal;
-                        border-radius: 4px;
-                        border: 1px solid rgba(0, 0, 0, 0.23);
+                        border-radius: 8px;
+                        border: 1px solid #282a2d26;
                         margin: 4px;
                         font-family: inherit;
                         background-color: #FFF;
@@ -16872,20 +17292,21 @@
                     }
                     .searchJumperFrame-buttons {
                         text-align: center;
-                        margin-bottom: 5px;
+                        margin: 8px 4px;
                         display: flex;
                         justify-content: space-evenly;
                     }
                     .searchJumperFrame-buttons>button {
                         width: 32%;
-                        font-size: 16px;
+                        font-size: 14px;
                         cursor: pointer;
                         border: 1px solid #1976d2;
-                        border-radius: 4px;
-                        transition: all .3s;
+                        border-radius: 8px;
+                        transition: background-color .15s, box-shadow .15s;
                         color: #fff;
-                        background-color: #458bd1;
+                        background-color: #357dc5;
                         line-height: 25px;
+                        min-height: 32px;
                         padding: 3px;
                     }
                     .searchJumperFrame-buttons>button:hover {
@@ -17002,7 +17423,7 @@
                     }
                     .searchJumperFrame-crawlBody>.actionCon>div {
                         width: 100%;
-                        font-size: 16px;
+                        font-size: 14px;
                         background: #000000cc;
                         border-radius: 8px;
                         color: white;
@@ -17031,24 +17452,24 @@
                       .searchJumperFrame-inputs>textarea,
                       .searchJumperFrame-inputs>select,
                       .searchJumperFrame-body select {
-                        background-color: black!important;
-                        color: #d5d5d5!important;
+                        background-color: #1c2127!important;
+                        color: #d3d8df!important;
                       }
                       .searchJumperFrame-inputs>input:focus,
                       .searchJumperFrame-inputs>textarea:focus,
                       .searchJumperFrame-inputs>select:focus,
                       .searchJumperFrame-body select:focus {
-                        background-color: #1e1e1e!important;
+                        background-color: #283340!important;
                       }
                       .searchJumperFrame-inputs>input,
                       .searchJumperFrame-inputs>textarea,
                       .searchJumperFrame-inputs>select,
                       .searchJumperFrame-body select {
-                        border: 1px solid rgb(255 255 255 / 36%);
+                        border: 1px solid #ffffff33;
                       }
                       .searchJumperFrame-title,
                       .searchJumperFrame-buttons>button {
-                        background: #245d8f!important;
+                        background: #2a5c8d!important;
                       }
                       .searchJumperFrame-body>.iconsCon>img {
                         border: 2px solid #000000;
@@ -18005,6 +18426,18 @@
         }
 
         async function sleep(time) {
+            if (splitTaskSignal) {
+                const signal = splitTaskSignal;
+                signal.throwIfAborted();
+                return new Promise((resolve, reject) => {
+                    const abort = () => { clearTimeout(timer); reject(signal.reason); };
+                    const timer = setTimeout(() => {
+                        signal.removeEventListener('abort', abort);
+                        resolve();
+                    }, time);
+                    signal.addEventListener('abort', abort, {once: true});
+                });
+            }
             await new Promise((resolve) => {
                 setTimeout(() => {
                     resolve();
@@ -18206,6 +18639,73 @@
         }
         if (document.title == 'SearchJumper Multi') return;
 
+        async function initSplit() {
+            const saved = await storage.getItem('searchData');
+            if (saved) {
+                searchData = {...searchData, ...saved, prefConfig: {...searchData.prefConfig, ...saved.prefConfig}};
+            }
+            if (searchData.prefConfig.lang && searchData.prefConfig.lang !== '0') lang = searchData.prefConfig.lang;
+            setLang();
+            cacheIcon = {};
+            cacheKeywords = '';
+            initView();
+            searchBar.siteIndex = 1;
+            searchBar.allSiteBtns = [];
+            searchBar.allListBtns = [];
+            searchBar.allLists = [];
+            targetElement = getBody(document);
+            if (isSplitPage) {
+                const buttons = new Map();
+                window.dispatchEvent(new CustomEvent('searchjumper-split-ready', {detail: {
+                    text: i18n('split'),
+                    resolve: async (entry, query, context) => {
+                        if (!buttons.has(entry.id)) {
+                            const button = await searchBar.createSiteBtn('0', {...entry.site}, true, false, entry.type || {});
+                            buttons.set(entry.id, button);
+                            searchBar.allSiteBtns.push([button, entry.site]);
+                        }
+                        searchBar.stopInput = false;
+                        return buttons.get(entry.id).resolveSplit(query, context);
+                    },
+                    submitForm: submitByForm
+                }}));
+                return;
+            }
+            let controller;
+            let running = Promise.resolve();
+            const report = message => chrome.runtime.sendMessage({
+                action: 'splitFrameResult', paneId: splitFrame.paneId, ...message
+            }).catch(error => console.warn('SearchJumper split:', error.message));
+            chrome.runtime.onMessage.addListener((request, sender, respond) => {
+                if (sender.id !== chrome.runtime.id) return;
+                if (request.command === 'splitCancel') {
+                    controller?.abort(new DOMException('Cancelled', 'AbortError'));
+                    respond({ok: true});
+                } else if (request.command === 'splitExecute') {
+                    controller?.abort(new DOMException('Superseded', 'AbortError'));
+                    const next = new AbortController();
+                    controller = next;
+                    running = running.catch(() => {}).then(async () => {
+                        if (next.signal.aborted) return;
+                        splitTaskSignal = next.signal;
+                        const timer = setTimeout(() => next.abort(new Error('timeout')), 30000);
+                        try {
+                            await searchBar.submitAction(request.actions);
+                            checkSplitTask();
+                            await report({requestId: request.requestId, status: 'done'});
+                        } catch (error) {
+                            if (error.name !== 'AbortError') await report({requestId: request.requestId, status: 'error', error: error.message});
+                        } finally {
+                            clearTimeout(timer);
+                            splitTaskSignal = null;
+                        }
+                    });
+                    respond({ok: true});
+                }
+            });
+            await chrome.runtime.sendMessage({action: 'splitFrameReady', paneId: splitFrame.paneId});
+        }
+
         var inited = false;
         var checkGlobalIntv, flashTitleIntv, defaultTitle;
         async function init(cb) {
@@ -18215,6 +18715,14 @@
             }
             inited = true;
             try {
+                if (isSplitPage || splitFrame?.ok) {
+                    try { await initSplit(); }
+                    catch (error) {
+                        if (isSplitPage) window.dispatchEvent(new CustomEvent('searchjumper-split-error', {detail: error.message}));
+                        else console.error('SearchJumper split:', error);
+                    }
+                    return;
+                }
                 preAction();
                 await initData();
                 if (disableState) return;
@@ -18321,6 +18829,7 @@
 
         const startupSelection = captureStartupSelection();
         storage.getItem("postUrl", postUrl => {
+            if (isSplitPage || splitFrame?.ok) postUrl = null;
             if (postUrl && postUrl[0].indexOf(location.hostname.replace(/.*\.(\w+\.\w+)/, "$1")) != -1) {
                 startupSelection.cancel();
                 storage.setItem("postUrl", '');
@@ -18340,7 +18849,7 @@
                     };
                     checkReady();
                 }
-                document.addEventListener('visibilitychange', visibilitychangeHandler);
+                if (!isSplitPage && !splitFrame?.ok) document.addEventListener('visibilitychange', visibilitychangeHandler);
             }
         });
     }
