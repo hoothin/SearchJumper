@@ -55,6 +55,7 @@ body :is(.MuiPaper-elevation5, .MuiAccordion-root, .MuiDialog-paper, .MuiPopover
 #tabs .MuiTabs-root { border-right: 0; }
 #tabs .MuiTab-root {
   align-items: flex-start;
+  text-align: left;
   min-height: 44px;
   margin: 2px 0;
   padding: 10px 16px;
