@@ -15615,7 +15615,7 @@
                     }
                     const draggableElement = targetElement.closest('[draggable="true"]');
                     if (!e.altKey && !e.ctrlKey && !e.shiftKey && !e.metaKey &&
-                        !/^(auto|default)$/.test(getComputedStyle(targetElement).cursor)) return;
+                        !/^(auto|default|pointer)$/.test(getComputedStyle(targetElement).cursor)) return;
                     if (draggableElement && draggableElement.nodeName !== 'A') return;
                     const startDrag = event => {
                         searchBar.funcKeyCall = true;
