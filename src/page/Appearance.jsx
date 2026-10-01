@@ -237,7 +237,7 @@ export default function Appearance() {
     React.useEffect(() => {
         const timeout = setTimeout(() => setPreviewError(true), 10000);
         const receive = event => {
-            if (event.source !== window || event.data?.command !== 'appearancePreview') return;
+            if (event.source !== window || event.origin !== window.location.origin || event.data?.command !== 'appearancePreview') return;
             if (event.data.error) {
                 clearTimeout(timeout);
                 setPreviewError(true);

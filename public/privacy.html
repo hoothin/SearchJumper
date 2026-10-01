@@ -1,10 +1,50 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>SearchJumper Privacy Policy</title>
+  <style>
+    body { font: 16px/1.65 system-ui, sans-serif; max-width: 960px; margin: 32px auto; padding: 0 20px; }
+    table { border-collapse: collapse; width: 100%; }
+    th, td { border: 1px solid #bbb; padding: 10px; text-align: left; vertical-align: top; }
+    code { overflow-wrap: anywhere; }
+  </style>
+</head>
+<body>
 <h1>SearchJumper Privacy Policy</h1>
-<p><strong>Last Updated: June 20, 2024</strong></p>
-<h2>Information We Collect</h2>
-<p>The SearchJumper extension does not collect or store any personal information. It only uses the basic browsing data generated when you visit web pages to provide its service. This data includes the URL, title, and content of the pages you access. However, this data is not associated with you personally or stored anywhere.</p>
-<h2>How We Use Collected Information</h2>
-<p>SearchJumper uses the collected data to provide you with a faster search-switching experience. It analyzes the selected content of the pages you visit and recommends related websites based on your settings. However, this information is all anonymous and temporary - it is not saved or used for any other purpose.</p>
-<h2>Sharing of Information</h2>
-<p>SearchJumper does not share or sell your personal information to any third parties. We are committed to protecting your privacy.</p>
-<h2>Contact Us</h2>
-<p>If you have any questions or concerns about SearchJumper's privacy policy, please send an email to <a href="mailto:rixixi@gmail.com" node="[object Object]" target="_blank">rixixi@gmail.com</a>. We will respond to you as soon as possible.</p>
+<p><strong>Last updated: October 1, 2026</strong></p>
+<p>SearchJumper processes page content in your browser to show search tools, match engines, and highlight words. It also makes network requests for the features and resources described below. “Stored locally” does not mean that every feature works without network access.</p>
+
+<h2>Data stored on your device</h2>
+<p>Extension storage or the userscript manager stores your engines, preferences, saved highlighting rules, recent engine choices, and optional WebDAV connection details. Saved rules can contain page URLs and words. Icon caches and some recent search or highlighting state are also stored locally. Temporary image actions in the extension use session storage. SearchJumper does not add its own encryption to these stores.</p>
+<p>Saved WebDAV passwords are used by the extension background or userscript environment. Configuration pages receive the server, username, directory, and whether a password is saved; they do not receive the saved password. Newly entered passwords pass from the form to that environment. Full configuration backups exclude the WebDAV password. Old backups containing a password remain importable.</p>
+
+<h2>When network requests occur</h2>
+<table>
+  <thead><tr><th>Feature and timing</th><th>Recipient and data</th></tr></thead>
+  <tbody>
+    <tr><td>Searches, image searches, and custom engines or APIs, when triggered</td><td>The configured destination receives the query and any configured parameters, such as a selected link, page URL or title, image, request body, or headers. Login cookies and authentication needed by those features may be used.</td></tr>
+    <tr><td>Search suggestions, when enabled, after an input pause of about 200 ms</td><td>The selected provider (Google, Bing, or Baidu) receives text before you submit a search. Public suggestion requests omit cookies and unnecessary referrer information. New installations default to disabled; upgrades preserve existing choices, including the previous language default when an old configuration lacks this setting. Disabling suggestions stops new suggestion requests.</td></tr>
+    <tr><td>Engine icons and font icons, when displayed or cached</td><td>Icon hosts, configured icon services, or the font CDN receive resource requests. Turning off icon caching stops persistent caching, not all downloads. Icon requests no longer explicitly attach the full URL of the page you are visiting.</td></tr>
+    <tr><td>Background images and daily Bing backgrounds, when configured</td><td>The image host or Bing receives the request. Custom CSS can also load resources from addresses you specify.</td></tr>
+    <tr><td>WebDAV synchronization, after you configure an account and when loading or changing synchronized data</td><td>Your chosen server receives authentication, engine configurations, saved highlighting rules, and a modification timestamp. Connection checks may create directories. Other preferences are not part of this synchronization. A failed download does not authorize overwriting the remote data.</td></tr>
+    <tr><td>Optional account and sharing services, when you request an account or use their controls</td><td><code>search.hoothin.com</code> and <code>webdav.hoothin.com</code> process the account and sharing operations, including usernames, entered service fields, shared engines, share titles, and share passwords. The account service supplies a WebDAV account; it is not contacted to register an account automatically.</td></tr>
+    <tr><td>Configuration and welcome pages, when opened</td><td>Hosted pages contact their hosting service. The welcome page opens on first use and can load third-party resources, including advertising, under those sites' own policies. The configuration page downloads a sponsor image from <code>search.hoothin.com</code> and displays it as an image. Its links open only when selected. The extension bundles the configuration application's JavaScript and dependencies.</td></tr>
+    <tr><td>Userscript dependencies and updates, when installed or updated by your userscript manager</td><td>Greasy Fork supplies the default configuration dependency. Its reviewed revision is pinned. Update checks follow your manager's settings. The extension uses its bundled default configuration.</td></tr>
+  </tbody>
+</table>
+<p>Network recipients can observe ordinary connection information, including IP address and request time. Their storage and retention practices are governed by their own policies. Engine configurations and exported backups can still contain API keys, custom headers, URLs, or other values you entered; excluding the WebDAV password does not remove those values.</p>
+
+<h2>Configuration pages and permissions</h2>
+<p>The extension's local configuration page uses native extension messages. Hosted userscript or custom configuration pages use a restricted bridge. Management requests are limited to exact built-in or explicitly configured page addresses; ordinary websites are not given a full configuration message when an engine is added.</p>
+<p>Access to websites and cross-origin requests supports selection tools, icons, image searches, custom APIs, and arbitrary user-selected WebDAV servers. Storage, menus, and notifications support the corresponding local features. These permissions are retained so that existing custom engines and servers continue working.</p>
+<p>Split search adjusts frame and request headers for its workspace tabs. Cookie access supports compatible sign-in, including X. For supported split sites, the extension may remove service worker registrations for those origins; those registrations are shared with ordinary tabs. This operation does not clear cookies or caches. Split behavior is not a general removal of site protections in all tabs.</p>
+
+<h2>Your controls</h2>
+<p>You can disable suggestions, change resource URLs, stop using remote backgrounds, or disconnect WebDAV in settings. Disconnecting WebDAV removes the local connection details; it does not delete files already stored on the server. Manage remote files and accounts with the relevant provider. Removing local settings or uninstalling the extension or userscript is separate from deleting downloaded backups.</p>
+
+<h2>Contact</h2>
+<p>Questions about privacy or this implementation can be sent to <a href="mailto:rixixi@gmail.com">rixixi@gmail.com</a> or raised in the <a href="https://github.com/hoothin/SearchJumper/discussions">project discussions</a>.</p>
+</body>
+</html>

@@ -30,7 +30,7 @@ import OutlinedInput from '@mui/material/OutlinedInput';
 import IconButton from '@mui/material/IconButton';
 import DialogContentText from '@mui/material/DialogContentText';
 import ImageIcon from '@mui/icons-material/Image';
-import { createClient } from "webdav";
+import { configRequest, setConfig, backupConfig, reportConfigError } from '../configBridge';
 import Snackbar from '@mui/material/Snackbar';
 import MuiAlert from '@mui/material/Alert';
 import ContentPasteGoIcon from '@mui/icons-material/ContentPasteGo';
@@ -46,94 +46,24 @@ import ErrorIcon from '@mui/icons-material/Error';
 const apiUrl = 'https://search.hoothin.com/api.php';
 const myWebDavUrl = 'https://webdav.hoothin.com';
 async function checkWebdav(host, username, password, pathname) {
-    const client = createClient(host, {
-        username: username,
-        password: password
-    });
-    const path = "/SearchJumper" + (pathname || "").replace(/^\/*/, "/").replace(/\/+$/, "");
-    if (await client.exists(path + "/") === false) {
-        let pathArr = path.split("/");
-        await pathArr.reduce(async (targetPath, curPath) => {
-          if (await targetPath !== "") {
-            if (await client.exists((await targetPath) + "/") === false) {
-              await client.createDirectory(await targetPath);
-            }
-          }
-          if (curPath !== "") {
-            return (await targetPath) + "/" + curPath;
-          } else return (await targetPath);
-        }, "");
-        if (await client.exists(path + "/") === false) {
-          await client.createDirectory(path);
-        }
-        await client.putFileContents(path + "/lastModified", "");
-    } else if (await client.exists(path + "/lastModified") === false) {
-        await client.putFileContents(path + "/lastModified", "");
-    }
-    let lastModified = await client.getFileContents(path + "/lastModified", { format: "text" });
-    lastModified = parseFloat(lastModified) || 0;
-    if (lastModified && (!window.searchData.lastModified || lastModified > window.searchData.lastModified)) {
-        window.searchData.lastModified = lastModified;
-        if (await client.exists(path + "/sitesConfig.json")) {
-            let sitesConfig = await client.getFileContents(path + "/sitesConfig.json", { format: "text" });
-            sitesConfig = JSON.parse(sitesConfig);
-            window.searchData.sitesConfig = sitesConfig;
-            if (editor) editor.set({json:window.searchData.sitesConfig});
-        }
-        if (await client.exists(path + "/inPageRule.json")) {
-            let inPageRule = await client.getFileContents(path + "/inPageRule.json", { format: "text" });
-            inPageRule = JSON.parse(inPageRule);
-            window.searchData.prefConfig.inPageRule = inPageRule;
-        }
-    } else if (lastModified === 0 || window.searchData.lastModified > lastModified) {
-        await client.putFileContents(path + "/lastModified", "" + (window.searchData.lastModified || new Date().getTime()));
-        await client.putFileContents(path + "/sitesConfig.json", JSON.stringify(window.searchData.sitesConfig));
-        await client.putFileContents(path + "/inPageRule.json", JSON.stringify(window.searchData.prefConfig.inPageRule))
-    }
-    window.searchData.webdavConfig = {
-        host: host,
-        username: username,
-        password: password,
-        path: pathname
-    };
-    var saveMessage = new CustomEvent('saveConfig', {
-        detail: {
-            searchData: window.searchData, 
-            notification: false
-        }
-    });
-    document.dispatchEvent(saveMessage);
+    const result = await configRequest('configure', {host, username, password, path: pathname});
+    setConfig(result.searchData);
+    if (editor) editor.set({json: window.searchData.sitesConfig});
+    document.dispatchEvent(new Event('configSaved'));
 }
 
 let sharePass = null;
 let shareTitle = null;
 
 async function loadWebdavParam(param, cb) {
-    if (!window.searchData.webdavConfig || window.searchData.webdavConfig.host !== myWebDavUrl) {
-        return cb('');
-    }
-    let {host, username, password, path} = window.searchData.webdavConfig;
-    const client = createClient(host, {
-        username: username,
-        password: password
-    });
-    const _path = "/SearchJumper" + (path || "").replace(/^\/*/, "/").replace(/\/+$/, "");
-    if (await client.exists(_path + "/" + param) === false) {
-        return cb('');
-    }
-    let result = await client.getFileContents(_path + "/" + param, { format: "text" });
-    return cb(result);
+    if (!window.searchData.webdavConfig || window.searchData.webdavConfig.host !== myWebDavUrl) return cb('');
+    try { return cb(await configRequest('shareGet', {name: param})); }
+    catch (error) { reportConfigError(error); }
 }
 
 async function saveWebdavParam(param, value) {
     if (!window.searchData.webdavConfig || window.searchData.webdavConfig.host !== myWebDavUrl) return;
-    let {host, username, password, path} = window.searchData.webdavConfig;
-    const client = createClient(host, {
-        username: username,
-        password: password
-    });
-    const _path = "/SearchJumper" + (path || "").replace(/^\/*/, "/").replace(/\/+$/, "");
-    await client.putFileContents(_path + "/" + param, value);
+    return configRequest('shareSet', {name: param, value});
 }
 
 function saveConfigToScript (notification) {
@@ -407,18 +337,20 @@ function SyncEdit(props) {
     if (window.searchData.webdavConfig) {
         _host = window.searchData.webdavConfig.host;
         _username = window.searchData.webdavConfig.username;
-        _password = window.searchData.webdavConfig.password;
+
         _path = window.searchData.webdavConfig.path || "/";
     }
     const [host, setHost] = React.useState(_host);
     const [username, setUsername] = React.useState(_username);
     const [password, setPassword] = React.useState(_password);
+    const [passwordChanged, setPasswordChanged] = React.useState(false);
     const [path, setPath] = React.useState(_path);
     const [showPassword, setShowPassword] = React.useState(false);
     React.useEffect(() => {
        setHost(_host);
        setUsername(_username);
        setPassword(_password);
+       setPasswordChanged(false);
        setPath(_path);
     }, [props.open, _host, _username, _password, _path]);
     return (
@@ -463,8 +395,10 @@ function SyncEdit(props) {
                     id="outlined-adornment-password"
                     type={showPassword ? 'text' : 'password'}
                     value={password}
+                    placeholder={window.searchData.webdavConfig?.hasPassword ? window.i18n('passwordSaved') : ''}
                     onChange={e => {
                         setPassword(e.target.value);
+                        setPasswordChanged(true);
                     }}
                     endAdornment={
                       <InputAdornment position="end">
@@ -507,14 +441,16 @@ function SyncEdit(props) {
             </DialogContent>
             <DialogActions>
                 <Button variant="outlined" color="error" startIcon={<DeleteIcon />} onClick={() => {
-                    window.searchData.webdavConfig = null;
-                    saveConfigToScript();
-                    props.close();
+                    configRequest('disconnect').then(data => {
+                        setConfig(data);
+                        document.dispatchEvent(new Event('configSaved'));
+                        props.close();
+                    }).catch(error => props.handleAlertOpen(error.message));
                 }}>{window.i18n('empty')}</Button>
                 <Button onClick={() => { props.close() }}>{window.i18n('cancel')}</Button>
                 <Button onClick={() => {
                     if (!host) return;
-                    checkWebdav(host, username, password, path).then(() => {
+                    checkWebdav(host, username, passwordChanged ? password : undefined, path).then(() => {
                         props.handleAlertOpen(window.i18n("success"), 3);
                         props.close();
                     }).catch(e => {
@@ -613,8 +549,12 @@ export default function Export() {
           document.dispatchEvent(saveMessage);
         } else if (data.sitesConfig && data.prefConfig) {
           editor.set({json: data.sitesConfig});
-          window.searchData = data;
-          saveConfigToScript(true);
+          data.lastModified = Date.now();
+          configRequest('import', {searchData: data}).then(result => {
+            setConfig(result);
+            document.dispatchEvent(new CustomEvent('configSaved', {detail: {notification: true}}));
+            window.saveToWebdav();
+          }).catch(error => handleAlertOpen(error.message));
         } else if (data.sitesConfig && !data.prefConfig) {
           editor.set({json: data.sitesConfig});
           window.searchData.sitesConfig = data.sitesConfig;
@@ -763,29 +703,13 @@ export default function Export() {
         if (!window.confirm(window.i18n('freeWebdavConfirm'))) return;
         requesting = true;
         handleAlertOpen(window.i18n('requestAccount'), 1);
-        fetch(apiUrl, {
-            method: 'POST',
-            mode: "cors",
-            headers: {
-              'Content-Type': 'application/x-www-form-urlencoded'
-            },
-            body: 'action=getUser'
-        })
-        .then(response => response.json())
-        .then(json => {
-            requesting = false;
-            if (json.result === 1) {
-                checkWebdav(myWebDavUrl, json.username, json.password, '/').then(() => {
-                    handleAlertOpen(json.message, 3);
-                    setFreeWebDav(true);
-                }).catch(e => {
-                    handleAlertOpen(e.toString());
-                });
-            } else {
-                handleAlertOpen(json.message);
-            }
-        })
-        .catch(error => handleAlertOpen(String(error)));
+        configRequest('createAccount').then(result => {
+            setConfig(result.searchData);
+            if (editor) editor.set({json: window.searchData.sitesConfig});
+            document.dispatchEvent(new Event('configSaved'));
+            handleAlertOpen(result.message || window.i18n('success'), 3);
+            setFreeWebDav(true);
+        }).catch(error => handleAlertOpen(error.message)).finally(() => { requesting = false; });
     }
 
     function exportConfig() {
@@ -797,7 +721,7 @@ export default function Export() {
           if (editJson) {
             window.searchData.sitesConfig = editJson;
           }
-          let blobStr = [(JSON.stringify(window.searchData, null, 4))];
+          let blobStr = [(JSON.stringify(backupConfig(window.searchData), null, 4))];
           myBlob = new Blob(blobStr, { type: "application/json" });
         } else if (longHoldState === 1) {
           let blobStr = [(JSON.stringify(editor.get().json || window.searchData.sitesConfig, null, 4))];

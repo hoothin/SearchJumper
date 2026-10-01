@@ -47,7 +47,7 @@
 // @homepage     https://github.com/hoothin/SearchJumper
 // @downloadURL  https://greasyfork.org/scripts/445274-searchjumper/code/SearchJumper.user.js
 // @updateURL    https://greasyfork.org/scripts/445274-searchjumper/code/SearchJumper.meta.js
-// @require      https://update.greasyfork.org/scripts/484118/searchJumperDefaultConfig.js
+// @require      https://update.greasyfork.org/scripts/484118/1944383/searchJumperDefaultConfig.js
 // @connect      global.bing.com
 // @connect      suggestqueries.google.com
 // @connect      api.bing.com
@@ -1260,7 +1260,8 @@
             GM_fetch = true;
         } else {//will not cross csp, it's safe!
             let res;
-            _GM_xmlhttpRequest = (f) => {fetch(f.url, {method: f.method || 'GET', body: f.data, headers: f.headers}).then(response => {
+            _GM_xmlhttpRequest = (f) => {fetch(f.url, {method: f.method || 'GET', body: f.data, headers: f.headers,
+                credentials: f.anonymous ? 'omit' : 'same-origin', referrerPolicy: f.referrerPolicy, redirect: f.redirect}).then(response => {
                 res = response;
                 if (f.responseType === "blob") {
                     return response.blob();
@@ -1269,7 +1270,7 @@
             }).then(data => {
                 let doc = document.implementation.createHTMLDocument('');
                 setHTML(doc.documentElement, data, doc);
-                f.onload && f.onload({status: res.status, response: data, responseXML: doc})
+                f.onload && f.onload({status: res.status, response: data, responseText: typeof data === 'string' ? data : undefined, responseXML: doc})
             }).catch(e => f.onerror && f.onerror(e))};
         }
         if (GM_fetch) {
@@ -1464,12 +1465,9 @@
                             return false;
                         });
                     }
-                    chrome.storage.local.set({ [key]: value }, () => {});
+                    return extensionApi.storage.local.set({ [key]: value });
                 } else if (this.supportGMPromise) {
-                    GM.setValue(key, value);
-                    if(value === "" && typeof GM != 'undefined' && typeof GM.deleteValue != 'undefined'){
-                        GM.deleteValue(key);
-                    }
+                    return value === '' && typeof GM.deleteValue === 'function' ? GM.deleteValue(key) : GM.setValue(key, value);
                 } else if (this.supportGM) {
                     GM_setValue(key, value);
                     if(value === "" && typeof GM_deleteValue != 'undefined'){
@@ -1548,144 +1546,271 @@
             }
         };
 
-        class WebDAV {
-            constructor(webDAVUrl, username, password) {
-                this.webDAVUrl = webDAVUrl;
-                this.username = username;
-                this.password = password;
-            }
-
-            init() {
-                if (this.inited) return;
-                this.inited = true;
-                this.auth = btoa(`${this.username}:${this.password}`);
-            }
-
-            request(action, data, path, type, callback, headers) {
-                if (ext) {
-                    chrome.runtime.sendMessage({action: "webDAV", detail: {method: action, body: data, path: path, type: type, headers: headers}}, function(r) {
-                        callback && callback(r);
-                    });
-                } else {
-                    this.init();
-                    let url = this.webDAVUrl + path;
-                    let _headers = {
-                        referer: url,
-                        origin: url,
-                        "Content-Type": "text/xml; charset=UTF-8",
-                        "Authorization": `Basic ${this.auth}`
-                    };
-                    for (let header in headers) {
-                        _headers[header] = headers[header];
-                    }
-                    _GM_xmlhttpRequest({
-                        method: action,
-                        url: url,
-                        data: data,
-                        headers: _headers,
-                        onload: function(d) {
-                            let response = d.response;
-                            if (d.status >= 400 || !response) response = "";
-                            if (type == 'xml') {
-                                var xml = d.responseXML;
-                                if(xml) {
-                                    response = xml.firstChild.nextSibling ? xml.firstChild.nextSibling : xml.firstChild;
-                                }
-                            }
-                            callback && callback(response);
-                        },
-                        onerror: function(e) {
-                            debug(e);
-                            callback && callback(e);
-                        },
-                        ontimeout: function(e) {
-                            debug(e);
-                            callback && callback(e);
-                        }
-                    });
-                }
-            }
-
-            GET(path, callback) {
-                return this.request('GET', null, path, 'text', callback, {});
-            }
-
-            PROPFIND(path, callback) {
-                return this.request('PROPFIND', null, path, 'xml', callback, {Depth: "1"});
-            }
-
-            MKCOL(path, callback) {
-                return this.request('MKCOL', null, path, 'text', callback, {});
-            }
-
-            DELETE(path, callback) {
-                return this.request('DELETE', null, path, 'text', callback, {});
-            }
-
-            PUT(path, data, callback) {
-                return this.request('PUT', data, path, 'text', callback, {});
-            }
-
-            async read(path) {
-                let self = this;
-                return new Promise((resolve) => {
-                    self.GET(path, resolve);
+        function isConfigUrl(value, custom, local) {
+            const normalize = value => {
+                const url = new URL(value);
+                if (url.username || url.password) throw new Error('Invalid configuration URL');
+                return url.protocol + '//' + url.host + url.pathname.replace(/\/index\.html$/, '/').replace(/\/$/, '');
+            };
+            try {
+                const target = normalize(value);
+                return ['https://search.hoothin.com/config/', 'https://hoothin.github.io/SearchJumper/',
+                    'http://localhost:3000/', custom, local].filter(Boolean).some(url => {
+                    try { return normalize(url) === target; } catch { return false; }
                 });
-            }
-
-            async write(path, data) {
-                let self = this;
-                return new Promise((resolve) => {
-                    self.PUT(path, data, resolve);
-                });
-            }
-
-            async rm(path) {
-                let self = this;
-                return new Promise((resolve) => {
-                    self.DELETE(path, resolve);
-                });
-            }
+            } catch { return false; }
         }
-        var webDAV;
+
+        function createConfigService(read, write, request) {
+            const clone = value => JSON.parse(JSON.stringify(value));
+            const publicData = value => {
+                const data = clone(value);
+                if (data.webdavConfig) {
+                    const {host, username, path, password} = data.webdavConfig;
+                    data.webdavConfig = {host, username, path, hasPassword: typeof password === 'string'};
+                }
+                return data;
+            };
+            const validate = data => {
+                if (!data || !Array.isArray(data.sitesConfig) || !data.prefConfig ||
+                    typeof data.prefConfig !== 'object' || Array.isArray(data.prefConfig)) throw new Error('Invalid configuration');
+            };
+            const same = (a, b) => JSON.stringify(a) === JSON.stringify(b);
+            const parseResponse = text => {
+                try { return JSON.parse(text); }
+                catch { throw new Error('Invalid server response'); }
+            };
+            const address = value => {
+                const url = new URL(value);
+                if (!/^https?:$/.test(url.protocol) || url.username || url.password || url.search || url.hash) {
+                    throw new Error('Invalid WebDAV server');
+                }
+                return url.href.replace(/\/+$/, '');
+            };
+            const connection = (value, previous, allowMissing = false) => {
+                if (!value || typeof value.host !== 'string' || typeof value.username !== 'string') throw new Error('Invalid WebDAV account');
+                const host = address(value.host);
+                const path = '/' + (value.path || '').replace(/^\/+|\/+$/g, '');
+                if (path.split('/').some(part => {
+                    const decoded = decodeURIComponent(part);
+                    return decoded === '.' || decoded === '..' || /[\\?#/]/.test(decoded);
+                })) throw new Error('Invalid WebDAV directory');
+                const password = typeof value.password === 'string' ? value.password :
+                    previous && address(previous.host) === host && previous.username === value.username ? previous.password : undefined;
+                if (!allowMissing && typeof password !== 'string') throw new Error('Enter the WebDAV password');
+                return {host, username: value.username, password, path};
+            };
+            const directory = config => '/SearchJumper' + (config.path || '/').replace(/\/+$/, '');
+            const send = async (config, method, path, body, missing = false) => {
+                const auth = btoa(Array.from(new TextEncoder().encode(config.username + ':' + config.password), byte => String.fromCharCode(byte)).join(''));
+                const url = address(config.host) + path.split('/').map(part => encodeURIComponent(decodeURIComponent(part))).join('/');
+                const response = await request(url, {method, body, headers: {
+                    Authorization: 'Basic ' + auth, 'Content-Type': method === 'PUT' ? 'application/json; charset=utf-8' : 'text/xml; charset=utf-8',
+                    ...(method === 'PROPFIND' ? {Depth: '0'} : {})
+                }, redirect: 'follow', credentials: 'omit', referrerPolicy: 'no-referrer'});
+                if (missing && response.status === 404) return null;
+                if (response.status < 200 || response.status >= 300) throw new Error('WebDAV request failed (' + response.status + ')');
+                return response.text;
+            };
+            const file = (config, method, name, body, missing) => send(config, method, directory(config) + '/' + name, body, missing);
+            const ensureDirectory = async config => {
+                let path = '';
+                for (const part of directory(config).split('/').filter(Boolean)) {
+                    path += '/' + part;
+                    if (await send(config, 'PROPFIND', path + '/', undefined, true) === null) {
+                        await send(config, 'MKCOL', path + '/');
+                    }
+                }
+            };
+            const push = async (config, data) => {
+                await ensureDirectory(config);
+                await file(config, 'PUT', 'sitesConfig.json', JSON.stringify(data.sitesConfig));
+                await file(config, 'PUT', 'inPageRule.json', JSON.stringify(data.prefConfig.inPageRule || {}));
+                // Publish the timestamp only after both documents have been saved.
+                await file(config, 'PUT', 'lastModified', String(data.lastModified || 0));
+            };
+            const synchronize = async (config, data, uploadOnly) => {
+                if (uploadOnly) {
+                    const outgoing = data.lastModified ? data : {...data, lastModified: Date.now()};
+                    await push(config, outgoing);
+                    return outgoing;
+                }
+                await ensureDirectory(config);
+                const modified = Number(await file(config, 'GET', 'lastModified', undefined, true));
+                if (!Number.isFinite(modified) || modified < 0) throw new Error('Invalid synchronized timestamp');
+                if (modified > (data.lastModified || 0)) {
+                    const sites = await file(config, 'GET', 'sitesConfig.json', undefined, true);
+                    const rules = await file(config, 'GET', 'inPageRule.json', undefined, true);
+                    const result = clone(data);
+                    if (sites !== null) result.sitesConfig = parseResponse(sites);
+                    if (rules !== null) {
+                        const parsed = parseResponse(rules);
+                        if (!parsed || typeof parsed !== 'object' || Array.isArray(parsed)) throw new Error('Invalid synchronized rules');
+                        result.prefConfig.inPageRule = parsed;
+                    }
+                    result.lastModified = modified;
+                    validate(result);
+                    return result;
+                }
+                if (!modified || data.lastModified > modified) {
+                    const outgoing = data.lastModified ? data : {...data, lastModified: Date.now()};
+                    await push(config, outgoing);
+                    return outgoing;
+                }
+                return data;
+            };
+            const handle = async (operation, detail = {}) => {
+                const saved = await read();
+                validate(saved);
+                if (operation === 'get') return publicData(saved);
+                if (operation === 'save' || operation === 'import') {
+                    const incoming = clone(detail.searchData);
+                    validate(incoming);
+                    let next;
+                    if (operation === 'import') {
+                        next = incoming;
+                        if (incoming.webdavConfig) next.webdavConfig = connection(incoming.webdavConfig, saved.webdavConfig, true);
+                    } else {
+                        next = clone(saved);
+                        const base = detail.base || {};
+                        for (const key of Object.keys(incoming)) {
+                            if (['webdavConfig', '__proto__', 'constructor', 'prototype'].includes(key)) continue;
+                            if (key === 'prefConfig') {
+                                for (const name of new Set([...Object.keys(base.prefConfig || {}), ...Object.keys(incoming.prefConfig)])) {
+                                    if (['__proto__', 'constructor', 'prototype'].includes(name) || same(incoming.prefConfig[name], base.prefConfig?.[name])) continue;
+                                    if (base.prefConfig && !same(saved.prefConfig[name], base.prefConfig[name]) && !same(saved.prefConfig[name], incoming.prefConfig[name])) {
+                                        throw new Error('This setting changed in another page; reload and retry');
+                                    }
+                                    if (Object.hasOwn(incoming.prefConfig, name)) next.prefConfig[name] = incoming.prefConfig[name];
+                                    else delete next.prefConfig[name];
+                                }
+                            } else if (!same(incoming[key], base[key])) {
+                                if (Object.hasOwn(base, key) && key !== 'lastModified' && !same(saved[key], base[key]) && !same(saved[key], incoming[key])) {
+                                    throw new Error('This configuration changed in another page; reload and retry');
+                                }
+                                next[key] = incoming[key];
+                            }
+                        }
+                    }
+                    await write(next);
+                    return publicData(next);
+                }
+                if (operation === 'disconnect') {
+                    const next = {...saved, webdavConfig: null};
+                    await write(next);
+                    return publicData(next);
+                }
+                if (operation === 'configure' || operation === 'createAccount') {
+                    let value = detail, message = '';
+                    if (operation === 'createAccount') {
+                        const response = await request('https://search.hoothin.com/api.php', {
+                            method: 'POST', headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+                            body: 'action=getUser', credentials: 'omit', referrerPolicy: 'no-referrer'
+                        });
+                        if (response.status !== 200) throw new Error('Account request failed (' + response.status + ')');
+                        const account = parseResponse(response.text);
+                        if (account.result !== 1) throw new Error(String(account.message || 'Account request failed'));
+                        value = {host: 'https://webdav.hoothin.com', username: account.username, password: account.password, path: '/'};
+                        message = String(account.message || '');
+                        if (value.password) message = message.split(value.password).join('[redacted]');
+                    }
+                    const config = connection(value, saved.webdavConfig);
+                    const synced = await synchronize(config, saved);
+                    const latest = await read();
+                    if (!same(latest.sitesConfig, saved.sitesConfig) || !same(latest.prefConfig.inPageRule, saved.prefConfig.inPageRule) ||
+                        !same(latest.webdavConfig, saved.webdavConfig)) throw new Error('Configuration changed during synchronization; please retry');
+                    const next = {...latest, sitesConfig: synced.sitesConfig,
+                        prefConfig: {...latest.prefConfig, inPageRule: synced.prefConfig.inPageRule},
+                        lastModified: synced.lastModified, webdavConfig: config};
+                    await write(next);
+                    return {searchData: publicData(next), message};
+                }
+                if (operation === 'sync') {
+                    if (!saved.webdavConfig) return publicData(saved);
+                    const config = connection(saved.webdavConfig, saved.webdavConfig);
+                    const synced = await synchronize(config, saved, !!detail.uploadOnly);
+                    if (synced !== saved) {
+                        const latest = await read();
+                        if (!same(latest.sitesConfig, saved.sitesConfig) || !same(latest.prefConfig.inPageRule, saved.prefConfig.inPageRule) ||
+                            !same(latest.webdavConfig, saved.webdavConfig)) throw new Error('Configuration changed during synchronization; please retry');
+                        await write({...latest, sitesConfig: synced.sitesConfig,
+                            prefConfig: {...latest.prefConfig, inPageRule: synced.prefConfig.inPageRule}, lastModified: synced.lastModified});
+                    }
+                    return publicData(await read());
+                }
+                if (operation === 'shareGet' || operation === 'shareSet') {
+                    const config = saved.webdavConfig && connection(saved.webdavConfig, saved.webdavConfig);
+                    if (!config || config.host !== 'https://webdav.hoothin.com' || !['sharePass', 'shareTitle'].includes(detail.name)) {
+                        throw new Error('Invalid sharing operation');
+                    }
+                    if (operation === 'shareSet' && typeof detail.value !== 'string') throw new Error('Invalid sharing value');
+                    return await file(config, operation === 'shareGet' ? 'GET' : 'PUT', detail.name, detail.value, operation === 'shareGet') || '';
+                }
+                if (operation === 'syncFile') {
+                    if (!saved.webdavConfig || !['GET', 'PUT'].includes(detail.method) ||
+                        !['lastModified', 'sitesConfig.json', 'inPageRule.json'].includes(detail.path) ||
+                        (detail.method === 'PUT' && typeof detail.body !== 'string')) throw new Error('Invalid synchronization request');
+                    return await file(connection(saved.webdavConfig, saved.webdavConfig), detail.method, detail.path, detail.body, detail.method === 'GET') || '';
+                }
+                throw new Error('Unknown configuration operation');
+            };
+            // ponytail: serialize configuration writes and sync; per-account queues if multiple accounts are added.
+            let queue = Promise.resolve();
+            return (operation, detail) => {
+                if (detail) detail = clone(detail);
+                const result = queue.then(() => handle(operation, detail));
+                queue = result.catch(() => {});
+                return result;
+            };
+        }
+
+        const configService = createConfigService(
+            async () => await storage.getItem('searchData') || searchData,
+            value => storage.setItem('searchData', value),
+            (url, options) => new Promise((resolve, reject) => {
+                _GM_xmlhttpRequest({
+                    url, method: options.method, data: options.body, headers: options.headers,
+                    anonymous: true, redirect: options.redirect, referrerPolicy: 'no-referrer',
+                    timeout: 30000,
+                    onload: result => resolve({status: result.status, text: result.responseText}),
+                    onerror: () => reject(new Error('Network request failed')),
+                    ontimeout: () => reject(new Error('Network request timed out'))
+                });
+            })
+        );
+        async function privateConfig(operation, detail) {
+            if (!ext) return configService(operation === 'saveData' ? 'save' : operation, detail);
+            const action = operation === 'sync' ? 'syncData' : operation === 'saveData' ? 'saveData' : operation === 'syncFile' ? 'webDAV' : 'configRequest';
+            const result = await extensionApi.runtime.sendMessage({action, operation, detail});
+            if (!result?.ok) throw new Error(result?.error || 'Configuration request failed');
+            return result.value;
+        }
+
         async function dataChanged(callback, override) {
             if (shareEngines) return;
-            let _searchData = await storage.getItem("searchData");
-            if (_searchData) searchData = _searchData;
-            if (!webDAV) return callback && callback();
-            if (!override) {
-                let _lastModified = await webDAV.read("lastModified");
-                if (_lastModified) {
-                    _lastModified = parseFloat(_lastModified);
-                }
-                if (_lastModified && (!searchData.lastModified || _lastModified > searchData.lastModified)) {
-                    searchData.lastModified = _lastModified;
+            let current = await storage.getItem('searchData');
+            if (current) searchData = current;
+            let syncReady = true;
+            if (searchData.webdavConfig && !override) {
+                try {
+                    await privateConfig('sync');
+                    searchData = await storage.getItem('searchData');
                     lastModified = searchData.lastModified;
-                    let sitesConfig = await webDAV.read("sitesConfig.json");
-                    if (sitesConfig) {
-                        try {
-                            sitesConfig = JSON.parse(sitesConfig);
-                            searchData.sitesConfig = sitesConfig;
-                        } catch (e) {
-                            debug(e);
-                        }
-                    }
-
-                    let inPageRule = await webDAV.read("inPageRule.json");
-                    if (inPageRule) {
-                        try {
-                            inPageRule = JSON.parse(inPageRule);
-                            searchData.prefConfig.inPageRule = inPageRule;
-                        } catch (e) {
-                            debug(e);
-                        }
-                    }
+                } catch (error) {
+                    syncReady = false;
+                    _GM_notification('Synchronization failed: ' + error.message);
                 }
             }
-            callback && callback();
-            await webDAV.write("lastModified", "" + searchData.lastModified);
-            await webDAV.write("sitesConfig.json", JSON.stringify(searchData.sitesConfig));
-            await webDAV.write("inPageRule.json", JSON.stringify(searchData.prefConfig.inPageRule));
+            try {
+                const base = JSON.parse(JSON.stringify(searchData));
+                const afterSave = callback && await callback();
+                await privateConfig('saveData', {searchData, base});
+                searchData = await storage.getItem('searchData');
+                if (typeof afterSave === 'function') await afterSave();
+                if (searchData.webdavConfig && syncReady) await privateConfig('sync', {uploadOnly: true});
+            } catch (error) {
+                _GM_notification('Could not save or synchronize configuration: ' + error.message);
+            }
         }
 
         const AsyncFunction = Object.getPrototypeOf(async function(){}).constructor;
@@ -1893,6 +2018,7 @@
 
         async function loadIcon(img, src = img.dataset.src) {
             if (!src) return;
+            img.referrerPolicy = 'no-referrer';
             if (ext && !/^data:/.test(src)) {
                 // Keep the URL available to clones while the background request is pending.
                 img.dataset.src = src;
@@ -7957,8 +8083,7 @@
                         searchData.prefConfig.inPageRule = inPageRule;
                         searchData.lastModified = new Date().getTime();
                         lastModified = searchData.lastModified;
-                        storage.setItem("searchData", searchData);
-                        _GM_notification(i18n("save completed"));
+                        return () => _GM_notification(i18n("save completed"));
                     });
                 });
                 this.emptyBtn.addEventListener("click", e => {
@@ -8864,91 +8989,53 @@
             }
 
             getSuggest(searchWords) {
-                let suggestDatalist = this.suggestDatalist;
+                const suggestDatalist = this.suggestDatalist;
+                const provider = searchData.prefConfig.suggestType;
+                const requestId = this.suggestRequestId = (this.suggestRequestId || 0) + 1;
                 setHTML(suggestDatalist, "");
-                if (!searchWords) return;
-                let requestSuggest = (api, cb, charset) => {
-                    _GM_xmlhttpRequest({
-                        method: 'GET',
-                        url: api,
-                        responseType: charset ? 'blob' : '',
-                        headers: {
-                            referer: api,
-                            origin: api
-                        },
-                        onload: function(d) {
-                            let response = d.response;
-                            if (d.status >= 400 || !response) return;
-                            if (charset) {
-                                let reader = new FileReader();
-                                reader.onload = () => {
-                                    cb(reader.result);
-                                }
-                                reader.readAsText(response, charset);
-                            } else {
-                                cb(response);
-                            }
-                        },
-                        onerror: function(e){
-                            debug(e);
-                        },
-                        ontimeout: function(e){
-                            debug(e);
-                        }
-                    });
+                if (!searchWords || !['google', 'baidu', 'bing'].includes(provider)) return;
+                const urls = {
+                    google: 'https://suggestqueries.google.com/complete/search?client=youtube&q=%s&jsonp=window.google.ac.h',
+                    baidu: 'https://suggestion.baidu.com/su?wd=%s&cb=',
+                    bing: 'https://api.bing.com/qsonhs.aspx?type=json&q=%s'
                 };
-                if (ext) {
-                    requestSuggest = (api, cb) => {
-                        chrome.runtime.sendMessage({action: "getSuggest", detail: {suggestType: searchData.prefConfig.suggestType, searchWords: searchWords}}, function(r) {
-                            cb(r);
+                const request = ext
+                    ? extensionApi.runtime.sendMessage({action: 'getSuggest', detail: {suggestType: provider, searchWords}})
+                    : new Promise((resolve, reject) => {
+                        _GM_xmlhttpRequest({
+                            method: 'GET', url: urls[provider].replace('%s', encodeURIComponent(searchWords)),
+                            anonymous: true, referrerPolicy: 'no-referrer', headers: {Referer: ''},
+                            responseType: provider === 'baidu' ? 'blob' : '',
+                            onload: result => {
+                                if (result.status < 200 || result.status >= 300) return reject(new Error('Suggestion request failed'));
+                                if (provider !== 'baidu') return resolve(result.responseText || result.response);
+                                const reader = new FileReader();
+                                reader.onload = () => resolve(reader.result);
+                                reader.onerror = () => reject(new Error('Could not decode suggestions'));
+                                reader.readAsText(result.response, 'GBK');
+                            },
+                            onerror: () => reject(new Error('Suggestion request failed')),
+                            ontimeout: () => reject(new Error('Suggestion request timed out'))
                         });
+                    });
+                request.then(response => {
+                    if (!response || requestId !== this.suggestRequestId || provider !== searchData.prefConfig.suggestType) return;
+                    let words;
+                    if (provider === 'google') {
+                        const match = response.match(/window.google.ac.h\((.*)\)$/);
+                        words = match ? JSON.parse(match[1])[1].map(item => item[0]) : [];
+                    } else if (provider === 'baidu') {
+                        const match = response.match(/.*,s:(.*)}\);$/);
+                        words = match ? JSON.parse(match[1]) : [];
+                    } else {
+                        words = (JSON.parse(response).AS.Results || []).flatMap(result => result.Suggests.map(item => item.Txt));
                     }
-                }
-                switch (searchData.prefConfig.suggestType) {
-                    case "google":
-                        requestSuggest("https://suggestqueries.google.com/complete/search?client=youtube&q=%s&jsonp=window.google.ac.h".replace("%s", searchWords), res => {
-                            res = res.match(/window.google.ac.h\((.*)\)$/, "$1");
-                            if (res) {
-                                res = JSON.parse(res[1])[1];
-                                for (let i in res) {
-                                    let option = document.createElement('option');
-                                    option.value = res[i][0];
-                                    suggestDatalist.appendChild(option);
-                                }
-                            }
-                        });
-                        break;
-                    case "baidu":
-                        requestSuggest("https://suggestion.baidu.com/su?wd=%s&cb=".replace("%s", searchWords), res => {
-                            res = res.match(/.*,s:(.*)}\);$/, "$1");
-                            if (res) {
-                                res = JSON.parse(res[1]);
-                                for (let i in res) {
-                                    let option = document.createElement('option');
-                                    option.value = res[i];
-                                    suggestDatalist.appendChild(option);
-                                }
-                            }
-                        }, "GBK");
-                        break;
-                    case "bing":
-                        requestSuggest("https://api.bing.com/qsonhs.aspx?type=json&q=%s".replace("%s", searchWords), res => {
-                            if (res) {
-                                res = JSON.parse(res).AS.Results;
-                                for (let i in res) {
-                                    let result = res[i].Suggests;
-                                    for (let j in result) {
-                                        let option = document.createElement('option');
-                                        option.value = result[j].Txt;
-                                        suggestDatalist.appendChild(option);
-                                    }
-                                }
-                            }
-                        });
-                        break;
-                    default:
-                        break;
-                }
+                    for (const word of words) {
+                        const option = document.createElement('option');
+                        option.value = word;
+                        suggestDatalist.appendChild(option);
+                    }
+                }).catch(error => debug(error));
             }
 
             searchSiteBtns(inputWords) {
@@ -14564,8 +14651,12 @@
             return new File([u8arr], "image." + ext, {type: mime});
         }
 
-        async function image2Base64(img) {
+        async function image2Base64(img, icon = false) {
             if (!img) return null;
+            if (icon) {
+                img.referrerPolicy = 'no-referrer';
+                if (/^data:/.test(img.dataset.src || img.src)) return img.dataset.src || img.src;
+            }
             if (img.dataset.src) {
                 img.src = img.dataset.src;
             }
@@ -14582,7 +14673,7 @@
                     try {
                         return (canvas.toDataURL("image/png"));
                     } catch (e) {
-                        return await imageSrc2Base64(img.src);
+                        return await imageSrc2Base64(img.src, icon);
                     }
                 } else {
                     return await new Promise((resolve) => {
@@ -14593,13 +14684,13 @@
                             try {
                                 resolve(canvas.toDataURL("image/png"));
                             } catch (e) {
-                                resolve(await imageSrc2Base64(img.src));
+                                resolve(await imageSrc2Base64(img.src, icon));
                             }
                         });
                     });
                 }
             } else {
-                return await imageSrc2Base64(img.src);
+                return await imageSrc2Base64(img.src, icon);
             }
         }
 
@@ -14615,7 +14706,8 @@
                         method: 'GET',
                         url: src,
                         responseType:'blob',
-                        headers: {
+                        referrerPolicy: icon ? 'no-referrer' : undefined,
+                        headers: icon ? {accept: '*/*', Referer: ''} : {
                             origin: urlSplit[0] + "//" + urlSplit[2],
                             referer: location.href,
                             accept: "*/*"
@@ -14684,7 +14776,7 @@
                         return imageSrc2Base64(src, true);
                     }
                     if (cacheIcon[src]) return cacheIcon[src];
-                    cache = await image2Base64(target);
+                    cache = await image2Base64(target, true);
                     if (cache == 'data:,' || !cache) cache = 'fail';
                     cacheIcon[src] = cache;
                     storage.setItem("cacheIcon", cacheIcon);
@@ -15959,7 +16051,7 @@
 
         var shareEngines;
         async function checkConfigPage() {
-            if (href.indexOf(configPage) === 0 || ((document.title === "SearchJumper" || document.querySelector('[name="from"][content="SearchJumper"]')) && document.querySelector('[name="author"][content="Hoothin"]'))) {
+            if (isConfigUrl(href, searchData.prefConfig.configPage, ext && chrome.runtime.getURL('config/index.html')) || href.indexOf(configPage) === 0 || ((document.title === "SearchJumper" || document.querySelector('[name="from"][content="SearchJumper"]')) && document.querySelector('[name="author"][content="Hoothin"]'))) {
                 shareEngines = document.querySelector('[name="engines"]');
                 let spotlight = document.getElementById("spotlight");
                 if (shareEngines) {
@@ -16029,17 +16121,14 @@
                         }
                     }, 500);
                 }
-                return trustSite;
+                return trustSite || isConfigUrl(href, searchData.prefConfig.configPage, ext && chrome.runtime.getURL('config/index.html'));
             }
             return false;
         }
 
         async function initConfig() {
             isInConfigPage = await checkConfigPage();
-            if (!isInConfigPage && searchData.webdavConfig) {
-                webDAV = new WebDAV(searchData.webdavConfig.host + "/SearchJumper" + (searchData.webdavConfig.path || "").replace(/^\/*/, "/").replace(/\/*$/, "/"), searchData.webdavConfig.username, searchData.webdavConfig.password);
-            }
-            if (isInConfigPage && !isAllPage) {
+            if (isInConfigPage && !isAllPage && isConfigUrl(location.href, searchData.prefConfig.configPage, ext && chrome.runtime.getURL('config/index.html'))) {
                 if (ext) {
                     cacheIcon = await extensionApi.runtime.sendMessage({action: 'getIconCache'}) || {};
                     chrome.storage.onChanged.addListener((changes, area) => {
@@ -16054,11 +16143,10 @@
                         }
                     }, 50);
                     window.postMessage({
-                        searchData: searchData,
                         cacheIcon: cacheIcon,
                         version: _GM_info.script.version || 0,
                         splitEnabled,
-                        command: 'loadConfig'
+                        command: 'configReady'
                     }, '*');
                 }
                 let delayTimeout = setTimeout(() => {
@@ -16096,6 +16184,20 @@
                     }
                 });
 
+                document.addEventListener('configRequest', async e => {
+                    const message = e.detail;
+                    if (!message || typeof message.id !== 'string' || !['get', 'save', 'import', 'configure', 'disconnect', 'sync', 'shareGet', 'shareSet', 'createAccount'].includes(message.operation)) return;
+                    try {
+                        const saved = await storage.getItem('searchData');
+                        if (!isConfigUrl(location.href, saved?.prefConfig?.configPage, ext && chrome.runtime.getURL('config/index.html'))) {
+                            throw new Error('Configuration access denied');
+                        }
+                        const value = await privateConfig(message.operation, message.detail);
+                        window.postMessage({command: 'configResponse', id: message.id, ok: true, value}, location.origin);
+                    } catch (error) {
+                        window.postMessage({command: 'configResponse', id: message.id, ok: false, error: error.message}, location.origin);
+                    }
+                });
                 loadConfig();
                 document.addEventListener('getAppearancePreview', async () => {
                     try {
@@ -16179,9 +16281,9 @@
                 });
 
                 let preSwitch = searchData.prefConfig.cacheSwitch;
-                document.addEventListener('saveConfig', e => {
-                    searchData = (e.detail ? e.detail.searchData : e.searchData) || _unsafeWindow.searchData;
-                    storage.setItem("searchData", searchData);
+                document.addEventListener('configSaved', async e => {
+                    searchData = await storage.getItem('searchData');
+                    if (!searchData) return;
                     let newCache = {}, oldCacheLength = cacheIcon ? Object.keys(cacheIcon).length : 0;
                     if (preSwitch == searchData.prefConfig.cacheSwitch) {
                         searchData.sitesConfig.forEach(type => {
@@ -16346,9 +16448,10 @@
                                 dataChanged(() => {
                                     searchData.sitesConfig = configData;
                                     searchData.lastModified = new Date().getTime();
-                                    storage.setItem("searchData", searchData);
-                                    _GM_notification(i18n("siteAddOver"));
-                                    searchBar.refreshEngines();
+                                    return () => {
+                                        _GM_notification(i18n("siteAddOver"));
+                                        searchBar.refreshEngines();
+                                    };
                                 }, true);
                             }
                             break;
@@ -16669,10 +16772,11 @@
                         });
                         if (canImport) {
                             searchData.lastModified = new Date().getTime();
-                            storage.setItem("searchData", searchData);
-                            _GM_notification(i18n("siteAddOver"));
-                            searchBar.refreshEngines();
-                            this.close();
+                            return () => {
+                                _GM_notification(i18n("siteAddOver"));
+                                searchBar.refreshEngines();
+                                this.close();
+                            };
                         }
                     });
                 });
@@ -17826,18 +17930,13 @@
                         }
                         searchData.sitesConfig[typeSelect.value].sites.push(siteObj);
                         searchData.lastModified = new Date().getTime();
-                        storage.setItem("lastAddType", typeSelect.value);
-                        storage.setItem("searchData", searchData);
-                        _GM_notification(i18n("siteAddOver"));
-                        if (addFrame.parentNode) {
-                            addFrame.parentNode.removeChild(addFrame);
-                        }
-                        window.postMessage({
-                            searchData: searchData,
-                            version: _GM_info.script.version || 0,
-                            command: 'loadConfig'
-                        }, '*');
-                        searchBar.refreshEngines();
+                        return async () => {
+                            await storage.setItem("lastAddType", typeSelect.value);
+                            _GM_notification(i18n("siteAddOver"));
+                            if (addFrame.parentNode) addFrame.parentNode.removeChild(addFrame);
+                            if (isInConfigPage && !isAllPage) document.dispatchEvent(new Event('dataChanged'));
+                            searchBar.refreshEngines();
+                        };
                     });
                 });
 
@@ -18643,10 +18742,9 @@
             if (typeof searchData.prefConfig.disableAddon === "undefined") {
                 searchData.prefConfig.disableAddon = {};
             }
-            if (typeof searchData.prefConfig.suggestType === "undefined") {
-                if (lang === "zh-CN") {
-                    searchData.prefConfig.suggestType = "baidu";
-                } else searchData.prefConfig.suggestType = "google";
+            const migrateSuggestions = typeof searchData.prefConfig.suggestType === 'undefined';
+            if (migrateSuggestions) {
+                searchData.prefConfig.suggestType = _searchData ? (lang === 'zh-CN' ? 'baidu' : 'google') : 'disable';
             }
             if (typeof searchData.prefConfig.syncBuild === "undefined") {
                 searchData.prefConfig.syncBuild = true;
@@ -18664,6 +18762,14 @@
                 configPage = searchData.prefConfig.configPage;
             } else {
                 searchData.prefConfig.configPage = configPage;
+            }
+            if (migrateSuggestions) {
+                const latest = await storage.getItem('searchData');
+                if (!latest) await storage.setItem('searchData', searchData);
+                else if (typeof latest.prefConfig.suggestType === 'undefined') {
+                    latest.prefConfig.suggestType = searchData.prefConfig.suggestType;
+                    await storage.setItem('searchData', latest);
+                }
             }
         }
 

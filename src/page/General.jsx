@@ -116,7 +116,7 @@ export default function General() {
         window.searchData.prefConfig.minPopup = 1;
     }
     if (!window.searchData.prefConfig.suggestType) {
-        window.searchData.prefConfig.suggestType = "google";
+        window.searchData.prefConfig.suggestType = "disable";
     }
     if (window.searchData.prefConfig.shortcut === true) {
         window.searchData.prefConfig.shortcut = 1;
@@ -520,7 +520,7 @@ export default function General() {
                     </Typography>
                     <Box>
                         <FormControl sx={{ m: 1, minWidth: 80 }}>
-                            <InputLabel>Source</InputLabel>
+                            <InputLabel>{window.i18n('suggestProvider')}</InputLabel>
                             <Select
                                 value={state.suggestType}
                                 onChange={(event: SelectChangeEvent) => {
@@ -533,14 +533,17 @@ export default function General() {
                                     saveConfigToScript();
                                 }}
                                 autoWidth
-                                label="Source"
+                                label={window.i18n('suggestProvider')}
                             >
                                 <MenuItem value={'google'}>Google</MenuItem>
                                 <MenuItem value={'bing'}>Bing</MenuItem>
                                 <MenuItem value={'baidu'}>Baidu</MenuItem>
-                                <MenuItem value={'disable'}>Disable</MenuItem>
+                                <MenuItem value={'disable'}>{window.i18n('disable')}</MenuItem>
                             </Select>
                         </FormControl>
+                        <Typography variant="body2" color="text.secondary" sx={{m: 1}}>
+                            {state.suggestType === 'disable' ? window.i18n('suggestDisabled') : window.i18n('suggestPrivacy', {google: 'Google', bing: 'Bing', baidu: 'Baidu'}[state.suggestType])}
+                        </Typography>
                     </Box>
                 </AccordionDetails>
             </Accordion>

@@ -110,10 +110,11 @@ function setInPageRule() {
     });
     if (window.searchData.prefConfig.inPageRule) {
         window.searchData.lastModified = new Date().getTime();
-        window.saveToWebdav();
+
     }
     window.searchData.prefConfig.disableAutoHighlight = disableAutoHighlight.value.trim();
     saveConfigToScript(true);
+    if (window.searchData.prefConfig.inPageRule) window.saveToWebdav();
 }
 
 function addInPageGroup() {

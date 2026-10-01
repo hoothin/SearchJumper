@@ -46,9 +46,20 @@ Please help with localizing this extension[[1](searchJumper.user.js#L654)][[2](s
   Русский: <a href="https://github.com/RomanAleynikov">RomanAleynikov</a>
  </details>
 
+## Privacy and network access / 隱私與連線
+
+- New installations disable suggestions by default. Upgrades preserve the previous provider. When enabled, suggestions send unsubmitted text to the selected Google, Bing, or Baidu service after an input pause of about 200 ms.
+  > 新安裝預設關閉聯想；升級保留原服務商。開啟後，輸入停頓約 200 毫秒會傳送尚未提交的文字。
+- Icons, fonts, configured backgrounds, and the configuration page's sponsor image can make resource requests. Disabling icon caching does not disable downloads.
+  > 圖示、字型、背景和設定頁贊助圖片仍可能連線；關閉圖示快取不等於停止下載。
+- Optional WebDAV sync sends engine configurations and saved highlighting rules to your chosen server. Saved WebDAV passwords stay in extension or userscript storage, are not filled into the configuration page, and are excluded from full backups. Existing backups remain importable.
+  > WebDAV 將引擎和高亮規則傳至指定伺服器；已儲存的密碼不回填至設定頁，也不包含在完整備份中，舊備份仍可匯入。
+- Custom engines and backups can contain API parameters, headers, page URLs, and other values you entered. Cross-origin permissions remain available for custom sites, images, APIs, and WebDAV. See the [privacy policy](public/privacy.html) for account services, updates, storage, and split search's effect on site service workers.
+  > 自訂引擎和備份仍可能含 API 參數、請求標頭及網址。跨域權限保留供自訂功能使用；帳號服務、更新、儲存與分屏影響範圍詳見隱私政策。
+
 ## Features:
-+ Fully open source without any privacy collection, spam or third-party libraries.
-  > 完全開源，無任何隱私收集、廣告或者亂七八糟的第三方庫，所有數據均在本地，無任何服務器交互
++ Open source, with settings stored in the browser or userscript manager. Searches, visible resources, suggestions, and optional synchronization can contact external services. See the [privacy policy](public/privacy.html).
+  > 開放原始碼，設定儲存在瀏覽器或腳本管理器中。搜尋、可見資源、聯想和可選同步會連線外部服務，詳見[隱私政策](public/privacy.html)。
 + Search for pictures, links, videos, audios, pages, etc. (**long press the right mouse** on the corresponding object)
   > 可以搜尋圖片、連結、視頻、音頻、頁面等（在相應對象上**長按右鍵**）
 + Support word search on any page (need to **long press the right mouse**, you can also change to swipe to call out immediately in the settings)
@@ -99,8 +110,8 @@ Please help with localizing this extension[[1](searchJumper.user.js#L654)][[2](s
   > 支援 Post、頁內 post 以及無跳轉 post
 + Comprehensive customization
   > 全面的自定義功能，詳見最下方【搜尋參數】
-+ No 3rd party dependencies
-  > 無第三方依賴庫
++ The extension bundles its default configuration and configuration app dependencies. The userscript pins its default configuration dependency to a reviewed revision.
+  > 擴充套件內含預設設定與設定頁相依套件；使用者腳本的預設設定相依檔固定版本。
 + Self-expand current category
   > 自展開當前類別並提前
 + No tamper with the original page
