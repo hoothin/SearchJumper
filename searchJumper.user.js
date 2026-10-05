@@ -9584,50 +9584,61 @@
                     });
                     title.appendChild(splitButton);
                 }
-                function createItem(siteEle, index) {
-                    let li = document.createElement("div");
-                    li.id = "list" + index;
-                    let icon = siteEle.querySelector("img");
-                    let a = document.createElement("a");
-                    a.setAttribute("ref", "noopener noreferrer");
-                    self.bindSite(a, siteEle);
-                    li.appendChild(a);
-                    self.allListBtns.push(li);
-                    if (icon && !searchData.prefConfig.noIcons) {
-                        let iconSrc = icon.src || icon.dataset.src;
-                        let img = document.createElement("img");
-                        let imgCon = document.createElement("div");
-                        imgCon.appendChild(img);
-                        a.appendChild(imgCon);
-                        img.src = noImgBase64;
-                        if (iconSrc) {
-                            img.dataset.src = iconSrc;
-                        }
+                // Build the site list lazily. Creating all of the hidden site
+                // nodes (and yielding between batches) during page init is what
+                // interferes with Cloudflare verification, so defer it until the
+                // list is actually shown for the first time (initList).
+                // See hoothin/SearchJumper#275.
+                list._searchJumperBuildItems = () => {
+                    if (list.dataset.itemsBuilt === "1") {
+                        return;
                     }
-                    let p = document.createElement("p");
-                    p.innerText = siteEle.dataset.name;
-                    li.title = siteEle.title;
-                    li.dataset.name = siteEle.dataset.name;
-                    a.appendChild(p);
-                    con.appendChild(li);
-                }
-                try {
+                    const fragment = document.createDocumentFragment();
+                    function createItem(siteEle, index) {
+                        let li = document.createElement("div");
+                        li.id = "list" + index;
+                        let icon = siteEle.querySelector("img");
+                        let a = document.createElement("a");
+                        a.setAttribute("ref", "noopener noreferrer");
+                        self.bindSite(a, siteEle);
+                        li.appendChild(a);
+                        self.allListBtns.push(li);
+                        if (icon && !searchData.prefConfig.noIcons) {
+                            let iconSrc = icon.src || icon.dataset.src;
+                            let img = document.createElement("img");
+                            let imgCon = document.createElement("div");
+                            imgCon.appendChild(img);
+                            a.appendChild(imgCon);
+                            img.src = noImgBase64;
+                            if (iconSrc) {
+                                img.dataset.src = iconSrc;
+                            }
+                        }
+                        let p = document.createElement("p");
+                        p.innerText = siteEle.dataset.name;
+                        li.title = siteEle.title;
+                        li.dataset.name = siteEle.dataset.name;
+                        a.appendChild(p);
+                        fragment.appendChild(li);
+                    }
                     for (let [index, siteEle] of sites.entries()) {
                         createItem(siteEle, siteEle.dataset.id);
-                        if (index%50 === 49) await sleep(1);
                     }
-                } catch(e) {
-                    for (let index = 0; index < sites.length; index++) {
-                        let siteEle = sites[index];
-                        createItem(siteEle, siteEle.dataset.id);
-                    }
-                }
+                    con.appendChild(fragment);
+                    list.dataset.itemsBuilt = "1";
+                };
                 this.allLists.push(list);
                 return list;
             }
 
             async initList(list) {
                 if (!list.dataset.inited) {
+                    // Create the site items now that the list is first used, then
+                    // release the builder closure so sites/type can be collected.
+                    if (typeof list._searchJumperBuildItems === "function") {
+                        list._searchJumperBuildItems();
+                        delete list._searchJumperBuildItems;
+                    }
                     list.style.display = "none";
                     list.dataset.inited = true;
                     [].forEach.call(list.querySelectorAll("div>a>div>img"), img => {
