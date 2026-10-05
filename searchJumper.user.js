@@ -9499,6 +9499,15 @@
                 let self = this;
                 if (siteEle.href) a.href = siteEle.href;
                 a.style.display = siteEle.style.display;
+                // Bind before URL preparation, which may wait for image data.
+                if (!a.onclick) {
+                    a.onclick = e => {
+                        if (!siteEle.dataset.showTips) siteEle.click();
+                        e.stopPropagation();
+                        e.preventDefault();
+                        return false;
+                    }
+                }
                 a.addEventListener('mousedown', async e => {
                     if (siteEle.dataset.showTips) {
                         if (self.con.classList.contains("search-jumper-showall")) {
@@ -9509,14 +9518,6 @@
                         await self.siteSetUrl(siteEle, {button: e.button, altKey: e.altKey, ctrlKey: e.ctrlKey, shiftKey: e.shiftKey, metaKey: e.metaKey});
                         if (siteEle.href) a.href = siteEle.href;
                         a.setAttribute("target", siteEle.target);
-                    }
-                    if (!a.onclick) {
-                        a.onclick = e => {
-                            if (!siteEle.dataset.showTips) siteEle.click();
-                            e.stopPropagation();
-                            e.preventDefault();
-                            return false;
-                        }
                     }
                 }, false);
                 a.addEventListener("dragover", e => {
