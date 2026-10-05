@@ -1575,7 +1575,13 @@
                 if (!data || !Array.isArray(data.sitesConfig) || !data.prefConfig ||
                     typeof data.prefConfig !== 'object' || Array.isArray(data.prefConfig)) throw new Error('Invalid configuration');
             };
-            const same = (a, b) => JSON.stringify(a) === JSON.stringify(b);
+            // Storage can reorder object keys; array order still identifies a configuration change.
+            const same = (a, b) => {
+                if (a === b) return true;
+                if (!a || !b || typeof a !== 'object' || typeof b !== 'object' || Array.isArray(a) !== Array.isArray(b)) return false;
+                const keys = Object.keys(a);
+                return keys.length === Object.keys(b).length && keys.every(key => Object.hasOwn(b, key) && same(a[key], b[key]));
+            };
             const parseResponse = text => {
                 try { return JSON.parse(text); }
                 catch { throw new Error('Invalid server response'); }
