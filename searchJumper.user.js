@@ -9584,10 +9584,9 @@
                     });
                     title.appendChild(splitButton);
                 }
-                // Build the site list lazily. Creating all of the hidden site
-                // nodes (and yielding between batches) during page init is what
-                // interferes with Cloudflare verification, so defer it until the
-                // list is actually shown for the first time (initList).
+                // Build the site list on demand instead of during page init.
+                // The items stay hidden until the list is first shown, so create
+                // and bind them lazily from initList().
                 // See hoothin/SearchJumper#275.
                 list._searchJumperBuildItems = () => {
                     if (list.dataset.itemsBuilt === "1") {
@@ -9634,7 +9633,7 @@
             async initList(list) {
                 if (!list.dataset.inited) {
                     // Create the site items now that the list is first used, then
-                    // release the builder closure so sites/type can be collected.
+                    // release the temporary builder after successful construction.
                     if (typeof list._searchJumperBuildItems === "function") {
                         list._searchJumperBuildItems();
                         delete list._searchJumperBuildItems;
