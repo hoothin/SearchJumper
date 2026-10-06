@@ -9521,7 +9521,7 @@
                         } else self.waitForHide(0);
                         siteEle.dispatchEvent(new CustomEvent('showTips', {detail: a}));
                     } else {
-                        await self.siteSetUrl(siteEle, {button: e.button, altKey: e.altKey, ctrlKey: e.ctrlKey, shiftKey: e.shiftKey, metaKey: e.metaKey});
+                        await self.siteSetUrl(siteEle, {button: e.button, altKey: e.altKey, ctrlKey: e.ctrlKey, shiftKey: e.shiftKey, metaKey: e.metaKey}, false);
                         if (siteEle.href) a.href = siteEle.href;
                         a.setAttribute("target", siteEle.target);
                     }
@@ -10688,7 +10688,24 @@
                 self.batchOpening = false;
             }
 
-            async siteSetUrl(siteEle, e) {
+            async getImageBase64(img, ele) {
+                let loader;
+                if (ele) {
+                    this.tipsPos(ele, "<span class='loader'></span><font>Loading...</font>");
+                    loader = this.tips.firstChild;
+                }
+                try {
+                    return await (typeof img === 'string' ? imageSrc2Base64(img) : image2Base64(img));
+                } finally {
+                    if (loader && this.tips.firstChild === loader) {
+                        this.tips.style.opacity = 0;
+                        this.tips.style.pointerEvents = '';
+                        setHTML(this.tips, '');
+                    }
+                }
+            }
+
+            async siteSetUrl(siteEle, e, showLoading = true) {
                 return new Promise((resolve) => {
                     let actionOverHandler = e => {
                         siteEle.removeEventListener('actionOver', actionOverHandler);
@@ -10696,6 +10713,7 @@
                     }
                     siteEle.addEventListener('actionOver', actionOverHandler);
                     let mouseDownEvent = new PointerEvent("mousedown", e);
+                    mouseDownEvent.showLoading = showLoading;
                     siteEle.dispatchEvent(mouseDownEvent);
                 });
             }
@@ -11141,7 +11159,7 @@
                     ele.dataset.link = true;
                 }
                 let inputString;
-                let getUrl = async (_keyWords, splitContext) => {
+                let getUrl = async (_keyWords, splitContext, showLoading = true) => {
                     self.customInput = false;
                     dataUrl = data.url;
                     inputString = "";
@@ -11397,8 +11415,7 @@
                                 if (/^data/.test(targetElement.src)) {
                                     imgBase64 = targetElement.src;
                                 } else {
-                                    self.tipsPos(ele, "<span class='loader'></span><font>Loading...</font>");
-                                    imgBase64 = await image2Base64(targetElement);
+                                    imgBase64 = await self.getImageBase64(targetElement, showLoading ? ele : null);
                                 }
                                 resultUrl = resultUrl.replace(/%i\b/g, imgBase64);
                             }
@@ -11484,8 +11501,7 @@
                                     self.customInput = true;
                                     let src = window.prompt(i18n("targetUrl"), "https://www.google.com/favicon.ico");
                                     if (src) {
-                                        self.tipsPos(ele, "<span class='loader'></span><font>Loading...</font>");
-                                        imgBase64 = await imageSrc2Base64(src);
+                                        imgBase64 = await self.getImageBase64(src, showLoading ? ele : null);
                                     } else return false;
                                 }
                             }
@@ -11756,7 +11772,7 @@
                     }
                     clicked = false;
                     targetUrlData = "";
-                    targetUrlData = await getUrl();
+                    targetUrlData = await getUrl(undefined, undefined, e.showLoading !== false);
                     if (/^(https?|ftp):/.test(targetUrlData)) {
                         e.stopPropagation && e.stopPropagation();
                     }
@@ -12283,6 +12299,7 @@
                 let showTipsHandler = async (target, time = 1000) => {
                     if (ele.dataset.disable) return;
                     if (!target || target.nodeType !== 1) return;
+                    const showLoading = !target.closest('.sitelist');
                     if (self.preList) {
                         self.preList.style.visibility = "hidden";
                         self.listArrow.style.cssText = "";
@@ -12293,7 +12310,7 @@
                     self.tipsPos(target, tipsStr);
                     if (showTips) {
                         self.stopInput = true;
-                        let url = await getUrl();
+                        let url = await getUrl(undefined, undefined, showLoading);
                         self.stopInput = false;
                         if (url && self.lastUrl === url) {
                             if (anylizing) {
@@ -12304,7 +12321,7 @@
                         } else {
                             self.waitForShowTips = true;
                             self.requestShowTipsTimer = setTimeout(async () => {
-                                url = url || await getUrl();
+                                url = url || await getUrl(undefined, undefined, showLoading);
                                 if (!url) return;
                                 self.lastUrl = url;
                                 setTips(target, url);
@@ -14837,62 +14854,159 @@
         function captureStartupSelection() {
             const controller = new AbortController();
             const options = {capture: true, signal: controller.signal};
-            let start, pending, timer, ready = false;
+            let start, pending, timer, holdTimer, touchEvent, wakeInit, deferred = false, ready = false;
             const cancel = () => {
                 controller.abort();
                 clearTimeout(timer);
-                start = pending = null;
+                clearTimeout(holdTimer);
+                start = pending = touchEvent = null;
             };
             const reset = () => {
-                start = pending = null;
+                clearTimeout(holdTimer);
+                start = pending = touchEvent = null;
                 if (ready) cancel();
             };
+            const wake = () => {
+                if (!wakeInit || !pending || document.hidden || !pending.target.isConnected) return;
+                const pref = searchData.prefConfig;
+                if (pending.kind === 'key') {
+                    if (!pref.shortcut) return;
+                    const e = pending.event;
+                    const key = (e.key || String.fromCharCode(e.keyCode)).toLowerCase();
+                    for (const [prefix, shortcut, kind] of [
+                        ['callBar', pref.shortcutKey, 'shortcut'],
+                        ['showAll', pref.showAllShortcutKey, 'all']
+                    ]) {
+                        if (!shortcut || (shortcut !== e.code && shortcut !== key)) continue;
+                        if (['Alt', 'Ctrl', 'Shift', 'Meta'].some(mod => pref[prefix + mod] && !e[mod.toLowerCase() + 'Key'])) continue;
+                        if (!pref.enableInInput && inputActive(document) &&
+                            !['Alt', 'Ctrl', 'Shift', 'Meta'].some(mod => pref[prefix + mod])) continue;
+                        pending.kind = kind;
+                        e.preventDefault();
+                        e.stopPropagation();
+                        break;
+                    }
+                    if (pending.kind === 'key') return;
+                } else if (!pref.enableInPage ||
+                    (!pending.kind && (!pref.selectToShow || !pending.text ||
+                        (!pref.enableInInput && (inputActive(document) || isInput(pending.target)))))) return;
+                const resolve = wakeInit;
+                wakeInit = null;
+                deferred = false;
+                resolve();
+            };
+            const saveSelection = (e, target) => {
+                const selection = window.getSelection();
+                pending = {event: e, target, text: getSelectStr(),
+                    anchorNode: selection.anchorNode, anchorOffset: selection.anchorOffset,
+                    focusNode: selection.focusNode, focusOffset: selection.focusOffset};
+                wake();
+            };
+            const armHold = () => {
+                clearTimeout(holdTimer);
+                const saved = start, pref = searchData.prefConfig;
+                if (!wakeInit || !saved || saved.moved || !pref.enableInPage ||
+                    !pref[['leftMouse', 'middleMouse', 'rightMouse'][saved.event.button]] ||
+                    saved.event.target.closest?.('a,input,button,select,textarea,iframe,[role="checkbox"],[role="button"],[contenteditable="true"],.cf-turnstile') ||
+                    (!pref.enableInInput && (inputActive(document) || isInput(saved.event.target)))) return;
+                holdTimer = setTimeout(() => {
+                    pending = {kind: 'press', event: saved.event, target: saved.event.target};
+                    wake();
+                }, Math.max(0, parseInt(pref.longPressTime) - (Date.now() - saved.time)));
+            };
             const flush = () => {
-                if (!ready || start) return;
+                if (!ready || (start && !pending?.kind)) return;
                 const saved = pending;
                 cancel();
-                if (!saved || !saved.text || document.hidden || !saved.target.isConnected ||
+                if (!saved || document.hidden || !saved.target.isConnected ||
                     !saved.event.target.isConnected || searchBar.contains(saved.target) ||
-                    /^pv-/.test(saved.event.target.className) || getSelectStr() !== saved.text) return;
-                const selection = window.getSelection();
-                if (['anchorNode', 'anchorOffset', 'focusNode', 'focusOffset'].some(key => selection[key] !== saved[key])) return;
+                    /^pv-/.test(saved.event.target.className) || isInConfigPage || isAllPage) return;
+                targetElement = saved.target;
+                if (saved.kind === 'all') {
+                    searchBar.appendBar();
+                    searchBar.showAllSites();
+                    return;
+                }
+                if (saved.kind === 'shortcut') {
+                    searchBar.setFuncKeyCall(false);
+                    searchBar.showInPage();
+                    if (!searchData.prefConfig.disableInputOnWords || searchBar.inInput || !getSelectStr()) searchBar.showSearchInput();
+                    return;
+                }
+                if (!searchData.prefConfig.enableInPage) return;
                 const targetInput = inputActive(document) || isInput(saved.event.target);
                 if (!searchData.prefConfig.enableInInput && targetInput) return;
-                targetElement = saved.target;
                 if (searchData.prefConfig.minPopup == 2) searchBar.con.classList.toggle('targetInput', targetInput);
+                if (saved.kind === 'press') {
+                    startupPressTarget = saved.target;
+                    if (searchData.prefConfig.longPressTile) searchBar.showInPage(true, saved.event);
+                    else {
+                        searchBar.setFuncKeyCall(false);
+                        searchBar.showInPage();
+                    }
+                    return;
+                }
+                if (!searchData.prefConfig.selectToShow || !saved.text || getSelectStr() !== saved.text) return;
+                const selection = window.getSelection();
+                if (['anchorNode', 'anchorOffset', 'focusNode', 'focusOffset'].some(key => selection[key] !== saved[key])) return;
                 searchBar.showInPage(true, saved.event);
             };
             document.addEventListener('mousedown', e => {
                 if (!e.isTrusted) return;
                 if (ready) return cancel();
-                pending = null;
-                start = e.button === 0 ? {event: e, moved: false} : null;
+                pending = touchEvent = null;
+                start = e.button === 0 || deferred ? {event: e, moved: false, time: Date.now()} : null;
+                armHold();
             }, options);
             document.addEventListener('mousemove', e => {
                 if (start && Math.abs(start.event.clientX - e.clientX) + Math.abs(start.event.clientY - e.clientY) > 2) {
                     start.moved = true;
+                    clearTimeout(holdTimer);
                 }
             }, options);
             document.addEventListener('mouseup', e => {
-                if (!e.isTrusted || !start || e.button !== 0) return;
-                if (start.moved || e.detail > 1) {
-                    const selection = window.getSelection();
-                    pending = {event: e, target: start.event.target, text: getSelectStr(),
-                        anchorNode: selection.anchorNode, anchorOffset: selection.anchorOffset,
-                        focusNode: selection.focusNode, focusOffset: selection.focusOffset};
+                if (!e.isTrusted || !start) return;
+                clearTimeout(holdTimer);
+                if (e.button === 0 && start.event.button === 0 && !pending?.kind && (start.moved || e.detail > 1)) {
+                    saveSelection(e, start.event.target);
                 }
                 start = null;
                 if (ready) timer = setTimeout(flush, 0);
             }, options);
             // A double click handled by the normal listener supersedes the pending mouseup.
             document.addEventListener('dblclick', () => { if (ready) cancel(); }, options);
-            for (const type of ['keydown', 'dragstart', 'pointercancel']) document.addEventListener(type, reset, options);
-            window.addEventListener('blur', reset, options);
+            document.addEventListener('keydown', e => {
+                reset();
+                if (!deferred || !e.isTrusted) return;
+                pending = {kind: 'key', event: e, target: e.target};
+                wake();
+            }, options);
+            document.addEventListener('touchstart', e => {
+                if (deferred && e.isTrusted && e.touches.length === 1) touchEvent = e;
+            }, options);
+            document.addEventListener('selectionchange', () => {
+                if (touchEvent && wakeInit && window.getSelection().toString()) saveSelection(touchEvent, touchEvent.target);
+            }, options);
+            document.addEventListener('contextmenu', e => {
+                if (pending?.kind === 'press') e.preventDefault();
+            }, options);
+            for (const type of ['dragstart', 'pointercancel', 'touchcancel', 'scroll']) document.addEventListener(type, reset, options);
+            window.addEventListener('blur', e => { if (e.target === window) reset(); }, options);
             document.addEventListener('visibilitychange', () => { if (document.hidden) reset(); }, options);
-            return {cancel, resume() {
+            return {cancel, async waitForGesture() {
+                deferred = true;
+                const saved = await storage.getItem('searchData');
+                if (saved?.prefConfig) Object.assign(searchData.prefConfig, saved.prefConfig);
+                return new Promise(resolve => {
+                    wakeInit = resolve;
+                    armHold();
+                    wake();
+                });
+            }, resume() {
                 if (controller.signal.aborted) return;
                 ready = true;
-                if (!searchData.prefConfig.enableInPage || !searchData.prefConfig.selectToShow || isInConfigPage || isAllPage) {
+                if (isInConfigPage || isAllPage ||
+                    (!pending?.kind && (!searchData.prefConfig.enableInPage || !searchData.prefConfig.selectToShow))) {
                     cancel();
                     return;
                 }
@@ -15498,6 +15612,7 @@
                     return targetInput;
                 }
                 let mouseDownHandler = e => {
+                    startupPressTarget = null;
                     if ((waitForMouse && e.type === 'mousedown' && e.button === 0) ||
                         (e.target.classList && e.target.classList.contains('search-jumper-btn')) ||
                         searchBar.contains(e.target)) {
@@ -15691,7 +15806,8 @@
                     });
                 }
                 document.addEventListener('contextmenu', e => {
-                    if (shown) e.preventDefault();
+                    if (shown || startupPressTarget === e.target) e.preventDefault();
+                    startupPressTarget = null;
                     shown = false;
                 });
             }
@@ -18906,61 +19022,73 @@
             await extensionApi.runtime.sendMessage({action: 'splitFrameReady', paneId: splitFrame.paneId, ...splitFrameAdapter?.identity});
         }
 
-        var inited = false;
+        function isCloudflareChallenge() {
+            // ponytail: DOM detection; use cf-mitigated if navigation response headers become available.
+            return Array.from(document.scripts).some(script =>
+                /\/cdn-cgi\/challenge-platform\/[^"'\s]*\/orchestrate\/chl_page\//.test(script.src) ||
+                /\b_cf_chl_opt\s*=/.test(script.textContent) && /\/orchestrate\/chl_page\//.test(script.textContent));
+        }
+
+        var initPromise, startupPressTarget;
         var checkGlobalIntv, flashTitleIntv, defaultTitle;
         async function init(cb) {
-            if (inited) {
-                if (cb) cb();
-                return;
-            }
-            inited = true;
-            try {
-                if (isSplitPage || splitFrame?.ok) {
-                    try { await initSplit(); }
-                    catch (error) {
-                        if (isSplitPage) window.dispatchEvent(new CustomEvent('searchjumper-split-error', {detail: error.message}));
-                        else console.error('SearchJumper split:', error);
-                    }
-                    return;
-                }
-                preAction();
-                await initData();
-                if (disableState) return;
-                if (searchData.prefConfig.blacklist && searchData.prefConfig.blacklist.length > 0) {
-                    let commentStart = false;
-                    for (let i = 0; i < searchData.prefConfig.blacklist.length; i++) {
-                        let curGlob = searchData.prefConfig.blacklist[i];
-                        if (!curGlob) continue;
-                        if (curGlob.indexOf("//") == 0) continue;
-                        if (commentStart) {
-                            if (/\*\/$/.test(curGlob)) {
-                                commentStart = false;
+            if (!initPromise) {
+                initPromise = (async () => {
+                    try {
+                        if (isSplitPage || splitFrame?.ok) {
+                            try { await initSplit(); }
+                            catch (error) {
+                                if (isSplitPage) window.dispatchEvent(new CustomEvent('searchjumper-split-error', {detail: error.message}));
+                                else console.error('SearchJumper split:', error);
                             }
-                            continue;
-                        }
-                        if (curGlob.indexOf("/*") == 0) {
-                            commentStart = true;
-                            continue;
-                        }
-                        if (curGlob.indexOf("/") == 0) {
-                            let regMatch = curGlob.match(/^\/(.*)\/(\w*)$/);
-                            if (regMatch && new RegExp(regMatch[1], regMatch[2]).test(href)) {
-                                return;
-                            }
-                        } else if (globMatch(curGlob, href)) {
                             return;
                         }
+                        if (document.readyState === 'loading') {
+                            await new Promise(resolve => document.addEventListener('DOMContentLoaded', resolve, {once: true}));
+                        }
+                        if (!isInConfigPage && !isAllPage && isCloudflareChallenge()) await startupSelection.waitForGesture();
+                        preAction();
+                        await initData();
+                        if (disableState) return;
+                        if (searchData.prefConfig.blacklist && searchData.prefConfig.blacklist.length > 0) {
+                            let commentStart = false;
+                            for (let i = 0; i < searchData.prefConfig.blacklist.length; i++) {
+                                let curGlob = searchData.prefConfig.blacklist[i];
+                                if (!curGlob) continue;
+                                if (curGlob.indexOf("//") == 0) continue;
+                                if (commentStart) {
+                                    if (/\*\/$/.test(curGlob)) {
+                                        commentStart = false;
+                                    }
+                                    continue;
+                                }
+                                if (curGlob.indexOf("/*") == 0) {
+                                    commentStart = true;
+                                    continue;
+                                }
+                                if (curGlob.indexOf("/") == 0) {
+                                    let regMatch = curGlob.match(/^\/(.*)\/(\w*)$/);
+                                    if (regMatch && new RegExp(regMatch[1], regMatch[2]).test(href)) {
+                                        return;
+                                    }
+                                } else if (globMatch(curGlob, href)) {
+                                    return;
+                                }
+                            }
+                        }
+                        initView();
+                        await initConfig();
+                        initMycroft();
+                        searchBar.ready = initRun();
+                        await searchBar.ready;
+                        defaultTitle = document.title;
+                    } finally {
+                        if (!searchBar || !searchBar.ready) startupSelection.cancel();
                     }
-                }
-                initView();
-                await initConfig();
-                initMycroft();
-                searchBar.ready = initRun();
-                if (cb) cb();
-                defaultTitle = document.title;
-            } finally {
-                if (!searchBar || !searchBar.ready) startupSelection.cancel();
+                })();
             }
+            await initPromise;
+            if (cb) cb();
         }
 
         function checkVisibility() {
