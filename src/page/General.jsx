@@ -335,6 +335,28 @@ export default function General() {
                             labelPlacement="end"
                         />
                     </FormControl>
+                    {/^(chrome|moz)-extension:$/.test(window.location.protocol) && <Box>
+                        <Typography gutterBottom component="div">
+                            <h4>{window.i18n('contextMenuTopCount')}</h4>
+                        </Typography>
+                        <TextField
+                            sx={{ width: 100, m: 1 }}
+                            type="number"
+                            inputProps={{ min: 0, max: 9, step: 1, 'aria-label': window.i18n('contextMenuTopCount') }}
+                            value={state.contextMenuTopCount ?? 3}
+                            onChange={event => {
+                                const value = event.target.valueAsNumber;
+                                if (!Number.isSafeInteger(value)) return;
+                                const newPref = {...state, contextMenuTopCount: Math.max(0, Math.min(9, value))};
+                                setState(newPref);
+                                window.searchData.prefConfig = newPref;
+                                saveConfigToScript();
+                            }}
+                        />
+                        <Typography gutterBottom component="div">
+                            {window.i18n('contextMenuTopCountTips')}
+                        </Typography>
+                    </Box>}
                     <Typography gutterBottom component="div">
                         <h4>{window.i18n('cacheSwitch')}</h4>
                     </Typography>

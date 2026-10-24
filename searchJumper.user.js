@@ -1555,7 +1555,7 @@
             try {
                 const target = normalize(value);
                 return ['https://search.hoothin.com/config/', 'https://hoothin.github.io/SearchJumper/',
-                    'http://localhost:3000/', custom, local].filter(Boolean).some(url => {
+                    custom, local].filter(Boolean).some(url => {
                     try { return normalize(url) === target; } catch { return false; }
                 });
             } catch { return false; }
