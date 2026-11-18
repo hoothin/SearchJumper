@@ -22,7 +22,7 @@
     "react-scripts": "^5.0.1",
     "vanilla-jsoneditor": "^0.6.2",
     "web-vitals": "^2.1.4",
-    "webdav": "^5.3.1"
+    "webdav": "^5.9.0"
   },
   "scripts": {
     "start": "react-scripts start",
