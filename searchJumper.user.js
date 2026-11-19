@@ -11771,6 +11771,7 @@
                         return;
                     }
                     clicked = false;
+                    href = location.href.slice(0, 500);
                     targetUrlData = "";
                     targetUrlData = await getUrl(undefined, undefined, e.showLoading !== false);
                     if (/^(https?|ftp):/.test(targetUrlData)) {
